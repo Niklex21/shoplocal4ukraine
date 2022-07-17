@@ -1,3 +1,11 @@
+# Shop Local 4 Ukraine
+
+## Stack
+
+Uses [Next.js](https://nextjs.org) and [Tailwind CSS](https://tailwindcss.com).
+
+## Generated
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started
