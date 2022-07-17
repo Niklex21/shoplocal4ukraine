@@ -1,9 +1,12 @@
 const strings = {
-    en: {
-        home: {
-            title: 'Shop Local For Ukraine'
+    home: {
+        title: {
+            en: 'Shop Local For Ukraine'
+        },
+        tagline: {
+            en: 'Shop Local To Support Ukraine'
         }
     }
 }
 
-export default strings;
+export default strings
