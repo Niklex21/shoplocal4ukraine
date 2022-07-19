@@ -1,8 +1,6 @@
-const InfoPanel = () => {
+export default function InfoPanel() {
     return (
         <>
         </>
     )
 }
-
-export default InfoPanel

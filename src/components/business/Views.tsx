@@ -1,8 +1,6 @@
-const Views = () => {
+export default function Views() {
     return (
         <>
         </>
     )
 }
-
-export default Views
