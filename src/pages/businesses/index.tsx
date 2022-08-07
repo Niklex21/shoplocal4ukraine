@@ -1,8 +1,9 @@
-import { NextPage } from "next";
+import { GetStaticProps, InferGetStaticPropsType, NextPage } from "next";
 
 import { BusinessViews, BusinessInfoPanel } from "@component/business"
+import { getRecords } from "../../../api/business";
 
-const Main: NextPage = () => {
+const Main: NextPage = ({ businesses }: InferGetStaticPropsType<typeof getStaticProps>) => {
 
     // TODO:
     // useState hooks for the currently selected business and filters
@@ -14,10 +15,20 @@ const Main: NextPage = () => {
                 <BusinessViews />
             </div>
             <div className="lg:col-span-1">
-                <BusinessInfoPanel />
+                { businesses }
             </div>
         </div>
     )
+}
+
+export const getStaticProps: GetStaticProps = async () => {
+    const businesses = await getRecords()
+    
+    return {
+        props: {
+            businesses
+        }
+    }
 }
 
 export default Main

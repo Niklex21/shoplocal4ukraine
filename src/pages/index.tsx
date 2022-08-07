@@ -1,11 +1,10 @@
 import type { NextPage } from 'next'
-import Link from 'next/link'
-import BusinessComponent from '@component/business/BusinessContainer'
+import { BusinessContainer } from '@component/business'
 
 const Home: NextPage = () => {
   return (
     <>
-      <BusinessComponent/>
+      <BusinessContainer />
     </>
   )
 }
