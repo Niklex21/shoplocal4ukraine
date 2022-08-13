@@ -15,15 +15,25 @@ const Main: NextPage = ({ businesses }: InferGetStaticPropsType<typeof getStatic
                 <BusinessViews />
             </div>
             <div className="lg:col-span-1">
-                { businesses }
+                {
+                    businesses.map(
+                        ({ id, fields } : { id: string, fields: Object}) => {
+                            <div key={ id }></div>
+                        })
+                }
             </div>
         </div>
     )
 }
 
-export const getStaticProps: GetStaticProps = async () => {
-    const businesses = await getRecords()
-    
+export const getStaticProps: GetStaticProps = async (context) => {
+    let businesses = await getRecords()
+
+    // If businesses is defined (truthy), get a raw JSON map for each record
+    // this is acceptable because we do not define the schema (it comes from Airtable)
+    // and we want our code to work even if they change it
+    businesses = businesses ? businesses.map(b => b._rawJson) : []
+
     return {
         props: {
             businesses

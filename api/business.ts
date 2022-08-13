@@ -23,10 +23,10 @@ async function _getRecordsByFormula(formula: string = "", fields: Array<string> 
         options["fields"] = fields
     }
     
-    table.select(options)
-    .all()
-    .then(records => { return records })
-    .catch(err => processError(err))
+    return table.select(options)
+           .all()
+           .then(records => { return records })
+           .catch(err => processError(err))
 }
 
 /**
