@@ -35,7 +35,7 @@ async function _getRecordsByFormula(formula: string = "", fields: Array<string> 
  * @returns all the records in the `Business` table
  */
 async function getRecords() {
-    return await _getRecordsByFormula()
+    return await _getRecordsByFormula("Publish = 1")
 }
 
 /**
