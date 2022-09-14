@@ -34,7 +34,7 @@ async function _getRecordsByFormula(formula: string = "", fields: Array<string> 
  * 
  * @returns all the records in the `Business` table
  */
-async function getRecords() {
+async function getPublishedRecords() {
     return await _getRecordsByFormula("Publish = 1")
 }
 
@@ -48,4 +48,4 @@ async function getRecordById(id: string) {
     .catch(err => processError(err))
 }
 
-export { getRecords, getRecordById }
+export { getPublishedRecords, getRecordById }
