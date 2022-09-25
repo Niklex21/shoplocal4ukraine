@@ -9,9 +9,9 @@ interface Props {
 
 export default function MainLayout({ children }: Props) {
     return (
-        <div className="relative">
+        <div className='box-border'>
             <Navbar />
-            <main>{ children }</main>
+            { children }
             <Footer />
         </div>
     )

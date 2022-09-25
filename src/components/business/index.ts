@@ -1,5 +1,7 @@
 import BusinessInfoPanel from './InfoPanel'
-import BusinessViews from './Views'
+import BusinessTabs from './BusinessTabs'
 import BusinessContainer from './BusinessContainer'
+import BusinessCard from './BusinessCard'
+import BusinessMap from './BusinessMap'
 
-export { BusinessInfoPanel, BusinessViews, BusinessContainer }
+export { BusinessInfoPanel, BusinessTabs, BusinessContainer, BusinessCard, BusinessMap }

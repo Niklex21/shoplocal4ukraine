@@ -1,63 +1,119 @@
-import Image from 'next/image'
-import logo from '@public/logo.svg'
-import Link from 'next/link'
-import { ReactElement } from 'react'
-
-interface LinkType {
-    name: string,
-    href: string 
-}
-
-// A list of pages and links to render in the navbar
-const navLinks : Array<LinkType> = [
-    {
-        name: 'Businesses',
-        href: '/businesses'
-    },
-    {
-        name: 'About',
-        href: '/about'
-    },
-    {
-        name: 'Privacy',
-        href: '/privacy'
-    },
-    {
-        name: 'Contact',
-        href: '/contact'
-    }
-]
-
-export default function Navbar() {
-
-    const links : ReactElement[] = navLinks.map(({ name, href } : LinkType) => (
-        <Link key={name} href={href}>
-            <a className="text-lg font-medium text-text opacity-70 hover:opacity-100">{ name }</a>
-        </Link>
-    ))
-
-    return (
-        <div className="flex w-full items-stretch justify-between p-4 max-h-24 drop-shadow-md top-0 left-0 sticky bg-white">
-            <div>
-                <Link href="/">
-                    {
-                        //TODO: change this into an actual image -- images in next barely work
-                    }
-                    <a className="text-lg font-medium text-text opacity-70 hover:opacity-100">Logo</a>
-                </Link>
-            </div>
-            <div className="flex space-x-8">
-                <div className="space-x-8">
-                    { links }
-                </div>
-                <div className="">
-                    <Link href="/join">
-                        <a className="text-lg font-medium px-3 py-2 rounded-md opacity-70 hover:opacity-100 bg-sky-800 text-white">
-                            Add a business
-                        </a>
-                    </Link>
-                </div>
-            </div>
-        </div>
-    )
+import { useState, useEffect } from "react";
+import {
+  Navbar,
+  MobileNav,
+  Typography,
+  Button,
+  IconButton,
+} from "@material-tailwind/react";
+ 
+export default function NavBar() {
+  const [openNav, setOpenNav] = useState(false);
+ 
+  useEffect(() => {
+    window.addEventListener(
+      "resize",
+      () => window.innerWidth >= 960 && setOpenNav(false)
+    );
+  }, []);
+ 
+  const navList = (
+    <ul className="mb-4 mt-2 flex flex-col gap-2 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-6">
+      <Typography
+        as="li"
+        variant="small"
+        color="blue-gray"
+        className="p-1 font-normal"
+      >
+        <a href="#" className="flex items-center">
+          Pages
+        </a>
+      </Typography>
+      <Typography
+        as="li"
+        variant="small"
+        color="blue-gray"
+        className="p-1 font-normal"
+      >
+        <a href="#" className="flex items-center">
+          Account
+        </a>
+      </Typography>
+      <Typography
+        as="li"
+        variant="small"
+        color="blue-gray"
+        className="p-1 font-normal"
+      >
+        <a href="#" className="flex items-center">
+          Blocks
+        </a>
+      </Typography>
+      <Typography
+        as="li"
+        variant="small"
+        color="blue-gray"
+        className="p-1 font-normal"
+      >
+        <a href="#" className="flex items-center">
+          Docs
+        </a>
+      </Typography>
+    </ul>
+  );
+ 
+  return (
+    <Navbar fullWidth={true} className="min-w-full py-2 px-4 lg:px-8 lg:py-4 mb-20">
+      <div className="w-full flex items-center justify-between text-blue-gray-900">
+        <span className="self-center text-sm sm:text-md md:text-xl lg:text-2xl font-semibold whitespace-nowrap dark:text-white">ShopLocal4Ukraine</span>
+        {/* <div className="hidden lg:block">{navList}</div> */}
+        <Button variant="gradient" size="sm" className="" >
+          <a href="https://airtable.com/shrWIgk68QyqEcqCS" target="_blank" className="text-xs sm:text-md ">Add your business</a>
+        </Button>
+        {/* <IconButton
+          variant="text"
+          className="ml-auto h-6 w-6 text-inherit hover:bg-transparent focus:bg-transparent active:bg-transparent lg:hidden"
+          ripple={false}
+          onClick={() => setOpenNav(!openNav)}
+        >
+          {openNav ? (
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              className="h-6 w-6"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              strokeWidth={2}
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M6 18L18 6M6 6l12 12"
+              />
+            </svg>
+          ) : (
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-6 w-6"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth={2}
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M4 6h16M4 12h16M4 18h16"
+              />
+            </svg>
+          )}
+          </IconButton>*/}
+      </div>
+       {/* <MobileNav open={openNav}>
+         {navList}
+         <Button variant="gradient" size="sm" fullWidth className="mb-2">
+           <span>Buy Now</span>
+         </Button>
+       </MobileNav> */}
+    </Navbar>
+  );
 }

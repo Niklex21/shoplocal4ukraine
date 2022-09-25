@@ -1,11 +1,17 @@
 /** @type {import('tailwindcss').Config} */
-module.exports = {
+
+const withMT = require("@material-tailwind/react/utils/withMT");
+
+module.exports = withMT({
   content: [
     "./src/pages/**/*.{js,ts,jsx,tsx}",
     "./src/components/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
     extend: {
+      height: {
+        'card': '30rem',
+      },
       colors: {
         text: {
           DEFAULT: "#232327",
@@ -20,4 +26,4 @@ module.exports = {
     },
   },
   plugins: [],
-}
+})
