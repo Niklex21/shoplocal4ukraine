@@ -21,7 +21,8 @@ module.exports = withMT({
           DEFAULT: "#FFEBAF",
           inverted: "#232335"
         },
-        accent: "#D7E6F5"
+        accent: "#D7E6F5",
+        'ukraine-yellow': "#e6b800"
       },
     },
   },

@@ -7,12 +7,12 @@ import { ThemeProvider } from "@material-tailwind/react";
 function MyApp({ Component, pageProps }: AppProps) {
   return (
     <ThemeProvider>
-    <MainLayout>
-      <Head>
-          <link rel="shortcut icon" href="/favicon.ico" />
-      </Head>
-      <Component {...pageProps} />
-    </MainLayout>
+      <MainLayout>
+        <Head>
+            <link rel="shortcut icon" href="/favicon.ico" />
+        </Head>
+        <Component {...pageProps} />
+      </MainLayout>
     </ThemeProvider>
   )
 }

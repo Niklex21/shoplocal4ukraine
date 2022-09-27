@@ -1,5 +1,6 @@
 import { FieldSet, Table } from 'airtable'
 import { QueryParams } from 'airtable/lib/query_params'
+
 import base from './_airtable'
 import processError from './_error'
 
@@ -19,7 +20,7 @@ async function _getRecordsByFormula(formula: string = "", fields: Array<string> 
         options["filterByFormula"] = formula 
     }
 
-    if (fields !== []) {
+    if (fields.length > 0) {
         options["fields"] = fields
     }
     

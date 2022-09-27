@@ -1,9 +1,8 @@
-import { GetStaticProps, InferGetStaticPropsType, NextPage } from "next";
+import { GetStaticProps, InferGetStaticPropsType, NextPage } from "next"
+import Link from "next/link"
 
-import { BusinessViews, BusinessInfoPanel } from "@component/business"
-import { getPublishedRecords } from "../../../api/business";
-import BusinessCard from "@component/business/BusinessCard";
-import Link from "next/link";
+import { getPublishedRecords } from "../../../api/business"
+import BusinessCard from "@component/business/BusinessCard"
 
 const Main: NextPage = ({ businesses }: InferGetStaticPropsType<typeof getStaticProps>) => {
 

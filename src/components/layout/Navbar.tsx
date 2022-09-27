@@ -1,11 +1,10 @@
 import { useState, useEffect } from "react";
 import {
   Navbar,
-  MobileNav,
   Typography,
   Button,
-  IconButton,
 } from "@material-tailwind/react";
+import Link from "next/link";
  
 export default function NavBar() {
   const [openNav, setOpenNav] = useState(false);
@@ -25,9 +24,9 @@ export default function NavBar() {
         color="blue-gray"
         className="p-1 font-normal"
       >
-        <a href="#" className="flex items-center">
+        <Link href="#" className="flex items-center">
           Pages
-        </a>
+        </Link>
       </Typography>
       <Typography
         as="li"
@@ -35,9 +34,9 @@ export default function NavBar() {
         color="blue-gray"
         className="p-1 font-normal"
       >
-        <a href="#" className="flex items-center">
+        <Link href="#" className="flex items-center">
           Account
-        </a>
+        </Link>
       </Typography>
       <Typography
         as="li"
@@ -45,9 +44,9 @@ export default function NavBar() {
         color="blue-gray"
         className="p-1 font-normal"
       >
-        <a href="#" className="flex items-center">
+        <Link href="#" className="flex items-center">
           Blocks
-        </a>
+        </Link>
       </Typography>
       <Typography
         as="li"
@@ -55,9 +54,9 @@ export default function NavBar() {
         color="blue-gray"
         className="p-1 font-normal"
       >
-        <a href="#" className="flex items-center">
+        <Link href="#" className="flex items-center">
           Docs
-        </a>
+        </Link>
       </Typography>
     </ul>
   );
@@ -68,7 +67,7 @@ export default function NavBar() {
         <span className="self-center text-sm sm:text-md md:text-xl lg:text-2xl font-semibold whitespace-nowrap dark:text-white">ShopLocal4Ukraine</span>
         {/* <div className="hidden lg:block">{navList}</div> */}
         <Button variant="gradient" size="sm" className="" >
-          <a href="https://airtable.com/shrWIgk68QyqEcqCS" target="_blank" className="text-xs sm:text-md ">Add your business</a>
+          <Link href="https://airtable.com/shrWIgk68QyqEcqCS" target="_blank" className="text-xs sm:text-md">Add your business</Link>
         </Button>
         {/* <IconButton
           variant="text"
