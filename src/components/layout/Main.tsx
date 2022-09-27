@@ -9,7 +9,7 @@ interface Props {
 
 export default function MainLayout({ children }: Props) {
     return (
-        <div className='box-border'>
+        <div className="h-full">
             <Navbar />
             { children }
             <Footer />

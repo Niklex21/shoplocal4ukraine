@@ -1,32 +1,49 @@
+import { BusinessCard, BusinessContainer } from "@component/business";
+import Container from "@component/Container";
+import { Collections, Map } from "@mui/icons-material";
+import { Chip, ToggleButton, ToggleButtonGroup } from "@mui/material";
 import { GetStaticProps, InferGetStaticPropsType, NextPage } from "next"
-import Link from "next/link"
+import { createContext, Dispatch, SetStateAction, useContext, useState } from "react";
 
 import { getPublishedRecords } from "../../../api/business"
-import BusinessCard from "@component/business/BusinessCard"
+
+type BusinessViewData = {
+    businesses: any,
+    setSelectedID: Dispatch<SetStateAction<number>>
+}
+
+const BusinessViewContext = createContext<BusinessViewData>({
+    businesses: [], 
+    setSelectedID: (value: SetStateAction<number>) => {}
+});
 
 const Main: NextPage = ({ businesses }: InferGetStaticPropsType<typeof getStaticProps>) => {
 
     // TODO:
     // useState hooks for the currently selected business and filters
     // useState different map/business view based on filters
+    
+    const [selectedID, setSelectedID] = useState<number>(-1);
+
+    // context vars to pass down to the child components
+    const context = {
+        businesses,
+        setSelectedID
+    }
+
+    console.log(businesses)
 
     return (
-        <div className="lg:grid lg:grid-cols-3 gap-4 place-content-around">
-            <div className="lg:col-span-2">
-                <div className="grid grid-cols-4 gap-2 grid-flow-col">
-                    {
-                        businesses.map(
-                        ({ id, fields } : { id: string, fields: Object }) => (
-                            <Link key={ id } href={ `/business/${id}` }>
-                                <BusinessCard fields={ fields }/>
-                            </Link>
-                        ))
-                    }
-                </div>
-            </div>
-            <div className="lg:col-span-1 lg:grid lg:grid-cols-5 gap-2 place-content-start">
-                Cool businesses preview
-            </div>
+        <div className="grid grid-cols-3 w-full">
+            <BusinessViewContext.Provider value={ context }>
+                <BusinessView
+                    className="col-span-2"
+                />
+            </BusinessViewContext.Provider>
+            <InfoPanel 
+                className="col-span-1"
+                data={ businesses[selectedID] ? businesses[selectedID].fields : null }
+            />
         </div>
     )
 }
@@ -44,6 +61,124 @@ export const getStaticProps: GetStaticProps = async (context) => {
             businesses
         }
     }
+}
+
+/**
+ * The info panel on the right that displays the details of the selected business.
+ * 
+ * @param data the business data for the selected business
+ */
+const InfoPanel = ({ className, data }: any) => {
+
+    const Info = 
+        data === null
+        ? (<>No business selected yet! Click on some stuff!</>)
+        : (
+            <>
+                <h1 className="text-2xl font-bold">{ data.Name }</h1>
+                <div>
+                    <Chip className="text-lg" label={ data['Affiliation Type']} />
+                    <Chip className="text-lg" label= { data['Business category'] } />
+                    <Chip className="text-lg" label= { data['City/town'] } />
+                    <Chip className="text-lg" label= { data['Country'] } />
+                </div>
+                <h3 className="max-w-prose italic">{ data['Description'] }</h3>
+            </>
+        )
+
+    return (
+        <Container className={ `${className} flex-col max-w-full overflow-auto` }>
+            { Info }
+        </Container>
+    )
+}
+
+/**
+ * Defines the available types of business views.
+ */
+enum Views {
+    Gallery,
+    Map
+}
+
+/**
+ * The panel that displays the businesses -- whether it is in a gallery, map, 
+ * or some other view.
+ */
+const BusinessView = ({ className }: any) => {
+
+    const [view, setView] = useState<Views>(Views.Gallery);
+
+    // handles the toggle option selection
+    const handleViewSelection = (
+        event: React.MouseEvent<HTMLElement>,
+        newSelection: Views,
+    ) => {
+        if (newSelection !== null) {
+            setView(newSelection);
+        }
+    };
+
+    // the view component that actually contains the businesses display
+    const ViewComponent = (() => {
+        switch(view) {
+            case Views.Gallery:
+                return GalleryView;
+            case Views.Map:
+                return MapView;
+            }
+        }
+    )();
+
+    return (
+        <Container className={ `${className} flex-col overflow-auto max-h-screen` }>
+            <ToggleButtonGroup
+                value={ view }
+                exclusive
+                onChange={ handleViewSelection }
+                aria-label="views"
+            >
+                {/* TODO: do we need to add some text to the choices? */}
+                <ToggleButton value={ Views.Gallery } aria-label="gallery">
+                    <Collections />
+                </ToggleButton>
+                <ToggleButton value={ Views.Map } aria-label="map">
+                    <Map />
+                </ToggleButton>
+            </ToggleButtonGroup>
+            <ViewComponent />
+        </Container>
+    )
+}
+
+const GalleryView = ({ className }: any) => {
+
+    const { businesses, setSelectedID } = useContext(BusinessViewContext);
+
+    return (
+        <BusinessContainer>
+          {
+            businesses.map(
+                ({ id, fields }: { id: string, fields: Object }, index: number) => (
+                    <div className="cursor-pointer" key={ index } onClick={ () => { setSelectedID(index)} }>
+                        <BusinessCard fields={ fields }/>
+                    </div>
+                )
+            )
+          }
+        </BusinessContainer>
+    )
+}
+
+const MapView = ({ className, data }: any) => {
+
+    const { businesses, setSelectedID } = useContext(BusinessViewContext);
+
+    return (
+        <>
+            MapView
+        </>
+    )
 }
 
 export default Main

@@ -64,7 +64,11 @@ export default function NavBar() {
   return (
     <Navbar fullWidth={true} className="min-w-full py-2 px-4 lg:px-8 lg:py-4 mb-20">
       <div className="w-full flex items-center justify-between text-blue-gray-900">
-        <span className="self-center text-sm sm:text-md md:text-xl lg:text-2xl font-semibold whitespace-nowrap dark:text-white">ShopLocal4Ukraine</span>
+        <span className="self-center text-sm sm:text-md md:text-xl lg:text-2xl font-semibold whitespace-nowrap dark:text-white">
+          <Link href="/">
+            ShopLocal4Ukraine
+          </Link>
+        </span>
         {/* <div className="hidden lg:block">{navList}</div> */}
         <Button variant="gradient" size="sm" className="" >
           <Link href="https://airtable.com/shrWIgk68QyqEcqCS" target="_blank" className="text-xs sm:text-md">Add your business</Link>
