@@ -1,10 +1,23 @@
 import { NextPage } from "next"
+import { ReactElement } from "react"
 
-const Contact : NextPage = () => {
+import { LandingLayout } from "@layouts/landing"
+import { NextPageWithLayout } from "./_app"
+
+
+const Contact : NextPageWithLayout = () => {
     return (
         <>
             Contact
         </>
+    )
+}
+
+Contact.getLayout = function getLayout(page: ReactElement) {
+    return (
+        <LandingLayout>
+            { page }
+        </LandingLayout>
     )
 }
 

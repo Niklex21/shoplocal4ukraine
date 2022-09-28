@@ -1,16 +1,25 @@
 import '../styles/globals.css'
-import type { AppProps } from 'next/app'
-import Head from 'next/head'
-import LandingMainLayout from '@layouts/landing/Main'
 
-function MyApp({ Component, pageProps }: AppProps) {
-  return (
-    <LandingMainLayout>
-      <Head>
-          <link rel="shortcut icon" href="/favicon.ico" />
-      </Head>
-      <Component {...pageProps} />
-    </LandingMainLayout>
+import type { AppProps } from 'next/app'
+import { ReactElement, ReactNode } from 'react'
+import { NextPage } from 'next'
+
+
+export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
+  getLayout?: (page: ReactElement) => ReactNode
+}
+
+type AppPropsWithLayout = AppProps & {
+  Component: NextPageWithLayout
+}
+
+function MyApp({ Component, pageProps }: AppPropsWithLayout) {
+
+  // Use the layout defined at the page level, if available
+  const getLayout = Component.getLayout ?? ((page) => page)
+
+  return getLayout(
+    <Component {...pageProps} />
   )
 }
 

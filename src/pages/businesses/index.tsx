@@ -2,33 +2,18 @@ import { BusinessCard, BusinessContainer, BusinessMapMarker } from "@components/
 import { Container } from "@components/common"
 import { Collections as IconCollections, Map as IconMap } from "@mui/icons-material"
 import { Chip, ToggleButton, ToggleButtonGroup } from "@mui/material"
-import { GetStaticProps, InferGetStaticPropsType, NextPage } from "next"
-import { createContext, Dispatch, SetStateAction, useContext, useMemo, useState } from "react"
+import { GetStaticProps, InferGetStaticPropsType } from "next"
+import { createContext, Dispatch, ReactElement, SetStateAction, useContext, useMemo, useState } from "react"
 import 'mapbox-gl/dist/mapbox-gl.css'
 
-import Map, { Marker } from "react-map-gl"
+import Map from "react-map-gl"
 
 import { getPublishedRecords } from "@api/business"
+import { NextPageWithLayout } from "../_app"
+import { AppLayout } from "@layouts/app"
 
-/**
- * The type of the context data.
- */
-type BusinessViewContextData = {
-    selectedID: number,
-    businesses: any,
-    setSelectedID: Dispatch<SetStateAction<number>>
-};
 
-/**
- * Stores the global view-related context that is passed down to all the elements of the view.
- */
-const BusinessViewContext = createContext<BusinessViewContextData>({
-    selectedID: -1,
-    businesses: [], 
-    setSelectedID: (_: SetStateAction<number>) => {}
-});
-
-const Main: NextPage = ({ businesses }: InferGetStaticPropsType<typeof getStaticProps>) => {
+const Main: NextPageWithLayout = ({ businesses }: InferGetStaticPropsType<typeof getStaticProps>) => {
     
     // stores the currently selected business
     const [selectedID, setSelectedID] = useState<number>(-1);
@@ -49,6 +34,24 @@ const Main: NextPage = ({ businesses }: InferGetStaticPropsType<typeof getStatic
         </div>
     )
 }
+
+/**
+ * The type of the context data.
+ */
+ type BusinessViewContextData = {
+    selectedID: number,
+    businesses: any,
+    setSelectedID: Dispatch<SetStateAction<number>>
+};
+
+/**
+ * Stores the global view-related context that is passed down to all the elements of the view.
+ */
+const BusinessViewContext = createContext<BusinessViewContextData>({
+    selectedID: -1,
+    businesses: [], 
+    setSelectedID: (_: SetStateAction<number>) => {}
+});
 
 export const getStaticProps: GetStaticProps = async (context) => {
     let businesses = await getPublishedRecords()
@@ -201,6 +204,14 @@ const MapView = ({ className } : any) => {
                     )
                 }
         </Map>
+    )
+}
+
+Main.getLayout = function getLayout(page: ReactElement) {
+    return (
+        <AppLayout>
+            { page }
+        </AppLayout>
     )
 }
 
