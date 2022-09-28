@@ -1,49 +1,51 @@
-import { BusinessCard, BusinessContainer } from "@component/business";
-import Container from "@component/Container";
-import { Collections, Map } from "@mui/icons-material";
-import { Chip, ToggleButton, ToggleButtonGroup } from "@mui/material";
+import { BusinessCard, BusinessContainer, BusinessMapMarker } from "@components/business"
+import { Container } from "@components/common"
+import { Collections as IconCollections, Map as IconMap } from "@mui/icons-material"
+import { Chip, ToggleButton, ToggleButtonGroup } from "@mui/material"
 import { GetStaticProps, InferGetStaticPropsType, NextPage } from "next"
-import { createContext, Dispatch, SetStateAction, useContext, useState } from "react";
+import { createContext, Dispatch, SetStateAction, useContext, useMemo, useState } from "react"
+import 'mapbox-gl/dist/mapbox-gl.css'
 
-import { getPublishedRecords } from "../../../api/business"
+import Map, { Marker } from "react-map-gl"
 
-type BusinessViewData = {
+import { getPublishedRecords } from "@api/business"
+
+/**
+ * The type of the context data.
+ */
+type BusinessViewContextData = {
+    selectedID: number,
     businesses: any,
     setSelectedID: Dispatch<SetStateAction<number>>
-}
+};
 
-const BusinessViewContext = createContext<BusinessViewData>({
+/**
+ * Stores the global view-related context that is passed down to all the elements of the view.
+ */
+const BusinessViewContext = createContext<BusinessViewContextData>({
+    selectedID: -1,
     businesses: [], 
-    setSelectedID: (value: SetStateAction<number>) => {}
+    setSelectedID: (_: SetStateAction<number>) => {}
 });
 
 const Main: NextPage = ({ businesses }: InferGetStaticPropsType<typeof getStaticProps>) => {
-
-    // TODO:
-    // useState hooks for the currently selected business and filters
-    // useState different map/business view based on filters
     
+    // stores the currently selected business
     const [selectedID, setSelectedID] = useState<number>(-1);
 
     // context vars to pass down to the child components
     const context = {
+        selectedID,
         businesses,
         setSelectedID
     }
 
-    console.log(businesses)
-
     return (
         <div className="grid grid-cols-3 w-full">
             <BusinessViewContext.Provider value={ context }>
-                <BusinessView
-                    className="col-span-2"
-                />
+                <BusinessView className="col-span-2" />
+                <InfoPanel className="col-span-1" />
             </BusinessViewContext.Provider>
-            <InfoPanel 
-                className="col-span-1"
-                data={ businesses[selectedID] ? businesses[selectedID].fields : null }
-            />
         </div>
     )
 }
@@ -54,7 +56,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
     // If businesses is defined (truthy), get a raw JSON map for each record
     // this is acceptable because we do not define the schema (it comes from Airtable)
     // and we want our code to work even if they change it
-    businesses = businesses ? businesses.map(b => b._rawJson) : []
+    businesses = businesses ? businesses.map((b : any) => b._rawJson) : []
 
     return {
         props: {
@@ -65,17 +67,19 @@ export const getStaticProps: GetStaticProps = async (context) => {
 
 /**
  * The info panel on the right that displays the details of the selected business.
- * 
- * @param data the business data for the selected business
  */
-const InfoPanel = ({ className, data }: any) => {
+const InfoPanel = ({ className }: any) => {
+
+    const { businesses, selectedID } = useContext(BusinessViewContext)
+
+    const data = selectedID < 0 ? null : businesses[selectedID].fields
 
     const Info = 
         data === null
         ? (<>No business selected yet! Click on some stuff!</>)
         : (
             <>
-                <h1 className="text-2xl font-bold">{ data.Name }</h1>
+                <h1 className="text-2xl font-bold">{ data['Name'] }</h1>
                 <div>
                     <Chip className="text-lg" label={ data['Affiliation Type']} />
                     <Chip className="text-lg" label= { data['Business category'] } />
@@ -114,6 +118,7 @@ const BusinessView = ({ className }: any) => {
         event: React.MouseEvent<HTMLElement>,
         newSelection: Views,
     ) => {
+        // can't deselect the options, at least one must be selected
         if (newSelection !== null) {
             setView(newSelection);
         }
@@ -140,10 +145,10 @@ const BusinessView = ({ className }: any) => {
             >
                 {/* TODO: do we need to add some text to the choices? */}
                 <ToggleButton value={ Views.Gallery } aria-label="gallery">
-                    <Collections />
+                    <IconCollections />
                 </ToggleButton>
                 <ToggleButton value={ Views.Map } aria-label="map">
-                    <Map />
+                    <IconMap />
                 </ToggleButton>
             </ToggleButtonGroup>
             <ViewComponent />
@@ -151,6 +156,9 @@ const BusinessView = ({ className }: any) => {
     )
 }
 
+/**
+ * Displays the businesses as a gallery of clickable cards.
+ */
 const GalleryView = ({ className }: any) => {
 
     const { businesses, setSelectedID } = useContext(BusinessViewContext);
@@ -159,7 +167,7 @@ const GalleryView = ({ className }: any) => {
         <BusinessContainer>
           {
             businesses.map(
-                ({ id, fields }: { id: string, fields: Object }, index: number) => (
+                ({ fields }: { fields: Object }, index: number) => (
                     <div className="cursor-pointer" key={ index } onClick={ () => { setSelectedID(index)} }>
                         <BusinessCard fields={ fields }/>
                     </div>
@@ -170,14 +178,29 @@ const GalleryView = ({ className }: any) => {
     )
 }
 
-const MapView = ({ className, data }: any) => {
+const MapView = ({ className } : any) => {
 
-    const { businesses, setSelectedID } = useContext(BusinessViewContext);
+    const { businesses, setSelectedID, selectedID } = useContext(BusinessViewContext)
 
     return (
-        <>
-            MapView
-        </>
+        <Map
+            initialViewState={{
+                longitude: -71.0607281,
+                latitude: 42.357916,
+                zoom: 13
+            }}
+            style={{width: '100%', height: '80vh' }}
+            mapStyle="mapbox://styles/mapbox/streets-v9" 
+            mapboxAccessToken={ process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN }
+            >
+                {
+                    businesses.map(
+                        ({ fields } : { fields: Object }, index: number) => (
+                            <BusinessMapMarker key={ index } onClickEventHandler={ () => { setSelectedID(index)} } fields={ fields } />
+                        )
+                    )
+                }
+        </Map>
     )
 }
 

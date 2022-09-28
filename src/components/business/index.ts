@@ -1,6 +1,6 @@
 import BusinessTabs from './BusinessTabs'
 import BusinessContainer from './BusinessContainer'
 import BusinessCard from './BusinessCard'
-import BusinessMap from './BusinessMap'
+import BusinessMapMarker from './BusinessMapMarker'
 
-export { BusinessTabs, BusinessContainer, BusinessCard, BusinessMap }
+export { BusinessTabs, BusinessContainer, BusinessCard, BusinessMapMarker }

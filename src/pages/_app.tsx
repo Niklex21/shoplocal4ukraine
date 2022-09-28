@@ -1,7 +1,7 @@
 import '../styles/globals.css'
 import type { AppProps } from 'next/app'
 import Head from 'next/head'
-import MainLayout from '@component/layout/Main'
+import MainLayout from '@layouts/Main'
 import { ThemeProvider } from "@material-tailwind/react";
 
 function MyApp({ Component, pageProps }: AppProps) {
