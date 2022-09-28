@@ -1,19 +1,16 @@
 import '../styles/globals.css'
 import type { AppProps } from 'next/app'
 import Head from 'next/head'
-import MainLayout from '@layouts/Main'
-import { ThemeProvider } from "@material-tailwind/react";
+import LandingMainLayout from '@layouts/landing/Main'
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <ThemeProvider>
-      <MainLayout>
-        <Head>
-            <link rel="shortcut icon" href="/favicon.ico" />
-        </Head>
-        <Component {...pageProps} />
-      </MainLayout>
-    </ThemeProvider>
+    <LandingMainLayout>
+      <Head>
+          <link rel="shortcut icon" href="/favicon.ico" />
+      </Head>
+      <Component {...pageProps} />
+    </LandingMainLayout>
   )
 }
 

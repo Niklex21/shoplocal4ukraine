@@ -7,7 +7,7 @@ interface Props {
     children?: ReactNode
 }
 
-export default function MainLayout({ children }: Props) {
+export default function LandingMainLayout({ children }: Props) {
     return (
         <div className="h-full">
             <Navbar />
