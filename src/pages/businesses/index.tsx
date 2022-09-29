@@ -195,8 +195,8 @@ const MapView = ({ className } : any) => {
     return (
         <Map
             initialViewState={{
-                longitude: selectedBusiness !== null ? selectedBusiness.longitude : config.mapDefaults.longitude,
-                latitude: selectedBusiness !== null ? selectedBusiness.latitude : config.mapDefaults.latitude,
+                longitude: selectedBusiness !== null ? selectedBusiness['Longitude'] : config.mapDefaults.longitude,
+                latitude: selectedBusiness !== null ? selectedBusiness['Latitude'] : config.mapDefaults.latitude,
                 zoom: config.mapDefaults.zoom
             }}
             style={{width: '100%', height: '100vh' }}
@@ -206,7 +206,12 @@ const MapView = ({ className } : any) => {
                 {
                     businesses.map(
                         ({ fields } : { fields: Object }, index: number) => (
-                            <BusinessMapMarker key={ index } onClickEventHandler={ () => { setSelectedID(index)} } fields={ fields } />
+                            <BusinessMapMarker 
+                                key={ index }
+                                onClickEventHandler={ () => { setSelectedID(index)} }
+                                fields={ fields }
+                                active={ selectedID === index } 
+                            />
                         )
                     )
                 }

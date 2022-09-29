@@ -1,6 +1,6 @@
 const config = {
     mapDefaults: {
-        zoom: 13,
+        zoom: 11,
         longitude: -71.0607281,
         latitude: 42.357916
     }
