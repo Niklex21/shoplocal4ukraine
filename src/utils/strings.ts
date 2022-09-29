@@ -6,6 +6,11 @@ const strings = {
         tagline: {
             en: 'Shop Local To Support Ukraine'
         }
+    },
+    businesses: {
+        info: {
+            noBusinessSelected: "No business selected yet! Click on some stuff!"
+        }
     }
 }
 

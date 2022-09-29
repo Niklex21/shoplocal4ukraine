@@ -11,6 +11,8 @@ import Map from "react-map-gl"
 import { getPublishedRecords } from "@api/business"
 import { NextPageWithLayout } from "../_app"
 import { AppLayout } from "@layouts/app"
+import config from "@utils/config"
+import strings from "@utils/strings"
 
 
 const Main: NextPageWithLayout = ({ businesses }: InferGetStaticPropsType<typeof getStaticProps>) => {
@@ -79,7 +81,7 @@ const InfoPanel = ({ className }: any) => {
 
     const Info = 
         data === null
-        ? (<>No business selected yet! Click on some stuff!</>)
+        ? (<>{ strings.businesses.info.noBusinessSelected }</>)
         : (
             <>
                 <h1 className="text-2xl font-bold">{ data['Name'] }</h1>
@@ -185,14 +187,19 @@ const MapView = ({ className } : any) => {
 
     const { businesses, setSelectedID, selectedID } = useContext(BusinessViewContext)
 
+    const selectedBusiness = 
+        selectedID < 0
+        ? null
+        : businesses[selectedID].fields
+
     return (
         <Map
             initialViewState={{
-                longitude: -71.0607281,
-                latitude: 42.357916,
-                zoom: 13
+                longitude: selectedBusiness !== null ? selectedBusiness.longitude : config.mapDefaults.longitude,
+                latitude: selectedBusiness !== null ? selectedBusiness.latitude : config.mapDefaults.latitude,
+                zoom: config.mapDefaults.zoom
             }}
-            style={{width: '100%', height: '80vh' }}
+            style={{width: '100%', height: '100vh' }}
             mapStyle="mapbox://styles/mapbox/streets-v9" 
             mapboxAccessToken={ process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN }
             >
