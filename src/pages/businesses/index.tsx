@@ -1,7 +1,7 @@
 import { BusinessCard, BusinessContainer, BusinessMapMarker } from "@components/business"
 import { Container } from "@components/common"
 import { Collections as IconCollections, Map as IconMap, Place as IconPlace, Email as IconEmail, Link as IconLink, Phone as IconPhone } from "@mui/icons-material"
-import { Chip, ToggleButton, ToggleButtonGroup } from "@mui/material"
+import { Card, CardContent, CardMedia, Chip, SvgIconTypeMap, ToggleButton, ToggleButtonGroup } from "@mui/material"
 import { GetStaticProps, InferGetStaticPropsType } from "next"
 import { createContext, Dispatch, ReactElement, SetStateAction, useContext, useMemo, useState } from "react"
 import 'mapbox-gl/dist/mapbox-gl.css'
@@ -11,8 +11,10 @@ import Map from "react-map-gl"
 import { getPublishedRecords } from "@api/business"
 import { NextPageWithLayout } from "../_app"
 import { AppLayout } from "@layouts/app"
-import config from "@utils/config"
+import defaults from "@utils/config"
 import strings from "@utils/strings"
+import Link from "next/link"
+import { OverridableComponent } from "@mui/material/OverridableComponent"
 
 
 const Main: NextPageWithLayout = ({ businesses }: InferGetStaticPropsType<typeof getStaticProps>) => {
@@ -71,6 +73,14 @@ export const getStaticProps: GetStaticProps = async (context) => {
 }
 
 /**
+ * Contains an icon & content structure to define a list of content to be rendered later
+ */
+type ContactsRow = {
+    icon: OverridableComponent<SvgIconTypeMap<{}, "svg">> & { muiName: string; },
+    content: JSX.Element
+}
+
+/**
  * The info panel on the right that displays the details of the selected business.
  */
 const InfoPanel = ({ className }: any) => {
@@ -78,21 +88,74 @@ const InfoPanel = ({ className }: any) => {
     const { businesses, selectedID } = useContext(BusinessViewContext)
 
     const data = selectedID < 0 ? null : businesses[selectedID].fields
+    const imageSrc = data !== null ? data['Image'][0]['url'] : defaults.businesses.gallery.defaultImage.src
+
+    console.log(data)
+
+    const contacts : Array<ContactsRow> = data === null ? [] : [
+        {
+            icon: IconPlace,
+            content: (
+                <Link href={ data['Address'] }>{ data['City/town'] }</Link>
+            )
+        },
+        ...[
+            data['Website (Optional)'] !== "" ? {
+                icon: IconLink,
+                content: (
+                    <Link href={ data['Website (Optional)'] }>{ data['Website (Optional)'] }</Link>
+                )
+            } : {} as ContactsRow
+        ],
+        ...[
+            data['Email (optional)'] !== "" ? {
+                icon: IconEmail,
+                content: (
+                    <Link href={`mailto:${ data['Email (optional)'] }`}>{ data['Email (optional)'] }</Link>
+                )
+            } : {} as ContactsRow
+        ],
+        ...[
+            data['Phone number (optional)'] !== "" ? {
+                icon: IconPhone,
+                content: (
+                    <Link href={`tel:${ data['Phone number (optional)'] }`}>{ data['Phone number (optional)'] }</Link>
+                )
+            } : {} as ContactsRow
+        ]
+    ]
 
     const Info = 
         data === null
         ? (<>{ strings.businesses.info.noBusinessSelected }</>)
         : (
-            <>
-                <h1 className="text-2xl font-bold">{ data['Name'] }</h1>
-                <div>
-                    <Chip className="text-lg" label={ data['Affiliation Type']} />
-                    <Chip className="text-lg" label= { data['Business category'] } />
-                    <Chip className="text-lg" label= { data['City/town'] } />
-                    <Chip className="text-lg" label= { data['Country'] } />
-                </div>
-                <h3 className="max-w-prose italic">{ data['Description'] }</h3>
-            </>
+            <Card className="overflow-auto h-full w-full">
+                <CardMedia 
+                  component="img"
+                  className="h-48"
+                  image={ imageSrc }
+                  alt={ data['Name'] }
+                />
+                <CardContent>
+                    <h1 className="text-2xl font-bold">{ data['Name'] }</h1>
+                    <div className="mt-3 flex flex-wrap gap-2 flex-row font-semibold">
+                    <Chip className="bg-ukraine-yellow text-base" label={ data['Affiliation Type'] } />
+                    <Chip className="bg-ukraine-yellow text-base" label={ data['Business category'] } />
+                    </div>
+                    <h3 className="mt-3 prose font-semibold">{ strings.businesses.info.sectionTitle.contacts }</h3>
+                    {
+                        contacts.map(
+                            ({ icon, content } : { icon: OverridableComponent<SvgIconTypeMap<{}, "svg">> & { muiName: string; }, content: JSX.Element }, index: number) => (
+                                <div className="flex flex-nowrap gap-2 flex-row" key={ index }>
+                                    { content }
+                                </div>
+                            )
+                        )
+                    }
+                    <h3 className="mt-3 prose font-semibold">{ strings.businesses.info.sectionTitle.description }</h3>
+                    <span className="prose break-words opacity-80">{ data['Description'] }</span>
+                </CardContent>
+            </Card>
         )
 
     return (
@@ -195,9 +258,9 @@ const MapView = ({ className } : any) => {
     return (
         <Map
             initialViewState={{
-                longitude: selectedBusiness !== null ? selectedBusiness['Longitude'] : config.businesses.map.longitude,
-                latitude: selectedBusiness !== null ? selectedBusiness['Latitude'] : config.businesses.map.latitude,
-                zoom: config.businesses.map.zoom
+                longitude: selectedBusiness !== null ? selectedBusiness['Longitude'] : defaults.businesses.map.longitude,
+                latitude: selectedBusiness !== null ? selectedBusiness['Latitude'] : defaults.businesses.map.latitude,
+                zoom: defaults.businesses.map.zoom
             }}
             style={{width: '100%', height: '100vh' }}
             mapStyle="mapbox://styles/mapbox/streets-v9" 
