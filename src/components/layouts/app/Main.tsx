@@ -12,7 +12,7 @@ export default function LandingMainLayout({ children }: Props) {
             <Head>
                 <link rel="shortcut icon" href="/favicon.ico" />
             </Head>
-            <div className="h-screen w-screen">
+            <div className="h-screen w-screen p-0 m-0 bg-slate-50">
                 { children }
             </div>
         </>

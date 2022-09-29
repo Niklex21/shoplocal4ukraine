@@ -20,9 +20,13 @@ module.exports = {
           inverted: "#232335"
         },
         accent: "#D7E6F5",
-        'ukraine-yellow': "#e6b800"
+        'ukraine-yellow': "#FFD101",
+        "ukraine-blue": "#005EB8"
       },
     },
   },
-  plugins: [],
+  plugins: [
+    require('@tailwindcss/line-clamp'),
+    require('@tailwindcss/typography')
+  ],
 }

@@ -9,7 +9,11 @@ const strings = {
     },
     businesses: {
         info: {
-            noBusinessSelected: "No business selected yet! Click on some stuff!"
+            noBusinessSelected: "No business selected yet! Click on some stuff!",
+            sectionTitle: {
+                description: "About",
+                contacts: "Contacts"
+            }
         }
     }
 }

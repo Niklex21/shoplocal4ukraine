@@ -1,6 +1,6 @@
 import { BusinessCard, BusinessContainer, BusinessMapMarker } from "@components/business"
 import { Container } from "@components/common"
-import { Collections as IconCollections, Map as IconMap } from "@mui/icons-material"
+import { Collections as IconCollections, Map as IconMap, Place as IconPlace, Email as IconEmail, Link as IconLink, Phone as IconPhone } from "@mui/icons-material"
 import { Chip, ToggleButton, ToggleButtonGroup } from "@mui/material"
 import { GetStaticProps, InferGetStaticPropsType } from "next"
 import { createContext, Dispatch, ReactElement, SetStateAction, useContext, useMemo, useState } from "react"
@@ -28,9 +28,9 @@ const Main: NextPageWithLayout = ({ businesses }: InferGetStaticPropsType<typeof
     }
 
     return (
-        <div className="grid grid-cols-3 w-full">
+        <div className="grid grid-cols-4 w-full">
             <BusinessViewContext.Provider value={ context }>
-                <BusinessView className="col-span-2" />
+                <BusinessView className="col-span-3" />
                 <InfoPanel className="col-span-1" />
             </BusinessViewContext.Provider>
         </div>
@@ -195,9 +195,9 @@ const MapView = ({ className } : any) => {
     return (
         <Map
             initialViewState={{
-                longitude: selectedBusiness !== null ? selectedBusiness['Longitude'] : config.mapDefaults.longitude,
-                latitude: selectedBusiness !== null ? selectedBusiness['Latitude'] : config.mapDefaults.latitude,
-                zoom: config.mapDefaults.zoom
+                longitude: selectedBusiness !== null ? selectedBusiness['Longitude'] : config.businesses.map.longitude,
+                latitude: selectedBusiness !== null ? selectedBusiness['Latitude'] : config.businesses.map.latitude,
+                zoom: config.businesses.map.zoom
             }}
             style={{width: '100%', height: '100vh' }}
             mapStyle="mapbox://styles/mapbox/streets-v9" 
