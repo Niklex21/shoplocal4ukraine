@@ -100,7 +100,7 @@ const InfoPanel = ({ className }: any) => {
             )
         },
         ...[
-            data['Website (Optional)'] !== "" ? {
+            ('Website (Optional)' in data) ? {
                 icon: IconLink,
                 content: (
                     <Link href={ data['Website (Optional)'] }>{ data['Website (Optional)'] }</Link>
@@ -108,7 +108,7 @@ const InfoPanel = ({ className }: any) => {
             } : {} as ContactsRow
         ],
         ...[
-            data['Email (optional)'] !== "" ? {
+            ('Email (optional)' in data) ? {
                 icon: IconEmail,
                 content: (
                     <Link href={`mailto:${ data['Email (optional)'] }`}>{ data['Email (optional)'] }</Link>
@@ -116,7 +116,7 @@ const InfoPanel = ({ className }: any) => {
             } : {} as ContactsRow
         ],
         ...[
-            data['Phone number (optional)'] !== "" ? {
+            ('Phone number (optional)' in data) ? {
                 icon: IconPhone,
                 content: (
                     <Link href={`tel:${ data['Phone number (optional)'] }`}>{ data['Phone number (optional)'] }</Link>

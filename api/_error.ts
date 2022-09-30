@@ -1,9 +1,16 @@
+enum ErrorType {
+    InvalidBusinessCategory,
+    InvalidAffiliationType
+}
+
 /**
  * Handles the supplied API errors.
  * 
  * @param err an error that occurred while retrieving data through some API requests
  */
-export default function processError(err: Error) {
+function processError(err: ErrorType, msg: string) {
     // TODO: add logger
-    console.log(err)
+    console.log(err, msg);
 }
+
+export { ErrorType, processError }
