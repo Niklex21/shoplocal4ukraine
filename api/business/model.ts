@@ -1,5 +1,8 @@
 import {processError, ErrorType } from "@api/_error"
 
+/**
+ * All the currently supported business categories.
+ */
 enum BusinessCategory {
     Crafts,
     Dining,
@@ -8,15 +11,24 @@ enum BusinessCategory {
     LifeStyle
 }
 
+/**
+ * All the currently supported affiliation types.
+ */
 enum AffiliationType {
     UkrainianOwned,
     UkraineSupporters
 }
 
+/**
+ * All the currently supported countries
+ */
 enum Country {
     USA
 }
 
+/**
+ * A location type to store the location of a business.
+ */
 type Location = {
     googleMapsURL: string,
     city: string,
@@ -25,6 +37,12 @@ type Location = {
     latitude: number
 }
 
+/**
+ * Main business model type.
+ * 
+ * Fields that are not self-explanatory:
+ * - affiliation: either owned by Ukrainians, or support Ukraine in other ways
+ */
 export type BusinessModel = {
     id: string,
     name: string,
@@ -108,6 +126,11 @@ function affiliationTypeConverter(value: string) : AffiliationType | null {
     return affiliation;
 }
 
+/**
+ * Converts a given string country into the appropriate {@link Country} enum.
+ * @param country country string
+ * @returns null if the country is invalid per {@link Country}, otherwise the country with the appropriate type
+ */
 function countryConverter(country: string) : Country | null {
     switch (country) {
         case 'USA':
@@ -152,6 +175,15 @@ function locationConverter({googleMapsURL, city, country, longitude, latitude}: 
     }
 
     return location;
+}
+
+/**
+ * Converts an array of Airtable images to an array of image urls acceptable by the {@link BusinessModel}.
+ * @param images an array of Airtable images
+ * @returns an array of image URLs
+ */
+function imagesConverter(images: Array<any>): Array<String> {
+    return images.map((img: any) => img['src'])
 }
 
 /**
@@ -201,6 +233,11 @@ export function jsonToBusiness(data: any) : BusinessModel {
         {
             key: 'socialMedia',
             json: 'Primary social media / Linktree (optional)'
+        },
+        {
+            key: 'images',
+            json: 'Image',
+            converter: imagesConverter
         }
     ]
 

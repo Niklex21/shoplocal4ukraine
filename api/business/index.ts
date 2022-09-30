@@ -1,9 +1,9 @@
-import { FieldSet, Table } from 'airtable'
+import { FieldSet, Records, Table } from 'airtable'
 import { QueryParams } from 'airtable/lib/query_params'
 
 import base from '../_airtable'
 import { processError } from '../_error'
-import { BusinessModel } from './model'
+import { BusinessModel, jsonToBusiness } from './model'
 
 const table : Table<FieldSet> = base('Business')
 
@@ -13,7 +13,7 @@ const table : Table<FieldSet> = base('Business')
  * @param formula An Airtable-valid formula ({@link https://support.airtable.com/hc/en-us/articles/203255215-Formula-Field-Reference})
  * @return the records that correspond to the supplied formula
  */
-async function _getRecordsByFormula(formula: string = "", fields: Array<string> = []) {
+async function _getRecordsByFormula(formula: string = "", fields: Array<string> = []) : Promise<void | Records<FieldSet>>{
 
     let options : QueryParams<FieldSet> = {}
 
@@ -36,18 +36,33 @@ async function _getRecordsByFormula(formula: string = "", fields: Array<string> 
  * 
  * @returns all the records in the `Business` table
  */
-async function getPublishedRecords() {
-    return await _getRecordsByFormula("Publish = 1")
+async function getPublishedRecords() : Promise<Array<BusinessModel>> {
+    let records = await _getRecordsByFormula("Publish = 1")
+
+    if (records) {
+        return records.map((r: any) => jsonToBusiness(r._rawJSON))   
+    }
+
+    return []
 }
 
 /**
  * Gets a record by its id.
  * @param id 
  */
-async function getRecordById(id: string) {
-    table.find(id)
-    .then( record => { return record })
-    .catch(err => processError(err))
+async function getRecordById(id: string) : Promise<BusinessModel | null> {
+    return table.find(id)
+           .then( record => { 
+                if (record) {
+                    return jsonToBusiness(record)
+                }
+
+                return null
+            })
+           .catch(err => {
+                processError(err)
+                return null
+           })
 }
 
 export { getPublishedRecords, getRecordById }
