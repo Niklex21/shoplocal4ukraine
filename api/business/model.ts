@@ -35,11 +35,8 @@ export type BusinessModel = {
     images?: Array<string>,
     email?: string,
     phone?: string,
-    socialMedia?: string
-}
-
-interface IndexableBusinessModel {
-    [key: string]: keyof BusinessModel
+    socialMedia?: string,
+    [key: string]: any
 }
 
 /**
@@ -50,7 +47,7 @@ interface IndexableBusinessModel {
  * - converter (optional): a function that converts the Airtable API query value into a necessary type value for BusinesModel
  */
 type MapBusinessJSON = {
-    key: keyof BusinessModel,
+    key: string,
     json: string,
     converter?: (value: any) => any
 }
@@ -80,7 +77,7 @@ function businessCategoryConverter(value: string) : BusinessCategory | null {
             category = BusinessCategory.Services;
             break;
         default:
-            processError(ErrorType.InvalidBusinessCategory, `Current value: ${ value }`);
+            processError(ErrorType.InvalidBusinessCategory, `Category provided: ${ value }`);
             return null;
     }
 
@@ -103,11 +100,57 @@ function affiliationTypeConverter(value: string) : AffiliationType | null {
             affiliation = AffiliationType.UkraineSupporters;
             break;
         default:
-            processError(ErrorType.InvalidAffiliationType, `Current value: ${ value }`);
+            processError(ErrorType.InvalidAffiliationType, `Affiliation provided: ${ value }`);
             return null;
     }
     
     return affiliation;
+}
+
+function countryConverter(country: string) : Country | null {
+    switch (country) {
+        case 'USA':
+            return Country.USA;
+        default:
+            processError(ErrorType.InvalidCountry, `Country provided: ${ country }`);
+            return null;
+    }
+}
+
+/**
+ * Converts location string attributes to {@link Location}.
+ * 
+ * @param googleMapsURL comes from ['Address'] Airtable field
+ * @param city comes from ['City/town'] field
+ * @param country comes from ['Country'] field
+ * @param longitude comes from ['Longitude'] field
+ * @param latitude comes from ['Latitude'] field
+ * @returns a location object
+ */
+function locationConverter(googleMapsURL: any, city: any, country: any, longitude: any, latitude: any) : Location {
+    let location : Location = {} as Location;
+
+    if (googleMapsURL) {
+        location.googleMapsURL = googleMapsURL;
+    }
+
+    if (city) {
+        location.city = city;
+    }
+
+    if (country && countryConverter(country)) {
+        location.country = countryConverter(country) as Country;
+    }
+
+    if (longitude) {
+        location.longitude = parseFloat(longitude); 
+    }
+
+    if (latitude) {
+        location.latitude = parseFloat(latitude);
+    }
+
+    return location;
 }
 
 /**
@@ -121,30 +164,54 @@ export function jsonToBusiness(obj: any) : BusinessModel {
 
     const jsonToBusinessMap : Array<MapBusinessJSON> = [
         {
-            key: business.name as keyof BusinessModel,
+            key: 'name',
             json: 'Name'
         },
         {
-            key: business.description as keyof BusinessModel,
+            key: 'description',
             json: 'Description'
         },
         {
-            key: business.businessCategory as unknown as keyof BusinessModel,
+            key: 'businessCategory',
             json: 'Business category',
             converter: businessCategoryConverter
         },
         {
-            key: business.affiliation as unknown as keyof BusinessModel,
+            key: 'affiliation',
             json: 'Affiliation Type',
             converter: affiliationTypeConverter
         },
+        {
+            key: 'website',
+            json: 'Website (Optional)'
+        },
+        {
+            key: 'email',
+            json: 'Email (optional)'
+        },
+        {
+            key: 'phone',
+            json: 'Phone number (optional)'
+        },
+        {
+            key: 'socialMedia',
+            json: 'Primary social media / Linktree (optional)'
+        }
     ]
 
     jsonToBusinessMap.forEach(({ key, json, converter }) => {
         if (json in obj) {
-            business[key] = ((converter && converter(obj[json])) ? converter(obj[json]) : obj[json]) as keyof BusinessModel;
+            business[key] = (converter && converter(obj[json])) ? converter(obj[json]) : obj[json];
         }
     })
+
+    business.location = locationConverter(
+        address=obj['Address'],
+        obj['City/town'],
+        obj['Country'],
+        obj['Latitude'],
+        obj['Longitude']
+    );
 
     return business;
 }
