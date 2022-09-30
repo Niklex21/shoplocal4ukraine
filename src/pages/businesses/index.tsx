@@ -40,7 +40,7 @@ const Main: NextPageWithLayout = ({ businesses }: InferGetStaticPropsType<typeof
 }
 
 export const getStaticProps: GetStaticProps = async (context) => {
-    let businesses = await getPublishedRecords()
+    let businesses : Array<BusinessModel> = await getPublishedRecords()
 
     return {
         props: {
@@ -126,7 +126,7 @@ const InfoPanel = ({ className }: any) => {
 
     const Info = 
         selectedID < 0
-        ? (<>{ strings.businesses.info.noBusinessSelected }</>)
+        ? (<>{ strings.businesses.infoPage.noBusinessSelected }</>)
         : (
             <Card className="overflow-auto h-full w-full">
                 <CardMedia 
@@ -138,10 +138,10 @@ const InfoPanel = ({ className }: any) => {
                 <CardContent>
                     <h1 className="text-2xl font-bold">{ data.name }</h1>
                     <div className="mt-3 flex flex-wrap gap-2 flex-row font-semibold">
-                    <Chip className="bg-ukraine-yellow text-base" label={ data.affiliation} />
+                    <Chip className="bg-ukraine-yellow text-base" label={ data.affiliation } />
                     <Chip className="bg-ukraine-yellow text-base" label={ data.businessCategory } />
                     </div>
-                    <h3 className="mt-3 prose font-semibold">{ strings.businesses.info.sectionTitle.contacts }</h3>
+                    <h3 className="mt-3 prose font-semibold">{ strings.businesses.infoPage.sectionTitle.contacts }</h3>
                     {
                         contacts.map(
                             ({ icon, content } : { icon: SvgIconComponent, content: JSX.Element }, index: number) => (
@@ -151,7 +151,7 @@ const InfoPanel = ({ className }: any) => {
                             )
                         )
                     }
-                    <h3 className="mt-3 prose font-semibold">{ strings.businesses.info.sectionTitle.description }</h3>
+                    <h3 className="mt-3 prose font-semibold">{ strings.businesses.infoPage.sectionTitle.description }</h3>
                     <span className="prose break-words opacity-80">{ data.description }</span>
                 </CardContent>
             </Card>
@@ -257,8 +257,9 @@ const MapView = ({ className } : any) => {
         ? {} as BusinessModel
         : businesses[selectedID]
 
+
     return (
-        <div className={ className }>
+        <div className={ `${ className } w-full h-full` }>
             <Map
                 initialViewState={{
                     longitude: selectedBusiness.location?.longitude ?? defaults.businesses.map.longitude,
@@ -271,11 +272,11 @@ const MapView = ({ className } : any) => {
                 >
                     {
                         businesses.map(
-                            (item: BusinessModel, index: number) => (
+                            (data: BusinessModel, index: number) => (
                                 <BusinessMapMarker 
                                     key={ index }
                                     onClickEventHandler={ () => { setSelectedID(index)} }
-                                    fields={ item }
+                                    data={ data }
                                     active={ selectedID === index } 
                                 />
                             )

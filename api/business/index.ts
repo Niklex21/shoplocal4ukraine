@@ -40,7 +40,7 @@ async function getPublishedRecords() : Promise<Array<BusinessModel>> {
     let records = await _getRecordsByFormula("Publish = 1")
 
     if (records) {
-        return records.map((r: any) => jsonToBusiness(r._rawJSON))   
+        return records.map((r: any) => jsonToBusiness(r._rawJson))   
     }
 
     return []
@@ -52,9 +52,9 @@ async function getPublishedRecords() : Promise<Array<BusinessModel>> {
  */
 async function getRecordById(id: string) : Promise<BusinessModel | null> {
     return table.find(id)
-           .then( record => { 
+           .then(record => { 
                 if (record) {
-                    return jsonToBusiness(record)
+                    return jsonToBusiness(record._rawJson)
                 }
 
                 return null

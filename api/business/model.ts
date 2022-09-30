@@ -183,7 +183,7 @@ function locationConverter({googleMapsURL, city, country, longitude, latitude}: 
  * @returns an array of image URLs
  */
 function imagesConverter(images: Array<any>): Array<String> {
-    return images.map((img: any) => img['src'])
+    return images.map((img: any) => img['url'])
 }
 
 /**
