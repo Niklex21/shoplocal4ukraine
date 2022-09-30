@@ -127,7 +127,7 @@ function countryConverter(country: string) : Country | null {
  * @param latitude comes from ['Latitude'] field
  * @returns a location object
  */
-function locationConverter(googleMapsURL: any, city: any, country: any, longitude: any, latitude: any) : Location {
+function locationConverter({googleMapsURL, city, country, longitude, latitude}: any) : Location {
     let location : Location = {} as Location;
 
     if (googleMapsURL) {
@@ -205,13 +205,13 @@ export function jsonToBusiness(obj: any) : BusinessModel {
         }
     })
 
-    business.location = locationConverter(
-        address=obj['Address'],
-        obj['City/town'],
-        obj['Country'],
-        obj['Latitude'],
-        obj['Longitude']
-    );
+    business.location = locationConverter({
+        googleMapsURL: obj['Address'],
+        city: obj['City/town'],
+        country: obj['Country'],
+        latitude: obj['Latitude'],
+        longitude: obj['Longitude']
+    });
 
     return business;
 }
