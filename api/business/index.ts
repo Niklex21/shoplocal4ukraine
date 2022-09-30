@@ -2,7 +2,8 @@ import { FieldSet, Table } from 'airtable'
 import { QueryParams } from 'airtable/lib/query_params'
 
 import base from '../_airtable'
-import processError from '../_error'
+import { processError } from '../_error'
+import { BusinessModel } from './model'
 
 const table : Table<FieldSet> = base('Business')
 

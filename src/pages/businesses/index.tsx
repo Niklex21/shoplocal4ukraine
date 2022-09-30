@@ -90,8 +90,6 @@ const InfoPanel = ({ className }: any) => {
     const data = selectedID < 0 ? null : businesses[selectedID].fields
     const imageSrc = data !== null ? data['Image'][0]['url'] : defaults.businesses.gallery.defaultImage.src
 
-    console.log(data)
-
     const contacts : Array<ContactsRow> = data === null ? [] : [
         {
             icon: IconPlace,

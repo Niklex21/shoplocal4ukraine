@@ -26,6 +26,7 @@ type Location = {
 }
 
 export type BusinessModel = {
+    id: string,
     name: string,
     description: string,
     businessCategory: BusinessCategory,
@@ -40,7 +41,7 @@ export type BusinessModel = {
 }
 
 /**
- * Denotes the type of the const object to map BusinessModel properties to the json key and a converting function.
+ * Denotes the type of the const fieldsect to map BusinessModel properties to the json key and a converting function.
  * 
  * - key: the key of a property in {@link BusinessModel}
  * - json: the string key of a property in the Airtable API query
@@ -125,7 +126,7 @@ function countryConverter(country: string) : Country | null {
  * @param country comes from ['Country'] field
  * @param longitude comes from ['Longitude'] field
  * @param latitude comes from ['Latitude'] field
- * @returns a location object
+ * @returns a location fieldsect
  */
 function locationConverter({googleMapsURL, city, country, longitude, latitude}: any) : Location {
     let location : Location = {} as Location;
@@ -156,11 +157,15 @@ function locationConverter({googleMapsURL, city, country, longitude, latitude}: 
 /**
  * Processes raw JSON data from Airtable and returns a {@link BusinessModel} object.
  * 
- * @param obj the raw JSON data from the Airtable
+ * @param data the raw JSON data from the Airtable
  * @returns the data as a {@link BusinessModel} object
  */
-export function jsonToBusiness(obj: any) : BusinessModel {
+export function jsonToBusiness(data: any) : BusinessModel {
     let business : BusinessModel = {} as BusinessModel;
+
+    business.id = data['id']
+
+    const fields = data['fields'];
 
     const jsonToBusinessMap : Array<MapBusinessJSON> = [
         {
@@ -200,17 +205,17 @@ export function jsonToBusiness(obj: any) : BusinessModel {
     ]
 
     jsonToBusinessMap.forEach(({ key, json, converter }) => {
-        if (json in obj) {
-            business[key] = (converter && converter(obj[json])) ? converter(obj[json]) : obj[json];
+        if (json in fields) {
+            business[key] = (converter && converter(fields[json])) ? converter(fields[json]) : fields[json];
         }
     })
 
     business.location = locationConverter({
-        googleMapsURL: obj['Address'],
-        city: obj['City/town'],
-        country: obj['Country'],
-        latitude: obj['Latitude'],
-        longitude: obj['Longitude']
+        googleMapsURL: fields['Address'],
+        city: fields['City/town'],
+        country: fields['Country'],
+        latitude: fields['Latitude'],
+        longitude: fields['Longitude']
     });
 
     return business;
