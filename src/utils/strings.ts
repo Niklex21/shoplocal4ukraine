@@ -23,8 +23,8 @@ const strings = {
             lifestyle: 'Lifestyle'
         },
         affiliation: {
-            ukrainianOwned: "Owned by Ukrainians",
-            ukraineSupporters: "Support Ukrainians"
+            ukrainianOwned: "Ukrainian-owned",
+            ukraineSupporters: "Ukraine Supporters"
         },
     },
     countries: {

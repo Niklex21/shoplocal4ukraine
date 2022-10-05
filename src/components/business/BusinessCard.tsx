@@ -1,13 +1,13 @@
-import { BusinessModel } from "@api/business/model"
+import { BusinessModel } from "@api/business/types"
 import {
     Card,
-    CardHeader,
     CardContent,
-    Typography,
     CardActionArea,
     CardMedia,
   } from "@mui/material"
+import { Place as IconPlace } from "@mui/icons-material"
 import defaults from "@utils/config"
+import { affiliationCategoryConverter, businessCategoryConverter } from "@utils/converters"
 
 /**
  * A business card that displays basic (preview) information about a business.
@@ -27,8 +27,13 @@ export default function BusinessCard({ data, active } : { data: BusinessModel, a
                     alt={ data.name }
                 />
                 <CardContent>
-                    <h1 className="text-lg font-medium">{ data.name }</h1>
-                    <span className="opacity-80 break-words prose line-clamp-3">{ data.description }</span>
+                    <div className="text-sm text-ukraine-blue font-semibold">
+                        { businessCategoryConverter(data.businessCategory) }
+                        &nbsp;&bull;&nbsp;
+                        { affiliationCategoryConverter(data.affiliation) }
+                    </div>
+                    <h1 className="text-lg mt-2 font-medium">{ data.name }</h1>
+                    <div className="text-gray-500 break-words line-clamp-3 mt-2">{ data.description }</div>
                 </CardContent>
             </CardActionArea>
         </Card>

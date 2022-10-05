@@ -1,7 +1,7 @@
 import { BusinessCard, BusinessContainer, BusinessMapMarker } from "@components/business"
 import { Container } from "@components/common"
 import { Collections as IconCollections, Map as IconMap, Place as IconPlace, Email as IconEmail, Link as IconLink, Phone as IconPhone, SvgIconComponent } from "@mui/icons-material"
-import { Card, CardContent, CardMedia, Chip, SvgIconTypeMap, ToggleButton, ToggleButtonGroup } from "@mui/material"
+import { Card, CardContent, CardMedia, Chip, ToggleButton, ToggleButtonGroup } from "@mui/material"
 import { GetStaticProps, InferGetStaticPropsType } from "next"
 import { createContext, Dispatch, ReactElement, SetStateAction, useContext, useState } from "react"
 import 'mapbox-gl/dist/mapbox-gl.css'
@@ -15,6 +15,7 @@ import defaults from "@utils/config"
 import strings from "@utils/strings"
 import Link from "next/link"
 import { BusinessModel } from "@api/business/model"
+import { affiliationCategoryConverter, businessCategoryConverter } from "@utils/converters"
 
 
 const Main: NextPageWithLayout = ({ businesses }: InferGetStaticPropsType<typeof getStaticProps>) => {
@@ -30,12 +31,12 @@ const Main: NextPageWithLayout = ({ businesses }: InferGetStaticPropsType<typeof
     }
 
     return (
-        <div className="grid grid-cols-4 w-full">
-            <BusinessViewContext.Provider value={ context }>
+        <BusinessViewContext.Provider value={ context }>
+            <div className="grid grid-cols-4 w-full">
                 <BusinessView className="col-span-3" />
                 <InfoPanel className="col-span-1" />
-            </BusinessViewContext.Provider>
-        </div>
+            </div>
+        </BusinessViewContext.Provider>
     )
 }
 
@@ -68,11 +69,12 @@ const BusinessViewContext = createContext<BusinessViewContextData>({
 });
 
 /**
- * Contains an icon & content structure to define a list of content to be rendered later
+ * Contains an icon, content, link structure to define a list of contacts to be rendered later
  */
 type ContactsRow = {
-    icon: SvgIconComponent,
-    content: JSX.Element
+    icon: JSX.Element,
+    content: string,
+    link: string
 }
 
 /**
@@ -92,33 +94,37 @@ const InfoPanel = ({ className }: any) => {
 
         contacts = [
             {
-                icon: IconPlace,
-                content: (
-                    <Link href={ data.location?.googleMapsURL }>{ data.location?.city }</Link>
-                )
+                icon: (
+                    <IconPlace />
+                ),
+                content: data.location?.city,
+                link: data.location?.googleMapsURL
             },
             ...[
                 data.website ? {
-                    icon: IconLink,
-                    content: (
-                        <Link href={ data.website }>{ data.website }</Link>
-                    )
+                    icon: (
+                        <IconLink />
+                    ),
+                    content: data.website,
+                    link: data.website
                 } : {} as ContactsRow
             ],
             ...[
                 data.email ? {
-                    icon: IconEmail,
-                    content: (
-                        <Link href={`mailto:${ data.email }`}>{ data.email }</Link>
-                    )
+                    icon: (
+                        <IconEmail />
+                    ),
+                    content: data.email,
+                    link: `mailto:${ data.email }`
                 } : {} as ContactsRow
             ],
             ...[
                 data.phone ? {
-                    icon: IconPhone,
-                    content: (
-                        <Link href={`tel:${ data.phone }`}>{ data.phone }</Link>
-                    )
+                    icon: (
+                        <IconPhone />
+                    ),
+                    content: data.phone,
+                    link: `tel:${ data.phone }`
                 } : {} as ContactsRow
             ]
         ]
@@ -136,23 +142,36 @@ const InfoPanel = ({ className }: any) => {
                   alt={ data.name }
                 />
                 <CardContent>
-                    <h1 className="text-2xl font-bold">{ data.name }</h1>
-                    <div className="mt-3 flex flex-wrap gap-2 flex-row font-semibold">
-                    <Chip className="bg-ukraine-yellow text-base" label={ data.affiliation } />
-                    <Chip className="bg-ukraine-yellow text-base" label={ data.businessCategory } />
+                    <div className="flex flex-col gap-4">
+                        <h1 className="text-2xl font-bold">{ data.name }</h1>
+                        <div className="flex flex-wrap gap-2 flex-row">
+                            <Chip className="text-base text-black bg-ukraine-yellow" label={ businessCategoryConverter(data.businessCategory) } />
+                            <Chip className="text-base text-black bg-ukraine-yellow" label={ affiliationCategoryConverter(data.affiliation) } />
+                        </div>
+                        <hr />
+                        <div>
+                            <h3 className="prose text-xl mb-2 font-semibold">{ strings.businesses.infoPage.sectionTitle.contacts }</h3>
+                            {
+                                contacts.map(
+                                    ({ icon, content, link } : { icon: JSX.Element, content: string, link: string }, index: number) => (
+                                        <div key={ index } className="mt-1 cursor-pointer hover:text-ukraine-blue hover:opacity-100 opacity-80">
+                                            <Link href={ link || "#" }>
+                                                <div className="flex flex-nowrap flex-row gap-2">
+                                                    { icon } 
+                                                    { content }
+                                                </div>
+                                            </Link>
+                                        </div>
+                                    )
+                                )
+                            }
+                        </div>
+                        <hr />
+                        <div>
+                            <h3 className="prose text-xl mb-1 font-semibold">{ strings.businesses.infoPage.sectionTitle.description }</h3>
+                            <span className="prose break-words opacity-80">{ data.description }</span>
+                        </div>
                     </div>
-                    <h3 className="mt-3 prose font-semibold">{ strings.businesses.infoPage.sectionTitle.contacts }</h3>
-                    {
-                        contacts.map(
-                            ({ icon, content } : { icon: SvgIconComponent, content: JSX.Element }, index: number) => (
-                                <div className="flex flex-nowrap gap-2 flex-row" key={ index }>
-                                    { content }
-                                </div>
-                            )
-                        )
-                    }
-                    <h3 className="mt-3 prose font-semibold">{ strings.businesses.infoPage.sectionTitle.description }</h3>
-                    <span className="prose break-words opacity-80">{ data.description }</span>
                 </CardContent>
             </Card>
         )
