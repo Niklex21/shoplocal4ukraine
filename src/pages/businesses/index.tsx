@@ -178,7 +178,7 @@ enum Views {
  */
 const BusinessView = ({ className }: any) => {
 
-    const [view, setView] = useState<Views>(Views.Gallery);
+    const [view, setView] = useState<Views>(Views.Map);
 
     // handles the toggle option selection
     const handleViewSelection = (
@@ -211,11 +211,11 @@ const BusinessView = ({ className }: any) => {
                 aria-label="views"
             >
                 {/* TODO: do we need to add some text to the choices? */}
-                <ToggleButton value={ Views.Gallery } aria-label="gallery">
-                    <IconCollections />
-                </ToggleButton>
                 <ToggleButton value={ Views.Map } aria-label="map">
                     <IconMap />
+                </ToggleButton>
+                <ToggleButton value={ Views.Gallery } aria-label="gallery">
+                    <IconCollections />
                 </ToggleButton>
             </ToggleButtonGroup>
             <ViewComponent />
@@ -266,7 +266,7 @@ const MapView = ({ className } : any) => {
                     latitude: selectedBusiness.location?.latitude ?? defaults.businesses.map.latitude,
                     zoom: defaults.businesses.map.zoom
                 }}
-                style={{width: '100%', height: '100vh' }}
+                style={{ width: '100%', height: '100vh' }}
                 mapStyle="mapbox://styles/mapbox/streets-v9" 
                 mapboxAccessToken={ process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN }
                 >
