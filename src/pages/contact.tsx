@@ -1,17 +1,19 @@
+import { NextPage } from "next"
 import { ReactElement } from "react"
-import { NextPageWithLayout } from "./_app"
 
 import { LandingLayout } from "@layouts/landing"
+import { NextPageWithLayout } from "./_app"
 
-const About : NextPageWithLayout = () => {
+
+const Contact : NextPageWithLayout = () => {
     return (
         <>
-            About
+            Contact
         </>
     )
 }
 
-About.getLayout = function getLayout(page: ReactElement) {
+Contact.getLayout = function getLayout(page: ReactElement) {
     return (
         <LandingLayout>
             { page }
@@ -19,4 +21,4 @@ About.getLayout = function getLayout(page: ReactElement) {
     )
 }
 
-export default About
+export default Contact
