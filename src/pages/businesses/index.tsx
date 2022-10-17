@@ -32,12 +32,20 @@ const Main: NextPageWithLayout = ({ businesses }: InferGetStaticPropsType<typeof
         setSelectedID
     }
 
+    const content = selectedID !== -1 ? (
+        <div className="grid grid-cols-4 w-full">
+            <BusinessView className="col-span-3" />
+            <InfoPanel className="col-span-1" />
+        </div>
+    ) : (
+        <div className="grid grid-cols-4 w-full">
+            <BusinessView className="col-span-4" />
+        </div>
+    )
+
     return (
         <BusinessViewContext.Provider value={ context }>
-            <div className="grid grid-cols-4 w-full">
-                <BusinessView className="col-span-3" />
-                <InfoPanel className="col-span-1" />
-            </div>
+            { content }
         </BusinessViewContext.Provider>
     )
 }
@@ -133,7 +141,7 @@ const InfoPanel = ({ className }: any) => {
         selectedID < 0
         ? (<>{ strings.businesses.infoPage.noBusinessSelected }</>)
         : (
-            <Card className='overflow-auto h-full w-full rounded-none h-full'>
+            <Card className='overflow-auto h-full w-full rounded-none'>
                 <CardMedia 
                   component="img"
                   className="h-48"
@@ -281,7 +289,6 @@ const MapView = ({ className } : any) => {
     return (
         <div className={ twMerge('w-full h-screen', className) }>
             <Map
-                reuseMaps={ true }
                 initialViewState={{
                     longitude: selectedBusiness.location?.longitude ?? defaults.businesses.map.longitude,
                     latitude: selectedBusiness.location?.latitude ?? defaults.businesses.map.latitude,

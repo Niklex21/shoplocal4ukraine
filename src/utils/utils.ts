@@ -5,5 +5,5 @@
  * @returns the shortened URL
  */
 export function urlShortener(url: string): string {
-    return url.replaceAll('https://', '').replaceAll('http://', '').replaceAll('www.', '').replace('/\/+$/', '');
+    return url.replaceAll('https://', '').replaceAll('http://', '').replaceAll('www.', '').replace(/\/+$/, '');
 }
