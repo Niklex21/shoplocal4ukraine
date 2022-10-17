@@ -16,11 +16,11 @@ import { affiliationCategoryConverter, businessCategoryConverter } from "@utils/
 export default function BusinessCard({ data, active } : { data: BusinessModel, active: boolean }) {
 
     const imageSrc = data.images && data.images.length > 0 ? data.images[0] : defaults.businesses.gallery.defaultImage.src
- 
+
     return (
         <Card className={ `border-2 ${ active ? "border-ukraine-blue" : "border-transparent"}` }>
             <CardActionArea>
-                <CardMedia 
+                <CardMedia
                     component="img"
                     className="h-36"
                     image={ imageSrc }

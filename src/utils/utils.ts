@@ -1,6 +1,6 @@
 /**
  * Shortens a given URL by removing the scheme and the www subdomains.
- * 
+ *
  * @param url the url to shorten
  * @returns the shortened URL
  */

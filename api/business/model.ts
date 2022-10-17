@@ -53,7 +53,7 @@ function affiliationTypeConverter(value: string) : AffiliationType | null {
             processError(ErrorType.InvalidAffiliationType, `Affiliation provided: ${ value }`);
             return null;
     }
-    
+
     return affiliation;
 }
 
@@ -74,7 +74,7 @@ function countryConverter(country: string) : Country | null {
 
 /**
  * Converts location string attributes to {@link Location}.
- * 
+ *
  * @param googleMapsURL comes from ['Address'] Airtable field
  * @param city comes from ['City/town'] field
  * @param country comes from ['Country'] field
@@ -98,7 +98,7 @@ function locationConverter({googleMapsURL, city, country, longitude, latitude}: 
     }
 
     if (longitude) {
-        location.longitude = parseFloat(longitude); 
+        location.longitude = parseFloat(longitude);
     }
 
     if (latitude) {
@@ -119,7 +119,7 @@ function imagesConverter(images: Array<any>): Array<String> {
 
 /**
  * Processes raw JSON data from Airtable and returns a {@link BusinessModel} object.
- * 
+ *
  * @param data the raw JSON data from the Airtable
  * @returns the data as a {@link BusinessModel} object
  */
