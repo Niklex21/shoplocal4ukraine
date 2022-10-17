@@ -1,6 +1,6 @@
 import { MapboxEvent, Marker } from 'react-map-gl';
 import { Place as IconPlace } from "@mui/icons-material";
-import { BusinessModel } from '@api/business/model';
+import { BusinessModel } from '@api/business/types';
 
 export default function BusinessMapMarker({
     onClickEventHandler,

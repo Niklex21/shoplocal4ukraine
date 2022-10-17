@@ -3,10 +3,10 @@ import { Container } from "@components/common"
 import { Collections as IconCollections, Map as IconMap, Place as IconPlace, Email as IconEmail, Link as IconLink, Phone as IconPhone, SvgIconComponent } from "@mui/icons-material"
 import { Card, CardContent, CardMedia, Chip, ToggleButton, ToggleButtonGroup } from "@mui/material"
 import { GetStaticProps, InferGetStaticPropsType } from "next"
-import { createContext, Dispatch, ReactElement, SetStateAction, useContext, useState } from "react"
+import { createContext, Dispatch, ReactElement, SetStateAction, useCallback, useContext, useState } from "react"
 import 'mapbox-gl/dist/mapbox-gl.css'
 
-import Map from "react-map-gl"
+import Map, { GeolocateControl } from "react-map-gl"
 
 import { getPublishedRecords } from "@api/business"
 import { NextPageWithLayout } from "../_app"
@@ -268,14 +268,13 @@ const GalleryView = ({ className }: any) => {
 }
 
 const MapView = ({ className } : any) => {
-
+ 
     const { businesses, setSelectedID, selectedID } = useContext(BusinessViewContext)
 
     const selectedBusiness : BusinessModel = 
         selectedID < 0
         ? {} as BusinessModel
         : businesses[selectedID]
-
 
     return (
         <div className={ `${ className } w-full h-full` }>
@@ -289,6 +288,9 @@ const MapView = ({ className } : any) => {
                 mapStyle="mapbox://styles/mapbox/streets-v9" 
                 mapboxAccessToken={ process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN }
                 >
+                    <GeolocateControl />
+
+                    {/* markers */}
                     {
                         businesses.map(
                             (data: BusinessModel, index: number) => (
