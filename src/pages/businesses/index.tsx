@@ -14,8 +14,10 @@ import { AppLayout } from "@layouts/app"
 import defaults from "@utils/config"
 import strings from "@utils/strings"
 import Link from "next/link"
-import { BusinessModel } from "@api/business/model"
+import { BusinessModel } from "@api/business/types"
 import { affiliationCategoryConverter, businessCategoryConverter } from "@utils/converters"
+import { urlShortener } from "@utils/utils"
+import { twMerge } from "tailwind-merge"
 
 
 const Main: NextPageWithLayout = ({ businesses }: InferGetStaticPropsType<typeof getStaticProps>) => {
@@ -100,33 +102,30 @@ const InfoPanel = ({ className }: any) => {
                 content: data.location?.city,
                 link: data.location?.googleMapsURL
             },
-            ...[
-                data.website ? {
+            ...(data.website ? [{
                     icon: (
                         <IconLink />
                     ),
                     content: data.website,
                     link: data.website
-                } : {} as ContactsRow
-            ],
-            ...[
-                data.email ? {
+                }] : []
+            ),
+            ...(data.email ? [{
                     icon: (
                         <IconEmail />
                     ),
                     content: data.email,
                     link: `mailto:${ data.email }`
-                } : {} as ContactsRow
-            ],
-            ...[
-                data.phone ? {
+                }] : []
+            ),
+            ...(data.phone ? [{
                     icon: (
                         <IconPhone />
                     ),
                     content: data.phone,
                     link: `tel:${ data.phone }`
-                } : {} as ContactsRow
-            ]
+                }] : []
+            ),
         ]
     }
 
@@ -134,7 +133,7 @@ const InfoPanel = ({ className }: any) => {
         selectedID < 0
         ? (<>{ strings.businesses.infoPage.noBusinessSelected }</>)
         : (
-            <Card className="overflow-auto h-full w-full">
+            <Card className='overflow-auto h-full w-full rounded-none h-full'>
                 <CardMedia 
                   component="img"
                   className="h-48"
@@ -158,7 +157,9 @@ const InfoPanel = ({ className }: any) => {
                                             <Link href={ link || "#" }>
                                                 <div className="flex flex-nowrap flex-row gap-2">
                                                     { icon } 
-                                                    { content }
+                                                    <div className="break-all">
+                                                        { urlShortener(content) }
+                                                    </div>
                                                 </div>
                                             </Link>
                                         </div>
@@ -177,7 +178,7 @@ const InfoPanel = ({ className }: any) => {
         )
 
     return (
-        <Container className={ `${className} flex-col max-w-full overflow-auto` }>
+        <Container className={ twMerge('flex-col max-w-full overflow-auto p-0 h-screen', className) }>
             { Info }
         </Container>
     )
@@ -222,12 +223,13 @@ const BusinessView = ({ className }: any) => {
     )();
 
     return (
-        <Container className={ `${className} flex-col overflow-auto max-h-screen` }>
+        <Container className={ twMerge('flex-col overflow-auto max-h-screen p-0', className) }>
             <ToggleButtonGroup
                 value={ view }
                 exclusive
                 onChange={ handleViewSelection }
                 aria-label="views"
+                className="absolute top-2 left-2 z-50 bg-slate-50"
             >
                 {/* TODO: do we need to add some text to the choices? */}
                 <ToggleButton value={ Views.Map } aria-label="map">
@@ -277,14 +279,15 @@ const MapView = ({ className } : any) => {
         : businesses[selectedID]
 
     return (
-        <div className={ `${ className } w-full h-full` }>
+        <div className={ twMerge('w-full h-screen', className) }>
             <Map
+                reuseMaps={ true }
                 initialViewState={{
                     longitude: selectedBusiness.location?.longitude ?? defaults.businesses.map.longitude,
                     latitude: selectedBusiness.location?.latitude ?? defaults.businesses.map.latitude,
                     zoom: defaults.businesses.map.zoom
                 }}
-                style={{ width: '100%', height: '100vh' }}
+                style={{ width: '100%', height: '100%' }}
                 mapStyle="mapbox://styles/mapbox/streets-v9" 
                 mapboxAccessToken={ process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN }
                 >

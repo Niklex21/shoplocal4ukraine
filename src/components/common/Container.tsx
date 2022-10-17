@@ -1,3 +1,5 @@
+import { twMerge } from "tailwind-merge";
+
 /**
  * Generic container component.
  * 
@@ -5,7 +7,7 @@
  */
 export default function Container({ className, children }: any) {
     return (
-        <div className={`${className} w-full h-full flex flex-auto flex-wrap p-2`}>
+        <div className={ twMerge('w-full h-full flex flex-auto flex-wrap p-2', className) }>
             { children }
         </div>
     )
