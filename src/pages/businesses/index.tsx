@@ -6,7 +6,7 @@ import { GetStaticProps, InferGetStaticPropsType } from "next"
 import { createContext, Dispatch, ReactElement, SetStateAction, useCallback, useContext, useState } from "react"
 import 'mapbox-gl/dist/mapbox-gl.css'
 
-import Map, { GeolocateControl } from "react-map-gl"
+import Map, { GeolocateControl, NavigationControl, ScaleControl } from "react-map-gl"
 
 import { getPublishedRecords } from "@api/business"
 import { NextPageWithLayout } from "../_app"
@@ -299,6 +299,8 @@ const MapView = ({ className } : any) => {
                 mapboxAccessToken={ process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN }
                 >
                     <GeolocateControl />
+                    <NavigationControl />
+                    <ScaleControl />
 
                     {/* markers */}
                     {
