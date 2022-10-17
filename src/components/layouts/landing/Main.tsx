@@ -14,8 +14,7 @@ export default function LandingMainLayout({ children }: Props) {
             <Head>
                 <link rel="shortcut icon" href="/favicon.ico" />
             </Head>
-            <div className="h-full">
-                <Navbar />
+            <div className="h-screen">
                 { children }
                 <Footer />
             </div>

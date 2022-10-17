@@ -3,7 +3,7 @@ import { Container } from "@components/common"
 import { Collections as IconCollections, Map as IconMap, Place as IconPlace, Email as IconEmail, Link as IconLink, Phone as IconPhone, SvgIconComponent } from "@mui/icons-material"
 import { Card, CardContent, CardMedia, Chip, ToggleButton, ToggleButtonGroup } from "@mui/material"
 import { GetStaticProps, InferGetStaticPropsType } from "next"
-import { createContext, Dispatch, ReactElement, SetStateAction, useCallback, useContext, useState } from "react"
+import { createContext, Dispatch, ReactElement, SetStateAction, useContext, useState } from "react"
 import 'mapbox-gl/dist/mapbox-gl.css'
 
 import Map, { GeolocateControl, NavigationControl, ScaleControl } from "react-map-gl"
