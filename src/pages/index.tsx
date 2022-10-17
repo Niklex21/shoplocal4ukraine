@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-html-link-for-pages */
 import { ReactElement } from "react";
 import { NextPageWithLayout } from "./_app";
 
@@ -17,7 +18,6 @@ const Home: NextPageWithLayout = () => {
       />
       <div className="flex flex-wrap flex-col h-full w-full p-4 text-center justify-center">
         <h1 className="text-4xl">This page is in development!</h1>
-        {/* // eslint-disable-next-line @next/next/no-html-link-for-pages */}
         {/* TODO: we have to use a instead of Link tag here because switching different layouts breaks Tailwind styles for some reason :| */}
         <div className="text-2xl mt-4">To see the current app go <span className="hover:underline"><a href="/businesses">here</a></span>.</div>
       </div>
