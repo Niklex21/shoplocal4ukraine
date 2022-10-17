@@ -3,7 +3,8 @@ import { QueryParams } from 'airtable/lib/query_params'
 
 import base from '../_airtable'
 import { processError } from '../_error'
-import { BusinessModel, jsonToBusiness } from './model'
+import { jsonToBusiness } from './model'
+import { BusinessModel } from './types'
 
 const table : Table<FieldSet> = base('Business')
 
