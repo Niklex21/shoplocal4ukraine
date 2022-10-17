@@ -1,4 +1,5 @@
 /** @type {import('tailwindcss').Config} */
+
 module.exports = {
   content: [
     "./src/pages/**/*.{js,ts,jsx,tsx}",
@@ -6,6 +7,9 @@ module.exports = {
   ],
   theme: {
     extend: {
+      height: {
+        'card': '30rem',
+      },
       colors: {
         text: {
           DEFAULT: "#232327",
@@ -15,9 +19,14 @@ module.exports = {
           DEFAULT: "#FFEBAF",
           inverted: "#232335"
         },
-        accent: "#D7E6F5"
+        accent: "#D7E6F5",
+        'ukraine-yellow': "#FFD101",
+        "ukraine-blue": "#005EB8"
       },
     },
   },
-  plugins: [],
+  plugins: [
+    require('@tailwindcss/line-clamp'),
+    require('@tailwindcss/typography')
+  ],
 }
