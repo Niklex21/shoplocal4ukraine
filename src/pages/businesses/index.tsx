@@ -14,6 +14,7 @@ import { AppLayout } from "@layouts/app"
 import defaults from "@utils/config"
 import strings from "@utils/strings"
 import Link from "next/link"
+import Image from "next/image"
 import { BusinessModel } from "@api/business/types"
 import { affiliationCategoryConverter, businessCategoryConverter } from "@utils/converters"
 import { urlShortener } from "@utils/utils"
@@ -33,13 +34,13 @@ const Main: NextPageWithLayout = ({ businesses }: InferGetStaticPropsType<typeof
     }
 
     const content = selectedID !== -1 ? (
-        <div className="grid grid-cols-4 w-full">
-            <BusinessView className="col-span-3" />
-            <InfoPanel className="col-span-1" />
+        <div className="grid grid-rows-2 md:grid-rows-none md:grid-cols-2 lg:grid-cols-4 w-full h-full">
+            <BusinessView className="lg:col-span-3" />
+            <InfoPanel className="lg:col-span-1" />
         </div>
     ) : (
-        <div className="grid grid-cols-4 w-full">
-            <BusinessView className="col-span-4" />
+        <div className="w-full h-full">
+            <BusinessView />
         </div>
     )
 
@@ -144,7 +145,7 @@ const InfoPanel = ({ className }: any) => {
             <Card className='overflow-auto h-full w-full rounded-none'>
                 <CardMedia 
                   component="img"
-                  className="h-48"
+                  className="h-48 hidden md:block"
                   image={ imageSrc }
                   alt={ data.name }
                 />
@@ -154,6 +155,14 @@ const InfoPanel = ({ className }: any) => {
                         <div className="flex flex-wrap gap-2 flex-row">
                             <Chip className="text-base text-black bg-ukraine-yellow" label={ businessCategoryConverter(data.businessCategory) } />
                             <Chip className="text-base text-black bg-ukraine-yellow" label={ affiliationCategoryConverter(data.affiliation) } />
+                        </div>
+                        <div className="relative md:hidden rounded-lg w-full h-48">
+                            <Image 
+                                className="w-full object-contain rounded-lg"
+                                layout="fill"
+                                src={ imageSrc }
+                                alt={ data.name }
+                            />
                         </div>
                         <hr />
                         <div>
@@ -186,7 +195,7 @@ const InfoPanel = ({ className }: any) => {
         )
 
     return (
-        <Container className={ twMerge('flex-col max-w-full overflow-auto p-0 h-screen', className) }>
+        <Container className={ twMerge('flex-col max-w-full overflow-auto p-0 md:h-screen border-t-2 border-black md:border-none', className) }>
             { Info }
         </Container>
     )
@@ -231,7 +240,7 @@ const BusinessView = ({ className }: any) => {
     )();
 
     return (
-        <Container className={ twMerge('flex-col overflow-auto max-h-screen p-0', className) }>
+        <Container className={ twMerge(`flex-col overflow-auto h-full max-h-screen ${ view === Views.Map ? 'p-0' : '' }`, className) }>
             <ToggleButtonGroup
                 value={ view }
                 exclusive

@@ -18,7 +18,7 @@ export default function BusinessCard({ data, active } : { data: BusinessModel, a
     const imageSrc = data.images && data.images.length > 0 ? data.images[0] : defaults.businesses.gallery.defaultImage.src
  
     return (
-        <Card className={ `border-2 ${ active ? "border-ukraine-blue" : "border-transparent"}` }>
+        <Card className={ `max-w-xs flex border-2 ${ active ? "border-ukraine-blue" : "border-transparent"}` }>
             <CardActionArea>
                 <CardMedia 
                     component="img"
