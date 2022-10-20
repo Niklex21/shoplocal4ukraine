@@ -1,4 +1,4 @@
-import defaultImage from '@public/business_default_image.jpg'
+import defaultImage from '@public/images/business_default_image.jpg'
 
 const defaults = {
     businesses: {

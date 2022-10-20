@@ -250,10 +250,10 @@ const BusinessView = ({ className }: any) => {
             >
                 {/* TODO: do we need to add some text to the choices? */}
                 <ToggleButton value={ Views.Map } aria-label="map">
-                    <IconMap />
+                    <IconMap />&nbsp;MAP
                 </ToggleButton>
                 <ToggleButton value={ Views.Gallery } aria-label="gallery">
-                    <IconCollections />
+                    <IconCollections />&nbsp;GALLERY
                 </ToggleButton>
             </ToggleButtonGroup>
             <ViewComponent />

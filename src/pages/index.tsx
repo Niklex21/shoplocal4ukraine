@@ -6,7 +6,7 @@ import { LandingLayout } from "@layouts/landing";
 import Link from "next/link";
 import Image from "next/image";
 
-import flag from '@public/flag.jpg'
+import flag from '@public/images/flag.jpg'
 
 const Home: NextPageWithLayout = () => {
   return (
