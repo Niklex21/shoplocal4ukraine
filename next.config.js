@@ -1,4 +1,7 @@
 /** @type {import('next').NextConfig} */
+
+import { withAxiom } from 'next-axiom'
+
 const nextConfig = {
   reactStrictMode: true,
   images: {
@@ -6,4 +9,4 @@ const nextConfig = {
   }
 }
 
-module.exports = nextConfig
+module.exports = withAxiom(nextConfig)

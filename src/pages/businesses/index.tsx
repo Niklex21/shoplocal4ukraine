@@ -18,8 +18,11 @@ import Image from "next/image"
 import { BusinessModel } from "@api/business/types"
 import { affiliationCategoryConverter, businessCategoryConverter, businessViewConverter } from "@utils/converters"
 import { urlShortener } from "@utils/utils"
-import { twMerge } from "tailwind-merge"
 
+import { twMerge } from "tailwind-merge"
+import { log } from 'next-axiom'
+
+const logger = log.with({ from: 'page.businesses.index' })
 
 const Main: NextPageWithLayout = ({ businesses }: InferGetStaticPropsType<typeof getStaticProps>) => {
     
@@ -44,6 +47,8 @@ const Main: NextPageWithLayout = ({ businesses }: InferGetStaticPropsType<typeof
         </div>
     )
 
+    logger.with({ component: 'Main' }).debug("Loading Main...")
+
     return (
         <BusinessViewContext.Provider value={ context }>
             { content }
@@ -53,6 +58,8 @@ const Main: NextPageWithLayout = ({ businesses }: InferGetStaticPropsType<typeof
 
 export const getStaticProps: GetStaticProps = async (context) => {
     let businesses : Array<BusinessModel> = await getPublishedRecords()
+
+    logger.debug("Loaded businesses: ", businesses)
 
     return {
         props: {
@@ -194,6 +201,8 @@ const InfoPanel = ({ className }: any) => {
             </Card>
         )
 
+    logger.with({ component: "Info" }).debug(`Loading Info for selected business: ${ selectedID }`, data)
+
     return (
         <Container className={ twMerge('flex-col max-w-full overflow-auto p-0 md:h-screen border-t-2 border-black md:border-none', className) }>
             { Info }
@@ -217,14 +226,20 @@ const BusinessView = ({ className }: any) => {
 
     const [view, setView] = useState<Views>(Views.Map);
 
+    const bwLogger = logger.with({ component: 'BusinessView' })
+
     // handles the toggle option selection
     const handleViewSelection = (
         event: React.MouseEvent<HTMLElement>,
         newSelection: Views,
     ) => {
+        bwLogger.debug(`New view click: ${ newSelection }`)
+
         // can't deselect the options, at least one must be selected
         if (newSelection !== null) {
             setView(newSelection);
+
+            bwLogger.info(`New view selection: ${ newSelection }`)
         }
     };
 
@@ -238,6 +253,8 @@ const BusinessView = ({ className }: any) => {
             }
         }
     )();
+
+    bwLogger.debug(`Loading BusinessView for view: ${ businessViewConverter(view) }`)
 
     return (
         <Container className={ twMerge(`flex-col overflow-auto h-full max-h-screen ${ view === Views.Map ? 'p-0' : '' }`, className) }>
@@ -267,6 +284,8 @@ const GalleryView = ({ className }: any) => {
 
     const { businesses, setSelectedID, selectedID } = useContext(BusinessViewContext);
 
+    logger.with({ component: 'GalleryView' }).debug("Loading GalleryView...")
+
     return (
         <BusinessContainer className={ className }>
           {
@@ -294,13 +313,19 @@ const MapView = ({ className } : any) => {
         ? {} as BusinessModel
         : businesses[selectedID]
 
+    const longitude = selectedBusiness.location?.longitude ?? defaults.businesses.map.longitude
+    const latitude = selectedBusiness.location?.latitude ?? defaults.businesses.map.latitude
+    const zoom = defaults.businesses.map.zoom
+
+    logger.with({ component: 'MapView' }).debug(`Loading MapView with default longitude ${ longitude }, latitude ${ latitude }, and zoom ${ zoom }`)
+
     return (
         <div className={ twMerge('w-full h-screen', className) }>
             <Map
                 initialViewState={{
-                    longitude: selectedBusiness.location?.longitude ?? defaults.businesses.map.longitude,
-                    latitude: selectedBusiness.location?.latitude ?? defaults.businesses.map.latitude,
-                    zoom: defaults.businesses.map.zoom
+                    longitude: longitude,
+                    latitude: latitude,
+                    zoom: zoom
                 }}
                 style={{ width: '100%', height: '100%' }}
                 mapStyle="mapbox://styles/mapbox/streets-v9" 
