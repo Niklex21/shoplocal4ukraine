@@ -1,7 +1,8 @@
 enum ErrorType {
     InvalidBusinessCategory,
     InvalidAffiliationType,
-    InvalidCountry
+    InvalidCountry,
+    InvalidBusinessView
 }
 
 /**

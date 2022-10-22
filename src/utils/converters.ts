@@ -2,6 +2,7 @@
 
 import { AffiliationType, BusinessCategory } from "@api/business/types";
 import { ErrorType, processError } from "@api/_error";
+import { Views } from "src/pages/businesses";
 import strings from "./strings";
 
 /**
@@ -38,6 +39,22 @@ export function affiliationCategoryConverter(affiliation: AffiliationType) : str
             return strings.businesses.affiliation.ukrainianOwned;
         default:
             processError(ErrorType.InvalidAffiliationType, `Affiliation category provided: ${ affiliation }`);
+            return "Invalid"
+    }
+}
+
+/**
+ * Converts a given business view category into the appropriate text string.
+ * @param view the view type
+ */
+export function businessViewConverter(view: Views) : string {
+    switch(view) {
+        case Views.Gallery:
+            return strings.businesses.businessView.titleViewGallery;
+        case Views.Map:
+            return strings.businesses.businessView.titleViewMap;
+        default:
+            processError(ErrorType.InvalidBusinessView, `BusinessView provided: ${ view }`);
             return "Invalid"
     }
 }

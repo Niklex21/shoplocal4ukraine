@@ -15,6 +15,10 @@ const strings = {
                 contacts: "Contacts"
             }
         },
+        businessView: {
+            titleViewMap: "Map",
+            titleViewGallery: "Gallery"
+        },
         categories: {
             crafts: 'Crafts',
             dining: 'Dining',

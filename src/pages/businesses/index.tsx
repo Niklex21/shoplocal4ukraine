@@ -16,7 +16,7 @@ import strings from "@utils/strings"
 import Link from "next/link"
 import Image from "next/image"
 import { BusinessModel } from "@api/business/types"
-import { affiliationCategoryConverter, businessCategoryConverter } from "@utils/converters"
+import { affiliationCategoryConverter, businessCategoryConverter, businessViewConverter } from "@utils/converters"
 import { urlShortener } from "@utils/utils"
 import { twMerge } from "tailwind-merge"
 
@@ -204,7 +204,7 @@ const InfoPanel = ({ className }: any) => {
 /**
  * Defines the available types of business views.
  */
-enum Views {
+export enum Views {
     Gallery,
     Map
 }
@@ -248,12 +248,11 @@ const BusinessView = ({ className }: any) => {
                 aria-label="views"
                 className="absolute top-2 left-2 z-50 bg-slate-50"
             >
-                {/* TODO: do we need to add some text to the choices? */}
                 <ToggleButton value={ Views.Map } aria-label="map">
-                    <IconMap />&nbsp;MAP
+                    <IconMap />&nbsp;<span className="uppercase">{ businessViewConverter(Views.Map) }</span>
                 </ToggleButton>
                 <ToggleButton value={ Views.Gallery } aria-label="gallery">
-                    <IconCollections />&nbsp;GALLERY
+                    <IconCollections />&nbsp;<span className="uppercase">{ businessViewConverter(Views.Gallery) }</span>
                 </ToggleButton>
             </ToggleButtonGroup>
             <ViewComponent />
