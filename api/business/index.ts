@@ -14,7 +14,7 @@ const table : Table<FieldSet> = base('Business')
 
 /**
  * A private util function to get all records from the business table with a specific formula.
- * 
+ *
  * @param formula An Airtable-valid formula ({@link https://support.airtable.com/hc/en-us/articles/203255215-Formula-Field-Reference})
  * @return the records that correspond to the supplied formula
  */
@@ -23,13 +23,13 @@ async function _getRecordsByFormula(formula: string = "", fields: Array<string> 
     let options : QueryParams<FieldSet> = {}
 
     if (formula !== "") {
-        options["filterByFormula"] = formula 
+        options["filterByFormula"] = formula
     }
 
     if (fields.length > 0) {
         options["fields"] = fields
     }
-    
+
     return table.select(options)
            .all()
            .then(records => {
@@ -41,7 +41,7 @@ async function _getRecordsByFormula(formula: string = "", fields: Array<string> 
 
 /**
  * Gets all records from the `Business` table.
- * 
+ *
  * @returns all the records in the `Business` table
  */
 async function getPublishedRecords() : Promise<Array<BusinessModel>> {
@@ -50,7 +50,7 @@ async function getPublishedRecords() : Promise<Array<BusinessModel>> {
 
     if (records) {
         logger.debug(`Success: ${ records.length } got published records`)
-        return records.map((r: any) => jsonToBusiness(r._rawJson))   
+        return records.map((r: any) => jsonToBusiness(r._rawJson))
     }
 
     logger.debug("No records found, returning empty")
@@ -67,7 +67,7 @@ async function getRecordById(id: string) : Promise<BusinessModel | null> {
     logger.debug(`Attempting to get record by id: ${ id }`)
 
     return table.find(id)
-           .then(record => { 
+           .then(record => {
                 if (record) {
                     logger.debug(`Success getting record with id ${ id }: ${ record }`)
                     return jsonToBusiness(record._rawJson)

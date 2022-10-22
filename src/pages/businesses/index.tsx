@@ -25,7 +25,7 @@ import { log } from 'next-axiom'
 const logger = log.with({ from: 'page.businesses.index' })
 
 const Main: NextPageWithLayout = ({ businesses }: InferGetStaticPropsType<typeof getStaticProps>) => {
-    
+
     // stores the currently selected business
     const [selectedID, setSelectedID] = useState<number>(-1);
 
@@ -82,7 +82,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
  */
 const BusinessViewContext = createContext<BusinessViewContextData>({
     selectedID: -1,
-    businesses: [], 
+    businesses: [],
     setSelectedID: (_: SetStateAction<number>) => {}
 });
 
@@ -145,12 +145,12 @@ const InfoPanel = ({ className }: any) => {
         ]
     }
 
-    const Info = 
+    const Info =
         selectedID < 0
         ? (<>{ strings.businesses.infoPage.noBusinessSelected }</>)
         : (
             <Card className='overflow-auto h-full w-full rounded-none'>
-                <CardMedia 
+                <CardMedia
                   component="img"
                   className="h-48 hidden md:block"
                   image={ imageSrc }
@@ -164,7 +164,7 @@ const InfoPanel = ({ className }: any) => {
                             <Chip className="text-base text-black bg-ukraine-yellow" label={ affiliationCategoryConverter(data.affiliation) } />
                         </div>
                         <div className="relative md:hidden rounded-lg w-full h-48">
-                            <Image 
+                            <Image
                                 className="w-full object-contain rounded-lg"
                                 layout="fill"
                                 src={ imageSrc }
@@ -180,7 +180,7 @@ const InfoPanel = ({ className }: any) => {
                                         <div key={ index } className="mt-1 cursor-pointer hover:text-ukraine-blue hover:opacity-100 opacity-80">
                                             <Link href={ link || "#" }>
                                                 <div className="flex flex-nowrap flex-row gap-2">
-                                                    { icon } 
+                                                    { icon }
                                                     <div className="break-all">
                                                         { urlShortener(content) }
                                                     </div>
@@ -219,7 +219,7 @@ export enum Views {
 }
 
 /**
- * The panel that displays the businesses -- whether it is in a gallery, map, 
+ * The panel that displays the businesses -- whether it is in a gallery, map,
  * or some other view.
  */
 const BusinessView = ({ className }: any) => {
@@ -292,7 +292,7 @@ const GalleryView = ({ className }: any) => {
             businesses.map(
                 (data: BusinessModel, index: number) => (
                     <div className="cursor-pointer" key={ index } onClick={ () => { setSelectedID(index)} }>
-                        <BusinessCard 
+                        <BusinessCard
                             data={ data }
                             active={ index === selectedID }
                         />
@@ -305,10 +305,10 @@ const GalleryView = ({ className }: any) => {
 }
 
 const MapView = ({ className } : any) => {
- 
+
     const { businesses, setSelectedID, selectedID } = useContext(BusinessViewContext)
 
-    const selectedBusiness : BusinessModel = 
+    const selectedBusiness : BusinessModel =
         selectedID < 0
         ? {} as BusinessModel
         : businesses[selectedID]
@@ -328,7 +328,7 @@ const MapView = ({ className } : any) => {
                     zoom: zoom
                 }}
                 style={{ width: '100%', height: '100%' }}
-                mapStyle="mapbox://styles/mapbox/streets-v9" 
+                mapStyle="mapbox://styles/mapbox/streets-v9"
                 mapboxAccessToken={ process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN }
                 >
                     <GeolocateControl />
@@ -339,11 +339,11 @@ const MapView = ({ className } : any) => {
                     {
                         businesses.map(
                             (data: BusinessModel, index: number) => (
-                                <BusinessMapMarker 
+                                <BusinessMapMarker
                                     key={ index }
                                     onClickEventHandler={ () => { setSelectedID(index)} }
                                     data={ data }
-                                    active={ selectedID === index } 
+                                    active={ selectedID === index }
                                 />
                             )
                         )

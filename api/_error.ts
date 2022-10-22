@@ -9,7 +9,7 @@ enum ErrorType {
 
 /**
  * Handles the supplied API errors.
- * 
+ *
  * @param err an error that occurred while retrieving data through some API requests
  */
 function processError(err: ErrorType | Error, msg: string = "") {
