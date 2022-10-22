@@ -15,8 +15,8 @@ import defaults from "@utils/config"
 import strings from "@utils/strings"
 import Link from "next/link"
 import Image from "next/image"
-import { BusinessModel } from "@api/business/types"
-import { affiliationCategoryConverter, businessCategoryConverter, businessViewConverter } from "@utils/converters"
+import { BusinessModel, Tag } from "@api/business/types"
+import { tagConverter, businessCategoryConverter, businessViewConverter } from "@utils/converters"
 import { urlShortener } from "@utils/utils"
 
 import { twMerge } from "tailwind-merge"
@@ -160,8 +160,14 @@ const InfoPanel = ({ className }: any) => {
                     <div className="flex flex-col gap-4">
                         <h1 className="text-2xl font-bold">{ data.name }</h1>
                         <div className="flex flex-wrap gap-2 flex-row">
-                            <Chip className="text-base text-black bg-ukraine-yellow" label={ businessCategoryConverter(data.businessCategory) } />
-                            <Chip className="text-base text-black bg-ukraine-yellow" label={ affiliationCategoryConverter(data.affiliation) } />
+                            <Chip className="text-base text-white bg-ukraine-blue" label={ businessCategoryConverter(data.businessCategory) } />
+                            {
+                                data.tags.map(
+                                    (tag: Tag, index: number) => (
+                                        <Chip key={ index } className="text-base text-black bg-ukraine-yellow" label={ tagConverter(tag) } />   
+                                    )
+                                )
+                            }
                         </div>
                         <div className="relative md:hidden rounded-lg w-full h-48">
                             <Image

@@ -26,9 +26,8 @@ const strings = {
             services: 'Services',
             lifestyle: 'Lifestyle'
         },
-        affiliation: {
-            ukrainianOwned: "Ukrainian-owned",
-            ukraineSupporters: "Ukraine Supporters"
+        tag: {
+            ukrainianOwned: "Ukrainian-owned"
         },
     },
     countries: {

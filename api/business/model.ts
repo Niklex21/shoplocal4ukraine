@@ -1,5 +1,5 @@
 import {processError, ErrorType } from "@api/_error";
-import { BusinessCategory, AffiliationType, Country, BusinessModel, MapBusinessJSON, Location } from "./types";
+import { BusinessCategory, Tag, Country, BusinessModel, MapBusinessJSON, Location } from "./types";
 
 
 /**
@@ -35,26 +35,25 @@ function businessCategoryConverter(value: string) : BusinessCategory | null {
 }
 
 /**
- * Converts a given string Affiliation Type value into one of the {@link AffiliationType} options.
- * @param value an Airtable Affiliation Type
- * @returns null if the value is invalid, one of the {@link AffiliationType} options otherwise
+ * Converts a given string Tags value into one of the {@link Tag} options.
+ * @param values an Airtable Tags Type
+ * @returns an array of {@link Tag} options
  */
-function affiliationTypeConverter(value: string) : AffiliationType | null {
-    let affiliation : AffiliationType;
+function tagsConverter(values: Array<string>) : Array<Tag> {
+    let tags : Array<Tag> = [];
 
-    switch(value) {
-        case 'Ukrainian Owned':
-            affiliation = AffiliationType.UkrainianOwned;
-            break;
-        case 'Ukraine Supporters':
-            affiliation = AffiliationType.UkraineSupporters;
-            break;
-        default:
-            processError(ErrorType.InvalidAffiliationType, `Affiliation provided: ${ value }`);
-            return null;
-    }
+    values.forEach((tag) => {
+        switch(tag) {
+            case 'Ukrainian-Owned':
+                tags.push(Tag.UkrainianOwned);
+                break;
+            default:
+                processError(ErrorType.InvalidTag, `Tag supplied: ${ tag }`);
+                break;
+        }
+    })
     
-    return affiliation;
+    return tags;
 }
 
 /**
@@ -75,18 +74,23 @@ function countryConverter(country: string) : Country | null {
 /**
  * Converts location string attributes to {@link Location}.
  * 
- * @param googleMapsURL comes from ['Address'] Airtable field
+ * @param googleMapsURL comes from ['Google Maps URL'] Airtable field
+ * @param address comes from ['Address'] field
  * @param city comes from ['City/town'] field
  * @param country comes from ['Country'] field
  * @param longitude comes from ['Longitude'] field
  * @param latitude comes from ['Latitude'] field
  * @returns a location fieldsect
  */
-function locationConverter({googleMapsURL, city, country, longitude, latitude}: any) : Location {
+function locationConverter({ googleMapsURL, address, city, country, longitude, latitude }: any) : Location {
     let location : Location = {} as Location;
 
     if (googleMapsURL) {
         location.googleMapsURL = googleMapsURL;
+    }
+
+    if (address) {
+        location.address = address;
     }
 
     if (city) {
@@ -145,21 +149,21 @@ export function jsonToBusiness(data: any) : BusinessModel {
             converter: businessCategoryConverter
         },
         {
-            key: 'affiliation',
-            json: 'Affiliation Type',
-            converter: affiliationTypeConverter
+            key: 'tags',
+            json: 'Tags',
+            converter: tagsConverter
         },
         {
             key: 'website',
-            json: 'Website (Optional)'
+            json: 'Website'
         },
         {
             key: 'email',
-            json: 'Email (optional)'
+            json: 'Email'
         },
         {
             key: 'phone',
-            json: 'Phone number (optional)'
+            json: 'Phone number'
         },
         {
             key: 'socialMedia',
@@ -167,10 +171,13 @@ export function jsonToBusiness(data: any) : BusinessModel {
         },
         {
             key: 'images',
-            json: 'Image',
+            json: 'Images',
             converter: imagesConverter
         }
     ]
+
+    business.tags = []
+    business.images = []
 
     jsonToBusinessMap.forEach(({ key, json, converter }) => {
         if (json in fields) {
@@ -179,7 +186,8 @@ export function jsonToBusiness(data: any) : BusinessModel {
     })
 
     business.location = locationConverter({
-        googleMapsURL: fields['Address'],
+        googleMapsURL: fields['Google Maps URL'],
+        address: fields['Address'],
         city: fields['City/town'],
         country: fields['Country'],
         latitude: fields['Latitude'],

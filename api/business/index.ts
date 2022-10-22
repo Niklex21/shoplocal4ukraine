@@ -49,7 +49,7 @@ async function getPublishedRecords() : Promise<Array<BusinessModel>> {
     let records = await _getRecordsByFormula("Publish = 1")
 
     if (records) {
-        logger.debug(`Success: ${ records.length } got published records`)
+        logger.debug(`Success: got ${ records.length } published records`)
         return records.map((r: any) => jsonToBusiness(r._rawJson))
     }
 

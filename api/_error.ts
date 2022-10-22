@@ -1,10 +1,10 @@
 import { log } from 'next-axiom'
 
 enum ErrorType {
-    InvalidBusinessCategory,
-    InvalidAffiliationType,
-    InvalidCountry,
-    InvalidBusinessView
+    InvalidBusinessCategory = "Invalid Business Category",
+    InvalidCountry = "Invalid Country",
+    InvalidBusinessView = "Invalid Business View",
+    InvalidTag = "Invalid Tag"
 }
 
 /**

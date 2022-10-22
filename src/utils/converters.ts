@@ -1,6 +1,6 @@
 // This contains a variety of different model-to-text converter functions.
 
-import { AffiliationType, BusinessCategory } from "@api/business/types";
+import { Tag, BusinessCategory } from "@api/business/types";
 import { ErrorType, processError } from "@api/_error";
 import { Views } from "src/pages/businesses";
 import strings from "./strings";
@@ -28,17 +28,15 @@ export function businessCategoryConverter(category: BusinessCategory) : string {
 }
 
 /**
- * Converts a given affiliation category into the appropriate text string.
- * @param affiliation the affiliation category
+ * Converts a given tag category into the appropriate text string.
+ * @param tag the tag category
  */
-export function affiliationCategoryConverter(affiliation: AffiliationType) : string {
-    switch (affiliation) {
-        case AffiliationType.UkraineSupporters:
-            return strings.businesses.affiliation.ukraineSupporters;
-        case AffiliationType.UkrainianOwned:
-            return strings.businesses.affiliation.ukrainianOwned;
+export function tagConverter(tag: Tag) : string {
+    switch (tag) {
+        case Tag.UkrainianOwned:
+            return strings.businesses.tag.ukrainianOwned;
         default:
-            processError(ErrorType.InvalidAffiliationType, `Affiliation category provided: ${ affiliation }`);
+            processError(ErrorType.InvalidTag, `Tag category provided: ${ tag }`);
             return "Invalid"
     }
 }
