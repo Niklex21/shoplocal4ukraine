@@ -18,11 +18,14 @@ import Image from "next/image"
 import { BusinessModel } from "@api/business/types"
 import { affiliationCategoryConverter, businessCategoryConverter, businessViewConverter } from "@utils/converters"
 import { urlShortener } from "@utils/utils"
-import { twMerge } from "tailwind-merge"
 
+import { twMerge } from "tailwind-merge"
+import { log } from 'next-axiom'
+
+const logger = log.with({ from: 'page.businesses.index' })
 
 const Main: NextPageWithLayout = ({ businesses }: InferGetStaticPropsType<typeof getStaticProps>) => {
-    
+
     // stores the currently selected business
     const [selectedID, setSelectedID] = useState<number>(-1);
 
@@ -44,6 +47,8 @@ const Main: NextPageWithLayout = ({ businesses }: InferGetStaticPropsType<typeof
         </div>
     )
 
+    logger.with({ component: 'Main' }).debug("Loading Main...")
+
     return (
         <BusinessViewContext.Provider value={ context }>
             { content }
@@ -53,6 +58,8 @@ const Main: NextPageWithLayout = ({ businesses }: InferGetStaticPropsType<typeof
 
 export const getStaticProps: GetStaticProps = async (context) => {
     let businesses : Array<BusinessModel> = await getPublishedRecords()
+
+    logger.debug("Loaded businesses: ", businesses)
 
     return {
         props: {
@@ -75,7 +82,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
  */
 const BusinessViewContext = createContext<BusinessViewContextData>({
     selectedID: -1,
-    businesses: [], 
+    businesses: [],
     setSelectedID: (_: SetStateAction<number>) => {}
 });
 
@@ -138,12 +145,12 @@ const InfoPanel = ({ className }: any) => {
         ]
     }
 
-    const Info = 
+    const Info =
         selectedID < 0
         ? (<>{ strings.businesses.infoPage.noBusinessSelected }</>)
         : (
             <Card className='overflow-auto h-full w-full rounded-none'>
-                <CardMedia 
+                <CardMedia
                   component="img"
                   className="h-48 hidden md:block"
                   image={ imageSrc }
@@ -157,7 +164,7 @@ const InfoPanel = ({ className }: any) => {
                             <Chip className="text-base text-black bg-ukraine-yellow" label={ affiliationCategoryConverter(data.affiliation) } />
                         </div>
                         <div className="relative md:hidden rounded-lg w-full h-48">
-                            <Image 
+                            <Image
                                 className="w-full object-contain rounded-lg"
                                 layout="fill"
                                 src={ imageSrc }
@@ -173,7 +180,7 @@ const InfoPanel = ({ className }: any) => {
                                         <div key={ index } className="mt-1 cursor-pointer hover:text-ukraine-blue hover:opacity-100 opacity-80">
                                             <Link href={ link || "#" }>
                                                 <div className="flex flex-nowrap flex-row gap-2">
-                                                    { icon } 
+                                                    { icon }
                                                     <div className="break-all">
                                                         { urlShortener(content) }
                                                     </div>
@@ -194,6 +201,8 @@ const InfoPanel = ({ className }: any) => {
             </Card>
         )
 
+    logger.with({ component: "Info" }).debug(`Loading Info for selected business: ${ selectedID }`, data)
+
     return (
         <Container className={ twMerge('flex-col max-w-full overflow-auto p-0 md:h-screen border-t-2 border-black md:border-none', className) }>
             { Info }
@@ -210,21 +219,27 @@ export enum Views {
 }
 
 /**
- * The panel that displays the businesses -- whether it is in a gallery, map, 
+ * The panel that displays the businesses -- whether it is in a gallery, map,
  * or some other view.
  */
 const BusinessView = ({ className }: any) => {
 
     const [view, setView] = useState<Views>(Views.Map);
 
+    const bwLogger = logger.with({ component: 'BusinessView' })
+
     // handles the toggle option selection
     const handleViewSelection = (
         event: React.MouseEvent<HTMLElement>,
         newSelection: Views,
     ) => {
+        bwLogger.debug(`New view click: ${ newSelection }`)
+
         // can't deselect the options, at least one must be selected
         if (newSelection !== null) {
             setView(newSelection);
+
+            bwLogger.info(`New view selection: ${ newSelection }`)
         }
     };
 
@@ -238,6 +253,8 @@ const BusinessView = ({ className }: any) => {
             }
         }
     )();
+
+    bwLogger.debug(`Loading BusinessView for view: ${ businessViewConverter(view) }`)
 
     return (
         <Container className={ twMerge(`flex-col overflow-auto h-full max-h-screen ${ view === Views.Map ? 'p-0' : '' }`, className) }>
@@ -267,13 +284,15 @@ const GalleryView = ({ className }: any) => {
 
     const { businesses, setSelectedID, selectedID } = useContext(BusinessViewContext);
 
+    logger.with({ component: 'GalleryView' }).debug("Loading GalleryView...")
+
     return (
         <BusinessContainer className={ className }>
           {
             businesses.map(
                 (data: BusinessModel, index: number) => (
                     <div className="cursor-pointer" key={ index } onClick={ () => { setSelectedID(index)} }>
-                        <BusinessCard 
+                        <BusinessCard
                             data={ data }
                             active={ index === selectedID }
                         />
@@ -286,24 +305,30 @@ const GalleryView = ({ className }: any) => {
 }
 
 const MapView = ({ className } : any) => {
- 
+
     const { businesses, setSelectedID, selectedID } = useContext(BusinessViewContext)
 
-    const selectedBusiness : BusinessModel = 
+    const selectedBusiness : BusinessModel =
         selectedID < 0
         ? {} as BusinessModel
         : businesses[selectedID]
+
+    const longitude = selectedBusiness.location?.longitude ?? defaults.businesses.map.longitude
+    const latitude = selectedBusiness.location?.latitude ?? defaults.businesses.map.latitude
+    const zoom = defaults.businesses.map.zoom
+
+    logger.with({ component: 'MapView' }).debug(`Loading MapView with default longitude ${ longitude }, latitude ${ latitude }, and zoom ${ zoom }`)
 
     return (
         <div className={ twMerge('w-full h-screen', className) }>
             <Map
                 initialViewState={{
-                    longitude: selectedBusiness.location?.longitude ?? defaults.businesses.map.longitude,
-                    latitude: selectedBusiness.location?.latitude ?? defaults.businesses.map.latitude,
-                    zoom: defaults.businesses.map.zoom
+                    longitude: longitude,
+                    latitude: latitude,
+                    zoom: zoom
                 }}
                 style={{ width: '100%', height: '100%' }}
-                mapStyle="mapbox://styles/mapbox/streets-v9" 
+                mapStyle="mapbox://styles/mapbox/streets-v9"
                 mapboxAccessToken={ process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN }
                 >
                     <GeolocateControl />
@@ -314,11 +339,11 @@ const MapView = ({ className } : any) => {
                     {
                         businesses.map(
                             (data: BusinessModel, index: number) => (
-                                <BusinessMapMarker 
+                                <BusinessMapMarker
                                     key={ index }
                                     onClickEventHandler={ () => { setSelectedID(index)} }
                                     data={ data }
-                                    active={ selectedID === index } 
+                                    active={ selectedID === index }
                                 />
                             )
                         )
