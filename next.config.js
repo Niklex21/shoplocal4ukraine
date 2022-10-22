@@ -1,6 +1,7 @@
 /** @type {import('next').NextConfig} */
 
-import { withAxiom } from 'next-axiom'
+// has to be const/require because import is not recognized in next.config.js
+const { withAxiom } = require('next-axiom');
 
 const nextConfig = {
   reactStrictMode: true,
