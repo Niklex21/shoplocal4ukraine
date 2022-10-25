@@ -26,7 +26,7 @@ export default function BusinessCard({ data, active } : { data: BusinessModel, a
         ) : ""
     
     return (
-        <Card className={ `max-w-xs flex border-2 ${ active ? "border-ukraine-blue" : "border-transparent"}` }>
+        <Card className={ `flex w-80 shrink border-2 ${ active ? "border-ukraine-blue" : "border-transparent"}` }>
             <CardActionArea>
                 <CardMedia 
                     component="img"
