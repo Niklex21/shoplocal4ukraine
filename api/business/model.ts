@@ -11,11 +11,11 @@ function businessCategoryConverter(value: string) : BusinessCategory | null {
     let category : BusinessCategory;
 
     switch (value) {
-        case 'Dining':
-            category = BusinessCategory.Dining;
+        case 'Restaurant':
+            category = BusinessCategory.Restaurant;
             break;
-        case 'Life Style':
-            category = BusinessCategory.LifeStyle;
+        case 'Lifestyle':
+            category = BusinessCategory.Lifestyle;
             break;
         case 'Retail':
             category = BusinessCategory.Retail;
@@ -25,6 +25,12 @@ function businessCategoryConverter(value: string) : BusinessCategory | null {
             break;
         case 'Services':
             category = BusinessCategory.Services;
+            break;
+        case 'Groceries':
+            category = BusinessCategory.Groceries;
+            break;
+        case 'Shopping':
+            category = BusinessCategory.Shopping;
             break;
         default:
             processError(ErrorType.InvalidBusinessCategory, `Category provided: ${ value }`);

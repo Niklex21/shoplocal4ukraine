@@ -4,10 +4,12 @@
  */
  export enum BusinessCategory {
     Crafts,
-    Dining,
+    Restaurant,
     Retail,
     Services,
-    LifeStyle
+    Lifestyle,
+    Groceries,
+    Shopping
 }
 
 /**

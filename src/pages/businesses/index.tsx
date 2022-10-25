@@ -122,7 +122,7 @@ const InfoPanel = ({ className }: any) => {
                     icon: (
                         <IconLink />
                     ),
-                    content: data.website,
+                    content: urlShortener(data.website),
                     link: data.website
                 }] : []
             ),
@@ -188,7 +188,7 @@ const InfoPanel = ({ className }: any) => {
                                                 <div className="flex flex-nowrap flex-row gap-2">
                                                     { icon }
                                                     <div className="break-all">
-                                                        { urlShortener(content) }
+                                                        { content }
                                                     </div>
                                                 </div>
                                             </Link>

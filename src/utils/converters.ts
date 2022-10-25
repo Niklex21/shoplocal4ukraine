@@ -13,14 +13,18 @@ export function businessCategoryConverter(category: BusinessCategory) : string {
     switch (category) {
         case BusinessCategory.Crafts:
             return strings.businesses.categories.crafts;
-        case BusinessCategory.Dining:
-            return strings.businesses.categories.dining;
-        case BusinessCategory.LifeStyle:
+        case BusinessCategory.Restaurant:
+            return strings.businesses.categories.restaurant;
+        case BusinessCategory.Lifestyle:
             return strings.businesses.categories.lifestyle;
         case BusinessCategory.Retail:
             return strings.businesses.categories.retail;
         case BusinessCategory.Services:
             return strings.businesses.categories.services;
+        case BusinessCategory.Groceries:
+            return strings.businesses.categories.groceries;
+        case BusinessCategory.Shopping:
+            return strings.businesses.categories.shopping;
         default:
             processError(ErrorType.InvalidBusinessCategory, `Business category provided: ${ category }`);
             return "Invalid"

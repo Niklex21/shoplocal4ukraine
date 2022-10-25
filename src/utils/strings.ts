@@ -21,10 +21,12 @@ const strings = {
         },
         categories: {
             crafts: 'Crafts',
-            dining: 'Dining',
+            restaurant: 'Restaurant',
             retail: 'Retail',
             services: 'Services',
-            lifestyle: 'Lifestyle'
+            lifestyle: 'Lifestyle',
+            groceries: 'Groceries',
+            shopping: 'Shopping'
         },
         tag: {
             ukrainianOwned: "Ukrainian-owned"
