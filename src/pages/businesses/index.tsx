@@ -292,10 +292,13 @@ const GalleryView = ({ className }: any) => {
 
     logger.with({ component: 'GalleryView' }).debug("Loading GalleryView...")
 
+    // sort by name, alphabetically in ascending order
+    const sortedBusinesses = businesses.sort((a: BusinessModel, b: BusinessModel) => a.name.localeCompare(b.name))
+
     return (
         <BusinessContainer className={ className }>
           {
-            businesses.map(
+            sortedBusinesses.map(
                 (data: BusinessModel, index: number) => (
                     <div className="cursor-pointer" key={ index } onClick={ () => { setSelectedID(index)} }>
                         <BusinessCard
