@@ -1,7 +1,7 @@
 import { BusinessCard, BusinessContainer, BusinessMapMarker } from "@components/business"
 import { Container } from "@components/common"
 import { Collections as IconCollections, Map as IconMap, Place as IconPlace, Email as IconEmail, Link as IconLink, Phone as IconPhone, SvgIconComponent } from "@mui/icons-material"
-import { Card, CardContent, CardMedia, Chip, ToggleButton, ToggleButtonGroup } from "@mui/material"
+import { Card, CardContent, CardMedia, Chip, TextField, ToggleButton, ToggleButtonGroup } from "@mui/material"
 import { GetStaticProps, InferGetStaticPropsType } from "next"
 import { createContext, Dispatch, ReactElement, SetStateAction, useContext, useState } from "react"
 import 'mapbox-gl/dist/mapbox-gl.css'
@@ -21,6 +21,7 @@ import { urlShortener } from "@utils/utils"
 
 import { twMerge } from "tailwind-merge"
 import { log } from 'next-axiom'
+import Fuse from 'fuse.js'
 
 const logger = log.with({ from: 'page.businesses.index' })
 
@@ -29,11 +30,21 @@ const Main: NextPageWithLayout = ({ businesses }: InferGetStaticPropsType<typeof
     // stores the currently selected business
     const [selectedID, setSelectedID] = useState<number>(-1);
 
+    const fuseSearch = new Fuse<BusinessModel>(businesses, {
+        includeScore: true,
+        keys: ['name', 'businessCategory', 'tags', 'location.address', 'location.city', 'location.country', 'description']
+    })
+
+    const [filteredBusinesses, setFilteredBusinesses] = useState<Array<Fuse.FuseResult<BusinessModel>>>([])
+
     // context vars to pass down to the child components
     const context = {
         selectedID,
         businesses,
-        setSelectedID
+        setSelectedID,
+        fuseSearch,
+        setFilteredBusinesses,
+        filteredBusinesses
     }
 
     const content = selectedID !== -1 ? (
@@ -74,7 +85,10 @@ export const getStaticProps: GetStaticProps = async (context) => {
  type BusinessViewContextData = {
     selectedID: number,
     businesses: Array<BusinessModel>,
-    setSelectedID: Dispatch<SetStateAction<number>>
+    setSelectedID: Dispatch<SetStateAction<number>>,
+    fuseSearch: Fuse<BusinessModel>,
+    setFilteredBusinesses: Dispatch<SetStateAction<Array<Fuse.FuseResult<BusinessModel>>>>,
+    filteredBusinesses: Fuse.FuseResult<BusinessModel>[]
 };
 
 /**
@@ -83,7 +97,10 @@ export const getStaticProps: GetStaticProps = async (context) => {
 const BusinessViewContext = createContext<BusinessViewContextData>({
     selectedID: -1,
     businesses: [],
-    setSelectedID: (_: SetStateAction<number>) => {}
+    setSelectedID: (_: SetStateAction<number>) => {},
+    fuseSearch: new Fuse<BusinessModel>([]),
+    setFilteredBusinesses: (_: SetStateAction<Array<Fuse.FuseResult<BusinessModel>>>) => {},
+    filteredBusinesses: []
 });
 
 /**
@@ -231,6 +248,7 @@ export enum Views {
 const BusinessView = ({ className }: any) => {
 
     const [view, setView] = useState<Views>(Views.Map);
+    let { setFilteredBusinesses, fuseSearch } = useContext(BusinessViewContext);
 
     const bwLogger = logger.with({ component: 'BusinessView' })
 
@@ -260,24 +278,33 @@ const BusinessView = ({ className }: any) => {
         }
     )();
 
+    const search = (value: string) => {
+        setFilteredBusinesses(fuseSearch.search(value));
+    }
+
     bwLogger.debug(`Loading BusinessView for view: ${ businessViewConverter(view) }`)
 
     return (
         <Container className={ twMerge(`flex-col overflow-auto h-full max-h-screen ${ view === Views.Map ? 'p-0' : '' }`, className) }>
-            <ToggleButtonGroup
-                value={ view }
-                exclusive
-                onChange={ handleViewSelection }
-                aria-label="views"
-                className="absolute top-2 left-2 z-50 bg-slate-50"
-            >
-                <ToggleButton value={ Views.Map } aria-label="map">
-                    <IconMap />&nbsp;<span className="uppercase">{ businessViewConverter(Views.Map) }</span>
-                </ToggleButton>
-                <ToggleButton value={ Views.Gallery } aria-label="gallery">
-                    <IconCollections />&nbsp;<span className="uppercase">{ businessViewConverter(Views.Gallery) }</span>
-                </ToggleButton>
-            </ToggleButtonGroup>
+            <div className="absolute top-2 left-2 z-50 w-full">
+                <div className="flex flex-row gap-4">
+                    <ToggleButtonGroup
+                        value={ view }
+                        exclusive
+                        onChange={ handleViewSelection }
+                        aria-label="views"
+                        className="bg-slate-50"
+                    >
+                        <ToggleButton value={ Views.Map } aria-label="map">
+                            <IconMap />&nbsp;<span className="uppercase">{ businessViewConverter(Views.Map) }</span>
+                        </ToggleButton>
+                        <ToggleButton value={ Views.Gallery } aria-label="gallery">
+                            <IconCollections />&nbsp;<span className="uppercase">{ businessViewConverter(Views.Gallery) }</span>
+                        </ToggleButton>
+                    </ToggleButtonGroup>
+                    <TextField label="Search" variant="filled" className="bg-slate-50" onChange={ e => search(e.target.value) } />
+                </div>
+            </div>
             <ViewComponent />
         </Container>
     )
@@ -288,12 +315,20 @@ const BusinessView = ({ className }: any) => {
  */
 const GalleryView = ({ className }: any) => {
 
-    const { businesses, setSelectedID, selectedID } = useContext(BusinessViewContext);
+    const { businesses, setSelectedID, selectedID, filteredBusinesses } = useContext(BusinessViewContext);
 
     logger.with({ component: 'GalleryView' }).debug("Loading GalleryView...")
 
-    // sort by name, alphabetically in ascending order
-    const sortedBusinesses = businesses.sort((a: BusinessModel, b: BusinessModel) => a.name.localeCompare(b.name))
+    // sort by name, alphabetically in ascending order if there are no filtered businesses yet
+    // if there are, then choose them instead, sorting them by relevance (score)
+    const sortedBusinesses =
+        filteredBusinesses.length > 0
+        ? filteredBusinesses.sort(
+            (a: Fuse.FuseResult<BusinessModel>, b: Fuse.FuseResult<BusinessModel>) => (a.score ?? 0) - (b.score ?? 0)
+        ).map(
+            (el: Fuse.FuseResult<BusinessModel>) => el.item
+        )
+        : businesses.sort((a: BusinessModel, b: BusinessModel) => a.name.localeCompare(b.name))
 
     return (
         <BusinessContainer className={ className }>
@@ -315,12 +350,17 @@ const GalleryView = ({ className }: any) => {
 
 const MapView = ({ className } : any) => {
 
-    const { businesses, setSelectedID, selectedID } = useContext(BusinessViewContext)
+    const { businesses, setSelectedID, selectedID, filteredBusinesses } = useContext(BusinessViewContext)
 
     const selectedBusiness : BusinessModel =
         selectedID < 0
         ? {} as BusinessModel
         : businesses[selectedID]
+
+    const currentBusinesses = 
+        filteredBusinesses.length > 0
+        ? filteredBusinesses.map((el: Fuse.FuseResult<BusinessModel>) => el.item)
+        : businesses
 
     const longitude = selectedBusiness.location?.longitude ?? defaults.businesses.map.longitude
     const latitude = selectedBusiness.location?.latitude ?? defaults.businesses.map.latitude
@@ -346,7 +386,7 @@ const MapView = ({ className } : any) => {
 
                     {/* markers */}
                     {
-                        businesses.map(
+                        currentBusinesses.map(
                             (data: BusinessModel, index: number) => (
                                 <BusinessMapMarker
                                     key={ index }
