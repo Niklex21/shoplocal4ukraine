@@ -17,7 +17,7 @@ import Link from "next/link"
 import Image from "next/image"
 import { BusinessModel, Tag } from "@api/business/types"
 import { tagConverter, businessCategoryConverter, businessViewConverter } from "@utils/converters"
-import { urlShortener } from "@utils/utils"
+import { findBusinessById, urlShortener } from "@utils/utils"
 
 import { twMerge } from "tailwind-merge"
 import { log } from 'next-axiom'
@@ -28,7 +28,7 @@ const logger = log.with({ from: 'page.businesses.index' })
 const Main: NextPageWithLayout = ({ businesses }: InferGetStaticPropsType<typeof getStaticProps>) => {
 
     // stores the currently selected business
-    const [selectedID, setSelectedID] = useState<number>(-1);
+    const [selectedID, setSelectedID] = useState<string>("");
 
     const fuseSearch = new Fuse<BusinessModel>(businesses, {
         includeScore: true,
@@ -47,7 +47,7 @@ const Main: NextPageWithLayout = ({ businesses }: InferGetStaticPropsType<typeof
         filteredBusinesses
     }
 
-    const content = selectedID !== -1 ? (
+    const content = selectedID !== "" ? (
         <div className="grid grid-rows-2 md:grid-rows-none md:grid-cols-2 lg:grid-cols-4 w-full h-full">
             <BusinessView className="lg:col-span-3" />
             <InfoPanel className="lg:col-span-1" />
@@ -83,9 +83,9 @@ export const getStaticProps: GetStaticProps = async (context) => {
  * The type of the context data.
  */
  type BusinessViewContextData = {
-    selectedID: number,
+    selectedID: string,
     businesses: Array<BusinessModel>,
-    setSelectedID: Dispatch<SetStateAction<number>>,
+    setSelectedID: Dispatch<SetStateAction<string>>,
     fuseSearch: Fuse<BusinessModel>,
     setFilteredBusinesses: Dispatch<SetStateAction<Array<Fuse.FuseResult<BusinessModel>>>>,
     filteredBusinesses: Fuse.FuseResult<BusinessModel>[]
@@ -95,9 +95,9 @@ export const getStaticProps: GetStaticProps = async (context) => {
  * Stores the global view-related context that is passed down to all the elements of the view.
  */
 const BusinessViewContext = createContext<BusinessViewContextData>({
-    selectedID: -1,
+    selectedID: "",
     businesses: [],
-    setSelectedID: (_: SetStateAction<number>) => {},
+    setSelectedID: (_: SetStateAction<string>) => {},
     fuseSearch: new Fuse<BusinessModel>([]),
     setFilteredBusinesses: (_: SetStateAction<Array<Fuse.FuseResult<BusinessModel>>>) => {},
     filteredBusinesses: []
@@ -123,8 +123,9 @@ const InfoPanel = ({ className }: any) => {
     let imageSrc: string = "";
     let contacts : Array<ContactsRow> = [];
 
-    if (selectedID >= 0) {
-        data = businesses[selectedID]
+    if (selectedID !== "") {
+        data = findBusinessById(businesses, selectedID)
+
         imageSrc = data.images && data.images.length > 0 ? data.images[0] : defaults.businesses.gallery.defaultImage.src
 
         contacts = [
@@ -163,7 +164,7 @@ const InfoPanel = ({ className }: any) => {
     }
 
     const Info =
-        selectedID < 0
+        selectedID === ""
         ? (<>{ strings.businesses.infoPage.noBusinessSelected }</>)
         : (
             <Card className='overflow-auto h-full w-full rounded-none'>
@@ -286,7 +287,7 @@ const BusinessView = ({ className }: any) => {
 
     return (
         <Container className={ twMerge(`flex-col overflow-auto h-full max-h-screen ${ view === Views.Map ? 'p-0' : '' }`, className) }>
-            <div className="absolute top-2 left-2 z-50 w-full">
+            <div className="absolute top-2 left-2 z-50">
                 <div className="flex flex-row gap-4">
                     <ToggleButtonGroup
                         value={ view }
@@ -302,6 +303,7 @@ const BusinessView = ({ className }: any) => {
                             <IconCollections />&nbsp;<span className="uppercase">{ businessViewConverter(Views.Gallery) }</span>
                         </ToggleButton>
                     </ToggleButtonGroup>
+                    {/* the search bar */}
                     <TextField label="Search" variant="filled" className="bg-slate-50" onChange={ e => search(e.target.value) } />
                 </div>
             </div>
@@ -334,11 +336,11 @@ const GalleryView = ({ className }: any) => {
         <BusinessContainer className={ className }>
           {
             sortedBusinesses.map(
-                (data: BusinessModel, index: number) => (
-                    <div className="cursor-pointer" key={ index } onClick={ () => { setSelectedID(index)} }>
+                (data: BusinessModel) => (
+                    <div className="cursor-pointer" key={ data.id } onClick={ () => { setSelectedID(data.id)} }>
                         <BusinessCard
                             data={ data }
-                            active={ index === selectedID }
+                            active={ data.id === selectedID }
                         />
                     </div>
                 )
@@ -353,9 +355,9 @@ const MapView = ({ className } : any) => {
     const { businesses, setSelectedID, selectedID, filteredBusinesses } = useContext(BusinessViewContext)
 
     const selectedBusiness : BusinessModel =
-        selectedID < 0
+        selectedID === ""
         ? {} as BusinessModel
-        : businesses[selectedID]
+        : findBusinessById(businesses, selectedID)
 
     const currentBusinesses = 
         filteredBusinesses.length > 0
@@ -387,12 +389,12 @@ const MapView = ({ className } : any) => {
                     {/* markers */}
                     {
                         currentBusinesses.map(
-                            (data: BusinessModel, index: number) => (
+                            (data: BusinessModel) => (
                                 <BusinessMapMarker
-                                    key={ index }
-                                    onClickEventHandler={ () => { setSelectedID(index)} }
+                                    key={ data.id }
+                                    onClickEventHandler={ () => { setSelectedID(data.id)} }
                                     data={ data }
-                                    active={ selectedID === index }
+                                    active={ selectedID === data.id }
                                 />
                             )
                         )
