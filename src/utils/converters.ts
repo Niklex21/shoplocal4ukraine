@@ -2,7 +2,7 @@
 
 import { Tag, BusinessCategory } from "@api/business/types";
 import { ErrorType, processError } from "@api/_error";
-import { Views } from "src/pages/businesses";
+import { Views } from "src/types/businesses";
 import strings from "./strings";
 
 /**
