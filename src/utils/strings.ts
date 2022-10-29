@@ -15,16 +15,21 @@ const strings = {
                 contacts: "Contacts"
             }
         },
+        businessView: {
+            titleViewMap: "Map",
+            titleViewGallery: "Gallery"
+        },
         categories: {
             crafts: 'Crafts',
-            dining: 'Dining',
+            restaurant: 'Restaurant',
             retail: 'Retail',
             services: 'Services',
-            lifestyle: 'Lifestyle'
+            lifestyle: 'Lifestyle',
+            groceries: 'Groceries',
+            shopping: 'Shopping'
         },
-        affiliation: {
-            ukrainianOwned: "Ukrainian-owned",
-            ukraineSupporters: "Ukraine Supporters"
+        tag: {
+            ukrainianOwned: "Ukrainian-owned"
         },
     },
     countries: {

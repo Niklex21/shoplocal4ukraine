@@ -6,15 +6,15 @@ import { LandingLayout } from "@layouts/landing";
 import Link from "next/link";
 import Image from "next/image";
 
-import flag from '@public/flag.jpg'
+import flag from '@public/images/flag.jpg'
 
 const Home: NextPageWithLayout = () => {
   return (
     <div className="w-full h-full grid grid-cols-2 text-ukraine-blue font-bold">
-      <Image 
+      <Image
         alt="Ukraine"
         className="w-full h-full"
-        src={ flag } 
+        src={ flag }
       />
       <div className="flex flex-wrap flex-col h-full w-full p-4 text-center justify-center">
         <h1 className="text-4xl">This page is in development!</h1>

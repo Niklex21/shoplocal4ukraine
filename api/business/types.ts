@@ -4,18 +4,19 @@
  */
  export enum BusinessCategory {
     Crafts,
-    Dining,
+    Restaurant,
     Retail,
     Services,
-    LifeStyle
+    Lifestyle,
+    Groceries,
+    Shopping
 }
 
 /**
- * All the currently supported affiliation types.
+ * All the currently supported tags.
  */
-export enum AffiliationType {
-    UkrainianOwned,
-    UkraineSupporters
+export enum Tag {
+    UkrainianOwned
 }
 
 /**
@@ -30,6 +31,7 @@ export enum Country {
  */
 export type Location = {
     googleMapsURL: string,
+    address: string,
     city: string,
     country: Country,
     longitude: number,
@@ -38,16 +40,15 @@ export type Location = {
 
 /**
  * Main business model type.
- * 
+ *
  * Fields that are not self-explanatory:
- * - affiliation: either owned by Ukrainians, or support Ukraine in other ways
  */
 export type BusinessModel = {
     id: string,
     name: string,
     description: string,
     businessCategory: BusinessCategory,
-    affiliation: AffiliationType,
+    tags: Array<Tag>,
     location: Location,
     website?: string,
     images?: Array<string>,
@@ -59,7 +60,7 @@ export type BusinessModel = {
 
 /**
  * Denotes the type of the const fieldsect to map BusinessModel properties to the json key and a converting function.
- * 
+ *
  * - key: the key of a property in {@link BusinessModel}
  * - json: the string key of a property in the Airtable API query
  * - converter (optional): a function that converts the Airtable API query value into a necessary type value for BusinesModel
