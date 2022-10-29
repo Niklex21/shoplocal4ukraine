@@ -16,19 +16,19 @@ import { tagConverter, businessCategoryConverter } from "@utils/converters"
 export default function BusinessCard({ data, active } : { data: BusinessModel, active: boolean }) {
 
     const imageSrc = data.images && data.images.length > 0 ? data.images[0] : defaults.businesses.gallery.defaultImage.src
- 
-    const tags = data.tags.length > 0 ? 
+
+    const tags = data.tags.length > 0 ?
         (
             <>
                 &nbsp;&bull;&nbsp;
                 { tagConverter(data.tags[0]) }
             </>
         ) : ""
-    
+
     return (
         <Card className={ `flex w-80 shrink border-2 ${ active ? "border-ukraine-blue" : "border-transparent"}` }>
             <CardActionArea>
-                <CardMedia 
+                <CardMedia
                     component="img"
                     className="h-36"
                     image={ imageSrc }

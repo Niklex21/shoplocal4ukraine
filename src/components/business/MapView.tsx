@@ -18,7 +18,7 @@ export const MapView = ({ className } : any) => {
         ? {} as BusinessModel
         : findBusinessById(businesses, selectedID)
 
-    const currentBusinesses = 
+    const currentBusinesses =
         filteredBusinesses.length > 0
         ? filteredBusinesses.map((el: Fuse.FuseResult<BusinessModel>) => el.item)
         : businesses
