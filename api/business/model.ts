@@ -58,7 +58,7 @@ function tagsConverter(values: Array<string>) : Array<Tag> {
                 break;
         }
     })
-    
+
     return tags;
 }
 
@@ -79,7 +79,7 @@ function countryConverter(country: string) : Country | null {
 
 /**
  * Converts location string attributes to {@link Location}.
- * 
+ *
  * @param googleMapsURL comes from ['Google Maps URL'] Airtable field
  * @param address comes from ['Address'] field
  * @param city comes from ['City/town'] field
@@ -108,7 +108,7 @@ function locationConverter({ googleMapsURL, address, city, country, longitude, l
     }
 
     if (longitude) {
-        location.longitude = parseFloat(longitude); 
+        location.longitude = parseFloat(longitude);
     }
 
     if (latitude) {
@@ -129,7 +129,7 @@ function imagesConverter(images: Array<any>): Array<String> {
 
 /**
  * Processes raw JSON data from Airtable and returns a {@link BusinessModel} object.
- * 
+ *
  * @param data the raw JSON data from the Airtable
  * @returns the data as a {@link BusinessModel} object
  */
