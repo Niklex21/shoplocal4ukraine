@@ -1,10 +1,13 @@
-const strings = {
-    home: {
-        title: {
-            en: 'Shop Local For Ukraine'
-        },
-        tagline: {
-            en: 'Shop Local To Support Ukraine'
+const strings_en = {
+    all: {
+        title: "Shop 4 Ukraine"
+    },
+    landing: {
+        navbar: {
+            businesses: 'Discover Businesses',
+            about: 'About Us',
+            privacyStatement: 'Privacy Statement',
+            join: 'Add Your Business'
         }
     },
     businesses: {
@@ -37,4 +40,4 @@ const strings = {
     }
 }
 
-export default strings
+export default strings_en
