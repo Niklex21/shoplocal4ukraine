@@ -7,6 +7,7 @@ import { twMerge } from "tailwind-merge";
 import { GalleryView } from "./GalleryView";
 import { MapView } from "./MapView";
 import { Map as IconMap, Collections as IconCollections } from '@mui/icons-material'
+import strings from "@utils/strings";
 
 /**
  * The panel that displays the businesses -- whether it is in a gallery, map,
@@ -41,9 +42,8 @@ export const BusinessView = ({ className }: any) => {
                 return GalleryView;
             case Views.Map:
                 return MapView;
-            }
         }
-    )();
+    })()
 
     const search = (value: string) => {
         setFilteredBusinesses(fuseSearch.search(value));
@@ -70,7 +70,12 @@ export const BusinessView = ({ className }: any) => {
                         </ToggleButton>
                     </ToggleButtonGroup>
                     {/* the search bar */}
-                    <TextField label="Search" variant="filled" className="bg-slate-50" onChange={ e => search(e.target.value) } />
+                    <TextField
+                        label={ strings.businesses.businessView.searchBarLabel }
+                        variant="filled"
+                        className="bg-slate-50"
+                        onChange={ e => search(e.target.value) } 
+                    />
                 </div>
             </div>
             <ViewComponent />

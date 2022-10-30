@@ -20,7 +20,8 @@ const strings_en = {
         },
         businessView: {
             titleViewMap: "Map",
-            titleViewGallery: "Gallery"
+            titleViewGallery: "Gallery",
+            searchBarLabel: "Search by name, location, category, or description"
         },
         categories: {
             crafts: 'Crafts',
