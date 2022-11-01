@@ -7,7 +7,6 @@ import { LandingLayout } from "@layouts/landing";
 const Home: NextPageWithLayout = () => {
   return (
     <div className="">
-      
     </div>
   )
 }

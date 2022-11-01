@@ -82,7 +82,7 @@ export const InfoPanel = ({ className }: any) => {
                             {
                                 data.tags.map(
                                     (tag: Tag, index: number) => (
-                                        <Chip key={ index } className="text-base text-black bg-ukraine-yellow" label={ tagConverter(tag) } />   
+                                        <Chip key={ index } className="text-base text-black bg-ukraine-yellow" label={ tagConverter(tag) } />
                                     )
                                 )
                             }

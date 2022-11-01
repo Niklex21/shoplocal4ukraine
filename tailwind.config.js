@@ -8,20 +8,14 @@ module.exports = {
   theme: {
     extend: {
       height: {
-        'card': '30rem',
+        card: "30rem",
       },
       colors: {
-        text: {
-          DEFAULT: "#232327",
-          inverted: "#FFFDF5"
-        },
-        background: {
-          DEFAULT: "#FFEBAF",
-          inverted: "#232335"
-        },
+        text: { DEFAULT: "#232327", inverted: "#FFFDF5" },
+        background: { DEFAULT: "#FFEBAF", inverted: "#232335" },
         accent: "#D7E6F5",
-        'ukraine-yellow': "#FFD700",
-        "ukraine-blue": "#0057B8"
+        "ukraine-yellow": "#FFD700",
+        "ukraine-blue": "#0057B8",
       },
       dropShadow: ({ theme }) => ({
         'button': `4px 4px 0px ${ theme('colors')['ukraine-blue'] }`
@@ -32,7 +26,7 @@ module.exports = {
     },
   },
   plugins: [
-    require('@tailwindcss/line-clamp'),
-    require('@tailwindcss/typography')
+    require("@tailwindcss/line-clamp"),
+    require("@tailwindcss/typography"),
   ],
-}
+};
