@@ -2,6 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
-html {
-    width:100%; 
+@layer components {
+    .button {
+        @apply px-4 py-2 hover:bg-ukraine-yellow hover:text-black rounded-full hover:drop-shadow-button
+    }
+    .button-primary {
+        @apply button border-2 border-ukraine-yellow 
+    }
+    .button-secondary {
+        @apply button bg-ukraine-blue text-white
+    }
 }

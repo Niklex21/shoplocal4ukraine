@@ -47,7 +47,7 @@ export default function Navbar({ current }: { current: Page }) {
             ({ text, link, page }: LinkType, index: number) => (
               <span
                 key={ index }
-                className={ `font-lg text-center cursor-pointer hover:text-ukraine-blue last:px-4 last:py-2 last:hover:bg-ukraine-yellow last:hover:text-black last:border-2 last:rounded-full last:border-ukraine-yellow last:hover:drop-shadow-button ${ current === page ? "text-ukraine-blue" : "" }` }>
+                className={ `font-lg text-center cursor-pointer hover:text-ukraine-blue last:button-primary ${ current === page ? "text-ukraine-blue" : "" }` }>
                 <Link href={ link }>{ text }</Link>
               </span>
             )
