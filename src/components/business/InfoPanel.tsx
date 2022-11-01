@@ -7,7 +7,7 @@ import { findBusinessById, urlShortener } from "@utils/utils";
 import Link from "next/link";
 import { useContext } from "react";
 import { BusinessViewContext } from "src/pages/businesses";
-import { ContactsRow } from "src/types/businesses";
+import { ContactsRow } from "@appTypes/businesses";
 import { twMerge } from "tailwind-merge";
 import { Place as IconPlace, Link as IconLink, Email as IconEmail, Phone as IconPhone } from "@mui/icons-material";
 import Image from 'next/image';

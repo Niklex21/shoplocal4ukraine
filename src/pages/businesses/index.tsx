@@ -9,7 +9,7 @@ import { BusinessModel } from "@api/business/types"
 
 import { log } from 'next-axiom'
 import Fuse from 'fuse.js'
-import { BusinessViewContextData } from "src/types/businesses"
+import { BusinessViewContextData } from "@appTypes/businesses"
 import { BusinessView } from "@components/business/BusinessView"
 import { InfoPanel } from "@components/business/InfoPanel"
 

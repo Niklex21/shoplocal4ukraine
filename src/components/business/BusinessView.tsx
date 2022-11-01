@@ -2,7 +2,7 @@ import { Container, TextField, ToggleButton, ToggleButtonGroup } from "@mui/mate
 import { businessViewConverter } from "@utils/converters";
 import { useContext, useState } from "react";
 import { BusinessViewContext } from "src/pages/businesses";
-import { Views } from "src/types/businesses";
+import { Views } from "@appTypes/businesses";
 import { twMerge } from "tailwind-merge";
 import { GalleryView } from "./GalleryView";
 import { MapView } from "./MapView";
