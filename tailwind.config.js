@@ -23,6 +23,12 @@ module.exports = {
         'ukraine-yellow': "#FFD700",
         "ukraine-blue": "#0057B8"
       },
+      dropShadow: ({ theme }) => ({
+        'button': `4px 4px 0px ${ theme('colors')['ukraine-blue'] }`
+      }),
+      transitionProperty: {
+        'filter': 'filter'
+      }
     },
   },
   plugins: [

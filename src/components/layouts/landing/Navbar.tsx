@@ -2,29 +2,27 @@ import Image from 'next/image'
 import Logo from '@public/images/logo.png'
 import Link from 'next/link'
 import strings from '@utils/strings'
+import { Page, Link as LinkType } from '@appTypes/landing'
 
-type Link = {
-  text: string,
-  link: string,
-  active?: boolean
-}
-
-const links: Array<Link> = [
+const links: Array<LinkType> = [
   {
     text: strings.landing.navbar.businesses,
-    link: '/businesses'
+    link: '/businesses',
   },
   {
     text: strings.landing.navbar.about,
-    link: '/about'
+    link: '/about',
+    page: Page.About
   },
   {
     text: strings.landing.navbar.privacyStatement,
-    link: '/privacy'
+    link: '/privacy',
+    page: Page.Privacy
   },
   {
     text: strings.landing.navbar.join,
-    link: '/join'
+    link: '/join',
+    page: Page.Join
   }
 ]
 
@@ -33,19 +31,23 @@ const links: Array<Link> = [
  * @param current the link (url) of the currently active page
  * @returns the navbar
  */
-export default function Navbar({ current }: { current: string }) {
+export default function Navbar({ current }: { current: Page }) {
   return (
-    <div className="fixed justify-around w-full h-48 left-0 top-0 py-2 px-4">
-      <Image
-        src={ Logo }
-        className="w-48 h-24 m-auto"
-        alt="Logo"
-      />
-      <div className="flex justify-end gap-4 last:border-1px last:rounded-lg last:border-ukraine-yellow">
+    <div className="sticky flex flex-row justify-between w-full h-24 left-0 top-0 py-6 px-16 border-b-2 border-gray-100">
+      <Link href="/">
+        <Image
+          src={ Logo }
+          className="object-contain cursor-pointer object-left"
+          alt="Logo"
+        />
+      </Link>
+      <div className="justify-end flex gap-2 lg:gap-12 items-center">
         {
           links.map(
-            ({ text, link }: Link, index: number) => (
-              <span key={ index } className={ `font-lg cursor-pointer hover:text-ukraine-blue ${ current === link ? "text-ukraine-blue" : "" }` }>
+            ({ text, link, page }: LinkType, index: number) => (
+              <span
+                key={ index }
+                className={ `font-lg text-center cursor-pointer hover:text-ukraine-blue last:px-4 last:py-2 last:hover:bg-ukraine-yellow last:hover:text-black last:border-2 last:rounded-full last:border-ukraine-yellow last:hover:drop-shadow-button ${ current === page ? "text-ukraine-blue" : "" }` }>
                 <Link href={ link }>{ text }</Link>
               </span>
             )

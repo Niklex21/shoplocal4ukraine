@@ -5,12 +5,14 @@ import Head from 'next/head'
 import favicon from '@public/images/favicon.png'
 import Navbar from './Navbar'
 import strings from '@utils/strings'
+import { Page } from '@appTypes/landing'
 
 interface Props {
-    children?: ReactNode
+    children?: ReactNode,
+    current?: Page
 }
 
-export default function LandingMainLayout({ children }: Props) {
+export default function LandingMainLayout({ children, current=Page.None }: Props) {
     return (
         <>
             <Head>
@@ -18,7 +20,7 @@ export default function LandingMainLayout({ children }: Props) {
                 <title key="title">{ strings.all.title }</title>
             </Head>
             <div className="bg-white">
-                <Navbar current="" />
+                <Navbar current={ current } />
                 { children }
                 <Footer />
             </div>

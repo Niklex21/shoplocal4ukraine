@@ -2,6 +2,7 @@ import { ReactElement } from "react"
 import { NextPageWithLayout } from "./_app"
 
 import { LandingLayout } from "@layouts/landing"
+import { Page } from "@appTypes/landing"
 
 
 const Privacy : NextPageWithLayout = () => {
@@ -14,7 +15,7 @@ const Privacy : NextPageWithLayout = () => {
 
 Privacy.getLayout = function getLayout(page: ReactElement) {
     return (
-        <LandingLayout>
+        <LandingLayout current={ Page.Privacy }>
             { page }
         </LandingLayout>
     )
