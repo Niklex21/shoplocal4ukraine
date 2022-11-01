@@ -7,6 +7,9 @@ module.exports = {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        'e-ukraine': ['e-Ukraine', 'sans-serif']
+      },
       height: {
         card: "30rem",
       },

@@ -2,6 +2,42 @@
 @tailwind components;
 @tailwind utilities;
 
+@font-face {
+    font-family: "e-Ukraine";
+    src: url("/fonts/e-Ukraine/e-Ukraine-Bold.otf") format("opentype");
+    font-weight: 700;
+}
+
+@font-face {
+    font-family: "e-Ukraine";
+    src: url("/fonts/e-Ukraine/e-Ukraine-Light.otf") format("opentype");
+    font-weight: 300;
+}
+
+@font-face {
+    font-family: "e-Ukraine";
+    src: url("/fonts/e-Ukraine/e-Ukraine-Medium.otf") format("opentype");
+    font-weight: 500;
+}
+
+@font-face {
+    font-family: "e-Ukraine";
+    src: url("/fonts/e-Ukraine/e-Ukraine-Regular.otf") format("opentype");
+    font-weight: 400;
+}
+
+@font-face {
+    font-family: "e-Ukraine";
+    src: url("/fonts/e-Ukraine/e-Ukraine-Thin.otf") format("opentype");
+    font-weight: 100;
+}
+
+@font-face {
+    font-family: "e-Ukraine";
+    src: url("/fonts/e-Ukraine/e-Ukraine-UltraLight.otf") format("opentype");
+    font-weight: 200;
+}
+
 @layer components {
     .button {
         @apply px-4 py-2 hover:bg-ukraine-yellow hover:text-black rounded-full hover:drop-shadow-button
