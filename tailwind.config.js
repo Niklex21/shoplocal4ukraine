@@ -25,6 +25,15 @@ module.exports = {
       }),
       transitionProperty: {
         'filter': 'filter'
+      },
+      backgroundImage: {
+        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
+      },
+      backgroundPosition: {
+        'bottom-edge': "0% 0% 0% 150%"
+      },
+      backgroundSize: {
+        "size-2x": "100% 300%"
       }
     },
   },
