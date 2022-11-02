@@ -38,18 +38,6 @@
     font-weight: 200;
 }
 
-@layer components {
-    .button {
-        @apply px-4 py-2 hover:bg-ukraine-yellow hover:text-black rounded-full hover:drop-shadow-button
-    }
-    .button-primary {
-        @apply button border-2 border-ukraine-yellow 
-    }
-    .button-secondary {
-        @apply button bg-ukraine-blue text-white
-    }
-}
-
 @layer utilities {
     .gradient-stop-25 {
         --tw-gradient-stops: var(--tw-gradient-from) 0, var(--tw-gradient-to) 25%, var(--tw-gradient-to) 100%;

@@ -3,6 +3,7 @@ import strings from "@utils/strings";
 import Link from "next/link";
 import Image from 'next/image';
 import logo from "@public/images/logo.png"
+import { ButtonSecondary } from "@components/common/buttons";
  
 type Section = {
   name: string,
@@ -70,9 +71,7 @@ export default function Footer() {
           { strings.landing.footer.callAction }
         </text>
         <Link href="/join">
-          <button className="button-secondary">
-            { strings.landing.footer.callButton }
-          </button>
+          <ButtonSecondary text={ strings.landing.footer.callButton } />
         </Link>
       </div>
       <hr />

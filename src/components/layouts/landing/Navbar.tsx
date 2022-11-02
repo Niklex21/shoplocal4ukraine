@@ -3,6 +3,7 @@ import Logo from '@public/images/logo.png'
 import Link from 'next/link'
 import strings from '@utils/strings'
 import { Page, Link as LinkType } from '@appTypes/landing'
+import { ButtonPrimary } from '@components/common/buttons'
 
 const links: Array<LinkType> = [
   {
@@ -47,8 +48,12 @@ export default function Navbar({ current }: { current: Page }) {
             ({ text, link, page }: LinkType, index: number) => (
               <span
                 key={ index }
-                className={ `font-lg text-center cursor-pointer hover:text-ukraine-blue last:button-primary ${ current === page ? "text-ukraine-blue" : "" }` }>
-                <Link href={ link }>{ text }</Link>
+                className={ `font-lg text-center cursor-pointer hover:text-ukraine-blue ${ current === page ? "text-ukraine-blue" : "" }` }>
+                <Link href={ link }>
+                  { 
+                    index === links.length - 1 ? ButtonPrimary(text) : text
+                  }
+                </Link>
               </span>
             )
           )
