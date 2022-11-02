@@ -8,6 +8,29 @@ const strings_en = {
             about: 'About Us',
             privacyStatement: 'Privacy Statement',
             join: 'Add Your Business'
+        },
+        footer: {
+            callAction: "Support Ukraine, add a business",
+            callButton: "Add Your Business",
+            descriptionText: "Discover local businesses that support Ukraine.",
+            sections: {
+                pages: {
+                    name: "Pages",
+                    home: "Home",
+                    businesses: 'Discover Businesses',
+                    about: 'About Us',
+                    privacyStatement: 'Privacy Statement',
+                    join: 'Add Your Business'
+                },
+                socials: {
+                    name: "Contact us",
+                    email: "Email",
+                    linkedin: "LinkedIn",
+                    facebook: "Facebook",
+                    instagram: "Instagram",
+                    twitter: "Twitter"
+                }
+            }
         }
     },
     businesses: {
