@@ -27,10 +27,6 @@ const sections : Array<Section> = [
         link: '/about',
       },
       {
-        text: strings.landing.footer.sections.pages.privacyStatement,
-        link: '/privacy',
-      },
-      {
         text: strings.landing.footer.sections.pages.join,
         link: '/join',
       }
@@ -75,17 +71,20 @@ export default function Footer() {
         </Link>
       </div>
       <hr />
-      <div className="flex flex-col md:grid md:grid-cols-2">
+      <div className="flex flex-col md:grid md:grid-cols-2 lg:grid-cols-3">
         <div className="flex flex-col gap-6 mb-8">
           <div className="h-16 flex">
-            <Image
-              src= { logo }
-              alt="logo"
-              className="object-contain object-left"
+            <Link href="/">
+              <Image
+                src= { logo }
+                alt="logo"
+                className="object-contain object-left cursor-pointer"
             />
+            </Link>
           </div>
           <text className="text-lg max-w-xs lg:max-w-none">{ strings.landing.footer.descriptionText }</text>
         </div>
+        <div className="hidden lg:block"></div>
         <div className="grid grid-rows-1 grid-flow-col gap-8 md:gap-4">
           {/* TODO: feedback */}
           {
@@ -97,11 +96,11 @@ export default function Footer() {
                     {
                       links.map(
                         ({ text, link }) => (
-                          <Link href={ link } key={ link }>
-                            <text className="text-base cursor-pointer text-gray-700 hover:text-ukraine-blue">
-                              { text }
-                            </text>
-                          </Link>
+                          <text key={ link } className="text-base cursor-pointer text-gray-700 hover:text-ukraine-blue">
+                            <Link href={ link }>
+                                { text }
+                            </Link>
+                          </text>
                         )
                       )
                     }

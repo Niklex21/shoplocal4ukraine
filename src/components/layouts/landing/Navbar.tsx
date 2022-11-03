@@ -16,11 +16,6 @@ const links: Array<LinkType> = [
     page: Page.About
   },
   {
-    text: strings.landing.navbar.privacyStatement,
-    link: '/privacy',
-    page: Page.Privacy
-  },
-  {
     text: strings.landing.navbar.join,
     link: '/join',
     page: Page.Join
