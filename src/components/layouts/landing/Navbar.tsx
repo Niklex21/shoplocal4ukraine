@@ -29,7 +29,7 @@ const links: Array<LinkType> = [
  */
 export default function Navbar({ current }: { current: Page }) {
   return (
-    <div className="sticky flex flex-row justify-between w-full h-24 left-0 top-0 py-6 px-16 border-b-2 border-gray-100">
+    <div className="sticky flex flex-row justify-between w-full h-24 left-0 top-0 py-6 px-16 border-b-2 border-gray-100 bg-white z-50">
       <Link href="/">
         <Image
           src={ Logo }
