@@ -1,8 +1,16 @@
 const strings_en = {
     all: {
-        title: "Shop 4 Ukraine"
+        title: "Shop Local 4 Ukraine"
     },
     landing: {
+        home: {
+            callPrimary: "Shop Local, Support Ukraine",
+            callSecondary: "Discover local businesses around you and support Ukraine by supporting them.",
+            categoriesLabel: "Categories",
+            onlyUkrainianOwnedLabel: "Only Ukrainian-Owned",
+            locationFieldLabel: "Enter your location...",
+            searchButtonLabel: "Search"
+        },
         navbar: {
             businesses: 'Discover Businesses',
             about: 'About Us',
