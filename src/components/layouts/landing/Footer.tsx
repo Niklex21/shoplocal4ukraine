@@ -4,7 +4,7 @@ import Link from "next/link";
 import Image from 'next/image';
 import logo from "@public/images/logo.png"
 import { ButtonSecondary } from "@components/common/buttons";
- 
+
 type Section = {
   name: string,
   links: Array<LinkType>

@@ -74,7 +74,7 @@ export const BusinessView = ({ className }: any) => {
                         label={ strings.businesses.businessView.searchBarLabel }
                         variant="filled"
                         className="bg-slate-50"
-                        onChange={ e => search(e.target.value) } 
+                        onChange={ e => search(e.target.value) }
                     />
                 </div>
             </div>
