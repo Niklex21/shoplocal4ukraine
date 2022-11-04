@@ -76,10 +76,10 @@ export default function Footer() {
           <div className="h-16 flex">
             <Link href="/">
               <Image
-                src= { logo }
+                src={ logo }
                 alt="logo"
                 className="object-contain object-left cursor-pointer"
-            />
+              />
             </Link>
           </div>
           <text className="text-lg max-w-xs lg:max-w-none">{ strings.landing.footer.descriptionText }</text>

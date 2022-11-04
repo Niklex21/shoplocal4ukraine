@@ -3,6 +3,9 @@ const strings_en = {
         title: "Shop Local 4 Ukraine"
     },
     landing: {
+        about: {
+            teamSectionTitle: "The Team"
+        },
         home: {
             callPrimary: "Shop Local, Support Ukraine",
             callSecondary: "Discover local businesses around you and support Ukraine by supporting them.",

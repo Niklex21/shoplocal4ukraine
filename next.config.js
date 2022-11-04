@@ -5,7 +5,7 @@ const { withAxiom } = require("next-axiom");
 
 const nextConfig = {
   reactStrictMode: true,
-  images: { domains: ["dl.airtable.com"] },
+  images: { domains: ["dl.airtable.com", "thumbs.gfycat.com", "s3.us-west-2.amazonaws.com"] },
 };
 
 module.exports = withAxiom(nextConfig);
