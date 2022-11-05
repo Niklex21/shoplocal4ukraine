@@ -2,6 +2,9 @@ const strings_en = {
     all: {
         title: "Shop Local 4 Ukraine"
     },
+    app: {
+        tooltipMenuButton: "Menu"
+    },
     landing: {
         about: {
             teamSectionTitle: "The Team"
@@ -55,7 +58,7 @@ const strings_en = {
         businessView: {
             titleViewMap: "Map",
             titleViewGallery: "Gallery",
-            searchBarLabel: "Search by name, location, category, or description"
+            searchBarLabel: "Search map"
         },
         categories: {
             crafts: 'Crafts',

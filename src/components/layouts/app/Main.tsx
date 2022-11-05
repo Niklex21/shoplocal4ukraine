@@ -10,6 +10,7 @@ import Logo from '@public/images/logo.png'
 import { twMerge } from "tailwind-merge"
 import { Menu as IconMenu, Close as IconClose } from "@mui/icons-material"
 import { links as sections } from "@utils/config"
+import { Tooltip } from '@mui/material'
 
 interface Props {
     children?: ReactNode
@@ -34,13 +35,17 @@ export default function AppMainLayout({ children }: Props) {
             </Head>
             <div className="h-screen w-screen p-0 m-0 bg-slate-50 max-h-screen flex">
                 { children }
-                <IconMenu 
-                    className={
-                        "text-gray-700 hover:text-black absolute top-3 left-2 text-5xl z-50 cursor-pointer border-4 bg-slate-50 border-slate-50 rounded-sm " +
-                        (menuState === MenuState.Closed ? "" : "z-0")
-                    }
-                    onClick={ () => setMenuState(MenuState.Open) } 
-                />
+                <div className="flex absolute top-2 left-2 z-50 p-2.5 bg-slate-50 cursor-pointer rounded-lg drop-shadow-md hover:bg-slate-100">
+                    <Tooltip title={ strings.app.tooltipMenuButton }>
+                        <IconMenu 
+                            className={
+                                "text-gray-800 text-3xl z-50 cursor-pointer " +
+                                (menuState === MenuState.Closed ? "" : "z-0")
+                            }
+                            onClick={ () => setMenuState(MenuState.Open) } 
+                        />
+                    </Tooltip>
+                </div>
                 <div 
                     className={
                         "absolute top-0 h-full w-full left-0 bg-black transition-opacity duration-500 " +
