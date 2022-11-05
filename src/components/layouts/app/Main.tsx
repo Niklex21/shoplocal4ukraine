@@ -37,27 +37,27 @@ export default function AppMainLayout({ children }: Props) {
                 { children }
                 <div className="flex absolute top-2 left-2 z-50 p-2.5 bg-slate-50 cursor-pointer rounded-lg drop-shadow-md hover:bg-slate-100">
                     <Tooltip title={ strings.app.tooltipMenuButton }>
-                        <IconMenu 
+                        <IconMenu
                             className={
                                 "text-gray-800 text-3xl z-50 cursor-pointer " +
                                 (menuState === MenuState.Closed ? "" : "z-0")
                             }
-                            onClick={ () => setMenuState(MenuState.Open) } 
+                            onClick={ () => setMenuState(MenuState.Open) }
                         />
                     </Tooltip>
                 </div>
-                <div 
+                <div
                     className={
                         "absolute top-0 h-full w-full left-0 bg-black transition-opacity duration-500 " +
                         (menuState === MenuState.Closed ? "opacity-0 -z-50" : "opacity-20 z-50")
                     }
                     onClick={ () => setMenuState(MenuState.Closed) }
                 />
-                <AppMenu 
-                    className={ 
+                <AppMenu
+                    className={
                         "transition-all " +
                         (menuState === MenuState.Closed ? "-left-full" : "left-0")
-                    } 
+                    }
                 />
             </div>
         </>
