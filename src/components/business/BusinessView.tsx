@@ -53,14 +53,14 @@ export const BusinessView = ({ className }: any) => {
 
     return (
         <Container className={ twMerge(`flex-col overflow-auto h-full max-h-screen max-w-none ${ view === Views.Map ? 'p-0' : '' }`, className) }>
-            <div className="absolute top-2 left-2 z-50">
+            <div className="absolute top-2 left-16 z-50">
                 <div className="flex flex-row gap-4">
                     <ToggleButtonGroup
                         value={ view }
                         exclusive
                         onChange={ handleViewSelection }
                         aria-label="views"
-                        className="bg-slate-50"
+                        className="bg-slate-50 z-0"
                     >
                         <ToggleButton value={ Views.Map } aria-label="map">
                             <IconMap />&nbsp;<span className="uppercase">{ businessViewConverter(Views.Map) }</span>

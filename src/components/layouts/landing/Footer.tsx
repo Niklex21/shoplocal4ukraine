@@ -1,63 +1,9 @@
-import { Link as LinkType } from "@appTypes/landing";
 import strings from "@utils/strings";
 import Link from "next/link";
 import Image from 'next/image';
 import logo from "@public/images/logo.png"
 import { ButtonSecondary } from "@components/common/buttons";
- 
-type Section = {
-  name: string,
-  links: Array<LinkType>
-}
-
-const sections : Array<Section> = [
-  {
-    name: strings.landing.footer.sections.pages.name,
-    links: [
-      {
-        text: strings.landing.footer.sections.pages.home,
-        link: "/"
-      },
-      {
-        text: strings.landing.footer.sections.pages.businesses,
-        link: '/businesses',
-      },
-      {
-        text: strings.landing.footer.sections.pages.about,
-        link: '/about',
-      },
-      {
-        text: strings.landing.footer.sections.pages.join,
-        link: '/join',
-      }
-    ]
-  },
-  {
-    name: strings.landing.footer.sections.socials.name,
-    links: [
-      {
-        text: strings.landing.footer.sections.socials.email,
-        link: "mailto:shoplocal4ukraine@gmail.com"
-      },
-      {
-        text: strings.landing.footer.sections.socials.linkedin,
-        link: '#',
-      },
-      {
-        text: strings.landing.footer.sections.socials.facebook,
-        link: '#',
-      },
-      {
-        text: strings.landing.footer.sections.socials.instagram,
-        link: '#',
-      },
-      {
-        text: strings.landing.footer.sections.socials.twitter,
-        link: '#',
-      }
-    ]
-  },
-]
+import { links as sections } from "@utils/config"
 
 export default function Footer() {
   return (
