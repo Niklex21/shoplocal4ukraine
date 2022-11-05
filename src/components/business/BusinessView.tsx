@@ -1,12 +1,13 @@
-import { Container, TextField, ToggleButton, ToggleButtonGroup } from "@mui/material";
+import { Container, InputAdornment, InputBase, ToggleButton, ToggleButtonGroup, Tooltip } from "@mui/material";
 import { businessViewConverter } from "@utils/converters";
 import { useContext, useState } from "react";
 import { BusinessViewContext } from "src/pages/businesses";
-import { Views } from "src/types/businesses";
+import { Views } from "@appTypes/businesses";
 import { twMerge } from "tailwind-merge";
 import { GalleryView } from "./GalleryView";
 import { MapView } from "./MapView";
-import { Map as IconMap, Collections as IconCollections } from '@mui/icons-material'
+import { Map as IconMap, Collections as IconCollections, Search as IconSearch } from '@mui/icons-material'
+import strings from "@utils/strings";
 
 /**
  * The panel that displays the businesses -- whether it is in a gallery, map,
@@ -41,9 +42,8 @@ export const BusinessView = ({ className }: any) => {
                 return GalleryView;
             case Views.Map:
                 return MapView;
-            }
         }
-    )();
+    })()
 
     const search = (value: string) => {
         setFilteredBusinesses(fuseSearch.search(value));
@@ -53,27 +53,39 @@ export const BusinessView = ({ className }: any) => {
 
     return (
         <Container className={ twMerge(`flex-col overflow-auto h-full max-h-screen max-w-none ${ view === Views.Map ? 'p-0' : '' }`, className) }>
-            <div className="absolute top-2 left-2 z-50">
-                <div className="flex flex-row gap-4">
-                    <ToggleButtonGroup
-                        value={ view }
-                        exclusive
-                        onChange={ handleViewSelection }
-                        aria-label="views"
-                        className="bg-slate-50"
-                    >
-                        <ToggleButton value={ Views.Map } aria-label="map">
-                            <IconMap />&nbsp;<span className="uppercase">{ businessViewConverter(Views.Map) }</span>
-                        </ToggleButton>
-                        <ToggleButton value={ Views.Gallery } aria-label="gallery">
-                            <IconCollections />&nbsp;<span className="uppercase">{ businessViewConverter(Views.Gallery) }</span>
-                        </ToggleButton>
-                    </ToggleButtonGroup>
-                    {/* the search bar */}
-                    <TextField label="Search" variant="filled" className="bg-slate-50" onChange={ e => search(e.target.value) } />
-                </div>
-            </div>
             <ViewComponent />
+            <div className="absolute left-2 top-20 z-50 drop-shadow-md">
+                <ToggleButtonGroup
+                    value={ view }
+                    exclusive
+                    onChange={ handleViewSelection }
+                    aria-label="views"
+                    className="bg-slate-50 z-0"
+                    orientation="vertical"
+                >
+                    <ToggleButton value={ Views.Map } aria-label="map">
+                        <Tooltip title={ businessViewConverter(Views.Map) } placement="right" >
+                            <IconMap />
+                        </Tooltip>
+                    </ToggleButton>
+                    <ToggleButton value={ Views.Gallery } aria-label="gallery">
+                        <Tooltip title={ businessViewConverter(Views.Gallery) } placement="right" >
+                            <IconCollections />
+                        </Tooltip>
+                    </ToggleButton>
+                </ToggleButtonGroup>
+            </div>
+            <div className="flex flex-row absolute top-2 left-20 h-12 gap-4 bg-slate-50 rounded-lg items-center px-4 p-2 drop-shadow-md">
+                {/* the search bar */}
+                <IconSearch className="text-gray-600" />
+                <input
+                    placeholder={ strings.businesses.businessView.searchBarLabel }
+                    className="focus:outline-none bg-slate-50 w-44 lg:w-64"
+                    onChange={ e => search(e.target.value) }
+                    aria-label='search google maps'
+                    type="text"
+                />
+            </div>
         </Container>
     )
 }

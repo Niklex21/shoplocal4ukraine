@@ -3,19 +3,24 @@ import { ReactNode } from 'react'
 import Footer from './Footer'
 import Head from 'next/head'
 import favicon from '@public/images/favicon.png'
+import Navbar from './Navbar'
+import strings from '@utils/strings'
+import { Page } from '@appTypes/landing'
 
 interface Props {
-    children?: ReactNode
+    children?: ReactNode,
+    current?: Page
 }
 
-export default function LandingMainLayout({ children }: Props) {
+export default function LandingMainLayout({ children, current=Page.None }: Props) {
     return (
         <>
             <Head>
                 <link rel="shortcut icon" href={ favicon.src } />
-                <title key="title">Shop Local 4 Ukraine</title>
+                <title key="title">{ strings.all.title }</title>
             </Head>
-            <div>
+            <div className="bg-white">
+                <Navbar current={ current } />
                 { children }
                 <Footer />
             </div>

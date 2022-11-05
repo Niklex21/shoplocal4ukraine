@@ -2,6 +2,50 @@
 @tailwind components;
 @tailwind utilities;
 
-html {
-    width:100%; 
+@font-face {
+    font-family: "e-Ukraine";
+    src: url("/fonts/e-Ukraine/e-Ukraine-Bold.otf") format("opentype");
+    font-weight: 700;
+}
+
+@font-face {
+    font-family: "e-Ukraine";
+    src: url("/fonts/e-Ukraine/e-Ukraine-Light.otf") format("opentype");
+    font-weight: 300;
+}
+
+@font-face {
+    font-family: "e-Ukraine";
+    src: url("/fonts/e-Ukraine/e-Ukraine-Medium.otf") format("opentype");
+    font-weight: 500;
+}
+
+@font-face {
+    font-family: "e-Ukraine";
+    src: url("/fonts/e-Ukraine/e-Ukraine-Regular.otf") format("opentype");
+    font-weight: 400;
+}
+
+@font-face {
+    font-family: "e-Ukraine";
+    src: url("/fonts/e-Ukraine/e-Ukraine-Thin.otf") format("opentype");
+    font-weight: 100;
+}
+
+@font-face {
+    font-family: "e-Ukraine";
+    src: url("/fonts/e-Ukraine/e-Ukraine-UltraLight.otf") format("opentype");
+    font-weight: 200;
+}
+
+@layer utilities {
+    .gradient-stop-25 {
+        --tw-gradient-stops: var(--tw-gradient-from) 0, var(--tw-gradient-to) 25%, var(--tw-gradient-to) 100%;
+    }
+    .gradient-stop-50 {
+        --tw-gradient-stops: var(--tw-gradient-from) 0, var(--tw-gradient-to) 50%, var(--tw-gradient-to) 100%;
+    }
+    .gradient-stop-75 {
+        --tw-gradient-stops: var(--tw-gradient-from) 0, var(--tw-gradient-to) 75%, var(--tw-gradient-to) 100%;
+    }
 }

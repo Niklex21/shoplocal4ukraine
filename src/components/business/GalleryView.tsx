@@ -2,8 +2,8 @@ import { BusinessModel } from "@api/business/types";
 import { useContext } from "react";
 import { BusinessViewContext } from "src/pages/businesses";
 import BusinessCard from "./BusinessCard";
-import BusinessContainer from "./BusinessContainer";
 import Fuse from 'fuse.js';
+import { twMerge } from "tailwind-merge";
 
 /**
  * Displays the businesses as a gallery of clickable cards.
@@ -26,7 +26,7 @@ export const GalleryView = ({ className }: any) => {
         : businesses.sort((a: BusinessModel, b: BusinessModel) => a.name.localeCompare(b.name))
 
     return (
-        <BusinessContainer className={ className }>
+        <div className={ twMerge('flex flex-row flex-wrap gap-6 my-20 md:mx-auto px-1 md:px-12 justify-center md:justify-start', className) }>
           {
             sortedBusinesses.map(
                 (data: BusinessModel) => (
@@ -39,6 +39,6 @@ export const GalleryView = ({ className }: any) => {
                 )
             )
           }
-        </BusinessContainer>
+        </div>
     )
 }
