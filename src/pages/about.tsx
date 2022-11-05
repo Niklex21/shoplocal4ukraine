@@ -7,6 +7,7 @@ import type { Person } from "@appTypes/landing"
 import strings from "@utils/strings"
 import ImageAlex from "@public/images/team/alex.jpg"
 import ImageArtem from "@public/images/team/artem.jpg"
+import ImagePolina from "@public/images/team/polina.jpg"
 import { PersonCard } from "@components/landing/PersonCard"
 
 const team : Array<Person> = [
@@ -27,6 +28,15 @@ const team : Array<Person> = [
         gifURL: "https://thumbs.gfycat.com/DapperRightCommabutterfly-max-1mb.gif",
         email: "alekseynikanov.21@gmail.com",
         linkedin: "https://linkedin.com/in/alex-nikanov"
+    },
+    {
+        name: "Polina Kuzmenko",
+        profilePictureURL: ImagePolina.src,
+        role: "Graphic Designer",
+        description: "",
+        gifURL: "https://s3.us-west-2.amazonaws.com/secure.notion-static.com/aa70cf9c-0bbe-493e-96bb-e51e571ff223/giphy.gif?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIAT73L2G45EIPT3X45%2F20221104%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20221104T234344Z&X-Amz-Expires=86400&X-Amz-Signature=0a0fa33a8b21c16bdc351d96791883b8b53a0c99c64d855302d7cb59c82f3f2a&X-Amz-SignedHeaders=host&response-content-disposition=filename%3D%22giphy.gif%22&x-id=GetObject",
+        email: "polya.kuzmenko@gmail.com",
+        linkedin: "https://www.linkedin.com/in/polina-kuzmenko-595b7819a/"
     }
 ]
 
