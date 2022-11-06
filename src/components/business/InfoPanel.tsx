@@ -105,9 +105,11 @@ export const InfoPanel = ({ className }: any) => {
                                             <Link href={ link || "#" }>
                                                 <div className="flex flex-nowrap flex-row gap-2">
                                                     { icon }
-                                                    <div className="break-all">
+                                                    <a target="_blank">
+                                                    <span className="break-all">
                                                         { content }
-                                                    </div>
+                                                    </span>
+                                                    </a>
                                                 </div>
                                             </Link>
                                         </div>
