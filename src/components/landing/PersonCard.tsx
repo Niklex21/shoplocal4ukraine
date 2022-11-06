@@ -43,7 +43,7 @@ export function PersonCard({ name, profilePictureURL, role, description, gifURL,
     })
 
     const [ currentImageURL, setCurrentImageURL ] = useState<string>(profilePictureURL)
-    
+
     return (
         <div className="flex flex-col justify-center">
             <div className="flex justify-center">
