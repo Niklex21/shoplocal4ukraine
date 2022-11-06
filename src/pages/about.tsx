@@ -8,6 +8,7 @@ import strings from "@utils/strings"
 import ImageAlex from "@public/images/team/alex.jpg"
 import ImageArtem from "@public/images/team/artem.jpg"
 import ImagePolina from "@public/images/team/polina.jpg"
+import ImageRostyk from "@public/images/team/rostyk.jpg"
 import { PersonCard } from "@components/landing/PersonCard"
 
 const team : Array<Person> = [
@@ -37,6 +38,15 @@ const team : Array<Person> = [
         gifURL: "https://s3.us-west-2.amazonaws.com/secure.notion-static.com/aa70cf9c-0bbe-493e-96bb-e51e571ff223/giphy.gif?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIAT73L2G45EIPT3X45%2F20221104%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20221104T234344Z&X-Amz-Expires=86400&X-Amz-Signature=0a0fa33a8b21c16bdc351d96791883b8b53a0c99c64d855302d7cb59c82f3f2a&X-Amz-SignedHeaders=host&response-content-disposition=filename%3D%22giphy.gif%22&x-id=GetObject",
         email: "polya.kuzmenko@gmail.com",
         linkedin: "https://www.linkedin.com/in/polina-kuzmenko-595b7819a/"
+    },
+    {
+        name: "Rostyslav Rozhok",
+        profilePictureURL: ImageRostyk.src,
+        role: "Software Engineer",
+        description: "In his free time from studies of engineering, Rostyslav likes to listen to music, drink white wine, and work on a book about time travel.",
+        gifURL: "",
+        email: "rostyslavrozhok1@gmail.com",
+        instagram: "https://www.instagram.com/rostyslav_/"
     }
 ]
 
@@ -44,7 +54,7 @@ const About : NextPageWithLayout = () => {
     return (
         <div className="flex flex-col w-full p-16 justify-center justify-items-center">
             <text className="text-5xl font-bold w-full text-center">{ strings.landing.about.teamSectionTitle }</text>
-            <div className="mt-16 mx-32 md:grid md:grid-cols-2 lg:grid-cols-3 justify-items-center items-start gap-4">
+            <div className="mt-16 mx-32 md:grid md:grid-cols-2 lg:grid-cols-3 justify-items-center items-start gap-16">
                 {
                     team.map(
                         (person: Person, index: number) => (

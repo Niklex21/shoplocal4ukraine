@@ -1,5 +1,3 @@
-import Image, { StaticImageData } from 'next/image'
-
 enum Page {
   None,
   About,
@@ -21,7 +19,8 @@ type Person = {
   gifURL: string,
   website?: string,
   email?: string,
-  linkedin?: string
+  linkedin?: string,
+  instagram?: string
 }
 
 export type { Link, Person }

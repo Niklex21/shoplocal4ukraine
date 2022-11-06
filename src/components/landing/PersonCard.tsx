@@ -1,7 +1,7 @@
 import { Person } from "@appTypes/landing";
 import Image from 'next/image'
 
-import { Email as IconEmail, Language as IconWebsite, LinkedIn as IconLinkedin, SvgIconComponent } from "@mui/icons-material"
+import { Email as IconEmail, Language as IconWebsite, LinkedIn as IconLinkedin, Instagram as IconInstagram } from "@mui/icons-material"
 import Link from "next/link";
 import { useState } from "react";
 
@@ -10,7 +10,7 @@ type Social = {
     link: string
 }
 
-export function PersonCard({ name, profilePictureURL, role, description, gifURL, website, email, linkedin } : Person) {
+export function PersonCard({ name, profilePictureURL, role, description, gifURL, website, email, linkedin, instagram } : Person) {
 
     let socials : Array<Social> = []
 
@@ -33,6 +33,13 @@ export function PersonCard({ name, profilePictureURL, role, description, gifURL,
             <IconLinkedin fontSize="inherit" />
         ),
         link: linkedin
+    })
+
+    if (instagram) socials.push({
+        icon: (
+            <IconInstagram />
+        ),
+        link: instagram
     })
 
     const [ currentImageURL, setCurrentImageURL ] = useState<string>(profilePictureURL)
@@ -59,7 +66,7 @@ export function PersonCard({ name, profilePictureURL, role, description, gifURL,
                         ({ icon, link }, index: number) => (
                             <div key={ index } className="cursor-pointer hover:text-ukraine-blue text-3xl">
                                 <Link href={ link }>
-                                    { icon }
+                                    <a target="_blank">{ icon }</a>
                                 </Link>
                             </div>
                         )
