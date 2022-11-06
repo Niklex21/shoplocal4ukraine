@@ -106,9 +106,9 @@ export const InfoPanel = ({ className }: any) => {
                                                 <div className="flex flex-nowrap flex-row gap-2">
                                                     { icon }
                                                     <a target="_blank">
-                                                    <span className="break-all">
-                                                        { content }
-                                                    </span>
+                                                        <span className="break-all">
+                                                            { content }
+                                                        </span>
                                                     </a>
                                                 </div>
                                             </Link>
