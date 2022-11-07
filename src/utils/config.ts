@@ -7,7 +7,9 @@ const defaults = {
         map: {
             zoom: 11,
             longitude: -71.0607281,
-            latitude: 42.357916
+            latitude: 42.357916,
+            businessViewZoom: 16,
+            transitionDuration: 2000
         },
         gallery: {
             defaultImage
