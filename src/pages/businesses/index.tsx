@@ -1,5 +1,5 @@
 import { GetStaticProps, InferGetStaticPropsType } from "next"
-import { createContext, ReactElement, SetStateAction, useState } from "react"
+import { createContext, ReactElement, SetStateAction, useEffect, useState } from "react"
 import 'mapbox-gl/dist/mapbox-gl.css'
 
 import { getPublishedRecords } from "@api/business"
@@ -50,7 +50,7 @@ const Main: NextPageWithLayout = ({ businesses }: InferGetStaticPropsType<typeof
         filteredBusinesses,
         logger
     }
-
+    
     const content = selectedID !== "" ? (
         <div className="grid grid-rows-2 md:grid-rows-none md:grid-cols-2 lg:grid-cols-4 w-full h-full">
             <BusinessView className="lg:col-span-3" />

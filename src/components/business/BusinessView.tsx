@@ -19,6 +19,7 @@ export const BusinessView = ({ className }: any) => {
     let { setFilteredBusinesses, fuseSearch, logger } = useContext(BusinessViewContext);
 
     const bwLogger = logger.with({ component: 'BusinessView' })
+    bwLogger.debug(`Loading BusinessView for view: ${ businessViewConverter(view) }`)
 
     // handles the toggle option selection
     const handleViewSelection = (
@@ -48,8 +49,6 @@ export const BusinessView = ({ className }: any) => {
     const search = (value: string) => {
         setFilteredBusinesses(fuseSearch.search(value));
     }
-
-    bwLogger.debug(`Loading BusinessView for view: ${ businessViewConverter(view) }`)
 
     return (
         <Container className={ twMerge(`flex-col overflow-auto h-full max-h-screen max-w-none ${ view === Views.Map ? 'p-0' : '' }`, className) }>

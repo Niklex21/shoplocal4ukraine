@@ -19,6 +19,8 @@ export const InfoPanel = ({ className }: any) => {
 
     const { businesses, selectedID, logger } = useContext(BusinessViewContext)
 
+    logger.with({ component: "Info" }).debug(`Loading Info for selected business: ${ selectedID }`, data)
+
     let data : BusinessModel = {} as BusinessModel;
     let imageSrc: string = "";
     let contacts : Array<ContactsRow> = [];
@@ -126,8 +128,6 @@ export const InfoPanel = ({ className }: any) => {
                 </CardContent>
             </Card>
         )
-
-    logger.with({ component: "Info" }).debug(`Loading Info for selected business: ${ selectedID }`, data)
 
     return (
         <Container className={ twMerge('flex-col max-w-full overflow-auto p-0 md:h-screen border-t-2 border-black md:border-none', className) }>

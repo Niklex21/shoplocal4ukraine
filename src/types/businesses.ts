@@ -33,5 +33,11 @@ type BusinessViewContextData = {
     logger: Logger
 };
 
+// defines whether or not the map is being moved (on -- dragged right now)
+enum MapDragState {
+    On,
+    Off
+}
+
 export type { ContactsRow, BusinessViewContextData }
-export { Views }
+export { Views, MapDragState }

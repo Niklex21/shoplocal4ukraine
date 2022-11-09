@@ -1,6 +1,9 @@
 import {processError, ErrorType } from "@api/_error";
+import { log } from "next-axiom";
 import { BusinessCategory, Tag, Country, BusinessModel, MapBusinessJSON, Location } from "./types";
 
+
+const logger = log.with({ "from": "api.businesses.model" })
 
 /**
  * Converts a given string Business Category value into one of the {@link BusinessCategory} options.
@@ -33,7 +36,7 @@ function businessCategoryConverter(value: string) : BusinessCategory | null {
             category = BusinessCategory.Shopping;
             break;
         default:
-            processError(ErrorType.InvalidBusinessCategory, `Category provided: ${ value }`);
+            processError(ErrorType.InvalidBusinessCategory, `Category provided: ${ value }`, logger.with({ "function": "businessCategoryConverter" }));
             return null;
     }
 
@@ -54,7 +57,7 @@ function tagsConverter(values: Array<string>) : Array<Tag> {
                 tags.push(Tag.UkrainianOwned);
                 break;
             default:
-                processError(ErrorType.InvalidTag, `Tag supplied: ${ tag }`);
+                processError(ErrorType.InvalidTag, `Tag supplied: ${ tag }`, logger.with({ "function": "tagsConverter" }));
                 break;
         }
     })
@@ -72,7 +75,7 @@ function countryConverter(country: string) : Country | null {
         case 'USA':
             return Country.USA;
         default:
-            processError(ErrorType.InvalidCountry, `Country provided: ${ country }`);
+            processError(ErrorType.InvalidCountry, `Country provided: ${ country }`, logger.with({ "function": "countryConverter" }));
             return null;
     }
 }

@@ -30,7 +30,7 @@ export const GalleryView = ({ className }: any) => {
           {
             sortedBusinesses.map(
                 (data: BusinessModel) => (
-                    <div className="cursor-pointer" key={ data.id } onClick={ () => { setSelectedID(data.id)} }>
+                    <div className="cursor-pointer" key={ data.id } id={ data.id } onClick={ () => { setSelectedID(data.id)} }>
                         <BusinessCard
                             data={ data }
                             active={ data.id === selectedID }

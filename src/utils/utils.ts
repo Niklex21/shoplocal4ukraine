@@ -1,4 +1,5 @@
 import { BusinessModel } from "@api/business/types";
+import { Feature, FeatureCollection } from "geojson";
 
 /**
  * Shortens a given URL by removing the scheme and the www subdomains.
@@ -18,4 +19,16 @@ export function urlShortener(url: string): string {
  */
 export function findBusinessById(businesses: Array<BusinessModel>, id: string) : BusinessModel {
     return businesses.find(el => el.id === id) ?? {} as BusinessModel
+}
+
+export function modelToGeojsonFeature(business: BusinessModel) : Feature {
+    return {
+        id: business.id,
+        type: 'Feature',
+        geometry: {
+            type: "Point",
+            coordinates: [ business.location.longitude, business.location.latitude ]
+        },
+        properties: business
+    }
 }

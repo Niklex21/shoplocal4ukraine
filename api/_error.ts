@@ -1,4 +1,4 @@
-import { log } from 'next-axiom'
+import { log, Logger } from 'next-axiom'
 
 enum ErrorType {
     InvalidBusinessCategory = "Invalid Business Category",
@@ -12,8 +12,8 @@ enum ErrorType {
  *
  * @param err an error that occurred while retrieving data through some API requests
  */
-function processError(err: ErrorType | Error, msg: string = "") {
-    log.error(`Error: ${ err } | ${ msg }`)
+function processError(err: ErrorType | Error, msg: string = "", logger: Logger = log) {
+    logger.error(`Error: ${ err } | ${ msg }`)
 }
 
 export { ErrorType, processError }
