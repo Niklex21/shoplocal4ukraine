@@ -43,7 +43,7 @@ const Main: NextPageWithLayout = ({ businesses }: InferGetStaticPropsType<typeof
     useEffect(() => {
         setAllBusinesses(businesses)
     }, [ businesses, setAllBusinesses ])
-    
+
     const search = (value: string) => {
         setSearchQuery(value);
     }
@@ -56,7 +56,7 @@ const Main: NextPageWithLayout = ({ businesses }: InferGetStaticPropsType<typeof
     const context = {
         logger
     }
-    
+
     const content = selectedID !== "" ? (
         <div className="grid grid-rows-2 md:grid-rows-none md:grid-cols-2 lg:grid-cols-4 w-full h-full">
             <BusinessView
@@ -95,13 +95,13 @@ const Main: NextPageWithLayout = ({ businesses }: InferGetStaticPropsType<typeof
                         multiple
                         displayEmpty
                         value={ selectedCategories }
-                        onChange={ 
+                        onChange={
                             evt => categories(
                                 typeof evt.target.value === "string" ? evt.target.value.split(',').map(e => BusinessCategory[e] || "") : evt.target.value ?? []
                             )
                         }
                         input={ <InputBase className="bg-slate-50 w-44 lg:w-64 h-12 px-4 p-2 rounded-lg cursor-pointer" /> }
-                        renderValue={ 
+                        renderValue={
                             selected => {
                                 return selected.length > 0
                                     ? selected.map(s => businessCategoryConverter(s)).join(', ')
