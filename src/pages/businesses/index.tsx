@@ -18,7 +18,7 @@ import strings from "@utils/strings"
 
 import { Search as IconSearch } from "@mui/icons-material"
 import { businessCategoryConverter } from "@utils/converters"
-import { Checkbox, ListItemText, MenuItem, OutlinedInput, Select } from "@mui/material"
+import { Checkbox, InputBase, ListItemText, MenuItem, OutlinedInput, Select } from "@mui/material"
 import { BUSINESS_CATEGORIES } from "@utils/config"
 
 const logger = log.with({ from: 'page.businesses.index' })
@@ -90,7 +90,7 @@ const Main: NextPageWithLayout = ({ businesses }: InferGetStaticPropsType<typeof
                         type="text"
                     />
                 </div>
-                <div className="flex flex-row items-center drop-shadow-md gap-4">
+                <div className="flex flex-row items-center drop-shadow-md gap-4 cursor-pointer">
                     <Select
                         multiple
                         displayEmpty
@@ -100,7 +100,7 @@ const Main: NextPageWithLayout = ({ businesses }: InferGetStaticPropsType<typeof
                                 typeof evt.target.value === "string" ? evt.target.value.split(',').map(e => BusinessCategory[e] || "") : evt.target.value ?? []
                             )
                         }
-                        input={ <OutlinedInput className="bg-slate-50 w-44 lg:w-64 h-12" /> }
+                        input={ <InputBase className="bg-slate-50 w-44 lg:w-64 h-12 px-4 p-2 rounded-lg cursor-pointer" /> }
                         renderValue={ 
                             selected => {
                                 return selected.length > 0
@@ -108,7 +108,7 @@ const Main: NextPageWithLayout = ({ businesses }: InferGetStaticPropsType<typeof
                                     : strings.businesses.businessView.categorySelectLabel
                             }
                         }
-                        className="outline-none"
+                        className="outline-none cursor-pointer"
                     >
                         {
                             BUSINESS_CATEGORIES.map(
