@@ -18,7 +18,7 @@ import strings from "@utils/strings"
 
 import { Search as IconSearch } from "@mui/icons-material"
 import { businessCategoryConverter } from "@utils/converters"
-import { Checkbox, InputBase, ListItemText, MenuItem, OutlinedInput, Select } from "@mui/material"
+import { Checkbox, InputBase, ListItemText, MenuItem, Select } from "@mui/material"
 import { BUSINESS_CATEGORIES } from "@utils/config"
 
 const logger = log.with({ from: 'page.businesses.index' })
