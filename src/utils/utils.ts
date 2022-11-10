@@ -1,4 +1,5 @@
 import { BusinessModel } from "@api/business/types";
+import { FilteredBusiness } from "@appTypes/businesses";
 import { Feature, FeatureCollection } from "geojson";
 
 /**
@@ -18,9 +19,14 @@ export function urlShortener(url: string): string {
  * @returns the business if found or an empty BusinessModel object
  */
 export function findBusinessById(businesses: Array<BusinessModel>, id: string) : BusinessModel {
-    return businesses.find(el => el.id === id) ?? {} as BusinessModel
+    return businesses.find((el : BusinessModel) => el.id === id) ?? {} as BusinessModel
 }
 
+/**
+ * Convert a given instance of {@link BusinessModel} to a geojson {@link Feature}.
+ * @param business a given business to convert
+ * @returns a geojson feature formatted to contain the given business
+ */
 export function modelToGeojsonFeature(business: BusinessModel) : Feature {
     return {
         id: business.id,
@@ -30,5 +36,27 @@ export function modelToGeojsonFeature(business: BusinessModel) : Feature {
             coordinates: [ business.location.longitude, business.location.latitude ]
         },
         properties: business
+    }
+}
+
+/**
+ * Checks if the supplied dictionary (Object) is empty.
+ * @param obj a generic dictionary
+ * @returns true if the dictionary is empty (no keys), false otherwise
+ */
+export function isEmpty(obj: Object) : boolean { 
+    return Object.keys(obj).length === 0
+}
+
+/**
+ * Converts a given instance of {@link BusinessModel} to an instance of {@link FilteredBusiness}.
+ * @param b an instance of a BusinessModel
+ * @returns an instance of FilteredBusiness
+ */
+export function businessToFilteredBusiness(b: BusinessModel) : FilteredBusiness {
+    // refIndex is required, value is irrelevant because it just represents an unfiltered array of businesses
+    return {
+        refIndex: 0,
+        item: b
     }
 }

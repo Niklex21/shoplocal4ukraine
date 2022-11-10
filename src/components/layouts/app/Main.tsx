@@ -12,7 +12,7 @@ import { Menu as IconMenu, Close as IconClose } from "@mui/icons-material"
 import { links as sections } from "@utils/config"
 import { Tooltip } from '@mui/material'
 
-interface Props {
+type Props = {
     children?: ReactNode
 }
 

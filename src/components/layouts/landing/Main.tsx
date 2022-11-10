@@ -7,7 +7,7 @@ import Navbar from './Navbar'
 import strings from '@utils/strings'
 import { Page } from '@appTypes/landing'
 
-interface Props {
+type Props = {
     children?: ReactNode,
     current?: Page
 }

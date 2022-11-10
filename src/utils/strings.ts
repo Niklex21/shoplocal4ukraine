@@ -49,7 +49,6 @@ const strings_en = {
     },
     businesses: {
         infoPage: {
-            noBusinessSelected: "No business selected yet! Click on some stuff!",
             sectionTitle: {
                 description: "About",
                 contacts: "Contacts"

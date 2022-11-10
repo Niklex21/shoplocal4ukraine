@@ -1,37 +1,40 @@
 import { BusinessModel } from "@api/business/types"
 import defaults from "@utils/config"
-import { findBusinessById, modelToGeojsonFeature } from "@utils/utils"
+import { findBusinessById, isEmpty, modelToGeojsonFeature } from "@utils/utils"
 import { GeolocateControl, NavigationControl, ScaleControl, Map, MapRef, Source, Layer, SymbolLayer, MapboxGeoJSONFeature, MapLayerMouseEvent, ViewStateChangeEvent } from "react-map-gl"
 import { useContext, useEffect, useRef, useState } from "react"
 import { BusinessViewContext } from "src/pages/businesses"
 import { twMerge } from "tailwind-merge"
-import Fuse from 'fuse.js'
 
 import { FeatureCollection } from "geojson"
-import { atomMapDragState } from "src/atoms/businesses"
+import { atomMapDragState, atomSelectedBusinessID } from "src/atoms/businesses"
 import { useAtom } from "jotai"
-import { MapDragState } from "@appTypes/businesses"
+import { FilteredBusiness, MapDragState } from "@appTypes/businesses"
 
-export const MapView = ({ className } : any) => {
+type Props = {
+    className?: string,
+    businesses: Array<FilteredBusiness>
+}
 
-    const { businesses, setSelectedID, selectedID, filteredBusinesses, logger } = useContext(BusinessViewContext)
+export const MapView = ({ className, businesses } : Props) => {
+
+    let { logger } = useContext(BusinessViewContext)
+    logger = logger.with({ component: "MapView" })
+
+    // businesses were filtered, but it's irrelevant for maps (for now)
+    const businessItems : Array<BusinessModel> = businesses.map(b => b.item)
+
+    const [ selectedID, setSelectedID ] = useAtom(atomSelectedBusinessID)
+    const [ hoverID, setHoverID ] = useState<string>("")
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    const selectedBusiness : BusinessModel =
-        selectedID === ""
-        ? {} as BusinessModel
-        : findBusinessById(businesses, selectedID)
-
-    const currentBusinesses =
-        filteredBusinesses.length > 0
-        ? filteredBusinesses.map((el: Fuse.FuseResult<BusinessModel>) => el.item)
-        : businesses
+    const selectedBusiness : BusinessModel = findBusinessById(businessItems, selectedID)
 
     const longitude = selectedBusiness.location?.longitude ?? defaults.businesses.map.longitude
     const latitude = selectedBusiness.location?.latitude ?? defaults.businesses.map.latitude
     const zoom = defaults.businesses.map.zoom
 
-    logger.with({ component: 'MapView' }).debug(`Loading MapView with default longitude ${ longitude }, latitude ${ latitude }, and zoom ${ zoom }`)
+    logger.debug(`Loading MapView with default longitude ${ longitude }, latitude ${ latitude }, and zoom ${ zoom }`)
 
     const [ viewState, setViewState ] = useState({ longitude, latitude, zoom })
     const [ dragState, setDragState ] = useAtom(atomMapDragState)
@@ -59,7 +62,7 @@ export const MapView = ({ className } : any) => {
                 ['boolean', ["feature-state", 'selected'], false],
                 "#b91c1c",
                 ['boolean', ["feature-state", "hover"], false],
-                "#FFD700",
+                "#0057B8",
                 "#000000",
             ],
         },
@@ -67,11 +70,11 @@ export const MapView = ({ className } : any) => {
 
     const geojson : FeatureCollection = {
         type: "FeatureCollection",
-        features: currentBusinesses.map(b => modelToGeojsonFeature(b))
+        features: businessItems.map(b => modelToGeojsonFeature(b))
     }
 
     useEffect(() => {
-        if (Object.keys(selectedBusiness).length > 0) {
+        if (!isEmpty(selectedBusiness)) {
             setViewState({
                 longitude: selectedBusiness.location.longitude,
                 latitude: selectedBusiness.location.latitude,
@@ -91,9 +94,12 @@ export const MapView = ({ className } : any) => {
         if (map) {
             map.on('click', LAYER_ID, ({ features }) => {
                 if (features && features.length > 0) {
+                    map.removeFeatureState(
+                        { source: LAYER_ID, id: selectedID }
+                    )
                     setSelectedID(features[0]?.properties?.id || "")
                     map.setFeatureState(
-                        { source: LAYER_ID, id: features[0]?.id },
+                        { source: LAYER_ID, id: selectedID },
                         { "selected": true }
                     )
                 } 
@@ -101,8 +107,9 @@ export const MapView = ({ className } : any) => {
             map.on('mouseover', LAYER_ID, ({ features }) => {
                 map.getCanvas().style.cursor = 'pointer';
                 if (features && features.length > 0) {
+                    setHoverID(features[0]?.properties?.id || "")
                     map.setFeatureState(
-                        { source: LAYER_ID, id: features[0]?.id },
+                        { source: LAYER_ID, id: hoverID },
                         { "hover": true }
                     )
                 }
@@ -111,8 +118,9 @@ export const MapView = ({ className } : any) => {
                 map.getCanvas().style.cursor = '';
                 if (features && features.length > 0) {
                     map.removeFeatureState(
-                        { source: LAYER_ID, id: features[0]?.id }
+                        { source: LAYER_ID, id: hoverID }
                     )
+                    setHoverID("")
                 }
             })
         }
@@ -127,7 +135,7 @@ export const MapView = ({ className } : any) => {
                 onDragStart={ () => setDragState(MapDragState.On) }
                 onDragEnd={ () => setDragState(MapDragState.Off) }
                 style={{ width: '100%', height: '100%' }}
-                mapStyle="mapbox://styles/shoplocal4ukraine/cl9pxzjw6000p15o28e08i5vl"
+                mapStyle={ defaults.businesses.map.mapStyle }
                 mapboxAccessToken={ process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN }
                 interactiveLayerIds={ [LAYER_ID] }
                 reuseMaps={ true }
@@ -136,7 +144,7 @@ export const MapView = ({ className } : any) => {
                     <NavigationControl />
                     <ScaleControl />
 
-                    <Source id="markers" type="geojson" data={ geojson } generateId={ true }>
+                    <Source id={ LAYER_ID } type="geojson" data={ geojson } generateId={ true }>
                         <Layer {...businessesLayer} />
                     </Source>
             </Map>

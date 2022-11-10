@@ -9,7 +9,8 @@ const defaults = {
             longitude: -71.0607281,
             latitude: 42.357916,
             businessViewZoom: 16,
-            transitionDuration: 2000
+            transitionDuration: 2000,
+            mapStyle: "mapbox://styles/shoplocal4ukraine/cl9pxzjw6000p15o28e08i5vl"
         },
         gallery: {
             defaultImage

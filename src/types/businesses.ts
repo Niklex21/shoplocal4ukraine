@@ -24,12 +24,6 @@ enum Views {
  * The type of the context data.
  */
 type BusinessViewContextData = {
-    selectedID: string,
-    businesses: Array<BusinessModel>,
-    setSelectedID: Dispatch<SetStateAction<string>>,
-    fuseSearch: Fuse<BusinessModel>,
-    setFilteredBusinesses: Dispatch<SetStateAction<Array<Fuse.FuseResult<BusinessModel>>>>,
-    filteredBusinesses: Fuse.FuseResult<BusinessModel>[],
     logger: Logger
 };
 
@@ -39,5 +33,7 @@ enum MapDragState {
     Off
 }
 
-export type { ContactsRow, BusinessViewContextData }
+type FilteredBusiness = Fuse.FuseResult<BusinessModel>
+
+export type { ContactsRow, BusinessViewContextData, FilteredBusiness }
 export { Views, MapDragState }

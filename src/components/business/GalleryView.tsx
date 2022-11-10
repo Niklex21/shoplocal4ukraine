@@ -2,38 +2,42 @@ import { BusinessModel } from "@api/business/types";
 import { useContext } from "react";
 import { BusinessViewContext } from "src/pages/businesses";
 import BusinessCard from "./BusinessCard";
-import Fuse from 'fuse.js';
 import { twMerge } from "tailwind-merge";
+import { atomSelectedBusinessID } from "src/atoms/businesses";
+import { useAtom } from "jotai";
+import { FilteredBusiness } from "@appTypes/businesses";
+
+type Props = {
+    className?: string,
+    businesses: Array<FilteredBusiness>
+}
 
 /**
  * Displays the businesses as a gallery of clickable cards.
  */
-export const GalleryView = ({ className }: any) => {
+export const GalleryView = ({ className, businesses }: Props) => {
 
-    const { businesses, setSelectedID, selectedID, filteredBusinesses, logger } = useContext(BusinessViewContext);
+    let { logger } = useContext(BusinessViewContext);
+    const [ selectedID, setSelectedID ] = useAtom(atomSelectedBusinessID)
 
-    logger.with({ component: 'GalleryView' }).debug("Loading GalleryView...")
+    logger = logger.with({ component: 'GalleryView' })
+    logger.debug("Loading GalleryView...")
 
     // sort by name, alphabetically in ascending order if there are no filtered businesses yet
     // if there are, then choose them instead, sorting them by relevance (score)
-    const sortedBusinesses =
-        filteredBusinesses.length > 0
-        ? filteredBusinesses.sort(
-            (a: Fuse.FuseResult<BusinessModel>, b: Fuse.FuseResult<BusinessModel>) => (a.score ?? 0) - (b.score ?? 0)
-        ).map(
-            (el: Fuse.FuseResult<BusinessModel>) => el.item
-        )
-        : businesses.sort((a: BusinessModel, b: BusinessModel) => a.name.localeCompare(b.name))
+    const sortedBusinesses = businesses.sort(
+        (a: FilteredBusiness, b: FilteredBusiness) => (a.score ?? 0) - (b.score ?? 0) || a.item.name.localeCompare(b.item.name)
+    )
 
     return (
         <div className={ twMerge('flex flex-row flex-wrap gap-6 my-20 md:mx-auto px-1 md:px-12 justify-center md:justify-start', className) }>
           {
             sortedBusinesses.map(
-                (data: BusinessModel) => (
-                    <div className="cursor-pointer" key={ data.id } id={ data.id } onClick={ () => { setSelectedID(data.id)} }>
+                ({ item }: { item: BusinessModel }) => (
+                    <div className="cursor-pointer" key={ item.id } id={ item.id } onClick={ () => setSelectedID(item.id) }>
                         <BusinessCard
-                            data={ data }
-                            active={ data.id === selectedID }
+                            data={ item }
+                            active={ item.id === selectedID }
                         />
                     </div>
                 )
