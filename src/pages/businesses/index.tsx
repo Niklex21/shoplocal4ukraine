@@ -13,7 +13,7 @@ import { BusinessViewContextData, FilteredBusiness } from "@appTypes/businesses"
 import { BusinessView } from "@components/business/BusinessView"
 import { InfoPanel } from "@components/business/InfoPanel"
 
-import { atomSelectedBusinessID, atomFilteredBusinesses } from "src/atoms/businesses"
+import { atomSelectedBusinessID, atomFilteredBusinesses, atomSearchQuery } from "src/atoms/businesses"
 import { businessToFilteredBusiness, findBusinessById } from "@utils/utils"
 import { useAtom } from "jotai"
 import strings from "@utils/strings"
@@ -34,6 +34,7 @@ const Main: NextPageWithLayout = ({ businesses }: InferGetStaticPropsType<typeof
     logger.with({ component: 'Main' }).debug("Loading Main...")
 
     const [ selectedID, ] = useAtom(atomSelectedBusinessID)
+    const [ searchQuery, setSearchQuery ] = useAtom(atomSearchQuery)
 
     const fuseSearch = new Fuse<BusinessModel>(businesses, {
         includeScore: true,
@@ -43,6 +44,7 @@ const Main: NextPageWithLayout = ({ businesses }: InferGetStaticPropsType<typeof
     const [ filteredBusinesses, setFilteredBusinesses ] = useAtom(atomFilteredBusinesses)
 
     const search = (value: string) => {
+        setSearchQuery(value);
         setFilteredBusinesses(fuseSearch.search(value));
     }
 
@@ -86,6 +88,7 @@ const Main: NextPageWithLayout = ({ businesses }: InferGetStaticPropsType<typeof
                     className="focus:outline-none bg-slate-50 w-44 lg:w-64"
                     onChange={ e => search(e.target.value) }
                     aria-label='search google maps'
+                    defaultValue={ searchQuery }
                     type="text"
                 />
             </div>

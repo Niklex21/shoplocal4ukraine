@@ -16,8 +16,8 @@ type ContactsRow = {
  * Defines the available types of business views.
  */
 enum Views {
-    Gallery,
-    Map
+    Map,
+    Gallery
 }
 
 /**

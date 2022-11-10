@@ -1,17 +1,21 @@
 import { Container, ToggleButton, ToggleButtonGroup, Tooltip } from "@mui/material";
 import { businessViewConverter } from "@utils/converters";
-import { useContext, useState } from "react";
+import { useContext, useEffect } from "react";
 import { BusinessViewContext } from "src/pages/businesses";
 import { FilteredBusiness, Views } from "@appTypes/businesses";
 import { twMerge } from "tailwind-merge";
 import { GalleryView } from "./GalleryView";
 import { MapView } from "./MapView";
 import { Map as IconMap, Collections as IconCollections } from '@mui/icons-material'
+import { useAtom } from "jotai";
+import { atomWithHash } from "jotai/utils"
 
 type Props = {
     className?: string,
     businesses: Array<FilteredBusiness>
 }
+
+const atomView = atomWithHash('view', Views.Map, { delayInit: true })
 
 /**
  * The panel that displays the businesses -- whether it is in a gallery, map,
@@ -19,7 +23,7 @@ type Props = {
  */
 export const BusinessView = ({ className, businesses }: Props) => {
 
-    const [view, setView] = useState<Views>(Views.Map);
+    const [view, setView] = useAtom(atomView);
 
     let { logger } = useContext(BusinessViewContext);
     logger = logger.with({ component: 'BusinessView' })
