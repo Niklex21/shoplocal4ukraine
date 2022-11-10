@@ -81,7 +81,7 @@ export const MapView = ({ className } : Props) => {
                 latitude: selectedBusiness.location.latitude,
                 zoom: defaults.businesses.map.businessViewZoom
             })
-            mapRef.current?.flyTo({ 
+            mapRef.current?.flyTo({
                 zoom: defaults.businesses.map.businessViewZoom,
                 center: [selectedBusiness.location.longitude, selectedBusiness.location.latitude],
                 duration: defaults.businesses.map.transitionDuration
@@ -103,7 +103,7 @@ export const MapView = ({ className } : Props) => {
                         { source: LAYER_ID, id: selectedID },
                         { "selected": true }
                     )
-                } 
+                }
             })
             map.on('mouseover', LAYER_ID, ({ features }) => {
                 map.getCanvas().style.cursor = 'pointer';
@@ -152,4 +152,3 @@ export const MapView = ({ className } : Props) => {
         </div>
     )
 }
-

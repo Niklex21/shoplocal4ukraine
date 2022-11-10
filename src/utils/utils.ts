@@ -45,7 +45,7 @@ export function modelToGeojsonFeature(business: BusinessModel) : Feature {
  * @param obj a generic dictionary
  * @returns true if the dictionary is empty (no keys), false otherwise
  */
-export function isEmpty(obj: Object) : boolean { 
+export function isEmpty(obj: Object) : boolean {
     return Object.keys(obj).length === 0
 }
 
@@ -67,7 +67,7 @@ export function serializedToSearchSerialized(b: SerializedBusinessModel) : Searc
  * @param b an instance of {@link BusinessModel} to serialize
  * @returns an instance of {@link SerializedBusinessModel}
  */
-export function serializeBusinessModel(b : BusinessModel) : SerializedBusinessModel {    
+export function serializeBusinessModel(b : BusinessModel) : SerializedBusinessModel {
     return {
         ...b,
         serializedBusinessCategory: businessCategoryConverter(b.businessCategory),
