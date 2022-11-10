@@ -1,7 +1,5 @@
-import { BusinessModel, Tag } from "@api/business/types";
 import { Card, CardMedia, CardContent, Chip, Container } from "@mui/material";
 import defaults from "@utils/config";
-import { businessCategoryConverter, tagConverter } from "@utils/converters";
 import strings from "@utils/strings";
 import { isEmpty, urlShortener } from "@utils/utils";
 import Link from "next/link";
@@ -11,18 +9,20 @@ import { ContactsRow } from "@appTypes/businesses";
 import { twMerge } from "tailwind-merge";
 import { Place as IconPlace, Link as IconLink, Email as IconEmail, Phone as IconPhone } from "@mui/icons-material";
 import Image from 'next/image';
+import { atomCurrentBusiness } from "src/atoms/businesses";
+import { useAtom } from "jotai";
 
 type Props = {
-    className?: string,
-    business: BusinessModel
+    className?: string
 }
 
 /**
  * The info panel on the right that displays the details of the selected business.
  */
-export const InfoPanel = ({ className, business }: Props) => {
+export const InfoPanel = ({ className }: Props) => {
 
     let { logger } = useContext(BusinessViewContext)
+    const [ business ] = useAtom(atomCurrentBusiness)
 
     // add a component to the logger object
     logger = logger.with(({ component: "Info" }))
@@ -85,11 +85,11 @@ export const InfoPanel = ({ className, business }: Props) => {
                 <div className="flex flex-col gap-4">
                     <h1 className="text-2xl font-bold">{ business.name }</h1>
                     <div className="flex flex-wrap gap-2 flex-row">
-                        <Chip className="text-base text-white bg-ukraine-blue" label={ businessCategoryConverter(business.businessCategory) } />
+                        <Chip className="text-base text-white bg-ukraine-blue" label={ business.serializedBusinessCategory } />
                         {
-                            business.tags.map(
-                                (tag: Tag, index: number) => (
-                                    <Chip key={ index } className="text-base text-black bg-ukraine-yellow" label={ tagConverter(tag) } />
+                            business.serializedTags.map(
+                                (tag: string, index: number) => (
+                                    <Chip key={ index } className="text-base text-black bg-ukraine-yellow" label={ tag } />
                                 )
                             )
                         }

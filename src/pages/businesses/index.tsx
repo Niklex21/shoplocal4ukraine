@@ -1,24 +1,25 @@
 import { GetStaticProps, InferGetStaticPropsType } from "next"
-import { createContext, ReactElement } from "react"
+import { createContext, ReactElement, useEffect } from "react"
 import 'mapbox-gl/dist/mapbox-gl.css'
 
 import { getPublishedRecords } from "@api/business"
 import { NextPageWithLayout } from "../_app"
 import { AppLayout } from "@layouts/app"
-import { BusinessModel } from "@api/business/types"
+import { BusinessCategory, BusinessModel } from "@api/business/types"
 
 import { log } from 'next-axiom'
-import Fuse from 'fuse.js'
-import { BusinessViewContextData, FilteredBusiness } from "@appTypes/businesses"
+import { BusinessViewContextData } from "@appTypes/businesses"
 import { BusinessView } from "@components/business/BusinessView"
 import { InfoPanel } from "@components/business/InfoPanel"
 
-import { atomSelectedBusinessID, atomFilteredBusinesses, atomSearchQuery } from "src/atoms/businesses"
-import { businessToFilteredBusiness, findBusinessById } from "@utils/utils"
+import { atomSelectedBusinessID, atomSearchQuery, atomSelectedCategories, atomAllBusinesses } from "src/atoms/businesses"
 import { useAtom } from "jotai"
 import strings from "@utils/strings"
 
 import { Search as IconSearch } from "@mui/icons-material"
+import { businessCategoryConverter } from "@utils/converters"
+import { Checkbox, ListItemText, MenuItem, OutlinedInput, Select } from "@mui/material"
+import { BUSINESS_CATEGORIES } from "@utils/config"
 
 const logger = log.with({ from: 'page.businesses.index' })
 
@@ -35,43 +36,39 @@ const Main: NextPageWithLayout = ({ businesses }: InferGetStaticPropsType<typeof
 
     const [ selectedID, ] = useAtom(atomSelectedBusinessID)
     const [ searchQuery, setSearchQuery ] = useAtom(atomSearchQuery)
+    const [ selectedCategories, setSelectedCategories ] = useAtom(atomSelectedCategories)
+    const [ _, setAllBusinesses ] = useAtom(atomAllBusinesses)
 
-    const fuseSearch = new Fuse<BusinessModel>(businesses, {
-        includeScore: true,
-        keys: ['name', 'businessCategory', 'tags', 'location.address', 'location.city', 'location.country', 'description']
-    })
-
-    const [ filteredBusinesses, setFilteredBusinesses ] = useAtom(atomFilteredBusinesses)
-
+    // set all businesses when the props are changed
+    useEffect(() => {
+        setAllBusinesses(businesses)
+    }, [ businesses, setAllBusinesses ])
+    
     const search = (value: string) => {
         setSearchQuery(value);
-        setFilteredBusinesses(fuseSearch.search(value));
+    }
+
+    const categories = (value: Array<BusinessCategory>) => {
+        setSelectedCategories(value);
     }
 
     // context vars to pass down to the child components
     const context = {
         logger
     }
-
-    const currentBusinesses : Array<FilteredBusiness> = 
-        filteredBusinesses.length > 0
-        ? filteredBusinesses
-        : businesses.map((b : BusinessModel) => businessToFilteredBusiness(b))
     
     const content = selectedID !== "" ? (
         <div className="grid grid-rows-2 md:grid-rows-none md:grid-cols-2 lg:grid-cols-4 w-full h-full">
             <BusinessView
                 className="lg:col-span-3"
-                businesses={ currentBusinesses }
             />
             <InfoPanel
                 className="lg:col-span-1"
-                business={ findBusinessById(businesses, selectedID) }
             />
         </div>
     ) : (
         <div className="w-full h-full">
-            <BusinessView businesses={ currentBusinesses } />
+            <BusinessView />
         </div>
     )
 
@@ -81,16 +78,50 @@ const Main: NextPageWithLayout = ({ businesses }: InferGetStaticPropsType<typeof
                 { content }
             </BusinessViewContext.Provider>
             {/* the search bar */}
-            <div className="flex flex-row absolute top-2 left-20 h-12 gap-4 bg-slate-50 rounded-lg items-center px-4 p-2 drop-shadow-md">
-                <IconSearch className="text-gray-600" />
-                <input
-                    placeholder={ strings.businesses.businessView.searchBarLabel }
-                    className="focus:outline-none bg-slate-50 w-44 lg:w-64"
-                    onChange={ e => search(e.target.value) }
-                    aria-label='search google maps'
-                    defaultValue={ searchQuery }
-                    type="text"
-                />
+            <div className="flex flex-col md:flex-row absolute top-2 left-20 gap-6">
+                <div className="flex flex-row bg-slate-50 rounded-lg items-center drop-shadow-md gap-4 px-4 p-2 h-12">
+                    <IconSearch className="text-gray-600" />
+                    <input
+                        placeholder={ strings.businesses.businessView.searchBarLabel }
+                        className="focus:outline-none bg-slate-50 w-44 lg:w-64"
+                        onChange={ e => search(e.target.value) }
+                        aria-label='search businesses'
+                        defaultValue={ searchQuery }
+                        type="text"
+                    />
+                </div>
+                <div className="flex flex-row items-center drop-shadow-md gap-4">
+                    <Select
+                        multiple
+                        displayEmpty
+                        value={ selectedCategories }
+                        onChange={ 
+                            evt => categories(
+                                typeof evt.target.value === "string" ? evt.target.value.split(',').map(e => BusinessCategory[e] || "") : evt.target.value ?? []
+                            )
+                        }
+                        input={ <OutlinedInput className="bg-slate-50 w-44 lg:w-64 h-12" /> }
+                        renderValue={ 
+                            selected => {
+                                return selected.length > 0
+                                    ? selected.map(s => businessCategoryConverter(s)).join(', ')
+                                    : strings.businesses.businessView.categorySelectLabel
+                            }
+                        }
+                        className="outline-none"
+                    >
+                        {
+                            BUSINESS_CATEGORIES.map(
+                                (value: BusinessCategory, index: number) => (
+                                    <MenuItem key={ index } value={ value }>
+                                        <Checkbox checked={ selectedCategories.indexOf( value ) > -1 } />
+                                        <ListItemText primary={ businessCategoryConverter(value) } />
+                                    </MenuItem>
+                                )
+                            )
+                        }
+                    </Select>
+                </div>
             </div>
         </>
     )

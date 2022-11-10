@@ -1,3 +1,4 @@
+import { BusinessCategory } from '@api/business/types'
 import { Section } from '@appTypes/common'
 import defaultImage from '@public/images/business_default_image.jpg'
 import strings from "@utils/strings"
@@ -67,5 +68,16 @@ const links : Array<Section> = [
     },
 ]
 
+// stores all possible business categories to be used in rendering
+const BUSINESS_CATEGORIES : Array<BusinessCategory> = [
+  BusinessCategory.Crafts,
+  BusinessCategory.Groceries,
+  BusinessCategory.Lifestyle,
+  BusinessCategory.Restaurant,
+  BusinessCategory.Retail,
+  BusinessCategory.Services,
+  BusinessCategory.Shopping
+]
+
 export default defaults
-export { links }
+export { links, BUSINESS_CATEGORIES }

@@ -1,25 +1,26 @@
 import { BusinessModel } from "@api/business/types"
 import defaults from "@utils/config"
 import { findBusinessById, isEmpty, modelToGeojsonFeature } from "@utils/utils"
-import { GeolocateControl, NavigationControl, ScaleControl, Map, MapRef, Source, Layer, SymbolLayer, MapboxGeoJSONFeature, MapLayerMouseEvent, ViewStateChangeEvent } from "react-map-gl"
+import { GeolocateControl, NavigationControl, ScaleControl, Map, MapRef, Source, Layer, SymbolLayer } from "react-map-gl"
 import { useContext, useEffect, useRef, useState } from "react"
 import { BusinessViewContext } from "src/pages/businesses"
 import { twMerge } from "tailwind-merge"
 
 import { FeatureCollection } from "geojson"
-import { atomMapDragState, atomSelectedBusinessID } from "src/atoms/businesses"
+import { atomMapDragState, atomSearchedBusinesses, atomSelectedBusinessID } from "src/atoms/businesses"
 import { useAtom } from "jotai"
-import { FilteredBusiness, MapDragState } from "@appTypes/businesses"
+import { MapDragState } from "@appTypes/businesses"
 
 type Props = {
-    className?: string,
-    businesses: Array<FilteredBusiness>
+    className?: string
 }
 
-export const MapView = ({ className, businesses } : Props) => {
+export const MapView = ({ className } : Props) => {
 
     let { logger } = useContext(BusinessViewContext)
     logger = logger.with({ component: "MapView" })
+
+    const [ businesses ] = useAtom(atomSearchedBusinesses)
 
     // businesses were filtered, but it's irrelevant for maps (for now)
     const businessItems : Array<BusinessModel> = businesses.map(b => b.item)
@@ -37,7 +38,7 @@ export const MapView = ({ className, businesses } : Props) => {
     logger.debug(`Loading MapView with default longitude ${ longitude }, latitude ${ latitude }, and zoom ${ zoom }`)
 
     const [ viewState, setViewState ] = useState({ longitude, latitude, zoom })
-    const [ dragState, setDragState ] = useAtom(atomMapDragState)
+    const [ _, setDragState ] = useAtom(atomMapDragState)
     const mapRef = useRef<MapRef>()
 
     // it's re-used in other places, so should be unified
