@@ -67,7 +67,7 @@ const atomFuseSearch = atom<Fuse<SerializedBusinessModel>>(
 const atomSearchedBusinesses = atom<Array<SearchedSerializedBusiness>>(
     (get) => {
         return get(atomSearchQuery) === ""
-            ? get(atomFilteredBusinesses).map(b => serializedToSearchSerialized(b))
+            ? get(atomFilteredBusinesses).map(b => serializedToSearchSerialized(serializeBusinessModel(b)))
             : get(atomFuseSearch).search(get(atomSearchQuery))
     }
 )
