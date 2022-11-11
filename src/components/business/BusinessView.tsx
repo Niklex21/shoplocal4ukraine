@@ -55,7 +55,7 @@ export const BusinessView = ({ className }: Props) => {
     return (
         <Container className={ twMerge(`flex-col overflow-auto h-full max-h-screen max-w-none ${ view === Views.Map ? 'p-0' : '' }`, className) }>
             <ViewComponent />
-            <div className="absolute left-2 top-20 z-50 drop-shadow-md">
+            <div className="absolute left-2 top-20 z-40 drop-shadow-md">
                 <ToggleButtonGroup
                     value={ view }
                     exclusive

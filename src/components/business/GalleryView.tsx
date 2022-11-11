@@ -3,7 +3,7 @@ import { useContext } from "react";
 import { BusinessViewContext } from "src/pages/businesses";
 import BusinessCard from "./BusinessCard";
 import { twMerge } from "tailwind-merge";
-import { atomAllBusinesses, atomFilteredBusinesses, atomSearchedBusinesses, atomSearchQuery, atomSelectedBusinessID, atomSelectedCategories } from "src/atoms/businesses";
+import { atomSearchedBusinesses, atomSelectedBusinessID } from "src/atoms/businesses";
 import { useAtom } from "jotai";
 import { SearchedSerializedBusiness } from "@appTypes/businesses";
 import strings from "@utils/strings";

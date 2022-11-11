@@ -45,6 +45,17 @@ enum PanelState {
     Open
 }
 
+/**
+ * Defines the possible positions of a generic full-screen panel -- attached to the left/right/top/bottom edge or in the screen center.
+ */
+enum FullScreenPanelPosition {
+    Left,
+    Right,
+    Center,
+    Top,
+    Bottom
+}
+
 type FilteredBusiness = Fuse.FuseResult<BusinessModel>
 
 /**
@@ -62,4 +73,4 @@ type SerializedBusinessModel = BusinessModel & {
 type SearchedSerializedBusiness = Fuse.FuseResult<SerializedBusinessModel>
 
 export type { ContactsRow, BusinessViewContextData, FilteredBusiness, SerializedBusinessModel, SearchedSerializedBusiness }
-export { Views, MapDragState, PanelState }
+export { Views, MapDragState, PanelState, FullScreenPanelPosition }

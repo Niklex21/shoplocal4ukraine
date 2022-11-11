@@ -22,7 +22,7 @@
       "@utils/*": ["src/utils/*"],
       "@api/*": ["api/*"],
       "@appTypes/*": ["src/types/*"],
-      "@atoms/": ["src/atoms/*"],
+      "@atoms/*": ["src/atoms/*"],
       "~/*": ["/*"]
     }
   },
