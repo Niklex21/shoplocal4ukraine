@@ -11,17 +11,13 @@ import { twMerge } from "tailwind-merge"
 import { Menu as IconMenu, Close as IconClose } from "@mui/icons-material"
 import { links as sections } from "@utils/config"
 import { Tooltip } from '@mui/material'
+import { PanelState } from '@appTypes/businesses'
 
 type Props = {
     children?: ReactNode
 }
 
-enum MenuState {
-    Closed,
-    Open
-}
-
-const menuStateAtom = atom(MenuState.Closed)
+const menuStateAtom = atom<PanelState>(PanelState.Closed)
 
 export default function AppMainLayout({ children }: Props) {
 
@@ -40,23 +36,23 @@ export default function AppMainLayout({ children }: Props) {
                         <IconMenu
                             className={
                                 "text-gray-800 text-3xl z-50 cursor-pointer " +
-                                (menuState === MenuState.Closed ? "" : "z-0")
+                                (menuState === PanelState.Closed ? "" : "z-0")
                             }
-                            onClick={ () => setMenuState(MenuState.Open) }
+                            onClick={ () => setMenuState(PanelState.Open) }
                         />
                     </Tooltip>
                 </div>
                 <div
                     className={
                         "absolute top-0 h-full w-full left-0 bg-black transition-opacity duration-500 " +
-                        (menuState === MenuState.Closed ? "opacity-0 -z-50" : "opacity-20 z-50")
+                        (menuState === PanelState.Closed ? "opacity-0 -z-50" : "opacity-20 z-50")
                     }
-                    onClick={ () => setMenuState(MenuState.Closed) }
+                    onClick={ () => setMenuState(PanelState.Closed) }
                 />
                 <AppMenu
                     className={
                         "transition-all " +
-                        (menuState === MenuState.Closed ? "-left-full" : "left-0")
+                        (menuState === PanelState.Closed ? "-left-full" : "left-0")
                     }
                 />
             </div>
@@ -81,7 +77,7 @@ export default function AppMainLayout({ children }: Props) {
                 />
                 <IconClose
                     className="text-gray-700 hover:text-black text-5xl cursor-pointer"
-                    onClick={ () => setMenuState(MenuState.Closed) }
+                    onClick={ () => setMenuState(PanelState.Closed) }
                 />
             </div>
             <hr />

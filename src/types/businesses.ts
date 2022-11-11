@@ -37,6 +37,14 @@ enum MapDragState {
     Off
 }
 
+/**
+ * Defines a state of a generic panel -- either closed or open. Can be extended as needed.
+ */
+enum PanelState {
+    Closed,
+    Open
+}
+
 type FilteredBusiness = Fuse.FuseResult<BusinessModel>
 
 /**
@@ -54,4 +62,4 @@ type SerializedBusinessModel = BusinessModel & {
 type SearchedSerializedBusiness = Fuse.FuseResult<SerializedBusinessModel>
 
 export type { ContactsRow, BusinessViewContextData, FilteredBusiness, SerializedBusinessModel, SearchedSerializedBusiness }
-export { Views, MapDragState }
+export { Views, MapDragState, PanelState }
