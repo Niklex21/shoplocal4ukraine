@@ -103,7 +103,7 @@ export const InfoPanel = ({ className }: Props) => {
                         <div className="justify-self-center">
                             <IconButton
                                 className="text-ukraine-blue rounded-full p-2 text-5xl"
-                                onClick={ () => setSharePanelState(PanelState.Open) } 
+                                onClick={ () => setSharePanelState(PanelState.Open) }
                             >
                                 <IconShare />
                             </IconButton>

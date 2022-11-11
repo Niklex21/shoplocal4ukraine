@@ -23,7 +23,7 @@ type Props = {
 const atomIncludeView = atomWithStorage<boolean>("checkboxIncludeView", true)
 const atomIncludeFilters = atomWithStorage<boolean>("checkboxIncludeFilters", true)
 // need this to re-render atomURLToCopy on panel close/open
-const atomWindowUrl = atom<string>("") 
+const atomWindowUrl = atom<string>("")
 
 // builds the current URL to copy based on the modification checkbox statuses
 const atomURLToCopy = atom<string>(
@@ -113,7 +113,7 @@ export default function SharePanel({ className, panelState, closePanel }: Props)
         >
             <div className="flex flex-col md:flex-row gap-4">
                 <div className="relative flex h-16 md:h-auto md:w-16 rounded-lg">
-                    <Image 
+                    <Image
                         className="max-w-xs object-contain"
                         src={ imageSrc }
                         layout="fill"
@@ -130,7 +130,7 @@ export default function SharePanel({ className, panelState, closePanel }: Props)
                 <FormGroup>
                     <FormControlLabel
                         control={
-                            <Checkbox 
+                            <Checkbox
                                 checked={ includeFiltersChecked }
                                 onChange={ e => setIncludeFilters(e.target.checked) }
                              />
@@ -158,7 +158,7 @@ export default function SharePanel({ className, panelState, closePanel }: Props)
                 <Tooltip title={ strings.businesses.sharePanel.tooltipCopy }>
                     <IconButton className="text-ukraine-blue"
                         onClick={ () => {
-                            navigator.clipboard.writeText(urlToCopy) 
+                            navigator.clipboard.writeText(urlToCopy)
                             toast.success(strings.businesses.sharePanel.toastSuccessCopy)
                         }}
                     >
@@ -176,7 +176,7 @@ export default function SharePanel({ className, panelState, closePanel }: Props)
                                     <Tooltip title={ text ?? "" }>
                                         <IconButton className="hover:text-ukraine-blue">
                                             { icon }
-                                        </IconButton> 
+                                        </IconButton>
                                     </Tooltip>
                                 </a>
                             </Link>
