@@ -6,8 +6,10 @@ import favicon from '@public/images/favicon.png'
 import Navbar from './Navbar'
 import strings from '@utils/strings'
 import { Page } from '@appTypes/landing'
+import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer } from 'react-toastify'
 
-interface Props {
+type Props = {
     children?: ReactNode,
     current?: Page
 }
@@ -24,6 +26,7 @@ export default function LandingMainLayout({ children, current=Page.None }: Props
                 { children }
                 <Footer />
             </div>
+            <ToastContainer />
         </>
     )
 }

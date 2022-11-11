@@ -36,7 +36,7 @@ async function _getRecordsByFormula(formula: string = "", fields: Array<string> 
                 logger.debug(`Success getting records by formula ${ formula }`)
                 return records
             })
-           .catch(err => processError(err))
+           .catch(err => processError(err, "", logger.with({ "function": "_getRecordsByFormula" })))
 }
 
 /**
@@ -78,7 +78,7 @@ async function getRecordById(id: string) : Promise<BusinessModel | null> {
                 return null
             })
            .catch(err => {
-                processError(err)
+                processError(err, "", logger.with({ "function": "getRecordById" }))
                 return null
            })
 }

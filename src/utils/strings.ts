@@ -49,7 +49,6 @@ const strings_en = {
     },
     businesses: {
         infoPage: {
-            noBusinessSelected: "No business selected yet! Click on some stuff!",
             sectionTitle: {
                 description: "About",
                 contacts: "Contacts"
@@ -58,7 +57,8 @@ const strings_en = {
         businessView: {
             titleViewMap: "Map",
             titleViewGallery: "Gallery",
-            searchBarLabel: "Search map"
+            searchBarLabel: "Search map",
+            categorySelectLabel: "Select categories"
         },
         categories: {
             crafts: 'Crafts',
@@ -68,6 +68,16 @@ const strings_en = {
             lifestyle: 'Lifestyle',
             groceries: 'Groceries',
             shopping: 'Shopping'
+        },
+        galleryView: {
+            noBusinessesFound: "No businesses found... You might need to refine your search query 🤷"
+        },
+        sharePanel: {
+            title: "Share",
+            tooltipCopy: "Copy link",
+            labelIncludeFilters: "Include search query and filters",
+            labelIncludeView: "Include view settings",
+            toastSuccessCopy: "Copied link"
         },
         tag: {
             ukrainianOwned: "Ukrainian-owned"

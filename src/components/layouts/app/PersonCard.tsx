@@ -66,7 +66,7 @@ export function PersonCard({ name, profilePictureURL, role, description, gifURL,
                         ({ icon, link }, index: number) => (
                             <div key={ index } className="cursor-pointer hover:text-ukraine-blue text-3xl">
                                 <Link href={ link }>
-                                    <a target="_blank">{ icon }</a>
+                                    { icon }
                                 </Link>
                             </div>
                         )

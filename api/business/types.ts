@@ -2,7 +2,7 @@
 /**
  * All the currently supported business categories.
  */
- export enum BusinessCategory {
+export enum BusinessCategory {
     Crafts,
     Restaurant,
     Retail,

@@ -1,4 +1,7 @@
 import { BusinessModel } from "@api/business/types";
+import { FilteredBusiness, SearchedSerializedBusiness, SerializedBusinessModel } from "@appTypes/businesses";
+import { Feature } from "geojson";
+import { businessCategoryConverter, tagConverter } from "./converters";
 
 /**
  * Shortens a given URL by removing the scheme and the www subdomains.
@@ -17,5 +20,68 @@ export function urlShortener(url: string): string {
  * @returns the business if found or an empty BusinessModel object
  */
 export function findBusinessById(businesses: Array<BusinessModel>, id: string) : BusinessModel {
-    return businesses.find(el => el.id === id) ?? {} as BusinessModel
+    return businesses.find((el : BusinessModel) => el.id === id) ?? {} as BusinessModel
+}
+
+/**
+ * Convert a given instance of {@link BusinessModel} to a geojson {@link Feature}.
+ * @param business a given business to convert
+ * @returns a geojson feature formatted to contain the given business
+ */
+export function modelToGeojsonFeature(business: BusinessModel) : Feature {
+    return {
+        id: business.id,
+        type: 'Feature',
+        geometry: {
+            type: "Point",
+            coordinates: [ business.location.longitude, business.location.latitude ]
+        },
+        properties: business
+    }
+}
+
+/**
+ * Checks if the supplied dictionary (Object) is empty.
+ * @param obj a generic dictionary
+ * @returns true if the dictionary is empty (no keys), false otherwise
+ */
+export function isEmpty(obj: Object) : boolean {
+    return Object.keys(obj).length === 0
+}
+
+/**
+ * Converts a given instance of {@link SerializedBusinessModel} to an instance of {@link SearchedSerializedBusiness}.
+ * @param b an instance of a {@link SerializedBusinessModel}
+ * @returns an instance of {@link SearchedSerializedBusiness}
+ */
+export function serializedToSearchSerialized(b: SerializedBusinessModel) : SearchedSerializedBusiness {
+    // refIndex is required, value is irrelevant because it just represents an unfiltered array of businesses
+    return {
+        refIndex: 0,
+        item: b
+    }
+}
+
+/**
+ * Serializes all enum/object fields according to the current language settings.
+ * @param b an instance of {@link BusinessModel} to serialize
+ * @returns an instance of {@link SerializedBusinessModel}
+ */
+export function serializeBusinessModel(b : BusinessModel) : SerializedBusinessModel {
+    return {
+        ...b,
+        serializedBusinessCategory: businessCategoryConverter(b.businessCategory),
+        serializedTags: b.tags.map(t => tagConverter(t))
+    }
+}
+
+/**
+ * Removes the specific hash from the given url.
+ * @param url the url to remove the has from
+ * @param hashName the name of the hash
+ * @example for hashName=view, will remove (#view=1); for hashName=categories, will remove (&categories=[1,2,3])
+ * @returns the url without the specified hash part
+ */
+export function urlRemoveHash(url: string, hashName: string) {
+    return url.replace(new RegExp("[#&]" + hashName + "=[^?#&]+(?=[?&])|[#&]" + hashName + "=.+$"), "")
 }
