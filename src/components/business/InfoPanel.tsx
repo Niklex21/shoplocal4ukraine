@@ -1,16 +1,17 @@
-import { Card, CardMedia, CardContent, Chip, Container } from "@mui/material";
+import { Card, CardMedia, CardContent, Chip, Container, IconButton } from "@mui/material";
 import defaults from "@utils/config";
 import strings from "@utils/strings";
 import { isEmpty, urlShortener } from "@utils/utils";
 import Link from "next/link";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { BusinessViewContext } from "src/pages/businesses";
-import { ContactsRow } from "@appTypes/businesses";
+import { ContactsRow, PanelState } from "@appTypes/businesses";
 import { twMerge } from "tailwind-merge";
-import { Place as IconPlace, Link as IconLink, Email as IconEmail, Phone as IconPhone } from "@mui/icons-material";
+import { Place as IconPlace, Link as IconLink, Email as IconEmail, Phone as IconPhone, Share as IconShare } from "@mui/icons-material";
 import Image from 'next/image';
 import { atomCurrentBusiness } from "src/atoms/businesses";
 import { useAtom } from "jotai";
+import SharePanel from "./SharePanel";
 
 type Props = {
     className?: string
@@ -23,6 +24,8 @@ export const InfoPanel = ({ className }: Props) => {
 
     let { logger } = useContext(BusinessViewContext)
     const [ business ] = useAtom(atomCurrentBusiness)
+
+    const [ sharePanelState, setSharePanelState ] = useState<PanelState>(PanelState.Closed)
 
     // add a component to the logger object
     logger = logger.with(({ component: "Info" }))
@@ -83,16 +86,28 @@ export const InfoPanel = ({ className }: Props) => {
             />
             <CardContent>
                 <div className="flex flex-col gap-4">
-                    <h1 className="text-2xl font-bold">{ business.name }</h1>
-                    <div className="flex flex-wrap gap-2 flex-row">
-                        <Chip className="text-base text-white bg-ukraine-blue" label={ business.serializedBusinessCategory } />
-                        {
-                            business.serializedTags.map(
-                                (tag: string, index: number) => (
-                                    <Chip key={ index } className="text-base text-black bg-ukraine-yellow" label={ tag } />
-                                )
-                            )
-                        }
+                    <div className="grid grid-cols-3 gap-2 items-center">
+                        <div className="col-span-2">
+                            <h1 className="text-2xl font-bold">{ business.name }</h1>
+                            <div className="flex flex-wrap gap-2 mt-2 flex-row">
+                                <Chip className="text-base text-white bg-ukraine-blue" label={ business.serializedBusinessCategory } />
+                                {
+                                    business.serializedTags.map(
+                                        (tag: string, index: number) => (
+                                            <Chip key={ index } className="text-base text-black bg-ukraine-yellow" label={ tag } />
+                                        )
+                                    )
+                                }
+                            </div>
+                        </div>
+                        <div className="justify-self-center">
+                            <IconButton
+                                className="text-ukraine-blue rounded-full p-2 text-5xl"
+                                onClick={ () => setSharePanelState(PanelState.Open) } 
+                            >
+                                <IconShare />
+                            </IconButton>
+                        </div>
                     </div>
                     <div className="relative md:hidden rounded-lg w-full h-48">
                         <Image
@@ -135,8 +150,14 @@ export const InfoPanel = ({ className }: Props) => {
     )
 
     return (
-        <Container className={ twMerge('flex-col max-w-full overflow-auto p-0 md:h-screen border-t-2 border-black md:border-none', className) }>
-            { Info }
-        </Container>
+        <>
+            <Container className={ twMerge('flex-col max-w-full overflow-auto p-0 md:h-screen border-t-2 border-black md:border-none', className) }>
+                { Info }
+            </Container>
+            <SharePanel
+                panelState={ sharePanelState }
+                closePanel={ () => setSharePanelState(PanelState.Closed) }
+            />
+        </>
     )
 }

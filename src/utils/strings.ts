@@ -72,6 +72,12 @@ const strings_en = {
         galleryView: {
             noBusinessesFound: "No businesses found... You might need to refine your search query 🤷"
         },
+        sharePanel: {
+            title: "Share",
+            tooltipCopy: "Copy link",
+            labelIncludeFilters: "Include search query and filters",
+            labelIncludeView: "Include view settings"
+        },
         tag: {
             ukrainianOwned: "Ukrainian-owned"
         },

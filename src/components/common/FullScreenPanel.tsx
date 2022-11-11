@@ -57,7 +57,7 @@ export default function FullScreenPanel({ className, panelState, closePanel, chi
             <div 
                 className={
                     twMerge(
-                        `z-50 absolute ${ positionStyles } flex flex-col gap-2 bg-slate-50 p-4`,
+                        `z-50 absolute ${ positionStyles } flex flex-col gap-4 bg-slate-50 p-6 max-w-full`,
                         panelState === PanelState.Closed ? "hidden" : "",
                         className
                     )

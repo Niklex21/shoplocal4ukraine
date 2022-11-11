@@ -74,3 +74,14 @@ export function serializeBusinessModel(b : BusinessModel) : SerializedBusinessMo
         serializedTags: b.tags.map(t => tagConverter(t))
     }
 }
+
+/**
+ * Removes the specific hash from the given url.
+ * @param url the url to remove the has from
+ * @param hashName the name of the hash
+ * @example for hashName=view, will remove (#view=1); for hashName=categories, will remove (&categories=[1,2,3]) 
+ * @returns the url without the specified hash part
+ */
+export function urlRemoveHash(url: string, hashName: string) {
+    return url.replace(new RegExp("[#&]" + hashName + "=[^?#&]+(?=[?&])|[#&]" + hashName + "=.+$"), "")
+}

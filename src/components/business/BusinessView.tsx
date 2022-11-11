@@ -8,13 +8,11 @@ import { GalleryView } from "./GalleryView";
 import { MapView } from "./MapView";
 import { Map as IconMap, Collections as IconCollections } from '@mui/icons-material'
 import { useAtom } from "jotai";
-import { atomWithHash } from "jotai/utils"
+import { atomView } from "src/atoms/businesses";
 
 type Props = {
     className?: string
 }
-
-const atomView = atomWithHash('view', Views.Map, { delayInit: true })
 
 /**
  * The panel that displays the businesses -- whether it is in a gallery, map,

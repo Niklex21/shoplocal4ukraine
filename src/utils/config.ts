@@ -79,5 +79,13 @@ const BUSINESS_CATEGORIES : Array<BusinessCategory> = [
   BusinessCategory.Shopping
 ]
 
+// stores the corresponding local storage keys so that they are configurable in one place
+const LOCAL_STORAGE_KEYS = {
+  atomView: "view",
+  atomBusinessId: "business_id",
+  atomSearch: "search",
+  atomCategories: "categories"
+}
+
 export default defaults
-export { links, BUSINESS_CATEGORIES }
+export { links, BUSINESS_CATEGORIES, LOCAL_STORAGE_KEYS }
