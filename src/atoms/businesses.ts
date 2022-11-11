@@ -1,4 +1,4 @@
-import { BusinessCategory, BusinessModel } from "@api/business/types";
+import { BusinessCategory, BusinessModel, Tag } from "@api/business/types";
 import { MapDragState, SearchedSerializedBusiness, SerializedBusinessModel, Views } from "@appTypes/businesses";
 import { atom } from "jotai";
 import Fuse from "fuse.js"
@@ -33,6 +33,11 @@ const atomSearchQuery = atomWithHash<string>(LOCAL_STORAGE_KEYS.atomSearch, "", 
 const atomSelectedCategories = atomWithHash<Array<BusinessCategory>>(LOCAL_STORAGE_KEYS.atomCategories, [], { delayInit: true })
 
 /**
+ * Stores the selected tags that filter the business.
+ */
+const atomSelectedTags = atomWithHash<Array<Tag>>(LOCAL_STORAGE_KEYS.atomTags, [], { delayInit: true })
+
+/**
  * Stores all the businesses currently available, should only be modified once.
  */
 const atomAllBusinesses = atom<Array<BusinessModel>>([])
@@ -54,9 +59,17 @@ const atomCurrentBusiness = atom<SerializedBusinessModel>(
  */
 const atomFilteredBusinesses = atom<Array<BusinessModel>>(
     (get) => {
-        return get(atomSelectedCategories).length === 0
-            ? get(atomAllBusinesses)
-            : get(atomAllBusinesses).filter((b: BusinessModel) => get(atomSelectedCategories).includes(b.businessCategory))
+        let target = get(atomAllBusinesses)
+
+        if (get(atomSelectedCategories).length > 0) {
+            target = target.filter((b: BusinessModel) => get(atomSelectedCategories).includes(b.businessCategory))
+        }
+
+        if (get(atomSelectedTags).length > 0) {
+            target = target.filter((b: BusinessModel) => get(atomSelectedTags).filter(t => b.tags.includes(t)).length > 0)
+        }
+
+        return target
     }
 )
 
@@ -100,6 +113,7 @@ export {
     atomSelectedBusinessID,
     atomSearchQuery,
     atomSelectedCategories,
+    atomSelectedTags,
     atomAllBusinesses,
     atomFilteredBusinesses,
     atomFuseSearch,

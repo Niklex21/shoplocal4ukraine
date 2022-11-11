@@ -1,4 +1,4 @@
-import { BusinessCategory } from '@api/business/types'
+import { BusinessCategory, Tag } from '@api/business/types'
 import { Section } from '@appTypes/common'
 import defaultImage from '@public/images/business_default_image.jpg'
 import strings from "@utils/strings"
@@ -79,13 +79,18 @@ const BUSINESS_CATEGORIES : Array<BusinessCategory> = [
   BusinessCategory.Shopping
 ]
 
+const BUSINESS_TAGS : Array<Tag> = [
+  Tag.UkrainianOwned
+]
+
 // stores the corresponding local storage keys so that they are configurable in one place
 const LOCAL_STORAGE_KEYS = {
   atomView: "view",
   atomBusinessId: "business_id",
   atomSearch: "search",
-  atomCategories: "categories"
+  atomCategories: "categories",
+  atomTags: "tags"
 }
 
 export default defaults
-export { links, BUSINESS_CATEGORIES, LOCAL_STORAGE_KEYS }
+export { links, BUSINESS_CATEGORIES, LOCAL_STORAGE_KEYS, BUSINESS_TAGS }

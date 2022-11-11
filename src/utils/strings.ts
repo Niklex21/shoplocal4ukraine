@@ -67,7 +67,8 @@ const strings_en = {
             titleViewMap: "Map",
             titleViewGallery: "Gallery",
             searchBarLabel: "Search map",
-            categorySelectLabel: "Select categories"
+            categorySelectLabel: "Select categories",
+            tagSelectLabel: "Select tags"
         },
         categories: {
             crafts: 'Crafts',

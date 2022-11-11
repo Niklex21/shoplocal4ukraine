@@ -37,7 +37,13 @@ const atomURLToCopy = atom<string>(
         if (!get(atomIncludeFilters)) {
             url = urlRemoveHash(url, LOCAL_STORAGE_KEYS.atomSearch)
             url = urlRemoveHash(url, LOCAL_STORAGE_KEYS.atomCategories)
+            url = urlRemoveHash(url, LOCAL_STORAGE_KEYS.atomTags)
         }
+
+        // replace the first & if there's no hash behind it
+        // since we are removing hash, we sometimes also accidentally remove the first hash,
+        // which leads to incorrect urls
+        url = url.replace(new RegExp("(?<![^#]*#[^#]*)&"), "#")
 
         return url
     }
