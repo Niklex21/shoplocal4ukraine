@@ -71,7 +71,7 @@ export function PersonCard({ name, profilePictureURL, role, description, gifURL,
             <text className="text-center text-2xl mt-4 font-bold">{ name }</text>
             <text className="text-center text-xl mt-2 text-ukraine-blue">{ role }</text>
             <text className="text-center text-lg mt-2 max-w-xs text-gray-600">{ description }</text>
-            <div className="mt-2 flex w-full justify-center flex-row gap-2">
+            <div className="mt-2 flex w-full justify-center flex-row gap-1">
                 {
                     socials.map(
                         ({ icon, link, text }, index: number) => (
