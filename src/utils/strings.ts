@@ -61,7 +61,8 @@ const strings_en = {
             sectionTitle: {
                 description: "About",
                 contacts: "Contacts"
-            }
+            },
+            tooltipShare: "Share"
         },
         businessView: {
             titleViewMap: "Map",
