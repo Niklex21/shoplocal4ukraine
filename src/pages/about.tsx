@@ -37,14 +37,16 @@ const team : Array<Person> = [
         description: "",
         gifURL: "https://s3.us-west-2.amazonaws.com/secure.notion-static.com/aa70cf9c-0bbe-493e-96bb-e51e571ff223/giphy.gif?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIAT73L2G45EIPT3X45%2F20221104%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20221104T234344Z&X-Amz-Expires=86400&X-Amz-Signature=0a0fa33a8b21c16bdc351d96791883b8b53a0c99c64d855302d7cb59c82f3f2a&X-Amz-SignedHeaders=host&response-content-disposition=filename%3D%22giphy.gif%22&x-id=GetObject",
         email: "polya.kuzmenko@gmail.com",
-        linkedin: "https://www.linkedin.com/in/polina-kuzmenko-595b7819a/"
+        linkedin: "https://www.linkedin.com/in/polina-kuzmenko-595b7819a/",
+        website: "https://girlscorporation.com/",
+        behance: "https://www.behance.net/kkuzmenkko"
     },
     {
         name: "Rostyslav Rozhok",
         profilePictureURL: ImageRostyk.src,
         role: "Software Engineer",
         description: "In his free time from studies of engineering, Rostyslav likes to listen to music, drink white wine, and work on a book about time travel.",
-        gifURL: "",
+        gifURL: "https://thumbs.gfycat.com/DapperRightCommabutterfly-max-1mb.gif",
         email: "rostyslavrozhok1@gmail.com",
         instagram: "https://www.instagram.com/rostyslav_/"
     }

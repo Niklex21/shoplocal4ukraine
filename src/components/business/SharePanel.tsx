@@ -171,9 +171,9 @@ export default function SharePanel({ className, panelState, closePanel }: Props)
                 {
                     socials.map(
                         ({ icon, link, text }, index: number) => (
-                            <Link href={ link }  key={ index }>
+                            <Link href={ link ?? "" }  key={ index }>
                                 <a target="_blank">
-                                    <Tooltip title={ text }>
+                                    <Tooltip title={ text ?? "" }>
                                         <IconButton className="hover:text-ukraine-blue">
                                             { icon }
                                         </IconButton> 

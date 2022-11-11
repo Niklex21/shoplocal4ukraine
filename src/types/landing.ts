@@ -20,7 +20,8 @@ type Person = {
   website?: string,
   email?: string,
   linkedin?: string,
-  instagram?: string
+  instagram?: string,
+  behance?: string
 }
 
 export type { Link, Person }

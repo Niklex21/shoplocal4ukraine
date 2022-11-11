@@ -7,7 +7,16 @@ const strings_en = {
     },
     landing: {
         about: {
-            teamSectionTitle: "The Team"
+            teamSectionTitle: "The Team",
+            socials: {
+                email: "Email",
+                linkedin: "LinkedIn",
+                facebook: "Facebook",
+                instagram: "Instagram",
+                twitter: "Twitter",
+                behance: "Behance",
+                website: "Website"
+            }
         },
         home: {
             callPrimary: "Shop Local, Support Ukraine",
