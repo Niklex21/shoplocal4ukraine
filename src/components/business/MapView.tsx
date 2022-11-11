@@ -2,7 +2,7 @@ import { BusinessModel } from "@api/business/types"
 import defaults from "@utils/config"
 import { findBusinessById, isEmpty, modelToGeojsonFeature } from "@utils/utils"
 import { GeolocateControl, NavigationControl, ScaleControl, Map, MapRef, Source, Layer, SymbolLayer } from "react-map-gl"
-import { useContext, useEffect, useRef, useState } from "react"
+import { Ref, useContext, useEffect, useRef, useState } from "react"
 import { BusinessViewContext } from "src/pages/businesses"
 import { twMerge } from "tailwind-merge"
 
@@ -130,7 +130,7 @@ export const MapView = ({ className } : Props) => {
     return (
         <div className={ twMerge('w-full h-screen', className) }>
             <Map
-                ref={ mapRef }
+                ref={ mapRef as Ref<MapRef>}
                 {...viewState}
                 onMove={ evt => setViewState(evt.viewState) }
                 onDragStart={ () => setDragState(MapDragState.On) }

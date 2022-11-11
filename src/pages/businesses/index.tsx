@@ -16,9 +16,9 @@ import { atomSelectedBusinessID, atomSearchQuery, atomSelectedCategories, atomAl
 import { useAtom } from "jotai"
 import strings from "@utils/strings"
 
-import { Search as IconSearch } from "@mui/icons-material"
+import { Business, Search as IconSearch } from "@mui/icons-material"
 import { businessCategoryConverter } from "@utils/converters"
-import { Checkbox, InputBase, ListItemText, MenuItem, Select } from "@mui/material"
+import { Checkbox, InputBase, ListItemText, MenuItem, Select, SelectChangeEvent } from "@mui/material"
 import { BUSINESS_CATEGORIES } from "@utils/config"
 
 const logger = log.with({ from: 'page.businesses.index' })
@@ -44,12 +44,27 @@ const Main: NextPageWithLayout = ({ businesses }: InferGetStaticPropsType<typeof
         setAllBusinesses(businesses)
     }, [ businesses, setAllBusinesses ])
 
-    const search = (value: string) => {
-        setSearchQuery(value);
-    }
+    /**
+     * Handles change in the category selector.
+     */
+    const handleCategoryChange = (event: SelectChangeEvent<BusinessCategory[]>) => {
 
-    const categories = (value: Array<BusinessCategory>) => {
-        setSelectedCategories(value);
+        let target : Array<BusinessCategory> = []
+
+        if (typeof event.target.value === "string") {
+            let currentTarget : Array<string> = event.target.value.split(',')
+            currentTarget.forEach(
+                (category: string) => {
+                    if (category in BusinessCategory) {
+                        target.push(BusinessCategory[category as any] as unknown as BusinessCategory)
+                    }
+                }
+            )
+        } else {
+            target = event.target.value ?? []
+        }
+
+        setSelectedCategories(target)
     }
 
     // context vars to pass down to the child components
@@ -84,7 +99,7 @@ const Main: NextPageWithLayout = ({ businesses }: InferGetStaticPropsType<typeof
                     <input
                         placeholder={ strings.businesses.businessView.searchBarLabel }
                         className="focus:outline-none bg-slate-50 w-44 lg:w-64"
-                        onChange={ e => search(e.target.value) }
+                        onChange={ e => setSearchQuery(e.target.value) }
                         aria-label='search businesses'
                         defaultValue={ searchQuery }
                         type="text"
@@ -95,11 +110,7 @@ const Main: NextPageWithLayout = ({ businesses }: InferGetStaticPropsType<typeof
                         multiple
                         displayEmpty
                         value={ selectedCategories }
-                        onChange={
-                            evt => categories(
-                                typeof evt.target.value === "string" ? evt.target.value.split(',').map(e => BusinessCategory[e] || "") : evt.target.value ?? []
-                            )
-                        }
+                        onChange={ handleCategoryChange }
                         input={ <InputBase className="bg-slate-50 w-44 lg:w-64 h-12 px-4 p-2 rounded-lg cursor-pointer" /> }
                         renderValue={
                             selected => {
