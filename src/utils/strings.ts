@@ -57,7 +57,8 @@ const strings_en = {
         businessView: {
             titleViewMap: "Map",
             titleViewGallery: "Gallery",
-            searchBarLabel: "Search map"
+            searchBarLabel: "Search map",
+            categorySelectLabel: "Select categories"
         },
         categories: {
             crafts: 'Crafts',
@@ -67,6 +68,9 @@ const strings_en = {
             lifestyle: 'Lifestyle',
             groceries: 'Groceries',
             shopping: 'Shopping'
+        },
+        galleryView: {
+            noBusinessesFound: "No businesses found... You might need to refine your search query 🤷"
         },
         tag: {
             ukrainianOwned: "Ukrainian-owned"

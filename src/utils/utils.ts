@@ -1,6 +1,7 @@
 import { BusinessModel } from "@api/business/types";
-import { FilteredBusiness } from "@appTypes/businesses";
-import { Feature, FeatureCollection } from "geojson";
+import { FilteredBusiness, SearchedSerializedBusiness, SerializedBusinessModel } from "@appTypes/businesses";
+import { Feature } from "geojson";
+import { businessCategoryConverter, tagConverter } from "./converters";
 
 /**
  * Shortens a given URL by removing the scheme and the www subdomains.
@@ -44,19 +45,32 @@ export function modelToGeojsonFeature(business: BusinessModel) : Feature {
  * @param obj a generic dictionary
  * @returns true if the dictionary is empty (no keys), false otherwise
  */
-export function isEmpty(obj: Object) : boolean { 
+export function isEmpty(obj: Object) : boolean {
     return Object.keys(obj).length === 0
 }
 
 /**
- * Converts a given instance of {@link BusinessModel} to an instance of {@link FilteredBusiness}.
- * @param b an instance of a BusinessModel
- * @returns an instance of FilteredBusiness
+ * Converts a given instance of {@link SerializedBusinessModel} to an instance of {@link SearchedSerializedBusiness}.
+ * @param b an instance of a {@link SerializedBusinessModel}
+ * @returns an instance of {@link SearchedSerializedBusiness}
  */
-export function businessToFilteredBusiness(b: BusinessModel) : FilteredBusiness {
+export function serializedToSearchSerialized(b: SerializedBusinessModel) : SearchedSerializedBusiness {
     // refIndex is required, value is irrelevant because it just represents an unfiltered array of businesses
     return {
         refIndex: 0,
         item: b
+    }
+}
+
+/**
+ * Serializes all enum/object fields according to the current language settings.
+ * @param b an instance of {@link BusinessModel} to serialize
+ * @returns an instance of {@link SerializedBusinessModel}
+ */
+export function serializeBusinessModel(b : BusinessModel) : SerializedBusinessModel {
+    return {
+        ...b,
+        serializedBusinessCategory: businessCategoryConverter(b.businessCategory),
+        serializedTags: b.tags.map(t => tagConverter(t))
     }
 }

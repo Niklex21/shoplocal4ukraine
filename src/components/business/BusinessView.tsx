@@ -1,8 +1,8 @@
 import { Container, ToggleButton, ToggleButtonGroup, Tooltip } from "@mui/material";
 import { businessViewConverter } from "@utils/converters";
-import { useContext, useEffect } from "react";
+import { useContext } from "react";
 import { BusinessViewContext } from "src/pages/businesses";
-import { FilteredBusiness, Views } from "@appTypes/businesses";
+import { Views } from "@appTypes/businesses";
 import { twMerge } from "tailwind-merge";
 import { GalleryView } from "./GalleryView";
 import { MapView } from "./MapView";
@@ -11,8 +11,7 @@ import { useAtom } from "jotai";
 import { atomWithHash } from "jotai/utils"
 
 type Props = {
-    className?: string,
-    businesses: Array<FilteredBusiness>
+    className?: string
 }
 
 const atomView = atomWithHash('view', Views.Map, { delayInit: true })
@@ -21,7 +20,7 @@ const atomView = atomWithHash('view', Views.Map, { delayInit: true })
  * The panel that displays the businesses -- whether it is in a gallery, map,
  * or some other view.
  */
-export const BusinessView = ({ className, businesses }: Props) => {
+export const BusinessView = ({ className }: Props) => {
 
     const [view, setView] = useAtom(atomView);
 
@@ -55,7 +54,7 @@ export const BusinessView = ({ className, businesses }: Props) => {
 
     return (
         <Container className={ twMerge(`flex-col overflow-auto h-full max-h-screen max-w-none ${ view === Views.Map ? 'p-0' : '' }`, className) }>
-            <ViewComponent businesses={ businesses } />
+            <ViewComponent />
             <div className="absolute left-2 top-20 z-50 drop-shadow-md">
                 <ToggleButtonGroup
                     value={ view }

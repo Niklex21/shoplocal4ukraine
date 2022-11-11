@@ -27,7 +27,11 @@ type BusinessViewContextData = {
     logger: Logger
 };
 
-// defines whether or not the map is being moved (on -- dragged right now)
+/**
+ * Defines whether or not the map is being moved.
+ * - On  : map is being dragged at the moment
+ * - Off : map is static at the moment
+ */
 enum MapDragState {
     On,
     Off
@@ -35,5 +39,19 @@ enum MapDragState {
 
 type FilteredBusiness = Fuse.FuseResult<BusinessModel>
 
-export type { ContactsRow, BusinessViewContextData, FilteredBusiness }
+/**
+ * Extends {@link BusinessModel} by adding dedicated serialized string fields
+ * for all the types that are not initially serialized.
+ */
+type SerializedBusinessModel = BusinessModel & {
+    serializedBusinessCategory: string,
+    serializedTags: Array<string>
+}
+
+/**
+ * Type alias for a search result on an array of {@link SerializedBusinessModel}.
+ */
+type SearchedSerializedBusiness = Fuse.FuseResult<SerializedBusinessModel>
+
+export type { ContactsRow, BusinessViewContextData, FilteredBusiness, SerializedBusinessModel, SearchedSerializedBusiness }
 export { Views, MapDragState }
