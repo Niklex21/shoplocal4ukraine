@@ -76,7 +76,8 @@ const strings_en = {
             title: "Share",
             tooltipCopy: "Copy link",
             labelIncludeFilters: "Include search query and filters",
-            labelIncludeView: "Include view settings"
+            labelIncludeView: "Include view settings",
+            toastSuccessCopy: "Copied link"
         },
         tag: {
             ukrainianOwned: "Ukrainian-owned"

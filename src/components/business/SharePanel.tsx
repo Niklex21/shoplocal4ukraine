@@ -11,6 +11,7 @@ import { Checkbox, FormControlLabel, FormGroup, IconButton, Tooltip } from "@mui
 import { atomWithStorage } from "jotai/utils"
 import { urlRemoveHash } from "@utils/utils"
 import { useEffect } from "react"
+import { toast } from "react-toastify"
 
 type Props = {
     className?: string,
@@ -113,10 +114,15 @@ export default function SharePanel({ className, panelState, closePanel }: Props)
                     readOnly
                     className="text-sm focus:outline-none border-ukraine-blue border-2 rounded-lg px-4 bg-inherit"
                     value={ urlToCopy }
-                    size={ 35 }
+                    size={ 25 }
                 />
                 <Tooltip title={ strings.businesses.sharePanel.tooltipCopy }>
-                    <IconButton className="text-ukraine-blue focus:text-green-600" onClick={ () => navigator.clipboard.writeText(urlToCopy) }>
+                    <IconButton className="text-ukraine-blue"
+                        onClick={ () => {
+                            navigator.clipboard.writeText(urlToCopy) 
+                            toast.success(strings.businesses.sharePanel.toastSuccessCopy)
+                        }}
+                    >
                         <IconCopy />
                     </IconButton>
                 </Tooltip>

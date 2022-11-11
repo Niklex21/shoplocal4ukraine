@@ -9,6 +9,8 @@ import { IconButton, Tooltip } from '@mui/material'
 import { PanelState } from '@appTypes/businesses'
 import { menuStateAtom } from 'src/atoms/global'
 import { AppMenu } from './AppMenu'
+import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer } from 'react-toastify'
 
 type Props = {
     children?: ReactNode
@@ -48,6 +50,20 @@ export default function AppMainLayout({ children }: Props) {
                 />
                 <AppMenu />
             </div>
+            <ToastContainer
+                position="bottom-left"
+                autoClose={5000}
+                limit={3}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="colored"
+                className="z-40 min-h-0"
+            />
         </>
     )
 }
