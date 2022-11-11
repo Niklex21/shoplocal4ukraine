@@ -20,7 +20,7 @@ export const GalleryView = ({ className }: Props) => {
     let { logger } = useContext(BusinessViewContext);
     const [ selectedID, setSelectedID ] = useAtom(atomSelectedBusinessID)
     const [ businesses ] = useAtom(atomSearchedBusinesses)
-    
+
     logger = logger.with({ component: 'GalleryView' })
     logger.debug("Loading GalleryView...")
 

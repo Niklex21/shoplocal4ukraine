@@ -11,14 +11,14 @@ import { LOCAL_STORAGE_KEYS } from "@utils/config";
  */
 const atomView = atomWithHash(LOCAL_STORAGE_KEYS.atomView, Views.Map, { delayInit: true })
 
-/** 
+/**
  * Stores whether or not the map is being moved right now.
  */
 const atomMapDragState = atom<MapDragState>(MapDragState.Off)
 
 /**
  * Stores the currently selected business ID.
- * Note: delayInit has to be true to avoid problems with hydration (https://github.com/pmndrs/jotai/issues/739#issuecomment-929260696) 
+ * Note: delayInit has to be true to avoid problems with hydration (https://github.com/pmndrs/jotai/issues/739#issuecomment-929260696)
  */
 const atomSelectedBusinessID = atomWithHash<string>(LOCAL_STORAGE_KEYS.atomBusinessId, "", { delayInit: true })
 
