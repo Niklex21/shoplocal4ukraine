@@ -6,7 +6,7 @@ import { atom, useAtom } from "jotai"
 import { twMerge } from "tailwind-merge"
 import Image from 'next/image'
 import defaults, { LOCAL_STORAGE_KEYS } from "@utils/config"
-import { CopyAll as IconCopy, Facebook, Instagram, LinkedIn, Message, Telegram, Twitter, WhatsApp } from "@mui/icons-material"
+import { ContentCopy as IconCopy, Facebook, Instagram, LinkedIn, Message, Telegram, Twitter, WhatsApp } from "@mui/icons-material"
 import { Checkbox, FormControlLabel, FormGroup, IconButton, Tooltip } from "@mui/material"
 import { atomWithStorage } from "jotai/utils"
 import { urlRemoveHash } from "@utils/utils"
@@ -37,7 +37,13 @@ const atomURLToCopy = atom<string>(
         if (!get(atomIncludeFilters)) {
             url = urlRemoveHash(url, LOCAL_STORAGE_KEYS.atomSearch)
             url = urlRemoveHash(url, LOCAL_STORAGE_KEYS.atomCategories)
+            url = urlRemoveHash(url, LOCAL_STORAGE_KEYS.atomTags)
         }
+
+        // replace the first & if there's no hash behind it
+        // since we are removing hash, we sometimes also accidentally remove the first hash,
+        // which leads to incorrect urls
+        url = url.replace(new RegExp("(?<![^#]*#[^#]*)&"), "#")
 
         return url
     }
@@ -171,9 +177,9 @@ export default function SharePanel({ className, panelState, closePanel }: Props)
                 {
                     socials.map(
                         ({ icon, link, text }, index: number) => (
-                            <Link href={ link }  key={ index }>
+                            <Link href={ link ?? "" }  key={ index }>
                                 <a target="_blank">
-                                    <Tooltip title={ text }>
+                                    <Tooltip title={ text ?? "" }>
                                         <IconButton className="hover:text-ukraine-blue">
                                             { icon }
                                         </IconButton>

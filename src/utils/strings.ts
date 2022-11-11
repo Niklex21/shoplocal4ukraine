@@ -7,7 +7,16 @@ const strings_en = {
     },
     landing: {
         about: {
-            teamSectionTitle: "The Team"
+            teamSectionTitle: "The Team",
+            socials: {
+                email: "Email",
+                linkedin: "LinkedIn",
+                facebook: "Facebook",
+                instagram: "Instagram",
+                twitter: "Twitter",
+                behance: "Behance",
+                website: "Website"
+            }
         },
         home: {
             callPrimary: "Shop Local, Support Ukraine",
@@ -52,13 +61,15 @@ const strings_en = {
             sectionTitle: {
                 description: "About",
                 contacts: "Contacts"
-            }
+            },
+            tooltipShare: "Share"
         },
         businessView: {
             titleViewMap: "Map",
             titleViewGallery: "Gallery",
             searchBarLabel: "Search map",
-            categorySelectLabel: "Select categories"
+            categorySelectLabel: "Select categories",
+            tagSelectLabel: "Select tags"
         },
         categories: {
             crafts: 'Crafts',

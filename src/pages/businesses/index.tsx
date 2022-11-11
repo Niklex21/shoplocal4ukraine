@@ -5,21 +5,21 @@ import 'mapbox-gl/dist/mapbox-gl.css'
 import { getPublishedRecords } from "@api/business"
 import { NextPageWithLayout } from "../_app"
 import { AppLayout } from "@layouts/app"
-import { BusinessCategory, BusinessModel } from "@api/business/types"
+import { BusinessCategory, BusinessModel, Tag } from "@api/business/types"
 
 import { log } from 'next-axiom'
 import { BusinessViewContextData } from "@appTypes/businesses"
 import { BusinessView } from "@components/business/BusinessView"
 import { InfoPanel } from "@components/business/InfoPanel"
 
-import { atomSelectedBusinessID, atomSearchQuery, atomSelectedCategories, atomAllBusinesses } from "src/atoms/businesses"
+import { atomSelectedBusinessID, atomSearchQuery, atomSelectedCategories, atomAllBusinesses, atomSelectedTags } from "src/atoms/businesses"
 import { useAtom } from "jotai"
 import strings from "@utils/strings"
 
-import { Business, Search as IconSearch } from "@mui/icons-material"
-import { businessCategoryConverter } from "@utils/converters"
+import { Search as IconSearch } from "@mui/icons-material"
+import { businessCategoryConverter, tagConverter } from "@utils/converters"
 import { Checkbox, InputBase, ListItemText, MenuItem, Select, SelectChangeEvent } from "@mui/material"
-import { BUSINESS_CATEGORIES } from "@utils/config"
+import { BUSINESS_CATEGORIES, BUSINESS_TAGS } from "@utils/config"
 
 const logger = log.with({ from: 'page.businesses.index' })
 
@@ -37,6 +37,7 @@ const Main: NextPageWithLayout = ({ businesses }: InferGetStaticPropsType<typeof
     const [ selectedID, ] = useAtom(atomSelectedBusinessID)
     const [ searchQuery, setSearchQuery ] = useAtom(atomSearchQuery)
     const [ selectedCategories, setSelectedCategories ] = useAtom(atomSelectedCategories)
+    const [ selectedTags, setSelectedTags ] = useAtom(atomSelectedTags)
     const [ _, setAllBusinesses ] = useAtom(atomAllBusinesses)
 
     // set all businesses when the props are changed
@@ -65,6 +66,29 @@ const Main: NextPageWithLayout = ({ businesses }: InferGetStaticPropsType<typeof
         }
 
         setSelectedCategories(target)
+    }
+
+    /**
+     * Handles change in the tags selector.
+     */
+     const handleTagsChange = (event: SelectChangeEvent<Tag[]>) => {
+
+        let target : Array<Tag> = []
+
+        if (typeof event.target.value === "string") {
+            let currentTarget : Array<string> = event.target.value.split(',')
+            currentTarget.forEach(
+                (tag: string) => {
+                    if (tag in Tag) {
+                        target.push(Tag[tag as any] as unknown as Tag)
+                    }
+                }
+            )
+        } else {
+            target = event.target.value ?? []
+        }
+
+        setSelectedTags(target)
     }
 
     // context vars to pass down to the child components
@@ -132,6 +156,32 @@ const Main: NextPageWithLayout = ({ businesses }: InferGetStaticPropsType<typeof
                             )
                         }
                     </Select>
+                    <Select
+                        multiple
+                        displayEmpty
+                        value={ selectedTags }
+                        onChange={ handleTagsChange }
+                        input={ <InputBase className="bg-slate-50 w-44 lg:w-64 h-12 px-4 p-2 rounded-lg cursor-pointer" /> }
+                        renderValue={
+                            selected => {
+                                return selected.length > 0
+                                    ? selected.map(s => tagConverter(s)).join(', ')
+                                    : strings.businesses.businessView.tagSelectLabel
+                            }
+                        }
+                        className="outline-none cursor-pointer"
+                    >
+                        {
+                            BUSINESS_TAGS.map(
+                                (value: Tag, index: number) => (
+                                    <MenuItem key={ index } value={ value }>
+                                        <Checkbox checked={ selectedTags.indexOf( value ) > -1 } />
+                                        <ListItemText primary={ tagConverter(value) } />
+                                    </MenuItem>
+                                )
+                            )
+                        }
+                    </Select>
                 </div>
             </div>
         </>
@@ -146,7 +196,8 @@ export const getStaticProps: GetStaticProps = async (context) => {
     return {
         props: {
             businesses
-        }
+        },
+        revalidate: 5
     }
 }
 

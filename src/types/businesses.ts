@@ -7,9 +7,9 @@ import { Logger } from "next-axiom";
  * Defines a generic icon, link, text structure for parsing icon buttons.
  */
 type IconLinkText = {
-    icon: JSX.Element,
-    link: string,
-    text: string
+    icon?: JSX.Element,
+    link?: string,
+    text?: string
 }
 
 /**

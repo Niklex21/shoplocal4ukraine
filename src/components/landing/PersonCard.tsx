@@ -4,42 +4,53 @@ import Image from 'next/image'
 import { Email as IconEmail, Language as IconWebsite, LinkedIn as IconLinkedin, Instagram as IconInstagram } from "@mui/icons-material"
 import Link from "next/link";
 import { useState } from "react";
+import { AiFillBehanceCircle as IconBehance } from "react-icons/ai"
+import { IconLinkText } from "@appTypes/businesses";
+import { IconButton, Tooltip } from "@mui/material";
+import strings from "@utils/strings"
 
-type Social = {
-    icon: JSX.Element,
-    link: string
-}
+export function PersonCard({ name, profilePictureURL, role, description, gifURL, website, email, linkedin, instagram, behance } : Person) {
 
-export function PersonCard({ name, profilePictureURL, role, description, gifURL, website, email, linkedin, instagram } : Person) {
-
-    let socials : Array<Social> = []
+    let socials : Array<IconLinkText> = []
 
     if (website) socials.push({
         icon: (
             <IconWebsite fontSize="inherit" />
         ),
-        link: website
+        link: website,
+        text: strings.landing.about.socials.website
     })
 
     if (email) socials.push({
         icon: (
             <IconEmail fontSize="inherit" />
         ),
-        link: "mailto:" + email
+        link: "mailto:" + email,
+        text: strings.landing.about.socials.email
     })
 
     if (linkedin) socials.push({
         icon: (
             <IconLinkedin fontSize="inherit" />
         ),
-        link: linkedin
+        link: linkedin,
+        text: strings.landing.about.socials.linkedin
     })
 
     if (instagram) socials.push({
         icon: (
             <IconInstagram />
         ),
-        link: instagram
+        link: instagram,
+        text: strings.landing.about.socials.instagram
+    })
+
+    if (behance) socials.push({
+        icon: (
+            <IconBehance />
+        ),
+        link: behance,
+        text: strings.landing.about.socials.behance
     })
 
     const [ currentImageURL, setCurrentImageURL ] = useState<string>(profilePictureURL)
@@ -60,13 +71,19 @@ export function PersonCard({ name, profilePictureURL, role, description, gifURL,
             <text className="text-center text-2xl mt-4 font-bold">{ name }</text>
             <text className="text-center text-xl mt-2 text-ukraine-blue">{ role }</text>
             <text className="text-center text-lg mt-2 max-w-xs text-gray-600">{ description }</text>
-            <div className="mt-2 flex w-full justify-center flex-row gap-2">
+            <div className="mt-2 flex w-full justify-center flex-row gap-1">
                 {
                     socials.map(
-                        ({ icon, link }, index: number) => (
-                            <div key={ index } className="cursor-pointer hover:text-ukraine-blue text-3xl">
-                                <Link href={ link }>
-                                    <a target="_blank">{ icon }</a>
+                        ({ icon, link, text }, index: number) => (
+                            <div key={ index } className="text-3xl">
+                                <Link href={ link ?? "" }>
+                                    <a target="_blank">
+                                        <Tooltip title={ text ?? "" }>
+                                            <IconButton className="hover:text-ukraine-blue">
+                                                { icon }
+                                            </IconButton>
+                                        </Tooltip>
+                                    </a>
                                 </Link>
                             </div>
                         )

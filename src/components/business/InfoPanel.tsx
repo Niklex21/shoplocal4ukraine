@@ -1,4 +1,4 @@
-import { Card, CardMedia, CardContent, Chip, Container, IconButton } from "@mui/material";
+import { Card, CardMedia, CardContent, Chip, Container, IconButton, Tooltip } from "@mui/material";
 import defaults from "@utils/config";
 import strings from "@utils/strings";
 import { isEmpty, urlShortener } from "@utils/utils";
@@ -86,27 +86,31 @@ export const InfoPanel = ({ className }: Props) => {
             />
             <CardContent>
                 <div className="flex flex-col gap-4">
-                    <div className="grid grid-cols-3 gap-2 items-center">
-                        <div className="col-span-2">
-                            <h1 className="text-2xl font-bold">{ business.name }</h1>
-                            <div className="flex flex-wrap gap-2 mt-2 flex-row">
-                                <Chip className="text-base text-white bg-ukraine-blue" label={ business.serializedBusinessCategory } />
+                    <div className="grid grid-cols-4">
+                        <div className="col-span-3">
+                            <h1 className="text-2xl font-medium">{ business.name }</h1>
+                            <div className="flex flex-wrap gap-2 flex-row text-base mt-1 text-ukraine-blue">
+                                { business.serializedBusinessCategory }
                                 {
                                     business.serializedTags.map(
-                                        (tag: string, index: number) => (
-                                            <Chip key={ index } className="text-base text-black bg-ukraine-yellow" label={ tag } />
+                                        (tag: string) => (
+                                            <>
+                                                &nbsp;&bull;&nbsp;{ tag }
+                                            </>
                                         )
                                     )
                                 }
                             </div>
                         </div>
-                        <div className="justify-self-center">
-                            <IconButton
-                                className="text-ukraine-blue rounded-full p-2 text-5xl"
-                                onClick={ () => setSharePanelState(PanelState.Open) }
-                            >
-                                <IconShare />
-                            </IconButton>
+                        <div className="flex justify-self-center items-center">
+                            <Tooltip title={ strings.businesses.infoPage.tooltipShare }>
+                                <IconButton
+                                    className="text-ukraine-blue rounded-full p-2"
+                                    onClick={ () => setSharePanelState(PanelState.Open) }
+                                >
+                                    <IconShare className="text-2xl" />
+                                </IconButton>
+                            </Tooltip>
                         </div>
                     </div>
                     <div className="relative md:hidden rounded-lg w-full h-48">
