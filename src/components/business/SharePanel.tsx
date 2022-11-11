@@ -1,4 +1,4 @@
-import { FullScreenPanelPosition, PanelState } from "@appTypes/businesses"
+import { FullScreenPanelPosition, IconLinkText, PanelState } from "@appTypes/businesses"
 import { atomCurrentBusiness, atomSearchQuery, atomSelectedBusinessID, atomSelectedCategories, atomView } from "src/atoms/businesses"
 import FullScreenPanel from "@components/common/FullScreenPanel"
 import strings from "@utils/strings"
@@ -6,12 +6,13 @@ import { atom, useAtom } from "jotai"
 import { twMerge } from "tailwind-merge"
 import Image from 'next/image'
 import defaults, { LOCAL_STORAGE_KEYS } from "@utils/config"
-import { CopyAll as IconCopy } from "@mui/icons-material"
+import { CopyAll as IconCopy, Facebook, Instagram, LinkedIn, Message, Telegram, Twitter, WhatsApp } from "@mui/icons-material"
 import { Checkbox, FormControlLabel, FormGroup, IconButton, Tooltip } from "@mui/material"
 import { atomWithStorage } from "jotai/utils"
 import { urlRemoveHash } from "@utils/utils"
 import { useEffect } from "react"
 import { toast } from "react-toastify"
+import Link from "next/link"
 
 type Props = {
     className?: string,
@@ -41,6 +42,44 @@ const atomURLToCopy = atom<string>(
         return url
     }
 )
+
+const socials : Array<IconLinkText> = [
+    {
+        icon: <LinkedIn />,
+        link: "#",
+        text: "LinkedIn"
+    },
+    {
+        icon: <Facebook />,
+        link: "#",
+        text: "Facebook"
+    },
+    {
+        icon: <Instagram />,
+        link: "#",
+        text: "Instagram"
+    },
+    {
+        icon: <Twitter />,
+        link: "#",
+        text: "Twitter"
+    },
+    {
+        icon: <Message />,
+        link: "#",
+        text: "Message"
+    },
+    {
+        icon: <Telegram />,
+        link: "#",
+        text: "Telegram"
+    },
+    {
+        icon: <WhatsApp />,
+        link: "#",
+        text: "WhatsApp"
+    }
+]
 
 /**
  * A full-screen above-all panel that provides a user with shareable about a specific business.
@@ -126,6 +165,24 @@ export default function SharePanel({ className, panelState, closePanel }: Props)
                         <IconCopy />
                     </IconButton>
                 </Tooltip>
+            </div>
+            <hr />
+            <div className="flex flex-row gap-2">
+                {
+                    socials.map(
+                        ({ icon, link, text }, index: number) => (
+                            <Link href={ link }  key={ index }>
+                                <a target="_blank">
+                                    <Tooltip title={ text }>
+                                        <IconButton className="hover:text-ukraine-blue">
+                                            { icon }
+                                        </IconButton> 
+                                    </Tooltip>
+                                </a>
+                            </Link>
+                        )
+                    )
+                }
             </div>
         </FullScreenPanel>
     )

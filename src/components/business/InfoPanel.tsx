@@ -5,7 +5,7 @@ import { isEmpty, urlShortener } from "@utils/utils";
 import Link from "next/link";
 import { useContext, useState } from "react";
 import { BusinessViewContext } from "src/pages/businesses";
-import { ContactsRow, PanelState } from "@appTypes/businesses";
+import { IconLinkText, PanelState } from "@appTypes/businesses";
 import { twMerge } from "tailwind-merge";
 import { Place as IconPlace, Link as IconLink, Email as IconEmail, Phone as IconPhone, Share as IconShare } from "@mui/icons-material";
 import Image from 'next/image';
@@ -39,7 +39,7 @@ export const InfoPanel = ({ className }: Props) => {
 
     logger.debug(`Loading Info for selected business: ${ business.id }`)
 
-    let contacts : Array<ContactsRow> = [];
+    let contacts : Array<IconLinkText> = [];
     let imageSrc : string = business.images && business.images.length > 0 ? business.images[0] : defaults.businesses.gallery.defaultImage.src
 
     contacts = [
@@ -47,14 +47,14 @@ export const InfoPanel = ({ className }: Props) => {
             icon: (
                 <IconPlace />
             ),
-            content: business.location?.city,
+            text: business.location?.city,
             link: business.location?.googleMapsURL
         },
         ...(business.website ? [{
                 icon: (
                     <IconLink />
                 ),
-                content: urlShortener(business.website),
+                text: urlShortener(business.website),
                 link: business.website
             }] : []
         ),
@@ -62,7 +62,7 @@ export const InfoPanel = ({ className }: Props) => {
                 icon: (
                     <IconEmail />
                 ),
-                content: business.email,
+                text: business.email,
                 link: `mailto:${ business.email }`
             }] : []
         ),
@@ -70,7 +70,7 @@ export const InfoPanel = ({ className }: Props) => {
                 icon: (
                     <IconPhone />
                 ),
-                content: business.phone,
+                text: business.phone,
                 link: `tel:${ business.phone }`
             }] : []
         ),
@@ -122,14 +122,14 @@ export const InfoPanel = ({ className }: Props) => {
                         <h3 className="prose text-xl mb-2 font-semibold">{ strings.businesses.infoPage.sectionTitle.contacts }</h3>
                         {
                             contacts.map(
-                                ({ icon, content, link } : { icon: JSX.Element, content: string, link: string }, index: number) => (
+                                ({ icon, link, text }, index: number) => (
                                     <div key={ index } className="mt-1 cursor-pointer hover:text-ukraine-blue hover:opacity-100 opacity-80">
                                         <Link href={ link || "#" }>
                                             <div className="flex flex-nowrap flex-row gap-2">
                                                 { icon }
                                                 <a target="_blank">
                                                     <span className="break-all">
-                                                        { content }
+                                                        { text }
                                                     </span>
                                                 </a>
                                             </div>

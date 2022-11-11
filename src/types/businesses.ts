@@ -4,12 +4,12 @@ import Fuse from 'fuse.js';
 import { Logger } from "next-axiom";
 
 /**
- * Contains an icon, content, link structure to define a list of contacts to be rendered later
+ * Defines a generic icon, link, text structure for parsing icon buttons.
  */
-type ContactsRow = {
+type IconLinkText = {
     icon: JSX.Element,
-    content: string,
-    link: string
+    link: string,
+    text: string
 }
 
 /**
@@ -72,5 +72,5 @@ type SerializedBusinessModel = BusinessModel & {
  */
 type SearchedSerializedBusiness = Fuse.FuseResult<SerializedBusinessModel>
 
-export type { ContactsRow, BusinessViewContextData, FilteredBusiness, SerializedBusinessModel, SearchedSerializedBusiness }
+export type { IconLinkText, BusinessViewContextData, FilteredBusiness, SerializedBusinessModel, SearchedSerializedBusiness }
 export { Views, MapDragState, PanelState, FullScreenPanelPosition }
