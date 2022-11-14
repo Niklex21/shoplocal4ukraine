@@ -1,7 +1,7 @@
 import { BusinessModel } from "@api/business/types"
 import defaults from "@utils/config"
 import { findBusinessById, isEmpty, modelToGeojsonFeature } from "@utils/utils"
-import { GeolocateControl, NavigationControl, ScaleControl, Map, MapRef, Source, Layer, SymbolLayer } from "react-map-gl"
+import { GeolocateControl, NavigationControl, ScaleControl, Map, MapRef, Source, Layer, SymbolLayer, CircleLayer } from "react-map-gl"
 import { Ref, useContext, useEffect, useRef, useState } from "react"
 import { BusinessViewContext } from "src/pages/businesses"
 import { twMerge } from "tailwind-merge"
@@ -42,12 +42,17 @@ export const MapView = ({ className } : Props) => {
     const mapRef = useRef<MapRef>()
 
     // it's re-used in other places, so should be unified
-    const LAYER_ID = 'businesses'
+    const BUSINESS_LAYER_ID = 'businesses'
+    const CLUSTERS_LAYER_ID = 'clusters'
+    const CLUSTER_COUNT_LAYER_ID = 'cluster-count'
+    const SOURCE_ID = 'map'
 
     // Mapbox layer properties (https://visgl.github.io/react-map-gl/docs/api-reference/layer)
     const businessesLayer : SymbolLayer = {
-        "id": LAYER_ID,
+        "id": BUSINESS_LAYER_ID,
         "type": "symbol",
+        "source": SOURCE_ID,
+        "filter": ['!', ['has', 'point_count']],
         "layout": {
             "text-field": ['get', 'name'],
             "text-justify": "auto",
@@ -55,7 +60,9 @@ export const MapView = ({ className } : Props) => {
             "text-radial-offset": 1,
             "icon-image": 'restaurant',
             "icon-size": 1.2,
-            "text-size": 16
+            "text-size": 16,
+            "text-optional": true,
+            "icon-allow-overlap": true
         },
         "paint": {
             "text-color": [
@@ -69,6 +76,50 @@ export const MapView = ({ className } : Props) => {
         },
     }
 
+    const clusterLayer : CircleLayer = {
+        "id": CLUSTERS_LAYER_ID,
+        "type": "circle",
+        "source": SOURCE_ID,
+        "filter": ['has', 'point_count'],
+        "paint": {
+            // Use step expressions (https://docs.mapbox.com/mapbox-gl-js/style-spec/#expressions-step)
+            // with three steps to implement three types of circles:
+            //   * Blue, 20px circles when point count is less than 100
+            //   * Yellow, 30px circles when point count is between 100 and 750
+            //   * Pink, 40px circles when point count is greater than or equal to 750
+            'circle-color': [
+                'step',
+                ['get', 'point_count'],
+                '#51bbd6',
+                100,
+                '#f1f075',
+                750,
+                '#f28cb1'
+            ],
+            'circle-radius': [
+                'step',
+                ['get', 'point_count'],
+                20,
+                100,
+                30,
+                750,
+                40
+            ]
+        }
+    }
+
+    const clusterCountLayer : SymbolLayer = {
+        id: CLUSTER_COUNT_LAYER_ID,
+        type: 'symbol',
+        source: SOURCE_ID,
+        filter: ['has', 'point_count'],
+        layout: {
+            'text-field': '{point_count_abbreviated}',
+            'text-font': ['DIN Offc Pro Medium', 'Arial Unicode MS Bold'],
+            'text-size': 12
+        }
+    };
+
     const geojson : FeatureCollection = {
         type: "FeatureCollection",
         features: businessItems.map(b => modelToGeojsonFeature(b))
@@ -81,9 +132,10 @@ export const MapView = ({ className } : Props) => {
                 latitude: selectedBusiness.location.latitude,
                 zoom: defaults.businesses.map.businessViewZoom
             })
+            // note the current order of the coordinates
             mapRef.current?.flyTo({
                 zoom: defaults.businesses.map.businessViewZoom,
-                center: [selectedBusiness.location.longitude, selectedBusiness.location.latitude],
+                center: [ selectedBusiness.location.longitude, selectedBusiness.location.latitude ],
                 duration: defaults.businesses.map.transitionDuration
             });
         }
@@ -93,33 +145,33 @@ export const MapView = ({ className } : Props) => {
         const map = mapRef.current?.getMap()
 
         if (map) {
-            map.on('click', LAYER_ID, ({ features }) => {
+            map.on('click', BUSINESS_LAYER_ID, ({ features }) => {
                 if (features && features.length > 0) {
                     map.removeFeatureState(
-                        { source: LAYER_ID, id: selectedID }
+                        { source: SOURCE_ID, id: selectedID }
                     )
                     setSelectedID(features[0]?.properties?.id || "")
                     map.setFeatureState(
-                        { source: LAYER_ID, id: selectedID },
+                        { source: SOURCE_ID, id: selectedID },
                         { "selected": true }
                     )
                 }
             })
-            map.on('mouseover', LAYER_ID, ({ features }) => {
+            map.on('mouseover', BUSINESS_LAYER_ID, ({ features }) => {
                 map.getCanvas().style.cursor = 'pointer';
                 if (features && features.length > 0) {
                     setHoverID(features[0]?.properties?.id || "")
                     map.setFeatureState(
-                        { source: LAYER_ID, id: hoverID },
+                        { source: SOURCE_ID, id: hoverID },
                         { "hover": true }
                     )
                 }
             })
-            map.on('mouseout', LAYER_ID, ({ features }) => {
+            map.on('mouseout', BUSINESS_LAYER_ID, ({ features }) => {
                 map.getCanvas().style.cursor = '';
                 if (features && features.length > 0) {
                     map.removeFeatureState(
-                        { source: LAYER_ID, id: hoverID }
+                        { source: SOURCE_ID, id: hoverID }
                     )
                     setHoverID("")
                 }
@@ -138,15 +190,17 @@ export const MapView = ({ className } : Props) => {
                 style={{ width: '100%', height: '100%' }}
                 mapStyle={ defaults.businesses.map.mapStyle }
                 mapboxAccessToken={ process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN }
-                interactiveLayerIds={ [LAYER_ID] }
+                interactiveLayerIds={ [ BUSINESS_LAYER_ID, CLUSTERS_LAYER_ID ] }
                 reuseMaps={ true }
                 >
                     <GeolocateControl />
                     <NavigationControl />
                     <ScaleControl />
 
-                    <Source id={ LAYER_ID } type="geojson" data={ geojson } generateId={ true }>
+                    <Source id={ SOURCE_ID } type="geojson" data={ geojson } generateId={ true } cluster={ true } clusterMaxZoom={14} clusterRadius={50}>
                         <Layer {...businessesLayer} />
+                        <Layer {...clusterLayer} />
+                        <Layer {...clusterCountLayer} />
                     </Source>
             </Map>
         </div>
