@@ -1,12 +1,12 @@
 import { BusinessModel } from "@api/business/types"
 import defaults from "@utils/config"
 import { findBusinessById, isEmpty, modelToGeojsonFeature } from "@utils/utils"
-import { GeolocateControl, NavigationControl, ScaleControl, Map, MapRef, Source, Layer, SymbolLayer, CircleLayer } from "react-map-gl"
+import { GeolocateControl, NavigationControl, ScaleControl, Map, MapRef, Source, Layer, SymbolLayer, CircleLayer, GeoJSONSource } from "react-map-gl"
 import { Ref, useContext, useEffect, useRef, useState } from "react"
 import { BusinessViewContext } from "src/pages/businesses"
 import { twMerge } from "tailwind-merge"
 
-import { FeatureCollection } from "geojson"
+import { FeatureCollection, Point } from "geojson"
 import { atomMapDragState, atomSearchedBusinesses, atomSelectedBusinessID } from "src/atoms/businesses"
 import { useAtom } from "jotai"
 import { MapDragState } from "@appTypes/businesses"
@@ -156,6 +156,35 @@ export const MapView = ({ className } : Props) => {
                         { "selected": true }
                     )
                 }
+            })
+            map.on('click', CLUSTERS_LAYER_ID, (e) => {
+                const features = map.queryRenderedFeatures(e.point, {
+                    layers: [CLUSTERS_LAYER_ID]
+                });
+
+                const clusterId = features[0].properties?.cluster_id;
+                if (features && features.length > 0) {
+                    (map.getSource(SOURCE_ID) as GeoJSONSource).getClusterExpansionZoom(
+                        clusterId,
+                        (err, zoom) => {
+                            if (err) {
+                                logger.debug("Error while getting cluster expansion zoom: ", err);
+                                return;
+                            }
+
+                            // note that we have to do the coordinates[0], coordinates[1]
+                            // as Position may have 3 items, and center can only accept two
+                            let coordinates = (features[0].geometry as Point).coordinates
+                            map.easeTo({
+                                center: [coordinates[0], coordinates[1]],
+                                zoom: zoom
+                            })
+                        }
+                    )
+                }
+            })
+            map.on('mouseover', CLUSTERS_LAYER_ID, (e) => {
+                map.getCanvas().style.cursor = 'pointer'
             })
             map.on('mouseover', BUSINESS_LAYER_ID, ({ features }) => {
                 map.getCanvas().style.cursor = 'pointer';
