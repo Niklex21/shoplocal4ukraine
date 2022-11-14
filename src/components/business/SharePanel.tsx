@@ -173,7 +173,7 @@ export default function SharePanel({ className, panelState, closePanel }: Props)
                 </Tooltip>
             </div>
             <hr />
-            <div className="flex flex-row gap-2">
+            <div className="flex flex-row gap-2 justify-center">
                 {
                     socials.map(
                         ({ icon, link, text }, index: number) => (
