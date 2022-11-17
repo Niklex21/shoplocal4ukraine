@@ -31,7 +31,7 @@ export const MapView = ({ className } : Props) => {
     
     const longitude = selectedBusiness.location?.longitude ?? defaults.businesses.map.longitude
     const latitude = selectedBusiness.location?.latitude ?? defaults.businesses.map.latitude
-    const zoom = defaults.businesses.map.zoom
+    const zoom = isEmpty(selectedBusiness) ? defaults.businesses.map.zoom : defaults.businesses.map.businessViewZoom
 
     logger.debug(`Loading MapView with default longitude ${ longitude }, latitude ${ latitude }, and zoom ${ zoom }`)
 

@@ -69,7 +69,9 @@ const strings_en = {
             titleViewGallery: "Gallery",
             searchBarLabel: "Search map",
             categorySelectLabel: "Select categories",
-            tagSelectLabel: "Select tags"
+            tagSelectLabel: "Select tags",
+            tooltipAddBusiness: "Add a business",
+            show: "Show"
         },
         categories: {
             crafts: 'Crafts',
