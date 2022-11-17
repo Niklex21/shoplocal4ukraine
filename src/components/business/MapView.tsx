@@ -7,7 +7,7 @@ import { BusinessViewContext } from "src/pages/businesses"
 import { twMerge } from "tailwind-merge"
 
 import { FeatureCollection, Point } from "geojson"
-import { atomMapDragState, atomSearchedBusinesses, atomSelectedBusinessID } from "src/atoms/businesses"
+import { atomCurrentBusiness, atomMapDragState, atomSearchedBusinesses, atomSelectedBusinessID } from "src/atoms/businesses"
 import { useAtom } from "jotai"
 import { MapDragState } from "@appTypes/businesses"
 
@@ -21,16 +21,14 @@ export const MapView = ({ className } : Props) => {
     logger = logger.with({ component: "MapView" })
 
     const [ businesses ] = useAtom(atomSearchedBusinesses)
+    const [ selectedBusiness ] = useAtom(atomCurrentBusiness)
 
     // businesses were filtered, but it's irrelevant for maps (for now)
     const businessItems : Array<BusinessModel> = businesses.map(b => b.item)
 
     const [ selectedID, setSelectedID ] = useAtom(atomSelectedBusinessID)
     const [ hoverID, setHoverID ] = useState<string>("")
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    const selectedBusiness : BusinessModel = findBusinessById(businessItems, selectedID)
-
+    
     const longitude = selectedBusiness.location?.longitude ?? defaults.businesses.map.longitude
     const latitude = selectedBusiness.location?.latitude ?? defaults.businesses.map.latitude
     const zoom = defaults.businesses.map.zoom
@@ -127,11 +125,6 @@ export const MapView = ({ className } : Props) => {
 
     useEffect(() => {
         if (!isEmpty(selectedBusiness)) {
-            setViewState({
-                longitude: selectedBusiness.location.longitude,
-                latitude: selectedBusiness.location.latitude,
-                zoom: defaults.businesses.map.businessViewZoom
-            })
             // note the current order of the coordinates
             mapRef.current?.flyTo({
                 zoom: defaults.businesses.map.businessViewZoom,
@@ -139,7 +132,7 @@ export const MapView = ({ className } : Props) => {
                 duration: defaults.businesses.map.transitionDuration
             });
         }
-    }, [ setViewState, selectedBusiness ])
+    }, [ selectedBusiness ])
 
     useEffect(() => {
         const map = mapRef.current?.getMap()
