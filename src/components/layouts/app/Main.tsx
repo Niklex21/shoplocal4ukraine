@@ -1,13 +1,11 @@
-import { ReactNode } from 'react'
+import { ReactNode, useState } from 'react'
 
 import Head from 'next/head'
 import favicon from '@public/images/favicon.png'
 import strings from '@utils/strings'
-import { useAtom } from "jotai"
 import { Menu as IconMenu } from "@mui/icons-material"
 import { IconButton, Tooltip } from '@mui/material'
 import { PanelState } from '@appTypes/businesses'
-import { menuStateAtom } from 'src/atoms/global'
 import { AppMenu } from './AppMenu'
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify'
@@ -18,7 +16,7 @@ type Props = {
 
 export default function AppMainLayout({ children }: Props) {
 
-    const [ menuState, setMenuState ] = useAtom(menuStateAtom)
+    const [ menuState, setMenuState ] = useState<PanelState>(PanelState.Closed)
 
     return (
         <>
@@ -48,7 +46,7 @@ export default function AppMainLayout({ children }: Props) {
                     }
                     onClick={ () => setMenuState(PanelState.Closed) }
                 />
-                <AppMenu />
+                <AppMenu menuState={ menuState } setMenuState={ setMenuState } />
             </div>
             <ToastContainer
                 position="bottom-left"

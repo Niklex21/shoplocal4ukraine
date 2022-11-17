@@ -68,10 +68,14 @@ export function serializedToSearchSerialized(b: SerializedBusinessModel) : Searc
  * @returns an instance of {@link SerializedBusinessModel}
  */
 export function serializeBusinessModel(b : BusinessModel) : SerializedBusinessModel {
+    if (isEmpty(b)) {
+        return {} as SerializedBusinessModel
+    }
+    
     return {
         ...b,
         serializedBusinessCategory: businessCategoryConverter(b.businessCategory),
-        serializedTags: b.tags.map(t => tagConverter(t))
+        serializedTags: b.tags?.map(t => tagConverter(t)) ?? []
     }
 }
 

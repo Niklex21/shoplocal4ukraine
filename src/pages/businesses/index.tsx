@@ -1,5 +1,5 @@
 import { GetStaticProps, InferGetStaticPropsType } from "next"
-import { createContext, ReactElement, useEffect } from "react"
+import { createContext, ReactElement, ReactNode, useEffect } from "react"
 import 'mapbox-gl/dist/mapbox-gl.css'
 
 import { getPublishedRecords } from "@api/business"
@@ -12,7 +12,7 @@ import { BusinessViewContextData } from "@appTypes/businesses"
 import { BusinessView } from "@components/business/BusinessView"
 import { InfoPanel } from "@components/business/InfoPanel"
 
-import { atomSelectedBusinessID, atomSearchQuery, atomSelectedCategories, atomAllBusinesses, atomSelectedTags } from "src/atoms/businesses"
+import { atomSelectedBusinessID, atomSearchQuery, atomSelectedCategories, atomAllBusinesses, atomSelectedTags, atomCurrentBusiness } from "src/atoms/businesses"
 import { useAtom } from "jotai"
 import strings from "@utils/strings"
 
@@ -20,6 +20,8 @@ import { Search as IconSearch } from "@mui/icons-material"
 import { businessCategoryConverter, tagConverter } from "@utils/converters"
 import { Checkbox, InputBase, ListItemText, MenuItem, Select, SelectChangeEvent } from "@mui/material"
 import { BUSINESS_CATEGORIES, BUSINESS_TAGS } from "@utils/config"
+import { isEmpty } from "@utils/utils"
+import { twMerge } from "tailwind-merge"
 
 const logger = log.with({ from: 'page.businesses.index' })
 
@@ -34,7 +36,7 @@ const Main: NextPageWithLayout = ({ businesses }: InferGetStaticPropsType<typeof
 
     logger.with({ component: 'Main' }).debug("Loading Main...")
 
-    const [ selectedID, ] = useAtom(atomSelectedBusinessID)
+    const [ selectedBusiness ] = useAtom(atomCurrentBusiness)
     const [ searchQuery, setSearchQuery ] = useAtom(atomSearchQuery)
     const [ selectedCategories, setSelectedCategories ] = useAtom(atomSelectedCategories)
     const [ selectedTags, setSelectedTags ] = useAtom(atomSelectedTags)
@@ -96,18 +98,21 @@ const Main: NextPageWithLayout = ({ businesses }: InferGetStaticPropsType<typeof
         logger
     }
 
-    const content = selectedID !== "" ? (
-        <div className="grid grid-rows-2 md:grid-rows-none md:grid-cols-2 lg:grid-cols-4 w-full h-full">
+    const content = (
+        <div 
+            className={
+                twMerge(
+                    "w-full h-full",
+                    isEmpty(selectedBusiness) ? "" : "grid md:grid-rows-none md:grid-cols-2 lg:grid-cols-4 grid-rows-2"
+                )
+            }
+        >
             <BusinessView
-                className="lg:col-span-3"
+                className={ isEmpty(selectedBusiness) ? "" : "lg:col-span-3" }
             />
             <InfoPanel
-                className="lg:col-span-1"
+                className={ isEmpty(selectedBusiness) ? "" : "lg:col-span-1" }
             />
-        </div>
-    ) : (
-        <div className="w-full h-full">
-            <BusinessView />
         </div>
     )
 

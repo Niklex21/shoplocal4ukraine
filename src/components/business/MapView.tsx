@@ -128,7 +128,10 @@ export const MapView = ({ className } : Props) => {
             // note the current order of the coordinates
             mapRef.current?.flyTo({
                 zoom: defaults.businesses.map.businessViewZoom,
-                center: [ selectedBusiness.location.longitude, selectedBusiness.location.latitude ],
+                center: [
+                    selectedBusiness.location?.longitude ?? defaults.businesses.map.longitude,
+                    selectedBusiness.location?.latitude ?? defaults.businesses.map.latitude
+                ],
                 duration: defaults.businesses.map.transitionDuration
             });
         }
