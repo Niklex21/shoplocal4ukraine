@@ -7,11 +7,12 @@ import { useContext, useState } from "react";
 import { BusinessViewContext } from "src/pages/businesses";
 import { IconLinkText, PanelState } from "@appTypes/businesses";
 import { twMerge } from "tailwind-merge";
-import { Place as IconPlace, Link as IconLink, Email as IconEmail, Phone as IconPhone, Share as IconShare } from "@mui/icons-material";
+import { Place as IconPlace, Link as IconLink, Email as IconEmail, Phone as IconPhone, ShareOutlined as IconShare } from "@mui/icons-material";
 import Image from 'next/image';
 import { atomCurrentBusiness } from "src/atoms/businesses";
 import { useAtom } from "jotai";
 import SharePanel from "./SharePanel";
+import { BadgesRow } from "./BadgesRow";
 
 type Props = {
     className?: string
@@ -43,13 +44,6 @@ export const InfoPanel = ({ className }: Props) => {
     let imageSrc : string = business.images && business.images.length > 0 ? business.images[0] : defaults.businesses.gallery.defaultImage.src
 
     contacts = [
-        {
-            icon: (
-                <IconPlace />
-            ),
-            text: business.location?.city,
-            link: business.location?.googleMapsURL
-        },
         ...(business.website ? [{
                 icon: (
                     <IconLink />
@@ -86,26 +80,20 @@ export const InfoPanel = ({ className }: Props) => {
             />
             <CardContent>
                 <div className="flex flex-col gap-4">
-                    <div className="grid grid-cols-4">
-                        <div className="col-span-3">
-                            <h1 className="text-2xl font-medium">{ business.name }</h1>
-                            <div className="flex flex-wrap gap-2 flex-row text-base mt-1 text-ukraine-blue">
+                    <div className="flex flex-row justify-between">
+                        <div className="">
+                            <div className="flex flex-row flex-wrap gap-1 items-center">
+                                <h1 className="text-2xl font-medium mr-1">{ business.name }</h1>
+                                { BadgesRow(business.tags) }
+                            </div>
+                            <div className="flex flex-wrap gap-2 flex-row text-base mt-1 opacity-80">
                                 { business.serializedBusinessCategory }
-                                {
-                                    business.serializedTags.map(
-                                        (tag: string) => (
-                                            <>
-                                                &nbsp;&bull;&nbsp;{ tag }
-                                            </>
-                                        )
-                                    )
-                                }
                             </div>
                         </div>
-                        <div className="flex justify-self-center items-center">
+                        <div className="flex shrink justify-self-center items-center">
                             <Tooltip title={ strings.businesses.infoPage.tooltipShare }>
                                 <IconButton
-                                    className="text-ukraine-blue rounded-full p-2"
+                                    className="text-ukraine-blue ring-1 ring-ukraine-blue"
                                     onClick={ () => setSharePanelState(PanelState.Open) }
                                 >
                                     <IconShare className="text-2xl" />
@@ -120,6 +108,11 @@ export const InfoPanel = ({ className }: Props) => {
                             src={ imageSrc }
                             alt={ business.name }
                         />
+                    </div>
+                    <hr />
+                    <div>
+                        <h3 className="prose text-xl mb-1 font-semibold">{ strings.businesses.infoPage.sectionTitle.description }</h3>
+                        <span className="prose break-words opacity-80">{ business.description }</span>
                     </div>
                     <hr />
                     <div>
@@ -142,11 +135,6 @@ export const InfoPanel = ({ className }: Props) => {
                                 )
                             )
                         }
-                    </div>
-                    <hr />
-                    <div>
-                        <h3 className="prose text-xl mb-1 font-semibold">{ strings.businesses.infoPage.sectionTitle.description }</h3>
-                        <span className="prose break-words opacity-80">{ business.description }</span>
                     </div>
                 </div>
             </CardContent>

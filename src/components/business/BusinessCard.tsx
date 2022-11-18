@@ -5,9 +5,9 @@ import {
     CardActionArea,
     CardMedia,
   } from "@mui/material"
-import { Place as IconPlace } from "@mui/icons-material"
 import defaults from "@utils/config"
-import { tagConverter, businessCategoryConverter } from "@utils/converters"
+import { businessCategoryConverter } from "@utils/converters"
+import { BadgesRow } from "./BadgesRow"
 
 /**
  * A business card that displays basic (preview) information about a business.
@@ -16,14 +16,6 @@ import { tagConverter, businessCategoryConverter } from "@utils/converters"
 export default function BusinessCard({ data, active } : { data: BusinessModel, active: boolean }) {
 
     const imageSrc = data.images && data.images.length > 0 ? data.images[0] : defaults.businesses.gallery.defaultImage.src
-
-    const tags = data.tags.length > 0 ?
-        (
-            <>
-                &nbsp;&bull;&nbsp;
-                { tagConverter(data.tags[0]) }
-            </>
-        ) : ""
 
     return (
         <Card className={ `flex w-80 shrink border-2 ${ active ? "border-ukraine-blue" : "border-transparent"}` }>
@@ -34,13 +26,19 @@ export default function BusinessCard({ data, active } : { data: BusinessModel, a
                     image={ imageSrc }
                     alt={ data.name }
                 />
-                <CardContent>
-                    <div className="text-sm text-ukraine-blue font-semibold">
-                        { businessCategoryConverter(data.businessCategory) }
-                        { tags }
+                <CardContent className="flex flex-col gap-1">
+                    <div className="flex flex-row w-full justify-between text-sm font-semibold uppercase">
+                        <text className="text-ukraine-blue">
+                            { businessCategoryConverter(data.businessCategory) }
+                        </text>
                     </div>
-                    <h1 className="text-lg mt-2 font-medium">{ data.name }</h1>
-                    <div className="text-gray-500 break-words line-clamp-3 mt-2">{ data.description }</div>
+                    <div className="flex flex-row gap-2 items-center">
+                        <h1 className="text-lg font-medium line-clamp-1">{ data.name }</h1>
+                        { BadgesRow(data.tags) }
+                    </div>
+                    <div className="">
+                        { data.location.city }
+                    </div>
                 </CardContent>
             </CardActionArea>
         </Card>
