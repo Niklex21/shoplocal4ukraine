@@ -9,7 +9,7 @@ import defaults, { LOCAL_STORAGE_KEYS } from "@utils/config"
 import { ContentCopy as IconCopy, Facebook, Instagram, LinkedIn, Message, Telegram, Twitter, WhatsApp } from "@mui/icons-material"
 import { Checkbox, FormControlLabel, FormGroup, IconButton, Tooltip } from "@mui/material"
 import { atomWithStorage } from "jotai/utils"
-import { urlRemoveHash } from "@utils/utils"
+import { getBusinessProfileImageSrc, urlRemoveHash } from "@utils/utils"
 import { useEffect } from "react"
 import { toast } from "react-toastify"
 import Link from "next/link"
@@ -107,7 +107,7 @@ export default function SharePanel({ className, panelState, closePanel }: Props)
         setWindowUrl(window.location.href)
     }, [ panelState, setWindowUrl ])
 
-    const imageSrc = currentBusiness.images && currentBusiness.images.length > 0 ? currentBusiness.images[0] : defaults.businesses.gallery.defaultImage.src
+    const imageSrc = getBusinessProfileImageSrc(currentBusiness)
 
     return (
         <FullScreenPanel

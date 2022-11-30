@@ -5,8 +5,8 @@ import {
     CardActionArea,
     CardMedia,
   } from "@mui/material"
-import defaults from "@utils/config"
 import { businessCategoryConverter } from "@utils/converters"
+import { getBusinessProfileImageSrc } from "@utils/utils"
 import { BadgesRow } from "./BadgesRow"
 
 /**
@@ -15,7 +15,7 @@ import { BadgesRow } from "./BadgesRow"
  */
 export default function BusinessCard({ data, active } : { data: BusinessModel, active: boolean }) {
 
-    const imageSrc = data.images && data.images.length > 0 ? data.images[0] : defaults.businesses.gallery.defaultImage.src
+    const imageSrc = getBusinessProfileImageSrc(data)
 
     return (
         <Card className={ `flex w-80 shrink border-2 ${ active ? "border-ukraine-blue" : "border-transparent"}` }>

@@ -1,6 +1,7 @@
 import { BusinessModel } from "@api/business/types";
-import { FilteredBusiness, SearchedSerializedBusiness, SerializedBusinessModel } from "@appTypes/businesses";
+import { SearchedSerializedBusiness, SerializedBusinessModel } from "@appTypes/businesses";
 import { Feature } from "geojson";
+import defaults from "./config";
 import { businessCategoryConverter, tagConverter } from "./converters";
 
 /**
@@ -86,6 +87,15 @@ export function serializeBusinessModel(b : BusinessModel) : SerializedBusinessMo
  * @example for hashName=view, will remove (#view=1); for hashName=categories, will remove (&categories=[1,2,3])
  * @returns the url without the specified hash part
  */
-export function urlRemoveHash(url: string, hashName: string) {
+export function urlRemoveHash(url: string, hashName: string) : string {
     return url.replace(new RegExp("[#&]" + hashName + "=[^?#&]+(?=[?&])|[#&]" + hashName + "=.+$"), "")
+}
+
+/**
+ * Returns the source of the profile image for a business.
+ * @param b the business
+ * @returns the first image in the list or a default image if the image is not available
+ */
+export function getBusinessProfileImageSrc(b: BusinessModel) : string {
+    return b.images && b.images.length > 0 ? b.images[0] : defaults.businesses.gallery.defaultImage.src
 }

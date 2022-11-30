@@ -1,7 +1,7 @@
 import { Card, CardMedia, CardContent, Chip, Container, IconButton, Tooltip } from "@mui/material";
 import defaults from "@utils/config";
 import strings from "@utils/strings";
-import { isEmpty, urlShortener } from "@utils/utils";
+import { getBusinessProfileImageSrc, isEmpty, urlShortener } from "@utils/utils";
 import Link from "next/link";
 import { useContext, useState } from "react";
 import { BusinessViewContext } from "src/pages/businesses";
@@ -41,7 +41,7 @@ export const InfoPanel = ({ className }: Props) => {
     logger.debug(`Loading Info for selected business: ${ business.id }`)
 
     let contacts : Array<IconLinkText> = [];
-    let imageSrc : string = business.images && business.images.length > 0 ? business.images[0] : defaults.businesses.gallery.defaultImage.src
+    let imageSrc : string = getBusinessProfileImageSrc(business)
 
     contacts = [
         ...(business.website ? [{
