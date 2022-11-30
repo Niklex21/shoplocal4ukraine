@@ -1,4 +1,4 @@
-import { GetStaticProps, InferGetStaticPropsType } from "next"
+import { GetServerSideProps, GetStaticProps, InferGetStaticPropsType } from "next"
 import { createContext, ReactElement, useEffect, useRef, useState } from "react"
 import 'mapbox-gl/dist/mapbox-gl.css'
 
@@ -240,16 +240,20 @@ const Main: NextPageWithLayout = ({ businesses }: InferGetStaticPropsType<typeof
     )
 }
 
-export const getStaticProps: GetStaticProps = async (context) => {
+export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
     let businesses : Array<BusinessModel> = await getPublishedRecords()
+
+    res.setHeader(
+        'Cache-Control',
+        'public, s-maxage=10, stale-while-revalidate=59'
+    )
 
     logger.debug("Loaded businesses: ", businesses)
 
     return {
         props: {
             businesses
-        },
-        revalidate: 5
+        }
     }
 }
 
