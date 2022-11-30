@@ -1,5 +1,5 @@
 import { GetStaticProps, InferGetStaticPropsType } from "next"
-import { createContext, ReactElement, ReactNode, useEffect } from "react"
+import { createContext, ReactElement, useEffect } from "react"
 import 'mapbox-gl/dist/mapbox-gl.css'
 
 import { getPublishedRecords } from "@api/business"
@@ -12,13 +12,13 @@ import { BusinessViewContextData } from "@appTypes/businesses"
 import { BusinessView } from "@components/business/BusinessView"
 import { InfoPanel } from "@components/business/InfoPanel"
 
-import { atomSelectedBusinessID, atomSearchQuery, atomSelectedCategories, atomAllBusinesses, atomSelectedTags, atomCurrentBusiness } from "src/atoms/businesses"
+import { atomSearchQuery, atomSelectedCategories, atomAllBusinesses, atomSelectedTags, atomCurrentBusiness } from "src/atoms/businesses"
 import { useAtom } from "jotai"
 import strings from "@utils/strings"
 
-import { Search as IconSearch } from "@mui/icons-material"
+import { Search as IconSearch, Close as IconClose } from "@mui/icons-material"
 import { businessCategoryConverter, tagConverter } from "@utils/converters"
-import { Checkbox, InputBase, ListItemText, MenuItem, Select, SelectChangeEvent } from "@mui/material"
+import { Checkbox, IconButton, InputBase, ListItemText, MenuItem, Select, SelectChangeEvent } from "@mui/material"
 import { BUSINESS_CATEGORIES, BUSINESS_TAGS } from "@utils/config"
 import { isEmpty } from "@utils/utils"
 import { twMerge } from "tailwind-merge"
@@ -132,7 +132,11 @@ const Main: NextPageWithLayout = ({ businesses }: InferGetStaticPropsType<typeof
                         aria-label='search businesses'
                         defaultValue={ searchQuery }
                         type="text"
+                        value={ searchQuery }
                     />
+                    <IconButton onClick={ () => setSearchQuery("") } className={ searchQuery.length > 0 ? "" : "invisible" }>
+                        <IconClose />
+                    </IconButton>
                 </div>
                 <div className="flex flex-row items-center drop-shadow-md gap-4 cursor-pointer">
                     <Select
