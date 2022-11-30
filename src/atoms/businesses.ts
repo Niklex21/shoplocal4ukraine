@@ -90,7 +90,8 @@ const atomFuseSearch = atom<Fuse<SerializedBusinessModel>>(
                 'location.address',
                 'location.city',
                 'location.country',
-                'description'
+                'description',
+                'contributions'
             ]
         }
     )

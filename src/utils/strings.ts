@@ -60,6 +60,7 @@ const strings_en = {
         infoPage: {
             sectionTitle: {
                 description: "About",
+                contributions: "How they helped",
                 contacts: "Contacts"
             },
             tooltipShare: "Share"

@@ -116,6 +116,11 @@ export const InfoPanel = ({ className }: Props) => {
                     </div>
                     <hr />
                     <div>
+                        <h3 className="prose text-xl mb-1 font-semibold">{ strings.businesses.infoPage.sectionTitle.contributions }</h3>
+                        <span className="prose break-words opacity-80">{ business.contributions }</span>
+                    </div>
+                    <hr />
+                    <div>
                         <h3 className="prose text-xl mb-2 font-semibold">{ strings.businesses.infoPage.sectionTitle.contacts }</h3>
                         {
                             contacts.map(

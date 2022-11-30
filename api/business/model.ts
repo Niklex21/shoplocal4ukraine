@@ -153,6 +153,10 @@ export function jsonToBusiness(data: any) : BusinessModel {
             json: 'Description'
         },
         {
+            key: 'contributions',
+            json: 'Contributions'
+        },
+        {
             key: 'businessCategory',
             json: 'Business category',
             converter: businessCategoryConverter

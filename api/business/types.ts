@@ -40,13 +40,12 @@ export type Location = {
 
 /**
  * Main business model type.
- *
- * Fields that are not self-explanatory:
  */
 export type BusinessModel = {
     id: string,
     name: string,
     description: string,
+    contributions: string,
     businessCategory: BusinessCategory,
     tags: Array<Tag>,
     location: Location,
@@ -59,7 +58,7 @@ export type BusinessModel = {
 }
 
 /**
- * Denotes the type of the const fieldsect to map BusinessModel properties to the json key and a converting function.
+ * Denotes the type of the const fieldset to map BusinessModel properties to the json key and a converting function.
  *
  * - key: the key of a property in {@link BusinessModel}
  * - json: the string key of a property in the Airtable API query
