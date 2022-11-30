@@ -1,6 +1,6 @@
 const strings_en = {
     all: {
-        title: "Shop Local 4 Ukraine"
+        title: "Shop 4 Ukraine"
     },
     app: {
         tooltipMenuButton: "Menu"
