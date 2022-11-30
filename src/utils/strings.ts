@@ -83,9 +83,8 @@ const strings_en = {
             groceries: 'Groceries',
             shopping: 'Shopping'
         },
-        galleryView: {
-            noBusinessesFound: "No businesses found... You might need to refine your search query 🤷"
-        },
+        noBusinessesFound: "No businesses found... You might need to refine your search query 🤷",
+        noBusinessesFoundShort: "No businesses found...",
         sharePanel: {
             title: "Share",
             tooltipCopy: "Copy link",

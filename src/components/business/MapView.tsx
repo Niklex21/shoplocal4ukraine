@@ -60,7 +60,8 @@ export const MapView = ({ className } : Props) => {
             "icon-size": 1.2,
             "text-size": 16,
             "text-optional": true,
-            "icon-allow-overlap": true
+            "icon-allow-overlap": true,
+            "visibility": "visible"
         },
         "paint": {
             "text-color": [
@@ -103,6 +104,9 @@ export const MapView = ({ className } : Props) => {
                 750,
                 40
             ]
+        },
+        "layout": {
+            "visibility": "visible"
         }
     }
 
@@ -114,7 +118,8 @@ export const MapView = ({ className } : Props) => {
         layout: {
             'text-field': '{point_count_abbreviated}',
             'text-font': ['DIN Offc Pro Medium', 'Arial Unicode MS Bold'],
-            'text-size': 12
+            'text-size': 12,
+            "visibility": "visible"
         }
     };
 

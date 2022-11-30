@@ -1,5 +1,5 @@
 import { GetStaticProps, InferGetStaticPropsType } from "next"
-import { createContext, ReactElement, useEffect } from "react"
+import { createContext, ReactElement, useEffect, useRef, useState } from "react"
 import 'mapbox-gl/dist/mapbox-gl.css'
 
 import { getPublishedRecords } from "@api/business"
@@ -8,12 +8,12 @@ import { AppLayout } from "@layouts/app"
 import { BusinessCategory, BusinessModel, Tag } from "@api/business/types"
 
 import { log } from 'next-axiom'
-import { BusinessViewContextData } from "@appTypes/businesses"
+import { BusinessViewContextData, SearchedSerializedBusiness, SerializedBusinessModel } from "@appTypes/businesses"
 import { BusinessView } from "@components/business/BusinessView"
 import { InfoPanel } from "@components/business/InfoPanel"
 
-import { atomSearchQuery, atomSelectedCategories, atomAllBusinesses, atomSelectedTags, atomCurrentBusiness } from "src/atoms/businesses"
-import { useAtom } from "jotai"
+import { atomSearchQuery, atomSelectedCategories, atomAllBusinesses, atomSelectedTags, atomCurrentBusiness, atomSearchedBusinesses, atomSelectedBusinessID } from "src/atoms/businesses"
+import { atom, useAtom } from "jotai"
 import strings from "@utils/strings"
 
 import { Search as IconSearch, Close as IconClose } from "@mui/icons-material"
@@ -40,7 +40,12 @@ const Main: NextPageWithLayout = ({ businesses }: InferGetStaticPropsType<typeof
     const [ searchQuery, setSearchQuery ] = useAtom(atomSearchQuery)
     const [ selectedCategories, setSelectedCategories ] = useAtom(atomSelectedCategories)
     const [ selectedTags, setSelectedTags ] = useAtom(atomSelectedTags)
-    const [ _, setAllBusinesses ] = useAtom(atomAllBusinesses)
+    const [ searchedBusinesses ] = useAtom(atomSearchedBusinesses)
+    const [ , setAllBusinesses ] = useAtom(atomAllBusinesses)
+    const [ selectedBusinessId, setSelectedBusinessId ] = useAtom(atomSelectedBusinessID)
+
+    // stores whether or no the autocomplete for the search field should be displayed
+    const [ autoCompleteState, setAutoCompleteState ] = useState<boolean>(false)
 
     // set all businesses when the props are changed
     useEffect(() => {
@@ -103,9 +108,10 @@ const Main: NextPageWithLayout = ({ businesses }: InferGetStaticPropsType<typeof
             className={
                 twMerge(
                     "w-full h-full",
-                    isEmpty(selectedBusiness) ? "" : "grid md:grid-rows-none md:grid-cols-2 lg:grid-cols-4 grid-rows-2"
+                    selectedBusinessId.length === 0 ? "" : "grid md:grid-rows-none md:grid-cols-2 lg:grid-cols-4 grid-rows-2"
                 )
             }
+            onClick={ () => setAutoCompleteState(false) }
         >
             <BusinessView
                 className={ isEmpty(selectedBusiness) ? "" : "lg:col-span-3" }
@@ -122,21 +128,58 @@ const Main: NextPageWithLayout = ({ businesses }: InferGetStaticPropsType<typeof
                 { content }
             </BusinessViewContext.Provider>
             {/* the search bar */}
-            <div className="flex flex-col md:flex-row absolute top-2 left-20 gap-6">
-                <div className="flex flex-row bg-slate-50 rounded-lg items-center drop-shadow-md gap-4 px-4 p-2 h-12">
-                    <IconSearch className="text-gray-600" />
-                    <input
-                        placeholder={ strings.businesses.businessView.searchBarLabel }
-                        className="focus:outline-none bg-slate-50 w-44 lg:w-64"
-                        onChange={ e => setSearchQuery(e.target.value) }
-                        aria-label='search businesses'
-                        defaultValue={ searchQuery }
-                        type="text"
-                        value={ searchQuery }
-                    />
-                    <IconButton onClick={ () => setSearchQuery("") } className={ searchQuery.length > 0 ? "" : "invisible" }>
-                        <IconClose />
-                    </IconButton>
+            <div className="flex flex-col md:flex-row absolute top-2 left-20 gap-6 items-start">
+                <div 
+                    className={ twMerge("flex flex-col bg-slate-50 rounded-lg drop-shadow-md px-4", autoCompleteState ? "pb-2" : "") } 
+                >
+                    <div className="flex flex-row gap-4 h-12 items-center">
+                        <IconSearch className="text-gray-600" />
+                        <input
+                            placeholder={ strings.businesses.businessView.searchBarLabel }
+                            className="focus:outline-none bg-slate-50 w-44 lg:w-64"
+                            onChange={ e => setSearchQuery(e.target.value) }
+                            aria-label='search businesses'
+                            defaultValue={ searchQuery }
+                            type="text"
+                            value={ searchQuery }
+                            onFocus={ () => setAutoCompleteState(true) }
+                        />
+                        <IconButton 
+                            onClick={
+                                () => {
+                                    setSearchQuery("")
+                                    setAutoCompleteState(false)
+                                }
+                            }
+                            className={ searchQuery.length > 0 ? "" : "invisible" }
+                        >
+                            <IconClose />
+                        </IconButton>
+                    </div>
+                    <hr className={ autoCompleteState ? "" : "hidden" } />
+                    <div className={ twMerge("flex flex-col items-start my-2", autoCompleteState ? "" : "hidden") }>
+                        {
+                            searchedBusinesses.length > 0 ?
+                            searchedBusinesses.slice(0, Math.max(1, Math.min(searchedBusinesses.length - 1, 4))).map(
+                                (b : SearchedSerializedBusiness, index: number) => (
+                                    <div
+                                        className="flex w-full p-2 bg-slate-50 hover:brightness-95 hover:cursor-pointer rounded-lg"
+                                        key={ index }
+                                        onClick={ 
+                                            () => {
+                                                setSearchQuery(b.item.name)
+                                                setSelectedBusinessId(b.item.id)
+                                                setAutoCompleteState(false)
+                                            }
+                                        }
+                                    >
+                                        { b.item.name }
+                                    </div>
+                                )
+                            )
+                            : strings.businesses.noBusinessesFoundShort
+                        }
+                    </div>
                 </div>
                 <div className="flex flex-row items-center drop-shadow-md gap-4 cursor-pointer">
                     <Select
