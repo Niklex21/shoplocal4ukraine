@@ -63,7 +63,8 @@ const strings_en = {
                 contributions: "How they helped",
                 contacts: "Contacts"
             },
-            tooltipShare: "Share"
+            tooltipShare: "Share",
+            tooltipCopy: "Copy"
         },
         businessView: {
             titleViewMap: "Map",

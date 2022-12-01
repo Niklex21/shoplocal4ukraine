@@ -1,5 +1,4 @@
-import { Card, CardMedia, CardContent, Chip, Container, IconButton, Tooltip } from "@mui/material";
-import defaults from "@utils/config";
+import { Card, CardMedia, CardContent, Container, IconButton, Tooltip } from "@mui/material";
 import strings from "@utils/strings";
 import { getBusinessProfileImageSrc, isEmpty, urlShortener } from "@utils/utils";
 import Link from "next/link";
@@ -7,12 +6,13 @@ import { useContext, useState } from "react";
 import { BusinessViewContext } from "src/pages/businesses";
 import { IconLinkText, PanelState } from "@appTypes/businesses";
 import { twMerge } from "tailwind-merge";
-import { Place as IconPlace, Link as IconLink, Email as IconEmail, Phone as IconPhone, ShareOutlined as IconShare } from "@mui/icons-material";
+import { ContentCopy as IconCopy, Link as IconLink, Email as IconEmail, Phone as IconPhone, ShareOutlined as IconShare } from "@mui/icons-material";
 import Image from 'next/image';
 import { atomCurrentBusiness } from "src/atoms/businesses";
 import { useAtom } from "jotai";
 import SharePanel from "./SharePanel";
 import { BadgesRow } from "./BadgesRow";
+import { toast } from "react-toastify"
 
 type Props = {
     className?: string
@@ -125,17 +125,29 @@ export const InfoPanel = ({ className }: Props) => {
                         {
                             contacts.map(
                                 ({ icon, link, text }, index: number) => (
-                                    <div key={ index } className="mt-1 cursor-pointer hover:text-ukraine-blue hover:opacity-100 opacity-80">
-                                        <Link href={ link || "#" }>
-                                            <div className="flex flex-nowrap flex-row gap-2">
-                                                { icon }
-                                                <a target="_blank">
-                                                    <span className="break-all">
-                                                        { text }
-                                                    </span>
-                                                </a>
+                                    <div key={ index } className="mt-1 cursor-pointer">
+                                        <div className="flex flex-row w-full gap-4 bg-white px-2 opacity-80 hover:brightness-95 hover:opacity-100 items-center rounded-lg">
+                                            { icon }
+                                            <div className="flex flex-row w-full justify-between gap-2 items-center">
+                                                <Link href={ link || "#" }>
+                                                    <a target="_blank">
+                                                        <span className="break-all hover:underline">
+                                                            { text }
+                                                        </span>
+                                                    </a>    
+                                                </Link>
+                                                <Tooltip title={ strings.businesses.infoPage.tooltipCopy }>
+                                                    <IconButton
+                                                        onClick={ () => {
+                                                            navigator.clipboard.writeText(text || "")
+                                                            toast.success(strings.businesses.sharePanel.toastSuccessCopy)
+                                                        }}
+                                                    >
+                                                        <IconCopy className="text-base text-current" />
+                                                    </IconButton>
+                                                </Tooltip>
                                             </div>
-                                        </Link>
+                                        </div>
                                     </div>
                                 )
                             )

@@ -5,7 +5,7 @@ import strings from "@utils/strings"
 import { atom, useAtom } from "jotai"
 import { twMerge } from "tailwind-merge"
 import Image from 'next/image'
-import defaults, { LOCAL_STORAGE_KEYS } from "@utils/config"
+import { LOCAL_STORAGE_KEYS } from "@utils/config"
 import { ContentCopy as IconCopy, Facebook, Instagram, LinkedIn, Message, Telegram, Twitter, WhatsApp } from "@mui/icons-material"
 import { Checkbox, FormControlLabel, FormGroup, IconButton, Tooltip } from "@mui/material"
 import { atomWithStorage } from "jotai/utils"
