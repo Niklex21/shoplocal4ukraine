@@ -64,7 +64,9 @@ const strings_en = {
                 contacts: "Contacts"
             },
             tooltipShare: "Share",
-            tooltipCopy: "Copy"
+            tooltipCopy: "Copy",
+            tooltipCopyGoogleMapsURL: "Copy Google Maps link",
+            googleMapsURLText: "Open on Google Maps"
         },
         businessView: {
             titleViewMap: "Map",

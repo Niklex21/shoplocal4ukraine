@@ -6,7 +6,7 @@ import { useContext, useState } from "react";
 import { BusinessViewContext } from "src/pages/businesses";
 import { IconLinkText, PanelState } from "@appTypes/businesses";
 import { twMerge } from "tailwind-merge";
-import { ContentCopy as IconCopy, Link as IconLink, Email as IconEmail, Phone as IconPhone, ShareOutlined as IconShare } from "@mui/icons-material";
+import { ContentCopy as IconCopy, Public as IconWebsite, Email as IconEmail, Phone as IconPhone, ShareOutlined as IconShare, Place as IconAddress, ArrowForward as IconArrow } from "@mui/icons-material";
 import Image from 'next/image';
 import { atomCurrentBusiness } from "src/atoms/businesses";
 import { useAtom } from "jotai";
@@ -44,9 +44,16 @@ export const InfoPanel = ({ className }: Props) => {
     let imageSrc : string = getBusinessProfileImageSrc(business)
 
     contacts = [
+        ...(business.location.address ? [{
+                icon: (
+                    <IconAddress />
+                ),
+                text: business.location.address
+            }] : []
+        ),
         ...(business.website ? [{
                 icon: (
-                    <IconLink />
+                    <IconWebsite />
                 ),
                 text: urlShortener(business.website),
                 link: business.website
@@ -79,9 +86,17 @@ export const InfoPanel = ({ className }: Props) => {
                 alt={ business.name }
             />
             <CardContent>
+                <div className="relative md:hidden rounded-lg w-full h-48">
+                    <Image
+                        className="w-full object-contain rounded-lg"
+                        layout="fill"
+                        src={ imageSrc }
+                        alt={ business.name }
+                    />
+                </div>
                 <div className="flex flex-col gap-4">
                     <div className="flex flex-row justify-between">
-                        <div className="">
+                        <div>
                             <div className="flex flex-row flex-wrap gap-1 items-center">
                                 <h1 className="text-2xl font-medium mr-1">{ business.name }</h1>
                                 { BadgesRow(business.tags) }
@@ -101,41 +116,47 @@ export const InfoPanel = ({ className }: Props) => {
                             </Tooltip>
                         </div>
                     </div>
-                    <div className="relative md:hidden rounded-lg w-full h-48">
-                        <Image
-                            className="w-full object-contain rounded-lg"
-                            layout="fill"
-                            src={ imageSrc }
-                            alt={ business.name }
-                        />
+                    <div className="flex flex-row w-full gap-4 bg-white px-2 py-1 opacity-80 hover:brightness-95 text-ukraine-blue hover:opacity-100 items-center rounded-lg">
+                        <IconArrow />
+                        <div className="flex flex-row w-full justify-between gap-2 items-center">
+                            <Link href={ business.location.googleMapsURL || "#" }>
+                                <a target="_blank">
+                                    <span className="break-all underline lg:no-underline hover:underline">
+                                        { strings.businesses.infoPage.googleMapsURLText }
+                                    </span>
+                                </a>    
+                            </Link>
+                            <Tooltip title={ strings.businesses.infoPage.tooltipCopyGoogleMapsURL }>
+                                <IconButton
+                                    onClick={ () => {
+                                        navigator.clipboard.writeText(business.location.googleMapsURL || "")
+                                        toast.success(strings.businesses.sharePanel.toastSuccessCopy)
+                                    }}
+                                >
+                                    <IconCopy className="text-base text-current" />
+                                </IconButton>
+                            </Tooltip>
+                        </div>
                     </div>
-                    <hr />
                     <div>
-                        <h3 className="prose text-xl mb-1 font-semibold">{ strings.businesses.infoPage.sectionTitle.description }</h3>
-                        <span className="prose break-words opacity-80">{ business.description }</span>
-                    </div>
-                    <hr />
-                    <div>
-                        <h3 className="prose text-xl mb-1 font-semibold">{ strings.businesses.infoPage.sectionTitle.contributions }</h3>
-                        <span className="prose break-words opacity-80">{ business.contributions }</span>
-                    </div>
-                    <hr />
-                    <div>
-                        <h3 className="prose text-xl mb-2 font-semibold">{ strings.businesses.infoPage.sectionTitle.contacts }</h3>
                         {
                             contacts.map(
                                 ({ icon, link, text }, index: number) => (
-                                    <div key={ index } className="mt-1 cursor-pointer">
-                                        <div className="flex flex-row w-full gap-4 bg-white px-2 opacity-80 hover:brightness-95 hover:opacity-100 items-center rounded-lg">
+                                    <div key={ index } className="cursor-pointer">
+                                        <div className="flex flex-row w-full gap-4 bg-white px-2 py-1 opacity-80 hover:brightness-95 hover:opacity-100 items-center rounded-lg">
                                             { icon }
                                             <div className="flex flex-row w-full justify-between gap-2 items-center">
-                                                <Link href={ link || "#" }>
-                                                    <a target="_blank">
-                                                        <span className="break-all hover:underline">
-                                                            { text }
-                                                        </span>
-                                                    </a>    
-                                                </Link>
+                                                {
+                                                    link ? (
+                                                        <Link href={ link || "#" }>
+                                                            <a target="_blank">
+                                                                <span className={ twMerge("break-all", link ? "underline lg:no-underline hover:underline" : "") }>
+                                                                    { text }
+                                                                </span>
+                                                            </a>    
+                                                        </Link>
+                                                    ) : text
+                                                }
                                                 <Tooltip title={ strings.businesses.infoPage.tooltipCopy }>
                                                     <IconButton
                                                         onClick={ () => {
@@ -152,6 +173,16 @@ export const InfoPanel = ({ className }: Props) => {
                                 )
                             )
                         }
+                    </div>
+                    <hr />
+                    <div>
+                        <h3 className="prose text-xl mb-1 font-semibold">{ strings.businesses.infoPage.sectionTitle.description }</h3>
+                        <span className="prose break-words opacity-80">{ business.description }</span>
+                    </div>
+                    <hr />
+                    <div>
+                        <h3 className="prose text-xl mb-1 font-semibold">{ strings.businesses.infoPage.sectionTitle.contributions }</h3>
+                        <span className="prose break-words opacity-80">{ business.contributions }</span>
                     </div>
                 </div>
             </CardContent>
