@@ -17,6 +17,7 @@ const defaults = {
             defaultImage
         }
     },
+    requestTimeout: 5000
 }
 
 const links : Array<Section> = [

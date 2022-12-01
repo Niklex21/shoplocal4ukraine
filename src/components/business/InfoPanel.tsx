@@ -6,13 +6,14 @@ import { useContext, useState } from "react";
 import { BusinessViewContext } from "src/pages/businesses";
 import { IconLinkText, PanelState } from "@appTypes/businesses";
 import { twMerge } from "tailwind-merge";
-import { ContentCopy as IconCopy, Public as IconWebsite, Email as IconEmail, Phone as IconPhone, ShareOutlined as IconShare, Place as IconAddress, ArrowForward as IconArrow } from "@mui/icons-material";
+import { Report as IconReport, ContentCopy as IconCopy, Public as IconWebsite, Email as IconEmail, Phone as IconPhone, ShareOutlined as IconShare, Place as IconAddress, ArrowForward as IconArrow } from "@mui/icons-material";
 import Image from 'next/image';
 import { atomCurrentBusiness } from "src/atoms/businesses";
 import { useAtom } from "jotai";
 import SharePanel from "./SharePanel";
 import { BadgesRow } from "./BadgesRow";
 import { toast } from "react-toastify"
+import ReportPanel from "./ReportPanel";
 
 type Props = {
     className?: string
@@ -27,6 +28,7 @@ export const InfoPanel = ({ className }: Props) => {
     const [ business ] = useAtom(atomCurrentBusiness)
 
     const [ sharePanelState, setSharePanelState ] = useState<PanelState>(PanelState.Closed)
+    const [ reportPanelState, setReportPanelState ] = useState<PanelState>(PanelState.Closed)
 
     // add a component to the logger object
     logger = logger.with(({ component: "Info" }))
@@ -105,13 +107,21 @@ export const InfoPanel = ({ className }: Props) => {
                                 { business.serializedBusinessCategory }
                             </div>
                         </div>
-                        <div className="flex shrink justify-self-center items-center">
+                        <div className="flex shrink justify-self-center items-center gap-3">
                             <Tooltip title={ strings.businesses.infoPage.tooltipShare }>
                                 <IconButton
-                                    className="text-ukraine-blue ring-1 ring-ukraine-blue"
+                                    className="text-ukraine-blue ring-1 ring-current"
                                     onClick={ () => setSharePanelState(PanelState.Open) }
                                 >
                                     <IconShare className="text-2xl" />
+                                </IconButton>
+                            </Tooltip>
+                            <Tooltip title={ strings.businesses.infoPage.tooltipReport }>
+                                <IconButton
+                                    className="text-red-600 ring-1 ring-current"
+                                    onClick={ () => setReportPanelState(PanelState.Open) }
+                                >
+                                    <IconReport className="text-2xl" />
                                 </IconButton>
                             </Tooltip>
                         </div>
@@ -197,6 +207,10 @@ export const InfoPanel = ({ className }: Props) => {
             <SharePanel
                 panelState={ sharePanelState }
                 closePanel={ () => setSharePanelState(PanelState.Closed) }
+            />
+            <ReportPanel
+                panelState={ reportPanelState }
+                closePanel={ () => setReportPanelState(PanelState.Closed) }
             />
         </>
     )

@@ -45,6 +45,17 @@ enum PanelState {
 }
 
 /**
+ * Defines a generic info submit status.
+ */
+enum SubmitStatus {
+    NotSubmitted,
+    InProgress,
+    Success,
+    TimeOut,
+    Error
+}
+
+/**
  * Defines the possible positions of a generic full-screen panel -- attached to the left/right/top/bottom edge or in the screen center.
  */
 enum FullScreenPanelPosition {
@@ -72,4 +83,4 @@ type SerializedBusinessModel = BusinessModel & {
 type SearchedSerializedBusiness = Fuse.FuseResult<SerializedBusinessModel>
 
 export type { IconLinkText, BusinessViewContextData, FilteredBusiness, SerializedBusinessModel, SearchedSerializedBusiness }
-export { Views, MapDragState, PanelState, FullScreenPanelPosition }
+export { Views, MapDragState, PanelState, FullScreenPanelPosition, SubmitStatus }
