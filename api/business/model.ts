@@ -1,6 +1,7 @@
+import { JsonModelConverter } from "@api/types";
 import {processError, ErrorType } from "@api/_error";
 import { log } from "next-axiom";
-import { BusinessCategory, Tag, Country, BusinessModel, MapBusinessJSON, Location } from "./types";
+import { BusinessCategory, Tag, Country, BusinessModel, Location } from "./types";
 
 
 const logger = log.with({ "from": "api.businesses.model" })
@@ -143,7 +144,7 @@ export function jsonToBusiness(data: any) : BusinessModel {
 
     const fields = data['fields'];
 
-    const jsonToBusinessMap : Array<MapBusinessJSON> = [
+    const jsonToBusinessMap : Array<JsonModelConverter> = [
         {
             key: 'name',
             json: 'Name'

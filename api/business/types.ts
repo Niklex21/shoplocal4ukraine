@@ -1,3 +1,4 @@
+import { Model } from "@api/types"
 
 /**
  * All the currently supported business categories.
@@ -41,7 +42,7 @@ export type Location = {
 /**
  * Main business model type.
  */
-export type BusinessModel = {
+export type BusinessModel = Model & {
     id: string,
     name: string,
     description: string,
@@ -53,19 +54,5 @@ export type BusinessModel = {
     images?: Array<string>,
     email?: string,
     phone?: string,
-    socialMedia?: string,
-    [key: string]: any
-}
-
-/**
- * Denotes the type of the const fieldset to map BusinessModel properties to the json key and a converting function.
- *
- * - key: the key of a property in {@link BusinessModel}
- * - json: the string key of a property in the Airtable API query
- * - converter (optional): a function that converts the Airtable API query value into a necessary type value for BusinesModel
- */
-export type MapBusinessJSON = {
-    key: string,
-    json: string,
-    converter?: (value: any) => any
+    socialMedia?: string
 }

@@ -4,7 +4,7 @@ enum ErrorType {
     InvalidBusinessCategory = "Invalid Business Category",
     InvalidCountry = "Invalid Country",
     InvalidBusinessView = "Invalid Business View",
-    InvalidTag = "Invalid Tag"
+    InvalidTag = "Invalid Tag",
 }
 
 /**
@@ -12,7 +12,7 @@ enum ErrorType {
  *
  * @param err an error that occurred while retrieving data through some API requests
  */
-function processError(err: ErrorType | Error, msg: string = "", logger: Logger = log) {
+function processError(err: ErrorType | any, msg: string = "", logger: Logger = log) {
     logger.error(`Error: ${ err } | ${ msg }`)
 }
 

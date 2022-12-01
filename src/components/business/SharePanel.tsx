@@ -111,7 +111,7 @@ export default function SharePanel({ className, panelState, closePanel }: Props)
 
     return (
         <FullScreenPanel
-            className={ twMerge("rounded-lg", className) }
+            className={ twMerge("rounded-lg max-w-md", className) }
             panelState={ panelState }
             closePanel={ closePanel }
             position={ FullScreenPanelPosition.Center}

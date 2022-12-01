@@ -1,5 +1,5 @@
-import { GetServerSideProps, GetStaticProps, InferGetStaticPropsType } from "next"
-import { createContext, ReactElement, useEffect, useRef, useState } from "react"
+import { GetServerSideProps } from "next"
+import { createContext, ReactElement, useEffect, useState } from "react"
 import 'mapbox-gl/dist/mapbox-gl.css'
 
 import { getPublishedRecords } from "@api/business"
@@ -8,12 +8,12 @@ import { AppLayout } from "@layouts/app"
 import { BusinessCategory, BusinessModel, Tag } from "@api/business/types"
 
 import { log } from 'next-axiom'
-import { BusinessViewContextData, SearchedSerializedBusiness, SerializedBusinessModel } from "@appTypes/businesses"
+import { BusinessViewContextData, SearchedSerializedBusiness } from "@appTypes/businesses"
 import { BusinessView } from "@components/business/BusinessView"
 import { InfoPanel } from "@components/business/InfoPanel"
 
 import { atomSearchQuery, atomSelectedCategories, atomAllBusinesses, atomSelectedTags, atomCurrentBusiness, atomSearchedBusinesses, atomSelectedBusinessID } from "src/atoms/businesses"
-import { atom, useAtom } from "jotai"
+import { useAtom } from "jotai"
 import strings from "@utils/strings"
 
 import { Search as IconSearch, Close as IconClose } from "@mui/icons-material"
@@ -32,7 +32,7 @@ export const BusinessViewContext = createContext<BusinessViewContextData>({
     logger
 });
 
-const Main: NextPageWithLayout = ({ businesses }: InferGetStaticPropsType<typeof getStaticProps>) => {
+const Main: NextPageWithLayout = ({ businesses }: any) => {
 
     logger.with({ component: 'Main' }).debug("Loading Main...")
 
@@ -139,7 +139,6 @@ const Main: NextPageWithLayout = ({ businesses }: InferGetStaticPropsType<typeof
                             className="focus:outline-none bg-slate-50 w-44 lg:w-64"
                             onChange={ e => setSearchQuery(e.target.value) }
                             aria-label='search businesses'
-                            defaultValue={ searchQuery }
                             type="text"
                             value={ searchQuery }
                             onFocus={ () => setAutoCompleteState(true) }
@@ -248,7 +247,7 @@ export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
         'public, s-maxage=10, stale-while-revalidate=59'
     )
 
-    logger.debug("Loaded businesses: ", businesses)
+    logger.debug(`Loaded ${ businesses.length } businesses`)
 
     return {
         props: {
