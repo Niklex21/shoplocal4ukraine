@@ -1,6 +1,5 @@
 import { FullScreenPanelPosition, PanelState } from "@appTypes/businesses"
-import { menuStateAtom } from "src/atoms/global"
-import { SetStateAction, useAtom } from "jotai"
+import { SetStateAction } from "jotai"
 import Link from "next/link"
 import { twMerge } from "tailwind-merge"
 import Image from 'next/image'
