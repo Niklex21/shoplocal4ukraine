@@ -9,6 +9,7 @@ import { PanelState } from '@appTypes/businesses'
 import { AppMenu } from './AppMenu'
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify'
+import Script from 'next/script'
 
 type Props = {
     children?: ReactNode
@@ -24,6 +25,16 @@ export default function AppMainLayout({ children }: Props) {
                 <link rel="shortcut icon" href={ favicon.src } />
                 <title key="title">{ strings.all.title }</title>
             </Head>
+            <Script strategy="afterInteractive" src="https://www.googletagmanager.com/gtag/js?id=G-P68Q0F71ED" />
+            <Script id="google-analytics" strategy="afterInteractive">
+                {`
+                    window.dataLayer = window.dataLayer || [];
+                    function gtag(){dataLayer.push(arguments);}
+                    gtag('js', new Date());
+
+                    gtag('config', 'G-P68Q0F71ED');
+                `}
+            </Script>
             <div className="h-screen w-screen p-0 m-0 bg-slate-50 max-h-screen flex">
                 { children }
                 <Tooltip title={ strings.app.tooltipMenuButton }>
