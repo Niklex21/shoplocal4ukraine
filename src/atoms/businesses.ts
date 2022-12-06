@@ -9,7 +9,7 @@ import { LOCAL_STORAGE_KEYS } from "@utils/config";
 /**
  * Stores the view settings for the business viewer.
  */
-const atomView = atomWithHash(LOCAL_STORAGE_KEYS.atomView, Views.Map, { delayInit: true })
+const atomView = atomWithHash(LOCAL_STORAGE_KEYS.atomView, Views.Gallery, { delayInit: true })
 
 /**
  * Stores whether or not the map is being moved right now.
