@@ -218,44 +218,47 @@ export const InfoPanel = ({ className, panelState, setPanelState }: Props) => {
 
     return (
         <>
-            {/* MOBILE VIEW */}
-            <SwipeableDrawer
-                anchor="bottom"
-                open={ panelState === PanelState.Open }
-                onClose={ () => { setPanelState(PanelState.Closed); setSelectedID("") } }
-                onOpen={ () => setPanelState(PanelState.Open) }
-                swipeAreaWidth={ defaults.businesses.infoPanel.bleedingArea }
-                disableSwipeToOpen={ false }
-                ModalProps={{
-                    keepMounted: true
-                }}
-                className={
-                    twMerge(
-                        "md:hidden w-screen",
-                        "z-40 drop-shadow-none overflow-visible",
-                        panelState === PanelState.Closed ? "-translate-y-14" : "",
-                        className
-                    )
-                }
-                hideBackdrop={ true }
-            >
-                <MobilePuller />
-                { Info }
-            </SwipeableDrawer>
-            {/* BROWSER VIEW */}
-            <Drawer
-                anchor="left"
-                open={ panelState === PanelState.Open }
-                onClose={ () => setPanelState(PanelState.Closed) }
-                className={ twMerge("hidden md:flex", "md:h-full z-0 drop-shadow-none", className) }
-                hideBackdrop={ true }
-                elevation={0}
-                sx={{
-                    width: "25%",
-                }}
-            >
-                { Info }
-            </Drawer>
+            {
+                isMobile ?
+                (
+                    <SwipeableDrawer
+                        anchor="bottom"
+                        open={ panelState === PanelState.Open }
+                        onClose={ () => { setPanelState(PanelState.Closed); setSelectedID("") } }
+                        onOpen={ () => setPanelState(PanelState.Open) }
+                        swipeAreaWidth={ defaults.businesses.infoPanel.bleedingArea }
+                        disableSwipeToOpen={ false }
+                        ModalProps={{
+                            keepMounted: true
+                        }}
+                        className={
+                            twMerge(
+                                "w-screen",
+                                "z-40 drop-shadow-none overflow-visible",
+                                className
+                            )
+                        }
+                        hideBackdrop={ true }
+                    >
+                        <MobilePuller />
+                        { Info }
+                    </SwipeableDrawer>
+                ) : (
+                    <Drawer
+                        anchor="left"
+                        open={ panelState === PanelState.Open }
+                        onClose={ () => setPanelState(PanelState.Closed) }
+                        className={ twMerge("md:h-full z-0 drop-shadow-none", className) }
+                        hideBackdrop={ true }
+                        elevation={0}
+                        sx={{
+                            width: "25%",
+                        }}
+                    >
+                        { Info }
+                    </Drawer>
+                )
+            }
             <SharePanel
                 panelState={ sharePanelState }
                 closePanel={ () => setSharePanelState(PanelState.Closed) }
