@@ -210,7 +210,7 @@ export const MapView = ({ className } : Props) => {
     })
 
     return (
-        <div className={ twMerge('w-full h-screen', className) }>
+        <div className={ twMerge('flex w-full h-screen', className) }>
             <Map
                 ref={ mapRef as Ref<MapRef>}
                 {...viewState}

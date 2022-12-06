@@ -5,6 +5,9 @@ import strings from "@utils/strings"
 
 const defaults = {
     businesses: {
+        infoPanel: {
+          bleedingArea: 56
+        },
         map: {
             zoom: 11,
             longitude: -71.0607281,

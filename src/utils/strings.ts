@@ -71,6 +71,8 @@ const strings_en = {
             tooltipShare: 'Share',
             tooltipCopy: 'Copy',
             tooltipCopyGoogleMapsURL: 'Copy Google Maps link',
+            tooltipOpenPanel: "Expand info panel",
+            tooltipClosePanel: "Collapse info panel",
             tooltipReport: 'Report this business',
             googleMapsURLText: 'Open on Google Maps',
         },

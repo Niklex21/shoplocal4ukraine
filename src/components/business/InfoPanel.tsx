@@ -1,4 +1,4 @@
-import { Card, CardMedia, CardContent, Container, IconButton, Tooltip } from "@mui/material";
+import { Card, CardMedia, CardContent, Container, IconButton, Tooltip, SwipeableDrawer, Drawer } from "@mui/material";
 import strings from "@utils/strings";
 import { getBusinessProfileImageSrc, isEmpty, urlShortener } from "@utils/utils";
 import Link from "next/link";
@@ -6,7 +6,7 @@ import { useContext, useState } from "react";
 import { BusinessViewContext } from "src/pages/businesses";
 import { IconLinkText, PanelState } from "@appTypes/businesses";
 import { twMerge } from "tailwind-merge";
-import { Report as IconReport, ContentCopy as IconCopy, Public as IconWebsite, Email as IconEmail, Phone as IconPhone, ShareOutlined as IconShare, Place as IconAddress, ArrowForward as IconArrow } from "@mui/icons-material";
+import { Report as IconReport, ContentCopy as IconCopy, ArrowLeft as IconArrowLeft, ArrowRight as IconArrowRight, Public as IconWebsite, Email as IconEmail, Phone as IconPhone, ShareOutlined as IconShare, Place as IconAddress, ArrowForward as IconArrow } from "@mui/icons-material";
 import Image from 'next/image';
 import { atomCurrentBusiness } from "src/atoms/businesses";
 import { useAtom } from "jotai";
@@ -14,15 +14,20 @@ import SharePanel from "./SharePanel";
 import { BadgesRow } from "./BadgesRow";
 import { toast } from "react-toastify"
 import ReportPanel from "./ReportPanel";
+import defaults from "@utils/config";
+import { isMobile } from "react-device-detect";
+import { paperClasses } from "@mui/material/Paper";
 
 type Props = {
-    className?: string
+    className?: string,
+    panelState: PanelState,
+    setPanelState: (s: PanelState) => void
 }
 
 /**
  * The info panel on the right that displays the details of the selected business.
  */
-export const InfoPanel = ({ className }: Props) => {
+export const InfoPanel = ({ className, panelState, setPanelState }: Props) => {
 
     let { logger } = useContext(BusinessViewContext)
     const [ business ] = useAtom(atomCurrentBusiness)
@@ -80,7 +85,7 @@ export const InfoPanel = ({ className }: Props) => {
     ]
 
     const Info = (
-        <Card className='overflow-auto h-full w-full rounded-none'>
+        <Card className='overflow-y-scroll overflow-x-none h-full w-full rounded-none'>
             <CardMedia
                 component="img"
                 className="h-48 hidden md:block"
@@ -199,11 +204,94 @@ export const InfoPanel = ({ className }: Props) => {
         </Card>
     )
 
+    const ToggleStateButton = ({ className }: { className: string }) => (
+        <Tooltip
+            title={ 
+                panelState === PanelState.Closed ? 
+                strings.businesses.infoPage.tooltipOpenPanel
+                : strings.businesses.infoPage.tooltipClosePanel
+            }
+            placement="left"
+            arrow={ true }
+        >
+            <IconButton
+                className={
+                    twMerge(
+                        "md:flex bg-white font-bold -translate-y-1/2 translate-x-full p-1 drop-shadow-xl py-4 rounded-none rounded-r-lg hover:bg-white hover:brightness-95",
+                        className
+                    )
+                }
+                onClick={
+                    panelState === PanelState.Closed ?
+                    () => setPanelState(PanelState.Open)
+                    : () => setPanelState(PanelState.Closed)
+                }
+            >
+                {
+                    panelState === PanelState.Closed ?
+                    (<IconArrowRight />)
+                    : (<IconArrowLeft />)
+                }
+            </IconButton>
+        </Tooltip>
+    )
+
+    // a puller component to render at the top of the Info Panel
+    const MobilePuller = () => (
+        <div
+            className={`flex bg-white w-full h-10 rounded-t-md align-middle drop-shadow-t-md justify-center p-2 absolute visible left-0`}
+            style={{
+                top: `-${ defaults.businesses.infoPanel.bleedingArea }px`
+            }}
+        >
+            <div className="rounded-full w-10 h-2 my-auto bg-gray-700"></div>
+        </div>
+    )
+
+
     return (
         <>
-            <Container className={ twMerge('flex-col max-w-full overflow-auto p-0 md:h-screen border-t-2 border-black md:border-none', className) }>
-                { Info }
-            </Container>
+            {
+                isMobile ?
+                (
+                    <SwipeableDrawer
+                        anchor="bottom"
+                        open={ panelState === PanelState.Open }
+                        onClose={ () => setPanelState(PanelState.Closed) }
+                        onOpen={ () => setPanelState(PanelState.Open) }
+                        swipeAreaWidth={ defaults.businesses.infoPanel.bleedingArea }
+                        disableSwipeToOpen={ false }
+                        ModalProps={{
+                            keepMounted: true
+                        }}
+                        className={ twMerge("md:h-full md:flex z-40 drop-shadow-none", className) }
+                        hideBackdrop={ true }
+                    >
+                        <MobilePuller />
+                        { Info }
+                    </SwipeableDrawer>
+                ) : (
+                    <>
+                        <Drawer
+                            anchor="left"
+                            open={ panelState === PanelState.Open }
+                            onClose={ () => setPanelState(PanelState.Closed) }
+                            className={ twMerge("md:h-full z-0 drop-shadow-none", className) }
+                            hideBackdrop={ true }
+                            elevation={0}
+                            sx={{
+                                width: "25%",
+                                [`& .${paperClasses.root}`]: {
+                                    "overflow": "visible visible",
+                                }
+                            }}
+                        >
+                            <ToggleStateButton className={ `absolute right-0 top-1/2 -z-10` } />
+                            { Info }
+                        </Drawer>
+                    </>
+                )
+            }
             <SharePanel
                 panelState={ sharePanelState }
                 closePanel={ () => setSharePanelState(PanelState.Closed) }

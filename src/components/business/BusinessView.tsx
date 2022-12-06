@@ -1,6 +1,6 @@
 import { Button, Container, Fab, ToggleButton, ToggleButtonGroup, Tooltip } from "@mui/material";
 import { businessViewConverter } from "@utils/converters";
-import { useContext } from "react";
+import { ReactNode, useContext } from "react";
 import { BusinessViewContext } from "src/pages/businesses";
 import { Views } from "@appTypes/businesses";
 import { twMerge } from "tailwind-merge";
@@ -13,14 +13,15 @@ import strings from "@utils/strings"
 import { isEmpty } from "@utils/utils";
 
 type Props = {
-    className?: string
+    className?: string,
+    children?: ReactNode
 }
 
 /**
  * The panel that displays the businesses -- whether it is in a gallery, map,
  * or some other view.
  */
-export const BusinessView = ({ className }: Props) => {
+export const BusinessView = ({ className, children }: Props) => {
 
     const [view, setView] = useAtom(atomView);
     const [ selectedBusiness ] = useAtom(atomCurrentBusiness)
@@ -56,11 +57,11 @@ export const BusinessView = ({ className }: Props) => {
     })()
 
     return (
-        <Container className={ twMerge(`flex-col overflow-auto h-full max-h-screen max-w-none ${ view === Views.Map ? 'p-0' : '' }`, className) }>
+        <div className={ twMerge(`relative w-full flex flex-col overflow-auto h-full max-h-screen max-w-none p-0`, className) }>
             <ViewComponent />
             <div className={
                 twMerge(
-                    "fixed left-0 z-40 bottom-5",
+                    "fixed right-0 z-40 bottom-5 transition-all duration-200",
                     isEmpty(selectedBusiness) ? "w-full" : "w-3/4"
                 )}
             >
@@ -83,6 +84,7 @@ export const BusinessView = ({ className }: Props) => {
                     </Fab>  
                 </Tooltip>
             </div>
-        </Container>
+            { children }
+        </div>
     )
 }

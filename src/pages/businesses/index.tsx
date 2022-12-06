@@ -1,5 +1,5 @@
 import { GetServerSideProps } from "next"
-import { createContext, ReactElement, useEffect, useState } from "react"
+import React, { createContext, ReactElement, useEffect, useState } from "react"
 import 'mapbox-gl/dist/mapbox-gl.css'
 
 import { getPublishedRecords } from "@api/business"
@@ -8,7 +8,7 @@ import { AppLayout } from "@layouts/app"
 import { BusinessCategory, BusinessModel, Tag } from "@api/business/types"
 
 import { log } from 'next-axiom'
-import { BusinessViewContextData, SearchedSerializedBusiness } from "@appTypes/businesses"
+import { BusinessViewContextData, PanelState, SearchedSerializedBusiness } from "@appTypes/businesses"
 import { BusinessView } from "@components/business/BusinessView"
 import { InfoPanel } from "@components/business/InfoPanel"
 
@@ -16,9 +16,9 @@ import { atomSearchQuery, atomSelectedCategories, atomAllBusinesses, atomSelecte
 import { useAtom } from "jotai"
 import strings from "@utils/strings"
 
-import { Search as IconSearch, Close as IconClose } from "@mui/icons-material"
+import { Search as IconSearch, Close as IconClose, ArrowLeft as IconArrowLeft, ArrowRight as IconArrowRight } from "@mui/icons-material"
 import { businessCategoryConverter, tagConverter } from "@utils/converters"
-import { Checkbox, IconButton, InputBase, ListItemText, MenuItem, Select, SelectChangeEvent } from "@mui/material"
+import { Checkbox, IconButton, InputBase, ListItemText, MenuItem, Select, SelectChangeEvent, Tooltip } from "@mui/material"
 import { BUSINESS_CATEGORIES, BUSINESS_TAGS } from "@utils/config"
 import { isEmpty } from "@utils/utils"
 import { twMerge } from "tailwind-merge"
@@ -44,6 +44,8 @@ const Main: NextPageWithLayout = ({ businesses }: any) => {
     const [ , setAllBusinesses ] = useAtom(atomAllBusinesses)
     const [ selectedBusinessId, setSelectedBusinessId ] = useAtom(atomSelectedBusinessID)
 
+    const [ infoPanelState, setInfoPanelState ] = useState<PanelState>(PanelState.Closed)
+
     // stores whether or no the autocomplete for the search field should be displayed
     const [ autoCompleteState, setAutoCompleteState ] = useState<boolean>(false)
 
@@ -51,6 +53,14 @@ const Main: NextPageWithLayout = ({ businesses }: any) => {
     useEffect(() => {
         setAllBusinesses(businesses)
     }, [ businesses, setAllBusinesses ])
+
+    useEffect(() => {
+        if (selectedBusinessId.length > 0) {
+            setInfoPanelState(PanelState.Open)
+        } else {
+            setInfoPanelState(PanelState.Closed)
+        }
+    }, [ selectedBusinessId, setInfoPanelState ])
 
     /**
      * Handles change in the category selector.
@@ -104,21 +114,12 @@ const Main: NextPageWithLayout = ({ businesses }: any) => {
     }
 
     const content = (
-        <div 
-            className={
-                twMerge(
-                    "w-full h-full",
-                    selectedBusinessId.length === 0 ? "" : "grid md:grid-rows-none md:grid-cols-2 lg:grid-cols-4 grid-rows-2"
-                )
-            }
+        <div
+            className="h-full flex flex-row w-full transition-all duration-200"
             onClick={ () => setAutoCompleteState(false) }
         >
-            <BusinessView
-                className={ isEmpty(selectedBusiness) ? "" : "lg:col-span-3" }
-            />
-            <InfoPanel
-                className={ isEmpty(selectedBusiness) ? "" : "lg:col-span-1" }
-            />
+            <InfoPanel panelState={ infoPanelState } setPanelState={ setInfoPanelState } className="transition-all duration-200" />
+            <BusinessView />
         </div>
     )
 
@@ -128,7 +129,7 @@ const Main: NextPageWithLayout = ({ businesses }: any) => {
                 { content }
             </BusinessViewContext.Provider>
             {/* the search bar */}
-            <div className="flex flex-col md:flex-row absolute top-2 left-20 gap-6 items-start">
+            <div className="flex flex-col md:flex-row absolute top-2 left-20 gap-6 items-start z-40">
                 <div 
                     className={ twMerge("flex flex-col bg-slate-50 rounded-lg drop-shadow-md px-4", autoCompleteState ? "pb-2" : "") } 
                 >
@@ -136,7 +137,7 @@ const Main: NextPageWithLayout = ({ businesses }: any) => {
                         <IconSearch className="text-gray-600" />
                         <input
                             placeholder={ strings.businesses.businessView.searchBarLabel }
-                            className="focus:outline-none bg-slate-50 w-44 lg:w-64"
+                            className="focus:outline-none bg-slate-50 w-44 lg:w-48"
                             onChange={ e => setSearchQuery(e.target.value) }
                             aria-label='search businesses'
                             type="text"
@@ -147,6 +148,7 @@ const Main: NextPageWithLayout = ({ businesses }: any) => {
                             onClick={
                                 () => {
                                     setSearchQuery("")
+                                    setSelectedBusinessId("")
                                     setAutoCompleteState(false)
                                 }
                             }

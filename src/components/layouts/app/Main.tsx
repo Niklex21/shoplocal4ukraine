@@ -39,12 +39,12 @@ export default function AppMainLayout({ children }: Props) {
                 { children }
                 <Tooltip title={ strings.app.tooltipMenuButton }>
                     <div
-                        className="flex absolute top-2 left-2 z-10 p-1 bg-slate-50 cursor-pointer rounded-lg drop-shadow-md hover:bg-slate-100"
+                        className="flex absolute top-2 left-2 z-10 p-1 bg-ukraine-blue hover:brightness-105 cursor-pointer rounded-lg drop-shadow-md"
                         onClick={ () => setMenuState(PanelState.Open) }
                     >
                         {/* the hover effect disables inner MUI hover circle bg */}
                         <IconButton
-                            className={ "text-gray-800 text-3xl cursor-pointer hover:bg-inherit" }
+                            className={ "text-white text-3xl cursor-pointer hover:bg-inherit" }
                         >
                             <IconMenu />
                         </IconButton>
