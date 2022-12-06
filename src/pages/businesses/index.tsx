@@ -22,6 +22,7 @@ import { Checkbox, IconButton, InputBase, ListItemText, MenuItem, Select, Select
 import { BUSINESS_CATEGORIES, BUSINESS_TAGS } from "@utils/config"
 import { isEmpty } from "@utils/utils"
 import { twMerge } from "tailwind-merge"
+import { isMobile } from "react-device-detect"
 
 const logger = log.with({ from: 'page.businesses.index' })
 
@@ -157,12 +158,15 @@ const Main: NextPageWithLayout = ({ businesses }: any) => {
                 }
                 onClick={ () => setAutoCompleteState(false) }
             >
-                <div className={ twMerge("flex h-full", infoPanelState === PanelState.Open ? "w-3/4" : "w-full") }>
+                {/* BROWSER VIEW */}
+                <div className={ twMerge("hidden md:flex h-full", infoPanelState === PanelState.Open ? "w-3/4" : "w-full") }>
                     <div className={ twMerge("flex w-0 h-full overflow-visible", selectedBusinessId.length > 0 ? "" : "hidden") }>
                         <ToggleStateButton className="z-10 my-auto" />
                     </div>
                     <BusinessView />
                 </div>
+                {/* MOBILE VIEW */}
+                <BusinessView className="flex md:hidden" />
             </div>
         </>
     )
@@ -226,7 +230,7 @@ const Main: NextPageWithLayout = ({ businesses }: any) => {
                         }
                     </div>
                 </div>
-                <div className="flex flex-row items-center drop-shadow-md gap-4 cursor-pointer">
+                <div className="flex flex-col md:flex-row items-center drop-shadow-md gap-4 cursor-pointer">
                     <Select
                         multiple
                         displayEmpty

@@ -8,14 +8,14 @@ import { IconLinkText, PanelState } from "@appTypes/businesses";
 import { twMerge } from "tailwind-merge";
 import { Report as IconReport, ContentCopy as IconCopy, ArrowLeft as IconArrowLeft, ArrowRight as IconArrowRight, Public as IconWebsite, Email as IconEmail, Phone as IconPhone, ShareOutlined as IconShare, Place as IconAddress, ArrowForward as IconArrow } from "@mui/icons-material";
 import Image from 'next/image';
-import { atomCurrentBusiness } from "src/atoms/businesses";
+import { atomCurrentBusiness, atomSelectedBusinessID } from "src/atoms/businesses";
 import { useAtom } from "jotai";
 import SharePanel from "./SharePanel";
 import { BadgesRow } from "./BadgesRow";
 import { toast } from "react-toastify"
 import ReportPanel from "./ReportPanel";
 import defaults from "@utils/config";
-import { isMobile } from "react-device-detect";
+import { BrowserView, isMobile, MobileView } from "react-device-detect";
 import { paperClasses } from "@mui/material/Paper";
 
 type Props = {
@@ -31,6 +31,7 @@ export const InfoPanel = ({ className, panelState, setPanelState }: Props) => {
 
     let { logger } = useContext(BusinessViewContext)
     const [ business ] = useAtom(atomCurrentBusiness)
+    const [ selectedID, setSelectedID ] = useAtom(atomSelectedBusinessID)
 
     const [ sharePanelState, setSharePanelState ] = useState<PanelState>(PanelState.Closed)
     const [ reportPanelState, setReportPanelState ] = useState<PanelState>(PanelState.Closed)
@@ -85,7 +86,7 @@ export const InfoPanel = ({ className, panelState, setPanelState }: Props) => {
     ]
 
     const Info = (
-        <Card className='overflow-y-scroll overflow-x-none h-full w-full rounded-none'>
+        <Card className='overflow-y-scroll overflow-x-none relative md:h-full w-full rounded-none'>
             <CardMedia
                 component="img"
                 className="h-48 hidden md:block"
@@ -205,12 +206,10 @@ export const InfoPanel = ({ className, panelState, setPanelState }: Props) => {
     )
 
     // a puller component to render at the top of the Info Panel
-    const MobilePuller = () => (
+    const MobilePuller = ({ className }: {className?: string}) => (
         <div
-            className={`flex bg-white w-full h-10 rounded-t-md align-middle drop-shadow-t-md justify-center p-2 absolute visible left-0`}
-            style={{
-                top: `-${ defaults.businesses.infoPanel.bleedingArea }px`
-            }}
+            className={twMerge(`flex bg-white w-full h-14 rounded-t-md align-middle drop-shadow-t-md justify-center p-2 visible`, className)}
+            onClick={ () => panelState === PanelState.Closed ? setPanelState(PanelState.Open) : setPanelState(PanelState.Closed) } 
         >
             <div className="rounded-full w-10 h-2 my-auto bg-gray-700"></div>
         </div>
@@ -219,43 +218,44 @@ export const InfoPanel = ({ className, panelState, setPanelState }: Props) => {
 
     return (
         <>
-            {
-                isMobile ?
-                (
-                    <SwipeableDrawer
-                        anchor="bottom"
-                        open={ panelState === PanelState.Open }
-                        onClose={ () => setPanelState(PanelState.Closed) }
-                        onOpen={ () => setPanelState(PanelState.Open) }
-                        swipeAreaWidth={ defaults.businesses.infoPanel.bleedingArea }
-                        disableSwipeToOpen={ false }
-                        ModalProps={{
-                            keepMounted: true
-                        }}
-                        className={ twMerge("md:h-full md:flex z-40 drop-shadow-none", className) }
-                        hideBackdrop={ true }
-                    >
-                        <MobilePuller />
-                        { Info }
-                    </SwipeableDrawer>
-                ) : (
-                    <>
-                        <Drawer
-                            anchor="left"
-                            open={ panelState === PanelState.Open }
-                            onClose={ () => setPanelState(PanelState.Closed) }
-                            className={ twMerge("md:h-full z-0 drop-shadow-none", className) }
-                            hideBackdrop={ true }
-                            elevation={0}
-                            sx={{
-                                width: "25%",
-                            }}
-                        >
-                            { Info }
-                        </Drawer>
-                    </>
-                )
-            }
+            {/* MOBILE VIEW */}
+            <SwipeableDrawer
+                anchor="bottom"
+                open={ panelState === PanelState.Open }
+                onClose={ () => { setPanelState(PanelState.Closed); setSelectedID("") } }
+                onOpen={ () => setPanelState(PanelState.Open) }
+                swipeAreaWidth={ defaults.businesses.infoPanel.bleedingArea }
+                disableSwipeToOpen={ false }
+                ModalProps={{
+                    keepMounted: true
+                }}
+                className={
+                    twMerge(
+                        "md:hidden w-screen",
+                        "z-40 drop-shadow-none overflow-visible",
+                        panelState === PanelState.Closed ? "-translate-y-14" : "",
+                        className
+                    )
+                }
+                hideBackdrop={ true }
+            >
+                <MobilePuller />
+                { Info }
+            </SwipeableDrawer>
+            {/* BROWSER VIEW */}
+            <Drawer
+                anchor="left"
+                open={ panelState === PanelState.Open }
+                onClose={ () => setPanelState(PanelState.Closed) }
+                className={ twMerge("hidden md:flex", "md:h-full z-0 drop-shadow-none", className) }
+                hideBackdrop={ true }
+                elevation={0}
+                sx={{
+                    width: "25%",
+                }}
+            >
+                { Info }
+            </Drawer>
             <SharePanel
                 panelState={ sharePanelState }
                 closePanel={ () => setSharePanelState(PanelState.Closed) }
