@@ -59,10 +59,11 @@ export const BusinessView = ({ className, children }: Props) => {
     return (
         <div className={ twMerge(`relative w-full flex flex-col overflow-auto h-full max-h-screen max-w-none p-0`, className) }>
             <ViewComponent />
+            {/* TODO: this should move based on the infopanel state, but so far I haven't been able to come up with an elegant solution */}
             <div className={
                 twMerge(
                     "fixed right-0 z-40 bottom-5 transition-all duration-200",
-                    isEmpty(selectedBusiness) ? "w-full" : "w-3/4"
+                    "w-full"
                 )}
             >
                 <Button

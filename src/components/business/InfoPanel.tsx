@@ -131,7 +131,7 @@ export const InfoPanel = ({ className, panelState, setPanelState }: Props) => {
                             </Tooltip>
                         </div>
                     </div>
-                    <div className="flex flex-row w-full gap-4 bg-white px-2 py-1 opacity-80 hover:brightness-95 text-ukraine-blue hover:opacity-100 items-center rounded-lg">
+                    <div className="group flex flex-row w-full gap-4 bg-white px-2 py-1 opacity-80 hover:brightness-95 text-ukraine-blue hover:opacity-100 items-center rounded-lg">
                         <IconArrow />
                         <div className="flex flex-row w-full justify-between gap-2 items-center">
                             <Link href={ business.location.googleMapsURL || "#" }>
@@ -148,7 +148,7 @@ export const InfoPanel = ({ className, panelState, setPanelState }: Props) => {
                                         toast.success(strings.businesses.sharePanel.toastSuccessCopy)
                                     }}
                                 >
-                                    <IconCopy className="text-base text-current" />
+                                    <IconCopy className="text-base text-current md:invisible group-hover:visible" />
                                 </IconButton>
                             </Tooltip>
                         </div>
@@ -158,7 +158,7 @@ export const InfoPanel = ({ className, panelState, setPanelState }: Props) => {
                             contacts.map(
                                 ({ icon, link, text }, index: number) => (
                                     <div key={ index } className="cursor-pointer">
-                                        <div className="flex flex-row w-full gap-4 bg-white px-2 py-1 opacity-80 hover:brightness-95 hover:opacity-100 items-center rounded-lg">
+                                        <div className="group flex flex-row w-full gap-4 bg-white px-2 py-1 opacity-80 hover:brightness-95 hover:opacity-100 items-center rounded-lg">
                                             { icon }
                                             <div className="flex flex-row w-full justify-between gap-2 items-center">
                                                 {
@@ -179,7 +179,7 @@ export const InfoPanel = ({ className, panelState, setPanelState }: Props) => {
                                                             toast.success(strings.businesses.sharePanel.toastSuccessCopy)
                                                         }}
                                                     >
-                                                        <IconCopy className="text-base text-current" />
+                                                        <IconCopy className="text-base text-current md:invisible group-hover:visible" />
                                                     </IconButton>
                                                 </Tooltip>
                                             </div>
@@ -202,38 +202,6 @@ export const InfoPanel = ({ className, panelState, setPanelState }: Props) => {
                 </div>
             </CardContent>
         </Card>
-    )
-
-    const ToggleStateButton = ({ className }: { className: string }) => (
-        <Tooltip
-            title={ 
-                panelState === PanelState.Closed ? 
-                strings.businesses.infoPage.tooltipOpenPanel
-                : strings.businesses.infoPage.tooltipClosePanel
-            }
-            placement="left"
-            arrow={ true }
-        >
-            <IconButton
-                className={
-                    twMerge(
-                        "md:flex bg-white font-bold -translate-y-1/2 translate-x-full p-1 drop-shadow-xl py-4 rounded-none rounded-r-lg hover:bg-white hover:brightness-95",
-                        className
-                    )
-                }
-                onClick={
-                    panelState === PanelState.Closed ?
-                    () => setPanelState(PanelState.Open)
-                    : () => setPanelState(PanelState.Closed)
-                }
-            >
-                {
-                    panelState === PanelState.Closed ?
-                    (<IconArrowRight />)
-                    : (<IconArrowLeft />)
-                }
-            </IconButton>
-        </Tooltip>
     )
 
     // a puller component to render at the top of the Info Panel
@@ -281,12 +249,8 @@ export const InfoPanel = ({ className, panelState, setPanelState }: Props) => {
                             elevation={0}
                             sx={{
                                 width: "25%",
-                                [`& .${paperClasses.root}`]: {
-                                    "overflow": "visible visible",
-                                }
                             }}
                         >
-                            <ToggleStateButton className={ `absolute right-0 top-1/2 -z-10` } />
                             { Info }
                         </Drawer>
                     </>

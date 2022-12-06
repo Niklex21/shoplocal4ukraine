@@ -113,14 +113,58 @@ const Main: NextPageWithLayout = ({ businesses }: any) => {
         logger
     }
 
-    const content = (
-        <div
-            className="h-full flex flex-row w-full transition-all duration-200"
-            onClick={ () => setAutoCompleteState(false) }
+    // TODO: this really should probably be a part of the infopanel, but it hasn't been working well so far
+    const ToggleStateButton = ({ className }: { className?: string }) => (
+        <Tooltip
+            title={ 
+                infoPanelState === PanelState.Closed ? 
+                strings.businesses.infoPage.tooltipOpenPanel
+                : strings.businesses.infoPage.tooltipClosePanel
+            }
+            placement="right"
+            arrow={ true }
         >
+            <IconButton
+                className={
+                    twMerge(
+                        "md:flex bg-white font-bold -translate-y-1/2 p-1 drop-shadow-xl py-4 rounded-none rounded-r-lg hover:bg-white hover:brightness-95",
+                        className
+                    )
+                }
+                onClick={
+                    infoPanelState === PanelState.Closed ?
+                    () => setInfoPanelState(PanelState.Open)
+                    : () => setInfoPanelState(PanelState.Closed)
+                }
+            >
+                {
+                    infoPanelState === PanelState.Closed ?
+                    (<IconArrowRight />)
+                    : (<IconArrowLeft />)
+                }
+            </IconButton>
+        </Tooltip>
+    )
+
+    const content = (
+        <>
             <InfoPanel panelState={ infoPanelState } setPanelState={ setInfoPanelState } className="transition-all duration-200" />
-            <BusinessView />
-        </div>
+            <div
+                className={
+                    twMerge(
+                        "h-full flex flex-row w-full transition-all duration-200 justify-end items-center",
+                    )
+                }
+                onClick={ () => setAutoCompleteState(false) }
+            >
+                <div className={ twMerge("flex h-full", infoPanelState === PanelState.Open ? "w-3/4" : "w-full") }>
+                    <div className={ twMerge("flex w-0 h-full overflow-visible", selectedBusinessId.length > 0 ? "" : "hidden") }>
+                        <ToggleStateButton className="z-10 my-auto" />
+                    </div>
+                    <BusinessView />
+                </div>
+            </div>
+        </>
     )
 
     return (
