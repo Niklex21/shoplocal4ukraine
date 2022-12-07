@@ -12,7 +12,7 @@ import { BusinessViewContextData, PanelState, SearchedSerializedBusiness } from 
 import { BusinessView } from "@components/business/BusinessView"
 import { InfoPanel } from "@components/business/InfoPanel"
 
-import { atomSearchQuery, atomSelectedCategories, atomAllBusinesses, atomSelectedTags, atomCurrentBusiness, atomSearchedBusinesses, atomSelectedBusinessID, timeAtom } from "src/atoms/businesses"
+import { atomSearchQuery, atomSelectedCategories, atomAllBusinesses, atomSelectedTags, atomCurrentBusiness, atomSearchedBusinesses, atomSelectedBusinessID } from "src/atoms/businesses"
 import { useAtom } from "jotai"
 import strings from "@utils/strings"
 
@@ -27,8 +27,7 @@ import { isMobile } from "react-device-detect"
 const logger = log.with({ from: 'page.businesses.index' })
 
 type Props = {
-    businesses: BusinessModel[],
-    time: string
+    businesses: BusinessModel[]
 }
 
 /**
@@ -41,8 +40,6 @@ export const BusinessViewContext = createContext<BusinessViewContextData>({
 const Main: NextPageWithLayout<Props> = ({ businesses, time }: InferGetStaticPropsType<typeof getStaticProps>) => {
 
     logger.with({ component: 'Main' }).debug("Loading Main...")
-
-    const [ readTime, setTime ] = useAtom(timeAtom)
 
     const [ selectedBusiness ] = useAtom(atomCurrentBusiness)
     const [ searchQuery, setSearchQuery ] = useAtom(atomSearchQuery)
@@ -60,8 +57,7 @@ const Main: NextPageWithLayout<Props> = ({ businesses, time }: InferGetStaticPro
     // set all businesses when the props are changed
     useEffect(() => {
         setAllBusinesses(businesses)
-        setTime(time)
-    }, [ businesses, setAllBusinesses, time, setTime ])
+    }, [ businesses, setAllBusinesses ])
 
     useEffect(() => {
         if (selectedBusinessId.length > 0) {
@@ -309,8 +305,7 @@ export const getStaticProps: GetStaticProps<Props> = async () => {
 
     return {
         props: {
-            businesses,
-            time: new Date().toTimeString()
+            businesses
         },
         revalidate: 30
     }

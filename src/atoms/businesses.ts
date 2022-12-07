@@ -6,8 +6,6 @@ import { atomWithHash } from "jotai/utils";
 import { findBusinessById, serializeBusinessModel, serializedToSearchSerialized } from "@utils/utils";
 import { LOCAL_STORAGE_KEYS } from "@utils/config";
 
-const timeAtom = atom<string>("")
-
 /**
  * Stores the view settings for the business viewer.
  */
@@ -111,7 +109,6 @@ const atomSearchedBusinesses = atom<Array<SearchedSerializedBusiness>>(
 )
 
 export {
-    timeAtom,
     atomView,
     atomMapDragState,
     atomSelectedBusinessID,

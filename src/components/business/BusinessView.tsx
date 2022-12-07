@@ -8,7 +8,7 @@ import { GalleryView } from "./GalleryView";
 import { MapView } from "./MapView";
 import { Map as IconMap, Collections as IconCollections, Add as IconAdd, HdrStrongSharp, Menu as IconMenu } from '@mui/icons-material'
 import { useAtom } from "jotai";
-import { atomCurrentBusiness, atomView, timeAtom } from "src/atoms/businesses";
+import { atomCurrentBusiness, atomView } from "src/atoms/businesses";
 import strings from "@utils/strings"
 import { isEmpty } from "@utils/utils";
 import { isMobile } from "react-device-detect";
@@ -32,7 +32,6 @@ export const BusinessView = ({ infoPanelOpen, className, children }: Props) => {
     const [view, setView] = useAtom(atomView);
     const [ selectedBusiness ] = useAtom(atomCurrentBusiness)
     const [ menuState, setMenuState ] = useAtom(atomGlobalMenuState)
-    const [ time, setTime ] = useAtom(timeAtom)
 
     let { logger } = useContext(BusinessViewContext);
     logger = logger.with({ component: 'BusinessView' })
@@ -95,7 +94,6 @@ export const BusinessView = ({ infoPanelOpen, className, children }: Props) => {
                     { strings.businesses.businessView.show }
                     &nbsp;
                     { alternativeViewName }
-                    { time }
                     &nbsp;
                     { alternativeViewIcon }
                 </Button>
