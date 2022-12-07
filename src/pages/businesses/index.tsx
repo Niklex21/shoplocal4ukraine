@@ -348,12 +348,7 @@ export const getStaticProps: GetStaticProps<Props> = async () => {
             })
            .catch(err => processError(err, "", logger.with({ "function": "_getRecordsByFormula" })))
         ?? []
-
-    // res.setHeader(
-    //     'Cache-Control',
-    //     'public, s-maxage=10, stale-while-revalidate=59'
-    // )
-
+        
     logger.debug(`Loaded ${ businesses.length } businesses`)
 
     return {
