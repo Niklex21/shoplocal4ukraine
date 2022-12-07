@@ -47,7 +47,7 @@ export function modelToGeojsonFeature(business: BusinessModel) : Feature {
  * @returns true if the dictionary is empty (no keys), false otherwise
  */
 export function isEmpty(obj: Object) : boolean {
-    return Object.keys(obj).length === 0
+    return obj === null || obj == undefined || Object.keys(obj).length === 0
 }
 
 /**

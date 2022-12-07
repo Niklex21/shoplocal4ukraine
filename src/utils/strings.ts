@@ -1,6 +1,11 @@
 const strings_en = {
     all: {
         title: 'Shop 4 Ukraine',
+        genericError: "Sorry, something went wrong.",
+        reportError: "Report a problem with the website",
+        pages: {
+            home: 'Home'
+        }
     },
     app: {
         tooltipMenuButton: 'Menu',
@@ -80,6 +85,7 @@ const strings_en = {
             tooltipWebsite: "website",
             tooltipPhone: "phone",
             googleMapsURLText: 'Open on Google Maps',
+            online: "Online"
         },
         businessView: {
             titleViewMap: 'Map',

@@ -9,6 +9,7 @@ import { businessCategoryConverter } from "@utils/converters"
 import { getBusinessProfileImageSrc } from "@utils/utils"
 import { BadgesRow } from "./BadgesRow"
 import Image from "next/image"
+import strings from "@utils/strings"
 
 /**
  * A business card that displays basic (preview) information about a business.
@@ -19,7 +20,7 @@ export default function BusinessCard({ data, active } : { data: BusinessModel, a
     const imageSrc = getBusinessProfileImageSrc(data)
 
     return (
-        <div className={ `transition-all duration-100 p-1 pb-3 hover:drop-shadow-2xl bg-white group flex flex-col w-full md:min-w-[12rem] md:max-w-[20rem] gap-3 shrink rounded-lg ${ active ? "drop-shadow-2xl" : "" }` }>
+        <div className={ `transition-all duration-100 p-1 pb-3 drop-shadow-2xl bg-white group flex flex-col w-full md:min-w-[12rem] md:max-w-[20rem] gap-3 shrink rounded-lg ring-ukraine-blue hover:ring-2 ${ active ? "ring-2" : "" }` }>
             <div className="flex relative w-full h-64 md:aspect-[5/3] md:h-auto">
                 <Image
                     src={ imageSrc }
@@ -35,7 +36,7 @@ export default function BusinessCard({ data, active } : { data: BusinessModel, a
                         { BadgesRow(data.tags) }
                     </div>
                     <div className="text-base opacity-60">
-                        { data.location.city ?? "Online"}
+                        { data.location.city ?? strings.businesses.infoPage.online }
                     </div>
                 </div>
                 <div className="flex flex-row w-full justify-between text-sm font-semibold uppercase">
