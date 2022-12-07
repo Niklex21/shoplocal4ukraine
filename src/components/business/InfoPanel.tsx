@@ -90,10 +90,10 @@ export const InfoPanel = ({ className, panelState, setPanelState }: Props) => {
     ]
 
     const Info = (
-        <Card className='overflow-y-scroll overflow-x-none relative md:h-full w-full rounded-none'>
+        <Card className='relative md:h-full w-full max-w-full rounded-none overflow-y-scroll'>
             <CardMedia
                 component="img"
-                className="h-48"
+                className="h-64"
                 image={ imageSrc }
                 alt={ business.name }
             />
@@ -128,28 +128,33 @@ export const InfoPanel = ({ className, panelState, setPanelState }: Props) => {
                             </Tooltip>
                         </div>
                     </div>
-                    <div className="group flex flex-row w-full gap-4 bg-white px-2 py-1 opacity-80 hover:brightness-95 text-ukraine-blue hover:opacity-100 items-center rounded-lg">
-                        <IconArrow />
-                        <div className="flex flex-row w-full justify-between gap-2 items-center">
-                            <Link href={ business.location.googleMapsURL || "#" }>
-                                <a target="_blank">
-                                    <span className="break-all underline lg:no-underline hover:underline">
-                                        { strings.businesses.infoPage.googleMapsURLText }
-                                    </span>
-                                </a>    
-                            </Link>
-                            <Tooltip title={ strings.businesses.infoPage.tooltipCopyGoogleMapsURL } arrow={ true } placement="right">
-                                <IconButton
-                                    onClick={ () => {
-                                        navigator.clipboard.writeText(business.location.googleMapsURL || "")
-                                        toast.success(strings.businesses.sharePanel.toastSuccessCopy)
-                                    }}
-                                >
-                                    <IconCopy className="text-base text-current md:invisible group-hover:visible" />
-                                </IconButton>
-                            </Tooltip>
-                        </div>
-                    </div>
+                    {
+                        business.location.googleMapsURL ?
+                        (
+                            <div className="group flex flex-row w-full gap-4 bg-white px-2 py-1 opacity-80 hover:brightness-95 text-ukraine-blue hover:opacity-100 items-center rounded-lg">
+                                <IconArrow />
+                                <div className="flex flex-row w-full justify-between gap-2 items-center">
+                                    <Link href={ business.location.googleMapsURL || "#" }>
+                                        <a target="_blank">
+                                            <span className="break-all underline lg:no-underline hover:underline">
+                                                { strings.businesses.infoPage.googleMapsURLText }
+                                            </span>
+                                        </a>    
+                                    </Link>
+                                    <Tooltip title={ strings.businesses.infoPage.tooltipCopyGoogleMapsURL } arrow={ true } placement="right">
+                                        <IconButton
+                                            onClick={ () => {
+                                                navigator.clipboard.writeText(business.location.googleMapsURL || "")
+                                                toast.success(strings.businesses.sharePanel.toastSuccessCopy)
+                                            }}
+                                        >
+                                            <IconCopy className="text-base text-current md:invisible group-hover:visible" />
+                                        </IconButton>
+                                    </Tooltip>
+                                </div>
+                            </div>
+                        ) : (<></>)
+                    }
                     <div>
                         {
                             contacts.map(
@@ -191,12 +196,12 @@ export const InfoPanel = ({ className, panelState, setPanelState }: Props) => {
                         }
                     </div>
                     <hr />
-                    <div>
+                    <div className="max-w-sm">
                         <h3 className="prose text-xl mb-1 font-semibold">{ strings.businesses.infoPage.sectionTitle.description }</h3>
                         <span className="prose break-words opacity-80">{ business.description }</span>
                     </div>
                     <hr />
-                    <div>
+                    <div className="max-w-sm">
                         <h3 className="prose text-xl mb-1 font-semibold">{ strings.businesses.infoPage.sectionTitle.contributions }</h3>
                         <span className="prose break-words opacity-80">{ business.contributions }</span>
                     </div>
@@ -234,7 +239,7 @@ export const InfoPanel = ({ className, panelState, setPanelState }: Props) => {
                         className={
                             twMerge(
                                 "w-screen",
-                                "z-40 drop-shadow-none overflow-visible",
+                                "z-40 drop-shadow-none",
                                 className
                             )
                         }
@@ -248,11 +253,14 @@ export const InfoPanel = ({ className, panelState, setPanelState }: Props) => {
                         anchor="left"
                         open={ panelState === PanelState.Open }
                         onClose={ () => setPanelState(PanelState.Closed) }
-                        className={ twMerge("md:h-full z-0 drop-shadow-none", className) }
+                        className={ twMerge("md:h-full z-10 drop-shadow-none md:max-w-[25%]", className) }
                         hideBackdrop={ true }
                         elevation={0}
+                        disableEnforceFocus
                         sx={{
-                            width: "25%",
+                            [`& .${ paperClasses.root }`]: {
+                                width: "100%"
+                            }
                         }}
                     >
                         { Info }

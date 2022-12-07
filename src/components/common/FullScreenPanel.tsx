@@ -30,13 +30,13 @@ export default function FullScreenPanel({ className, panelState, closePanel, chi
     const positionStyles = (() => {
         switch (position) {
             case FullScreenPanelPosition.Left:
-                return "left-0 top-0 h-full md:w-auto"
+                return "left-0 top-0 h-screen md:w-auto"
             case FullScreenPanelPosition.Right:
-                return "right-0 top-0 md:w-auto"
+                return "right-0 top-0 md:w-auto h-screen"
             case FullScreenPanelPosition.Top:
-                return "left-0 top-0 md:h-auto"
+                return "left-0 top-0 md:h-auto w-screen"
             case FullScreenPanelPosition.Bottom:
-                return "left-0 bottom-0 md:h-auto"
+                return "left-0 bottom-0 md:h-auto w-screen"
             case FullScreenPanelPosition.Center:
             default:
                 return "top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-screen md:w-auto md:h-auto"
@@ -63,7 +63,7 @@ export default function FullScreenPanel({ className, panelState, closePanel, chi
                     )
                 }
             >
-                <div className="flex flex-row justify-between gap-8 text-lg items-center absolute md:relative top-0 left-0 p-6 md:p-0 w-full">
+                <div className="flex flex-row justify-between gap-8 text-lg items-center relative md:p-0 w-full">
                     { title }
                     <IconButton
                         aria-label="open sharing panel"

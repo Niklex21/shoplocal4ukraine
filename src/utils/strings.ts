@@ -4,6 +4,7 @@ const strings_en = {
     },
     app: {
         tooltipMenuButton: 'Menu',
+        tooltipClearSearch: "Clear search",
         errors: {
             fieldRequired: 'This field is required',
         },

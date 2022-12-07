@@ -39,8 +39,13 @@ export const GalleryView = ({ infoPanelOpen, className }: Props) => {
         ? "md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4"
         : "md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5"
 
+    const panelWidth =
+        infoPanelOpen
+        ? "w-full md:w-3/4"
+        : "w-full"
+
     return (
-        <div className={ twMerge(`flex flex-wrap flex-col md:grid ${ gridBreakpoints } gap-8 md:gap-x-10 md:gap-y-10 py-20 px-6 md:px-14 justify-center`, className) }>
+        <div className={ twMerge(`flex flex-wrap flex-col md:grid ${ gridBreakpoints } ${ panelWidth } gap-8 md:gap-x-10 md:gap-y-10 py-20 px-6 md:px-14 justify-center`, className) }>
           {
             sortedBusinesses.length === 0
             ? (<text className="text-lg italic">{ strings.businesses.noBusinessesFound }</text>)

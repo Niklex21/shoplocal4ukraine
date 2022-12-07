@@ -35,7 +35,7 @@ export default function BusinessCard({ data, active } : { data: BusinessModel, a
                         { BadgesRow(data.tags) }
                     </div>
                     <div className="text-base opacity-60">
-                        { data.location.city }
+                        { data.location.city ?? "Online"}
                     </div>
                 </div>
                 <div className="flex flex-row w-full justify-between text-sm font-semibold uppercase">

@@ -167,7 +167,7 @@ export default function ReportPanel({ className, panelState, closePanel }: Props
             <div className="flex flex-row gap-4 items-center">
                 <div className="relative flex h-16 w-16 rounded-lg">
                     <Image
-                        className="max-w-xs object-cover md:object-contain rounded-lg"
+                        className="max-w-xs object-cover rounded-lg"
                         src={ imageSrc }
                         layout="fill"
                         alt="Business Logo"

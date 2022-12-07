@@ -12,10 +12,11 @@ import { useAtom } from "jotai"
 import { MapDragState } from "@appTypes/businesses"
 
 type Props = {
-    className?: string
+    className?: string,
+    infoPanelOpen: boolean
 }
 
-export const MapView = ({ className } : Props) => {
+export const MapView = ({ infoPanelOpen, className } : Props) => {
 
     let { logger } = useContext(BusinessViewContext)
     logger = logger.with({ component: "MapView" })
@@ -210,7 +211,7 @@ export const MapView = ({ className } : Props) => {
     })
 
     return (
-        <div className={ twMerge('flex w-full h-screen', className) }>
+        <div className={ twMerge('flex w-screen h-screen z-0', className) }>
             <Map
                 ref={ mapRef as Ref<MapRef>}
                 {...viewState}
@@ -222,7 +223,7 @@ export const MapView = ({ className } : Props) => {
                 mapboxAccessToken={ process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN }
                 interactiveLayerIds={ [ BUSINESS_LAYER_ID, CLUSTERS_LAYER_ID ] }
                 reuseMaps={ true }
-                >
+            >
                     <GeolocateControl />
                     <NavigationControl />
                     <ScaleControl />

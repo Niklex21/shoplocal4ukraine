@@ -16,7 +16,7 @@ import { atomSearchQuery, atomSelectedCategories, atomAllBusinesses, atomSelecte
 import { useAtom } from "jotai"
 import strings from "@utils/strings"
 
-import { Search as IconSearch, Close as IconClose, ArrowLeft as IconArrowLeft, ArrowRight as IconArrowRight } from "@mui/icons-material"
+import { Search as IconSearch, Close as IconClose, ArrowLeft as IconArrowLeft, ArrowRight as IconArrowRight, Menu as IconMenu } from "@mui/icons-material"
 import { businessCategoryConverter, tagConverter } from "@utils/converters"
 import { Checkbox, IconButton, InputBase, ListItemText, MenuItem, Select, SelectChangeEvent, Tooltip } from "@mui/material"
 import { BUSINESS_CATEGORIES, BUSINESS_TAGS } from "@utils/config"
@@ -29,6 +29,7 @@ import { FieldSet } from "airtable/lib/field_set"
 import Table from "airtable/lib/table"
 import { processError } from "@api/_error"
 import _base from "@api/_airtable"
+import { AppMenu } from "@components/common/AppMenu"
 
 const logger = log.with({ from: 'page.businesses.index' })
 
@@ -59,6 +60,8 @@ const Main: NextPageWithLayout<Props> = ({ businesses }: InferGetStaticPropsType
 
     // stores whether or no the autocomplete for the search field should be displayed
     const [ autoCompleteState, setAutoCompleteState ] = useState<boolean>(false)
+
+    const [ menuState, setMenuState ] = useState<PanelState>(PanelState.Closed)
 
     // set all businesses when the props are changed
     useEffect(() => {
@@ -125,6 +128,7 @@ const Main: NextPageWithLayout<Props> = ({ businesses }: InferGetStaticPropsType
     }
 
     // TODO: this really should probably be a part of the infopanel, but it hasn't been working well so far
+    // due to the weird MUI stuff with overflows
     const ToggleStateButton = ({ className }: { className?: string }) => (
         <Tooltip
             title={ 
@@ -158,27 +162,27 @@ const Main: NextPageWithLayout<Props> = ({ businesses }: InferGetStaticPropsType
     )
 
     const content = (
-        <>
-            <InfoPanel panelState={ infoPanelState } setPanelState={ setInfoPanelState } className="transition-all duration-200" />
+        <div className="flex h-full w-full" onClick={ () => setAutoCompleteState(false) }>
+            <InfoPanel panelState={ infoPanelState } setPanelState={ setInfoPanelState } className="transition-all duration-200 md:w-1/4" />
+            <div className={
+                twMerge(
+                    "absolute top-1/2 hidden md:flex transition-all duration-200",
+                    selectedBusinessId.length > 0 ? "" : "hidden",
+                    infoPanelState === PanelState.Closed ? "left-0" : "left-1/4"
+                )
+            }>
+                <ToggleStateButton className="z-40 my-auto" />
+            </div>
             <div
                 className={
                     twMerge(
                         "h-full flex flex-row w-full transition-all duration-200 justify-end items-center",
                     )
                 }
-                onClick={ () => setAutoCompleteState(false) }
             >
-                {/* BROWSER VIEW */}
-                <div className={ twMerge("hidden md:flex h-full", infoPanelState === PanelState.Open ? "w-3/4" : "w-full") }>
-                    <div className={ twMerge("flex w-0 h-full overflow-visible", selectedBusinessId.length > 0 ? "" : "hidden") }>
-                        <ToggleStateButton className="z-10 my-auto" />
-                    </div>
-                    <BusinessView infoPanelOpen={ infoPanelState === PanelState.Open } />
-                </div>
-                {/* MOBILE VIEW */}
-                <BusinessView className="flex md:hidden" />
+                <BusinessView className="flex w-full" infoPanelOpen={ infoPanelState === PanelState.Open }  />
             </div>
-        </>
+        </div>
     )
 
     return (
@@ -187,33 +191,44 @@ const Main: NextPageWithLayout<Props> = ({ businesses }: InferGetStaticPropsType
                 { content }
             </BusinessViewContext.Provider>
             {/* the search bar */}
-            <div className="flex flex-col md:flex-row absolute top-2 left-20 gap-6 items-start z-40">
+            <div className="flex flex-col md:flex-row absolute top-2 left-2 gap-6 items-start z-40">
                 <div 
-                    className={ twMerge("flex flex-col bg-white rounded-lg drop-shadow-md px-4", autoCompleteState ? "pb-2" : "") } 
+                    className={ twMerge("flex flex-col bg-white rounded-lg drop-shadow-md px-2", autoCompleteState ? "pb-2" : "") } 
                 >
-                    <div className="flex flex-row gap-4 h-12 items-center">
-                        <IconSearch className="text-gray-600" />
+                    {/* BROWSER VIEW */}
+                    <div className="flex-row gap-4 h-12 items-center hidden md:flex">
+                        <Tooltip title={ strings.app.tooltipMenuButton } placement="bottom" arrow={ true }>
+                            <IconButton onClick={ () => setMenuState(PanelState.Open) } >
+                                <IconMenu className="text-gray-600" />
+                            </IconButton>
+                        </Tooltip>
                         <input
                             placeholder={ strings.businesses.businessView.searchBarLabel }
-                            className="focus:outline-none bg-white w-44 lg:w-48"
+                            className="focus:outline-none bg-white w-44 lg:w-64"
                             onChange={ e => setSearchQuery(e.target.value) }
                             aria-label='search businesses'
                             type="text"
                             value={ searchQuery }
                             onFocus={ () => setAutoCompleteState(true) }
                         />
-                        <IconButton 
-                            onClick={
-                                () => {
-                                    setSearchQuery("")
-                                    setSelectedBusinessId("")
-                                    setAutoCompleteState(false)
+                        <Tooltip title={ strings.app.tooltipClearSearch } placement="bottom" arrow={ true }>
+                            <IconButton 
+                                onClick={
+                                    () => {
+                                        setSearchQuery("")
+                                        setSelectedBusinessId("")
+                                        setAutoCompleteState(false)
+                                    }
                                 }
-                            }
-                            className={ searchQuery.length > 0 ? "" : "invisible" }
-                        >
-                            <IconClose />
-                        </IconButton>
+                                disabled={ searchQuery.length === 0 }
+                            >
+                                {
+                                    searchQuery.length > 0
+                                    ? <IconClose />
+                                    : <IconSearch />
+                                }
+                            </IconButton>
+                        </Tooltip>
                     </div>
                     <hr className={ autoCompleteState ? "" : "hidden" } />
                     <div className={ twMerge("flex flex-col items-start my-2", autoCompleteState ? "" : "hidden") }>
@@ -240,7 +255,7 @@ const Main: NextPageWithLayout<Props> = ({ businesses }: InferGetStaticPropsType
                         }
                     </div>
                 </div>
-                <div className="flex flex-col md:flex-row items-center drop-shadow-md gap-4 cursor-pointer">
+                <div className="flex-col md:flex-row items-center drop-shadow-md gap-4 cursor-pointer hidden">
                     <Select
                         multiple
                         displayEmpty
@@ -295,6 +310,15 @@ const Main: NextPageWithLayout<Props> = ({ businesses }: InferGetStaticPropsType
                     </Select>
                 </div>
             </div>
+            {/* BACKDROP */}
+            <div
+                className={
+                    "absolute top-0 h-full w-full left-0 bg-black transition-opacity duration-500 " +
+                    (menuState === PanelState.Closed ? "opacity-0 -z-50" : "opacity-20 z-50")
+                }
+                onClick={ () => setMenuState(PanelState.Closed) }
+            />
+            <AppMenu menuState={ menuState } setMenuState={ setMenuState } />
         </>
     )
 }
