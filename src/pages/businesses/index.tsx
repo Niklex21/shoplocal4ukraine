@@ -1,4 +1,4 @@
-import { GetServerSideProps, GetStaticProps } from "next"
+import { GetServerSideProps, GetStaticProps, InferGetStaticPropsType } from "next"
 import React, { createContext, ReactElement, useEffect, useState } from "react"
 import 'mapbox-gl/dist/mapbox-gl.css'
 
@@ -12,7 +12,7 @@ import { BusinessViewContextData, PanelState, SearchedSerializedBusiness } from 
 import { BusinessView } from "@components/business/BusinessView"
 import { InfoPanel } from "@components/business/InfoPanel"
 
-import { atomSearchQuery, atomSelectedCategories, atomAllBusinesses, atomSelectedTags, atomCurrentBusiness, atomSearchedBusinesses, atomSelectedBusinessID } from "src/atoms/businesses"
+import { atomSearchQuery, atomSelectedCategories, atomAllBusinesses, atomSelectedTags, atomCurrentBusiness, atomSearchedBusinesses, atomSelectedBusinessID, timeAtom } from "src/atoms/businesses"
 import { useAtom } from "jotai"
 import strings from "@utils/strings"
 
@@ -26,6 +26,11 @@ import { isMobile } from "react-device-detect"
 
 const logger = log.with({ from: 'page.businesses.index' })
 
+type Props = {
+    businesses: BusinessModel[],
+    time: string
+}
+
 /**
  * Stores the global view-related context that is passed down to all the elements of the view.
  */
@@ -33,9 +38,11 @@ export const BusinessViewContext = createContext<BusinessViewContextData>({
     logger
 });
 
-const Main: NextPageWithLayout = ({ businesses }: any) => {
+const Main: NextPageWithLayout<Props> = ({ businesses, time }: InferGetStaticPropsType<typeof getStaticProps>) => {
 
     logger.with({ component: 'Main' }).debug("Loading Main...")
+
+    const [ readTime, setTime ] = useAtom(timeAtom)
 
     const [ selectedBusiness ] = useAtom(atomCurrentBusiness)
     const [ searchQuery, setSearchQuery ] = useAtom(atomSearchQuery)
@@ -53,7 +60,8 @@ const Main: NextPageWithLayout = ({ businesses }: any) => {
     // set all businesses when the props are changed
     useEffect(() => {
         setAllBusinesses(businesses)
-    }, [ businesses, setAllBusinesses ])
+        setTime(time)
+    }, [ businesses, setAllBusinesses, time, setTime ])
 
     useEffect(() => {
         if (selectedBusinessId.length > 0) {
@@ -289,7 +297,7 @@ const Main: NextPageWithLayout = ({ businesses }: any) => {
     )
 }
 
-export const getStaticProps: GetStaticProps = async () => {
+export const getStaticProps: GetStaticProps<Props> = async () => {
     let businesses : Array<BusinessModel> = await getPublishedRecords()
 
     // res.setHeader(
@@ -301,9 +309,10 @@ export const getStaticProps: GetStaticProps = async () => {
 
     return {
         props: {
-            businesses
+            businesses,
+            time: new Date().toTimeString()
         },
-        revalidate: 10
+        revalidate: 30
     }
 }
 

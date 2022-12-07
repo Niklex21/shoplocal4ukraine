@@ -8,7 +8,7 @@ import { GalleryView } from "./GalleryView";
 import { MapView } from "./MapView";
 import { Map as IconMap, Collections as IconCollections, Add as IconAdd, HdrStrongSharp, Menu as IconMenu } from '@mui/icons-material'
 import { useAtom } from "jotai";
-import { atomCurrentBusiness, atomView } from "src/atoms/businesses";
+import { atomCurrentBusiness, atomView, timeAtom } from "src/atoms/businesses";
 import strings from "@utils/strings"
 import { isEmpty } from "@utils/utils";
 import { isMobile } from "react-device-detect";
@@ -32,6 +32,7 @@ export const BusinessView = ({ infoPanelOpen, className, children }: Props) => {
     const [view, setView] = useAtom(atomView);
     const [ selectedBusiness ] = useAtom(atomCurrentBusiness)
     const [ menuState, setMenuState ] = useAtom(atomGlobalMenuState)
+    const [ time, setTime ] = useAtom(timeAtom)
 
     let { logger } = useContext(BusinessViewContext);
     logger = logger.with({ component: 'BusinessView' })
@@ -87,13 +88,14 @@ export const BusinessView = ({ infoPanelOpen, className, children }: Props) => {
                 </div>
                 {/* UNIVERSAL */}
                 <Button
-                    className="absolute left-1/2 bottom-4 focus:bg-white -translate-x-1/2 z-40 drop-shadow-md rounded-full bg-white md:bg-ukraine-blue text-ukraine-blue md:text-white normal-case font-bold py-3 px-4"
+                    className="absolute left-1/2 bottom-4 focus:bg-white md:focus:bg-ukraine-blue -translate-x-1/2 z-40 drop-shadow-md rounded-full bg-white md:bg-ukraine-blue text-ukraine-blue md:text-white normal-case font-bold py-3 px-4"
                     onClick={ toggleViewSelection }
                     variant="contained"
                 >
                     { strings.businesses.businessView.show }
                     &nbsp;
                     { alternativeViewName }
+                    { time }
                     &nbsp;
                     { alternativeViewIcon }
                 </Button>
