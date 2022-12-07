@@ -220,6 +220,11 @@ export const InfoPanel = ({ className, panelState, setPanelState }: Props) => {
         </div>
     )
 
+    return (
+        <div>
+            Hello!
+        </div>
+    )
 
     return (
         <>
