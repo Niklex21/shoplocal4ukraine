@@ -43,7 +43,7 @@ export const BusinessViewContext = createContext<BusinessViewContextData>({
     logger
 });
 
-const Main: NextPageWithLayout<Props> = ({ businesses, time }: InferGetStaticPropsType<typeof getStaticProps>) => {
+const Main: NextPageWithLayout<Props> = ({ businesses }: InferGetStaticPropsType<typeof getStaticProps>) => {
 
     logger.with({ component: 'Main' }).debug("Loading Main...")
 
