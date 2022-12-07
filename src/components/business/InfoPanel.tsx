@@ -221,12 +221,6 @@ export const InfoPanel = ({ className, panelState, setPanelState }: Props) => {
     )
 
     return (
-        <div>
-            Hello!
-        </div>
-    )
-
-    return (
         <>
             {
                 isMobile ?

@@ -167,7 +167,7 @@ const Main: NextPageWithLayout<Props> = ({ businesses }: InferGetStaticPropsType
             <div className={
                 twMerge(
                     "absolute top-1/2 hidden md:flex transition-all duration-200",
-                    selectedBusinessId.length > 0 ? "" : "hidden",
+                    selectedBusinessId.length > 0 ? "" : "md:hidden",
                     infoPanelState === PanelState.Closed ? "left-0" : "left-1/4"
                 )
             }>
