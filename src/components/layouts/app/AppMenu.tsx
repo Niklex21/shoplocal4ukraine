@@ -19,11 +19,11 @@ type Props = {
  export function AppMenu({ className, menuState, setMenuState }: Props) {
 
     const title = (
-        <div className="grid grid-cols-3 w-full items-center">
-            <div className="flex items-center col-span-2">
+        <div className="grid grid-cols-2 md:grid-cols-3 w-full items-center">
+            <div className="flex items-center md:col-span-2 max-w-xs">
                 <Image
                     src={ Logo }
-                    className="object-contain object-left max-w-xs"
+                    className="object-contain object-left"
                     alt="Logo"
                 />
             </div>
@@ -40,14 +40,14 @@ type Props = {
             className={
                 // flex overrides "hidden", instead hiding it by movement, thus enabling transitions
                 twMerge(
-                    "transition-all flex max-w-xs overflow-auto gap-8 p-8",
+                    "transition-all flex md:max-w-xs overflow-auto gap-16 md:gap-8 p-8 justify-center md:justify-start md:rounded-none text-center md:text-start",
                     menuState === PanelState.Closed ? "-left-full" : "",
                     className
                 )
             }
         >
             <hr />
-            <div className="flex flex-col gap-8">
+            <div className="flex flex-col gap-16 md:gap-8">
                 {
                     sections.map(
                         ({ name, links }) => (

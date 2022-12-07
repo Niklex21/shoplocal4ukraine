@@ -163,7 +163,7 @@ const Main: NextPageWithLayout = ({ businesses }: any) => {
                     <div className={ twMerge("flex w-0 h-full overflow-visible", selectedBusinessId.length > 0 ? "" : "hidden") }>
                         <ToggleStateButton className="z-10 my-auto" />
                     </div>
-                    <BusinessView />
+                    <BusinessView infoPanelOpen={ infoPanelState === PanelState.Open } />
                 </div>
                 {/* MOBILE VIEW */}
                 <BusinessView className="flex md:hidden" />
@@ -179,13 +179,13 @@ const Main: NextPageWithLayout = ({ businesses }: any) => {
             {/* the search bar */}
             <div className="flex flex-col md:flex-row absolute top-2 left-20 gap-6 items-start z-40">
                 <div 
-                    className={ twMerge("flex flex-col bg-slate-50 rounded-lg drop-shadow-md px-4", autoCompleteState ? "pb-2" : "") } 
+                    className={ twMerge("flex flex-col bg-white rounded-lg drop-shadow-md px-4", autoCompleteState ? "pb-2" : "") } 
                 >
                     <div className="flex flex-row gap-4 h-12 items-center">
                         <IconSearch className="text-gray-600" />
                         <input
                             placeholder={ strings.businesses.businessView.searchBarLabel }
-                            className="focus:outline-none bg-slate-50 w-44 lg:w-48"
+                            className="focus:outline-none bg-white w-44 lg:w-48"
                             onChange={ e => setSearchQuery(e.target.value) }
                             aria-label='search businesses'
                             type="text"
@@ -212,7 +212,7 @@ const Main: NextPageWithLayout = ({ businesses }: any) => {
                             searchedBusinesses.slice(0, Math.max(1, Math.min(searchedBusinesses.length - 1, 4))).map(
                                 (b : SearchedSerializedBusiness, index: number) => (
                                     <div
-                                        className="flex w-full p-2 bg-slate-50 hover:brightness-95 hover:cursor-pointer rounded-lg"
+                                        className="flex w-full p-2 bg-white hover:brightness-95 hover:cursor-pointer rounded-lg"
                                         key={ index }
                                         onClick={ 
                                             () => {
@@ -236,7 +236,7 @@ const Main: NextPageWithLayout = ({ businesses }: any) => {
                         displayEmpty
                         value={ selectedCategories }
                         onChange={ handleCategoryChange }
-                        input={ <InputBase className="bg-slate-50 w-44 lg:w-64 h-12 px-4 p-2 rounded-lg cursor-pointer" /> }
+                        input={ <InputBase className="bg-white w-44 lg:w-64 h-12 px-4 p-2 rounded-lg cursor-pointer" /> }
                         renderValue={
                             selected => {
                                 return selected.length > 0
@@ -262,7 +262,7 @@ const Main: NextPageWithLayout = ({ businesses }: any) => {
                         displayEmpty
                         value={ selectedTags }
                         onChange={ handleTagsChange }
-                        input={ <InputBase className="bg-slate-50 w-44 lg:w-64 h-12 px-4 p-2 rounded-lg cursor-pointer" /> }
+                        input={ <InputBase className="bg-white w-44 lg:w-64 h-12 px-4 p-2 rounded-lg cursor-pointer" /> }
                         renderValue={
                             selected => {
                                 return selected.length > 0

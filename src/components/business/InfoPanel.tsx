@@ -48,7 +48,7 @@ export const InfoPanel = ({ className, panelState, setPanelState }: Props) => {
 
     logger.debug(`Loading Info for selected business: ${ business.id }`)
 
-    let contacts : Array<IconLinkText> = [];
+    let contacts : Array<IconLinkText & { tooltipText?: string }> = [];
     let imageSrc : string = getBusinessProfileImageSrc(business)
 
     contacts = [
@@ -56,7 +56,8 @@ export const InfoPanel = ({ className, panelState, setPanelState }: Props) => {
                 icon: (
                     <IconAddress />
                 ),
-                text: business.location.address
+                text: business.location.address,
+                tooltipText: strings.businesses.infoPage.tooltipAddress
             }] : []
         ),
         ...(business.website ? [{
@@ -64,7 +65,8 @@ export const InfoPanel = ({ className, panelState, setPanelState }: Props) => {
                     <IconWebsite />
                 ),
                 text: urlShortener(business.website),
-                link: business.website
+                link: business.website,
+                tooltipText: strings.businesses.infoPage.tooltipWebsite
             }] : []
         ),
         ...(business.email ? [{
@@ -72,7 +74,8 @@ export const InfoPanel = ({ className, panelState, setPanelState }: Props) => {
                     <IconEmail />
                 ),
                 text: business.email,
-                link: `mailto:${ business.email }`
+                link: `mailto:${ business.email }`,
+                tooltipText: strings.businesses.infoPage.tooltipEmail
             }] : []
         ),
         ...(business.phone ? [{
@@ -80,7 +83,8 @@ export const InfoPanel = ({ className, panelState, setPanelState }: Props) => {
                     <IconPhone />
                 ),
                 text: business.phone,
-                link: `tel:${ business.phone }`
+                link: `tel:${ business.phone }`,
+                tooltipText: strings.businesses.infoPage.tooltipPhone
             }] : []
         ),
     ]
@@ -89,19 +93,11 @@ export const InfoPanel = ({ className, panelState, setPanelState }: Props) => {
         <Card className='overflow-y-scroll overflow-x-none relative md:h-full w-full rounded-none'>
             <CardMedia
                 component="img"
-                className="h-48 hidden md:block"
+                className="h-48"
                 image={ imageSrc }
                 alt={ business.name }
             />
             <CardContent>
-                <div className="relative md:hidden rounded-lg w-full h-48">
-                    <Image
-                        className="w-full object-contain rounded-lg"
-                        layout="fill"
-                        src={ imageSrc }
-                        alt={ business.name }
-                    />
-                </div>
                 <div className="flex flex-col gap-4">
                     <div className="flex flex-row justify-between">
                         <div>
@@ -142,7 +138,7 @@ export const InfoPanel = ({ className, panelState, setPanelState }: Props) => {
                                     </span>
                                 </a>    
                             </Link>
-                            <Tooltip title={ strings.businesses.infoPage.tooltipCopyGoogleMapsURL }>
+                            <Tooltip title={ strings.businesses.infoPage.tooltipCopyGoogleMapsURL } arrow={ true } placement="right">
                                 <IconButton
                                     onClick={ () => {
                                         navigator.clipboard.writeText(business.location.googleMapsURL || "")
@@ -157,7 +153,7 @@ export const InfoPanel = ({ className, panelState, setPanelState }: Props) => {
                     <div>
                         {
                             contacts.map(
-                                ({ icon, link, text }, index: number) => (
+                                ({ icon, link, text, tooltipText }, index: number) => (
                                     <div key={ index } className="cursor-pointer">
                                         <div className="group flex flex-row w-full gap-4 bg-white px-2 py-1 opacity-80 hover:brightness-95 hover:opacity-100 items-center rounded-lg">
                                             { icon }
@@ -173,7 +169,11 @@ export const InfoPanel = ({ className, panelState, setPanelState }: Props) => {
                                                         </Link>
                                                     ) : text
                                                 }
-                                                <Tooltip title={ strings.businesses.infoPage.tooltipCopy }>
+                                                <Tooltip
+                                                    title={ strings.businesses.infoPage.tooltipCopy + " " + tooltipText }
+                                                    arrow={ true }
+                                                    placement="right"
+                                                >
                                                     <IconButton
                                                         onClick={ () => {
                                                             navigator.clipboard.writeText(text || "")

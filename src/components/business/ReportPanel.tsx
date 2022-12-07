@@ -158,16 +158,16 @@ export default function ReportPanel({ className, panelState, closePanel }: Props
     
     return (
         <FullScreenPanel
-            className={ twMerge("rounded-lg max-w-md", className) }
+            className={ twMerge("max-w-md", className) }
             panelState={ panelState }
             closePanel={ handleClose }
             position={ FullScreenPanelPosition.Center }
             title={ strings.businesses.reportPanel.title }
         >
-            <div className="flex flex-col md:flex-row gap-4">
-                <div className="relative flex h-16 md:h-auto md:w-16 rounded-lg">
+            <div className="flex flex-row gap-4 items-center">
+                <div className="relative flex h-16 w-16 rounded-lg">
                     <Image
-                        className="max-w-xs object-contain"
+                        className="max-w-xs object-cover md:object-contain rounded-lg"
                         src={ imageSrc }
                         layout="fill"
                         alt="Business Logo"
@@ -203,7 +203,7 @@ export default function ReportPanel({ className, panelState, closePanel }: Props
                                     (<></>) : 
                                     (
                                         <>
-                                            <div className="prose max-w-prose italic opacity-80 text-sm">
+                                            <div className="prose italic opacity-80 text-sm">
                                                 { strings.businesses.reportPanel.notSure }
                                                 &nbsp;
                                                 {/* TODO: replace this link with some other one later */}

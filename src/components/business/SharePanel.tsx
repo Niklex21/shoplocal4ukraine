@@ -111,16 +111,16 @@ export default function SharePanel({ className, panelState, closePanel }: Props)
 
     return (
         <FullScreenPanel
-            className={ twMerge("rounded-lg max-w-md", className) }
+            className={ twMerge("max-w-md", className) }
             panelState={ panelState }
             closePanel={ closePanel }
             position={ FullScreenPanelPosition.Center}
             title={ strings.businesses.sharePanel.title }
         >
-            <div className="flex flex-col md:flex-row gap-4">
-                <div className="relative flex h-16 md:h-auto md:w-16 rounded-lg">
+            <div className="flex flex-row gap-4 items-center">
+                <div className="relative flex h-16 w-16 rounded-lg">
                     <Image
-                        className="max-w-xs object-contain"
+                        className="max-w-xs object-cover md:object-contain rounded-lg"
                         src={ imageSrc }
                         layout="fill"
                         alt="Business Logo"

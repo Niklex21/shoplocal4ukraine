@@ -74,6 +74,10 @@ const strings_en = {
             tooltipOpenPanel: "Expand info panel",
             tooltipClosePanel: "Collapse info panel",
             tooltipReport: 'Report this business',
+            tooltipAddress: "address",
+            tooltipEmail: "email",
+            tooltipWebsite: "website",
+            tooltipPhone: "phone",
             googleMapsURLText: 'Open on Google Maps',
         },
         businessView: {

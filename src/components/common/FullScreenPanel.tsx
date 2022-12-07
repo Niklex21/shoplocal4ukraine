@@ -30,16 +30,16 @@ export default function FullScreenPanel({ className, panelState, closePanel, chi
     const positionStyles = (() => {
         switch (position) {
             case FullScreenPanelPosition.Left:
-                return "left-0 top-0 h-screen"
+                return "left-0 top-0 h-full md:w-auto"
             case FullScreenPanelPosition.Right:
-                return "right-0 top-0 h-screen"
+                return "right-0 top-0 md:w-auto"
             case FullScreenPanelPosition.Top:
-                return "left-0 top-0 w-screen"
+                return "left-0 top-0 md:h-auto"
             case FullScreenPanelPosition.Bottom:
-                return "left-0 bottom-0 w-screen"
+                return "left-0 bottom-0 md:h-auto"
             case FullScreenPanelPosition.Center:
             default:
-                return "top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+                return "top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-screen md:w-auto md:h-auto"
         }
     })()
 
@@ -57,13 +57,13 @@ export default function FullScreenPanel({ className, panelState, closePanel, chi
             <div
                 className={
                     twMerge(
-                        `z-50 absolute ${ positionStyles } flex flex-col gap-4 bg-slate-50 p-6 max-w-full`,
+                        `rounded-none md:rounded-lg z-50 absolute flex flex-col gap-4 bg-white p-6 justify-center overflow-auto max-w-full md:max-h-full w-full h-full ${ positionStyles } `,
                         panelState === PanelState.Closed ? "hidden" : "",
                         className
                     )
                 }
             >
-                <div className="w-full flex flex-row justify-between gap-8 text-lg items-center">
+                <div className="flex flex-row justify-between gap-8 text-lg items-center absolute md:relative top-0 left-0 p-6 md:p-0 w-full">
                     { title }
                     <IconButton
                         aria-label="open sharing panel"
