@@ -62,7 +62,7 @@ export const BusinessView = ({ infoPanelOpen, className, children }: Props) => {
     })()
 
     return (
-        <div className={ twMerge(`relative w-full flex flex-col overflow-auto h-full max-h-screen max-w-none p-0`, className) }>
+        <div className={ twMerge(`relative w-full flex flex-col overflow-auto h-full max-h-screen max-w-none p-0 transition-all duration-200`, className) }>
             <ViewComponent infoPanelOpen={ infoPanelOpen ?? false } className="self-end" />
             {/* TODO: this should move based on the infopanel state, but so far I haven't been able to come up with an elegant solution */}
             <div className={

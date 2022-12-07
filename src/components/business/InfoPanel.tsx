@@ -129,12 +129,12 @@ export const InfoPanel = ({ className, panelState, setPanelState }: Props) => {
                         </div>
                     </div>
                     {
-                        business.location.googleMapsURL ?
+                        business.location?.googleMapsURL ?
                         (
                             <div className="group flex flex-row w-full gap-4 bg-white px-2 py-1 opacity-80 hover:brightness-95 text-ukraine-blue hover:opacity-100 items-center rounded-lg">
                                 <IconArrow />
                                 <div className="flex flex-row w-full justify-between gap-2 items-center">
-                                    <Link href={ business.location.googleMapsURL || "#" }>
+                                    <Link href={ business.location?.googleMapsURL || "#" }>
                                         <a target="_blank">
                                             <span className="break-all underline lg:no-underline hover:underline">
                                                 { strings.businesses.infoPage.googleMapsURLText }
@@ -144,7 +144,7 @@ export const InfoPanel = ({ className, panelState, setPanelState }: Props) => {
                                     <Tooltip title={ strings.businesses.infoPage.tooltipCopyGoogleMapsURL } arrow={ true } placement="right">
                                         <IconButton
                                             onClick={ () => {
-                                                navigator.clipboard.writeText(business.location.googleMapsURL || "")
+                                                navigator.clipboard.writeText(business.location?.googleMapsURL || "")
                                                 toast.success(strings.businesses.sharePanel.toastSuccessCopy)
                                             }}
                                         >
