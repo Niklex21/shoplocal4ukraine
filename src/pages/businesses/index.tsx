@@ -23,6 +23,12 @@ import { BUSINESS_CATEGORIES, BUSINESS_TAGS } from "@utils/config"
 import { isEmpty } from "@utils/utils"
 import { twMerge } from "tailwind-merge"
 import { isMobile } from "react-device-detect"
+import { jsonToBusiness } from "@api/business/model"
+import { QueryParams } from "airtable/lib/query_params"
+import { FieldSet } from "airtable/lib/field_set"
+import Table from "airtable/lib/table"
+import { processError } from "@api/_error"
+import _base from "@api/_airtable"
 
 const logger = log.with({ from: 'page.businesses.index' })
 
@@ -294,7 +300,30 @@ const Main: NextPageWithLayout<Props> = ({ businesses, time }: InferGetStaticPro
 }
 
 export const getStaticProps: GetStaticProps<Props> = async () => {
-    let businesses : Array<BusinessModel> = await getPublishedRecords()
+    logger.debug("Attempting to load published records")
+
+    let options : QueryParams<FieldSet> = {}
+
+    let formula = "Publish = 1"
+    options["filterByFormula"] = formula
+
+    const table : Table<FieldSet> = _base('Business')
+
+    let businesses : BusinessModel[] = await
+        table.select(options)
+           .all()
+           .then(records => {
+                logger.debug(`Success getting records by formula ${ formula }`)
+                if (records) {
+                    logger.debug(`Success: got ${ records.length } published records`)
+                    return records.map((r: any) => jsonToBusiness(r._rawJson))
+                }
+            
+                logger.debug("No records found, returning empty")
+                return []
+            })
+           .catch(err => processError(err, "", logger.with({ "function": "_getRecordsByFormula" })))
+        ?? []
 
     // res.setHeader(
     //     'Cache-Control',
