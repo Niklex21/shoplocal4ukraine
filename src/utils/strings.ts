@@ -69,6 +69,7 @@ const strings_en = {
     },
     businesses: {
         infoPage: {
+            addSuggestEdit: "Add info/suggest an edit",
             sectionTitle: {
                 description: 'About',
                 contributions: 'How they helped',
@@ -121,6 +122,21 @@ const strings_en = {
             contactPlaceholder: "Please provide your contact information (name and phone/email/social media) in case we need to reach out to you regarding this request. This is optional.",
             contactFieldLabel: "Your contact info (optional)",
             readMoreAboutReporting: "Read more about our reporting guidelines here.",
+            timedOut: 'Your request timed out :( Try again in a few seconds.',
+            tryAgain: 'Try Again',
+            error: 'An unknown error occurred :( Try again in a few seconds.'
+        },
+        infoEditPanel: {
+            title: 'Add/edit information',
+            success: 'Success!',
+            thankYou:
+                'Thank you for suggesting your edit.\nWe will review your request as soon as possible.\nIn the meantime, please do not hesitate to contact us if there is any other information you would like to bring to our attention. 🙂',
+            closePanel: 'Click here to close this dialog.',
+            caseNumber: 'Your ticket number is ',
+            contentPlaceholder: "Please describe what kind of information is incorrect/missing. Provide references to the real information. Be as specific as possible.",
+            contentFieldLabel: "What kind of information should we edit? (required)",
+            contactPlaceholder: "Please provide your contact information (name and phone/email/social media) in case we need to reach out to you regarding this request. This is optional.",
+            contactFieldLabel: "Your contact info (optional)",
             timedOut: 'Your request timed out :( Try again in a few seconds.',
             tryAgain: 'Try Again',
             error: 'An unknown error occurred :( Try again in a few seconds.'

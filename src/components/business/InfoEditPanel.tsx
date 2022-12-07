@@ -19,9 +19,9 @@ type Props = {
     closePanel: () => void,
 }
 
-const logger = log.with({ "from": "components.business.ReportPanel" })
+const logger = log.with({ "from": "components.business.InfoEditPanel" })
 
-export default function ReportPanel({ className, panelState, closePanel }: Props) {
+export default function InfoEditPanel({ className, panelState, closePanel }: Props) {
     
     const [ currentBusiness ] = useAtom(atomCurrentBusiness)
     // tracks whether or not the report is being submitted
@@ -47,7 +47,7 @@ export default function ReportPanel({ className, panelState, closePanel }: Props
 
         const data = JSON.stringify({
             businessId: currentBusiness.id,
-            report: values.report,
+            content: values.content,
             contact: values.contact
         })
 
@@ -69,7 +69,7 @@ export default function ReportPanel({ className, panelState, closePanel }: Props
                 }
             }, defaults.requestTimeout)
 
-            const response = await fetch('/api/report/violation', options)
+            const response = await fetch('/api/report/infoEdit', options)
             const result = (await response.json()).reportNumber
 
             if (result) {
@@ -114,19 +114,19 @@ export default function ReportPanel({ className, panelState, closePanel }: Props
                 <div className="flex flex-col gap-2 prose">
                     <div className="flex w-full flex-col">
                         <div className="text-green-700">
-                            { strings.businesses.reportPanel.success }
+                            { strings.businesses.infoEditPanel.success }
                             &nbsp;
-                            { strings.businesses.reportPanel.caseNumber }
+                            { strings.businesses.infoEditPanel.caseNumber }
                             <span className="font-bold">{ caseNumber }</span>
                             .
                         </div>
                     </div>
                     <div className="prose flex flex-col gap-2">
                         <text className="whitespace-pre-line">
-                            { strings.businesses.reportPanel.thankYou }
+                            { strings.businesses.infoEditPanel.thankYou }
                         </text>
                         <text className="cursor-pointer hover:underline italic opacity-80" onClick={ handleClose }>
-                            { strings.businesses.reportPanel.closePanel }
+                            { strings.businesses.infoEditPanel.closePanel }
                         </text>
                     </div>
                 </div>
@@ -136,9 +136,9 @@ export default function ReportPanel({ className, panelState, closePanel }: Props
         if (submitStatus === SubmitStatus.TimeOut) {
             return (
                 <>
-                    <text className="text-red-500 font-bold">{ strings.businesses.reportPanel.timedOut }</text>
+                    <text className="text-red-500 font-bold">{ strings.businesses.infoEditPanel.timedOut }</text>
                     <SubmitButton>
-                        { strings.businesses.reportPanel.tryAgain }
+                        { strings.businesses.infoEditPanel.tryAgain }
                     </SubmitButton>
                 </>
             )
@@ -147,9 +147,9 @@ export default function ReportPanel({ className, panelState, closePanel }: Props
         if (submitStatus === SubmitStatus.Error) {
             return (
                 <>
-                    <text className="text-red-500 font-bold">{ strings.businesses.reportPanel.error }</text>
+                    <text className="text-red-500 font-bold">{ strings.businesses.infoEditPanel.error }</text>
                     <SubmitButton>
-                        { strings.businesses.reportPanel.tryAgain }
+                        { strings.businesses.infoEditPanel.tryAgain }
                     </SubmitButton>
                 </>
             )
@@ -162,7 +162,7 @@ export default function ReportPanel({ className, panelState, closePanel }: Props
             panelState={ panelState }
             closePanel={ handleClose }
             position={ FullScreenPanelPosition.Center }
-            title={ strings.businesses.reportPanel.title }
+            title={ strings.businesses.infoEditPanel.title }
         >
             <div className="flex flex-row gap-4 items-center">
                 <div className="relative flex h-16 w-16 rounded-lg">
@@ -180,13 +180,13 @@ export default function ReportPanel({ className, panelState, closePanel }: Props
             </div>
             <hr />
             <Formik
-                initialValues={{ report: "", contact: "" }}
+                initialValues={{ content: "", contact: "" }}
                 validate={
                     values => {
                         const errors : any = {}
 
-                        if (!values.report) {
-                            errors.report = strings.app.errors.fieldRequired
+                        if (!values.content) {
+                            errors.content = strings.app.errors.fieldRequired
                         }
 
                         return errors
@@ -203,35 +203,25 @@ export default function ReportPanel({ className, panelState, closePanel }: Props
                                     (<></>) : 
                                     (
                                         <>
-                                            <div className="prose italic opacity-80 text-sm">
-                                                { strings.businesses.reportPanel.notSure }
-                                                &nbsp;
-                                                {/* TODO: replace this link with some other one later */}
-                                                <Link href="#">
-                                                    <a target="_blank">
-                                                        { strings.businesses.reportPanel.readMoreAboutReporting }
-                                                    </a>
-                                                </Link>
-                                            </div>
                                             <div className="flex flex-col gap-1">
-                                                <text>{ strings.businesses.reportPanel.reportFieldLabel }</text>
+                                                <text>{ strings.businesses.infoEditPanel.contentFieldLabel }</text>
                                                 <Field
                                                     type="text"
                                                     as="textarea"
-                                                    name="report"
+                                                    name="content"
                                                     className="bg-transparent ring-1 ring-slate-600 focus:outline-ukraine-blue rounded-md p-4 h-32"
-                                                    placeholder={ strings.businesses.reportPanel.reportPlaceholder }
+                                                    placeholder={ strings.businesses.infoEditPanel.contentPlaceholder }
                                                 />
-                                                <ErrorMessage name="report" component="div" className="italic opacity-80 text-sm text-red-700" />
+                                                <ErrorMessage name="content" component="div" className="italic opacity-80 text-sm text-red-700" />
                                             </div>
                                             <div className="flex flex-col gap-1">
-                                                <text>{ strings.businesses.reportPanel.contactFieldLabel }</text>
+                                                <text>{ strings.businesses.infoEditPanel.contactFieldLabel }</text>
                                                 <Field
                                                     type="text"
                                                     as="textarea"
                                                     name="contact"
                                                     className="bg-transparent ring-1 ring-slate-600 focus:outline-ukraine-blue rounded-md p-4 h-32"
-                                                    placeholder={ strings.businesses.reportPanel.contactPlaceholder }
+                                                    placeholder={ strings.businesses.infoEditPanel.contactPlaceholder }
                                                 />
                                                 <ErrorMessage name="contact" component="div" />
                                             </div>

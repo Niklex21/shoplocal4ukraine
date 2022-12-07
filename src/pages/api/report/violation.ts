@@ -1,11 +1,11 @@
-import { addReport } from "@api/reports";
-import { ReportModel } from "@api/reports/types";
+import { addReport } from "@api/reports/violation";
+import { ReportViolationModel } from "@api/reports/violation/types";
 import { NextApiRequest, NextApiResponse } from "next";
 import { AxiomAPIRequest, withAxiom } from "next-axiom/dist/withAxiom";
 
 
 /**
- * An api handler to add a report to the system.
+ * An api handler to add a violation report to the system.
  * @param req the request object
  * @param res the response object
  * @returns status report and the added report number if successful
@@ -13,9 +13,9 @@ import { AxiomAPIRequest, withAxiom } from "next-axiom/dist/withAxiom";
 async function handler(req: AxiomAPIRequest, res: NextApiResponse) {
     const body = req.body
 
-    const logger = req.log.with({ "from": "pages.api.report" })
+    const logger = req.log.with({ "from": "pages.api.report.violation" })
 
-    const report : ReportModel = {
+    const report : ReportViolationModel = {
         business: [body.businessId],
         report: body.report,
         contact: body.contact

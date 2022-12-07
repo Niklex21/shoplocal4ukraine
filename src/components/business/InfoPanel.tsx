@@ -1,4 +1,4 @@
-import { Card, CardMedia, CardContent, Container, IconButton, Tooltip, SwipeableDrawer, Drawer } from "@mui/material";
+import { Card, CardMedia, CardContent, Container, IconButton, Tooltip, SwipeableDrawer, Drawer, Button } from "@mui/material";
 import strings from "@utils/strings";
 import { getBusinessProfileImageSrc, isEmpty, urlShortener } from "@utils/utils";
 import Link from "next/link";
@@ -6,7 +6,7 @@ import { useContext, useState } from "react";
 import { BusinessViewContext } from "src/pages/businesses";
 import { IconLinkText, PanelState } from "@appTypes/businesses";
 import { twMerge } from "tailwind-merge";
-import { Report as IconReport, ContentCopy as IconCopy, ArrowLeft as IconArrowLeft, ArrowRight as IconArrowRight, Public as IconWebsite, Email as IconEmail, Phone as IconPhone, ShareOutlined as IconShare, Place as IconAddress, ArrowForward as IconArrow } from "@mui/icons-material";
+import { Report as IconReport, ContentCopy as IconCopy, Edit as IconEdit, ArrowLeft as IconArrowLeft, ArrowRight as IconArrowRight, Public as IconWebsite, Email as IconEmail, Phone as IconPhone, ShareOutlined as IconShare, Place as IconAddress, ArrowForward as IconArrow } from "@mui/icons-material";
 import Image from 'next/image';
 import { atomCurrentBusiness, atomSelectedBusinessID } from "src/atoms/businesses";
 import { useAtom } from "jotai";
@@ -14,6 +14,7 @@ import SharePanel from "./SharePanel";
 import { BadgesRow } from "./BadgesRow";
 import { toast } from "react-toastify"
 import ReportPanel from "./ReportPanel";
+import InfoEditPanel from "./InfoEditPanel"
 import defaults from "@utils/config";
 import { BrowserView, isMobile, MobileView } from "react-device-detect";
 import { paperClasses } from "@mui/material/Paper";
@@ -35,6 +36,7 @@ export const InfoPanel = ({ className, panelState, setPanelState }: Props) => {
 
     const [ sharePanelState, setSharePanelState ] = useState<PanelState>(PanelState.Closed)
     const [ reportPanelState, setReportPanelState ] = useState<PanelState>(PanelState.Closed)
+    const [ infoEditPanelState, setInfoEditPanelState ] = useState<PanelState>(PanelState.Closed)
 
     // add a component to the logger object
     logger = logger.with(({ component: "Info" }))
@@ -128,72 +130,85 @@ export const InfoPanel = ({ className, panelState, setPanelState }: Props) => {
                             </Tooltip>
                         </div>
                     </div>
-                    {
-                        business.location?.googleMapsURL ?
-                        (
-                            <div className="group flex flex-row w-full gap-4 bg-white px-2 py-1 opacity-80 hover:brightness-95 text-ukraine-blue hover:opacity-100 items-center rounded-lg">
-                                <IconArrow />
-                                <div className="flex flex-row w-full justify-between gap-2 items-center">
-                                    <Link href={ business.location?.googleMapsURL || "#" }>
-                                        <a target="_blank">
-                                            <span className="break-all underline lg:no-underline hover:underline">
-                                                { strings.businesses.infoPage.googleMapsURLText }
-                                            </span>
-                                        </a>    
-                                    </Link>
-                                    <Tooltip title={ strings.businesses.infoPage.tooltipCopyGoogleMapsURL } arrow={ true } placement="right">
-                                        <IconButton
-                                            onClick={ () => {
-                                                navigator.clipboard.writeText(business.location?.googleMapsURL || "")
-                                                toast.success(strings.businesses.sharePanel.toastSuccessCopy)
-                                            }}
-                                        >
-                                            <IconCopy className="text-base text-current md:invisible group-hover:visible" />
-                                        </IconButton>
-                                    </Tooltip>
-                                </div>
-                            </div>
-                        ) : (<></>)
-                    }
-                    <div>
+                    <div className="flex flex-col gap-4">
                         {
-                            contacts.map(
-                                ({ icon, link, text, tooltipText }, index: number) => (
-                                    <div key={ index } className="cursor-pointer">
-                                        <div className="group flex flex-row w-full gap-4 bg-white px-2 py-1 opacity-80 hover:brightness-95 hover:opacity-100 items-center rounded-lg">
-                                            { icon }
-                                            <div className="flex flex-row w-full justify-between gap-2 items-center">
-                                                {
-                                                    link ? (
-                                                        <Link href={ link || "#" }>
-                                                            <a target="_blank">
-                                                                <span className={ twMerge("break-all", link ? "underline lg:no-underline hover:underline" : "") }>
-                                                                    { text }
-                                                                </span>
-                                                            </a>    
-                                                        </Link>
-                                                    ) : text
-                                                }
-                                                <Tooltip
-                                                    title={ strings.businesses.infoPage.tooltipCopy + " " + tooltipText }
-                                                    arrow={ true }
-                                                    placement="right"
-                                                >
-                                                    <IconButton
-                                                        onClick={ () => {
-                                                            navigator.clipboard.writeText(text || "")
-                                                            toast.success(strings.businesses.sharePanel.toastSuccessCopy)
-                                                        }}
+                            business.location?.googleMapsURL ?
+                            (
+                                <div className="group flex content-center flex-row w-full gap-4 bg-white px-2 py-1 opacity-80 hover:brightness-95 text-ukraine-blue hover:opacity-100 items-center rounded-lg">
+                                    <IconArrow />
+                                    <div className="flex flex-row w-full justify-between gap-2">
+                                        <Link href={ business.location?.googleMapsURL || "#" }>
+                                            <a target="_blank">
+                                                <span className="break-all underline lg:no-underline hover:underline align-middle">
+                                                    { strings.businesses.infoPage.googleMapsURLText }
+                                                </span>
+                                            </a>    
+                                        </Link>
+                                        <Tooltip title={ strings.businesses.infoPage.tooltipCopyGoogleMapsURL } arrow={ true } placement="right">
+                                            <IconButton
+                                                onClick={ () => {
+                                                    navigator.clipboard.writeText(business.location?.googleMapsURL || "")
+                                                    toast.success(strings.businesses.sharePanel.toastSuccessCopy)
+                                                }}
+                                            >
+                                                <IconCopy className="text-base text-current md:invisible group-hover:visible" />
+                                            </IconButton>
+                                        </Tooltip>
+                                    </div>
+                                </div>
+                            ) : (<></>)
+                        }
+                        <div>
+                            {
+                                contacts.map(
+                                    ({ icon, link, text, tooltipText }, index: number) => (
+                                        <div key={ index } className="cursor-pointer">
+                                            <div className="group content-center flex flex-row w-full gap-4 bg-white px-2 py-1 opacity-80 hover:brightness-95 hover:opacity-100 items-center rounded-lg">
+                                                { icon }
+                                                <div className="flex flex-row w-full justify-between gap-2">
+                                                    {
+                                                        link ? (
+                                                            <Link href={ link || "#" }>
+                                                                <a target="_blank">
+                                                                    <span className={ twMerge("break-all", link ? "underline lg:no-underline hover:underline align-middle" : "") }>
+                                                                        { text }
+                                                                    </span>
+                                                                </a>    
+                                                            </Link>
+                                                        ) : text
+                                                    }
+                                                    <Tooltip
+                                                        title={ strings.businesses.infoPage.tooltipCopy + " " + tooltipText }
+                                                        arrow={ true }
+                                                        placement="right"
                                                     >
-                                                        <IconCopy className="text-base text-current md:invisible group-hover:visible" />
-                                                    </IconButton>
-                                                </Tooltip>
+                                                        <IconButton
+                                                            onClick={ () => {
+                                                                navigator.clipboard.writeText(text || "")
+                                                                toast.success(strings.businesses.sharePanel.toastSuccessCopy)
+                                                            }}
+                                                        >
+                                                            <IconCopy className="text-base text-current md:invisible group-hover:visible" />
+                                                        </IconButton>
+                                                    </Tooltip>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    )
                                 )
-                            )
-                        }
+                            }
+                        </div>
+                        <div className="flex w-full justify-center align-center">
+                            <Button
+                                variant="outlined"
+                                className="rounded-full normal-case opacity-80 hover:opacity-100"
+                                onClick={ () => setInfoEditPanelState(PanelState.Open) }
+                            >
+                                <IconEdit />
+                                &nbsp;
+                                <text className="font-bold">{ strings.businesses.infoPage.addSuggestEdit }</text>
+                            </Button>
+                        </div>
                     </div>
                     <hr />
                     <div className="max-w-sm">
@@ -273,6 +288,10 @@ export const InfoPanel = ({ className, panelState, setPanelState }: Props) => {
             <ReportPanel
                 panelState={ reportPanelState }
                 closePanel={ () => setReportPanelState(PanelState.Closed) }
+            />
+            <InfoEditPanel
+                panelState={ infoEditPanelState }
+                closePanel={ () => setInfoEditPanelState(PanelState.Closed)}
             />
         </>
     )
