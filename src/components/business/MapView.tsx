@@ -1,4 +1,4 @@
-import { BusinessModel } from "@api/business/types"
+import { BusinessCategory, BusinessModel } from "@api/business/types"
 import defaults from "@utils/config"
 import { findBusinessById, isEmpty, modelToGeojsonFeature } from "@utils/utils"
 import { GeolocateControl, NavigationControl, ScaleControl, Map, MapRef, Source, Layer, SymbolLayer, CircleLayer, GeoJSONSource } from "react-map-gl"
@@ -34,8 +34,6 @@ export const MapView = ({ infoPanelOpen, className } : Props) => {
     const latitude = selectedBusiness.location?.latitude ?? defaults.businesses.map.latitude
     const zoom = isEmpty(selectedBusiness) ? defaults.businesses.map.zoom : defaults.businesses.map.businessViewZoom
 
-    logger.debug(`Loading MapView with default longitude ${ longitude }, latitude ${ latitude }, and zoom ${ zoom }`)
-
     const [ viewState, setViewState ] = useState({ longitude, latitude, zoom })
     const [ _, setDragState ] = useAtom(atomMapDragState)
     const mapRef = useRef<MapRef>()
@@ -57,11 +55,26 @@ export const MapView = ({ infoPanelOpen, className } : Props) => {
             "text-justify": "auto",
             "text-variable-anchor": ["left", "right", "top", "bottom", "top-left", "top-right", "bottom-left", "bottom-right"],
             "text-radial-offset": 1,
-            "icon-image": 'restaurant',
+            "icon-image": [
+                'case',
+                ["==", ['get', 'businessCategory'], BusinessCategory.Crafts],
+                defaults.businesses.map.categoryIcon[BusinessCategory.Crafts],
+                ["==", ['get', 'businessCategory'], BusinessCategory.Groceries],
+                defaults.businesses.map.categoryIcon[BusinessCategory.Groceries],
+                ["==", ['get', 'businessCategory'], BusinessCategory.Lifestyle],
+                defaults.businesses.map.categoryIcon[BusinessCategory.Lifestyle],
+                ["==", ['get', 'businessCategory'], BusinessCategory.Restaurant],
+                defaults.businesses.map.categoryIcon[BusinessCategory.Restaurant],
+                ["==", ['get', 'businessCategory'], BusinessCategory.Services],
+                defaults.businesses.map.categoryIcon[BusinessCategory.Services],
+                ["==", ['get', 'businessCategory'], BusinessCategory.Shopping],
+                defaults.businesses.map.categoryIcon[BusinessCategory.Shopping],
+                defaults.businesses.map.categoryIcon[BusinessCategory.Shopping]
+            ],
             "icon-size": 1.2,
             "text-size": 16,
+            "text-font": ["Open Sans Regular","Arial Unicode MS Regular"],
             "text-optional": true,
-            "icon-allow-overlap": true,
             "visibility": "visible"
         },
         "paint": {
@@ -82,27 +95,25 @@ export const MapView = ({ infoPanelOpen, className } : Props) => {
         "source": SOURCE_ID,
         "filter": ['has', 'point_count'],
         "paint": {
-            // Use step expressions (https://docs.mapbox.com/mapbox-gl-js/style-spec/#expressions-step)
-            // with three steps to implement three types of circles:
-            //   * Blue, 20px circles when point count is less than 100
-            //   * Yellow, 30px circles when point count is between 100 and 750
-            //   * Pink, 40px circles when point count is greater than or equal to 750
+            //   Blue, 20px circles when point count is less than 10
+            //   Yellow, 30px circles when point count is between 10 and 25
+            //   Pink, 40px circles when point count is greater than or equal to 25
             'circle-color': [
                 'step',
                 ['get', 'point_count'],
                 '#51bbd6',
-                100,
+                10,
                 '#f1f075',
-                750,
+                25,
                 '#f28cb1'
             ],
             'circle-radius': [
                 'step',
                 ['get', 'point_count'],
                 20,
-                100,
+                10,
                 30,
-                750,
+                25,
                 40
             ]
         },
@@ -133,7 +144,6 @@ export const MapView = ({ infoPanelOpen, className } : Props) => {
         if (!isEmpty(selectedBusiness)) {
             // note the current order of the coordinates
             mapRef.current?.flyTo({
-                zoom: defaults.businesses.map.businessViewZoom,
                 center: [
                     selectedBusiness.location?.longitude ?? defaults.businesses.map.longitude,
                     selectedBusiness.location?.latitude ?? defaults.businesses.map.latitude
@@ -143,22 +153,36 @@ export const MapView = ({ infoPanelOpen, className } : Props) => {
         }
     }, [ selectedBusiness ])
 
+    // update selected text when a new business is selected
     useEffect(() => {
         const map = mapRef.current?.getMap()
 
         if (map) {
+            map?.setFeatureState(
+                { source: SOURCE_ID },
+                { selected: false }
+            )
+    
+            map?.setFeatureState(
+                { source: SOURCE_ID, id: selectedID },
+                { selected: true }
+            )
+        }
+
+    }, [ selectedID, mapRef ])
+
+    useEffect(() => {
+        const map = mapRef.current?.getMap()
+
+        let hoveredBusinessId : string | null = null
+
+        if (map) {
             map.on('click', BUSINESS_LAYER_ID, ({ features }) => {
-                if (features && features.length > 0) {
-                    map.removeFeatureState(
-                        { source: SOURCE_ID, id: selectedID }
-                    )
+                if (features && features.length > 0 && features[0]) {
                     setSelectedID(features[0]?.properties?.id || "")
-                    map.setFeatureState(
-                        { source: SOURCE_ID, id: selectedID },
-                        { "selected": true }
-                    )
                 }
             })
+
             map.on('click', CLUSTERS_LAYER_ID, (e) => {
                 const features = map.queryRenderedFeatures(e.point, {
                     layers: [CLUSTERS_LAYER_ID]
@@ -185,28 +209,44 @@ export const MapView = ({ infoPanelOpen, className } : Props) => {
                     )
                 }
             })
-            map.on('mouseover', CLUSTERS_LAYER_ID, (e) => {
+
+            map.on('mousemove', CLUSTERS_LAYER_ID, (e) => {
                 map.getCanvas().style.cursor = 'pointer'
             })
-            map.on('mouseover', BUSINESS_LAYER_ID, ({ features }) => {
+
+            map.on('mouseleave', CLUSTERS_LAYER_ID, (e) => {
+                map.getCanvas().style.cursor = ''
+            })
+
+            map.on('mousemove', BUSINESS_LAYER_ID, (e) => {
                 map.getCanvas().style.cursor = 'pointer';
-                if (features && features.length > 0) {
-                    setHoverID(features[0]?.properties?.id || "")
+                if (e.features?.length ?? 0 > 0) {
+                    if (hoveredBusinessId !== null) {
+                        map.setFeatureState(
+                            { source: SOURCE_ID, id: hoveredBusinessId ?? undefined },
+                            { hover: false }
+                        );
+                    }
+                    hoveredBusinessId = (e.features ? (String(e.features[0].id) ?? null) : null)
                     map.setFeatureState(
-                        { source: SOURCE_ID, id: hoverID },
-                        { "hover": true }
-                    )
+                        { source: SOURCE_ID, id: hoveredBusinessId ?? undefined },
+                        { hover: true }
+                    );
                 }
-            })
-            map.on('mouseout', BUSINESS_LAYER_ID, ({ features }) => {
+            });
+                 
+            // When the mouse leaves the business layer, update the feature state of the
+            // previously hovered feature.
+            map.on('mouseleave', BUSINESS_LAYER_ID, () => {
                 map.getCanvas().style.cursor = '';
-                if (features && features.length > 0) {
-                    map.removeFeatureState(
-                        { source: SOURCE_ID, id: hoverID }
-                    )
-                    setHoverID("")
+                if (hoveredBusinessId !== null) {
+                    map.setFeatureState(
+                        { source: SOURCE_ID, id: hoveredBusinessId ?? undefined },
+                        { hover: false }
+                    );
                 }
-            })
+                hoveredBusinessId = null;
+            });
         }
     })
 
@@ -228,7 +268,16 @@ export const MapView = ({ infoPanelOpen, className } : Props) => {
                     <NavigationControl />
                     <ScaleControl />
 
-                    <Source id={ SOURCE_ID } type="geojson" data={ geojson } generateId={ true } cluster={ true } clusterMaxZoom={14} clusterRadius={50}>
+                    <Source
+                        id={ SOURCE_ID }
+                        type="geojson"
+                        data={ geojson }
+                        generateId={ true }
+                        cluster={ true }
+                        clusterMaxZoom={14}
+                        clusterRadius={50}
+                        clusterMinPoints={ 3 }
+                    >
                         <Layer {...businessesLayer} />
                         <Layer {...clusterLayer} />
                         <Layer {...clusterCountLayer} />

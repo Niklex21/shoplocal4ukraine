@@ -14,7 +14,15 @@ const defaults = {
             latitude: 42.357916,
             businessViewZoom: 16,
             transitionDuration: 2000,
-            mapStyle: "mapbox://styles/shoplocal4ukraine/cl9pxzjw6000p15o28e08i5vl"
+            mapStyle: "mapbox://styles/shoplocal4ukraine/cl9pxzjw6000p15o28e08i5vl",
+            categoryIcon: {
+              [BusinessCategory.Crafts]: 'shop',
+              [BusinessCategory.Groceries]: 'grocery',
+              [BusinessCategory.Lifestyle]: 'fitness-centre',
+              [BusinessCategory.Restaurant]: 'restaurant',
+              [BusinessCategory.Services]: 'hardware',
+              [BusinessCategory.Shopping]: 'shop'
+            }
         },
         gallery: {
             defaultImage
