@@ -106,6 +106,11 @@ const strings_en = {
             groceries: 'Groceries',
             shopping: 'Shopping',
         },
+        mapView: {
+            layers: "Layers",
+            satellite: "Satellite",
+            streets: "Streets"
+        },
         noBusinessesFound:
             'No businesses found... You might need to refine your search query 🤷',
         noBusinessesFoundShort: 'No businesses found...',

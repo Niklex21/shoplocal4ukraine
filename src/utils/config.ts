@@ -1,4 +1,5 @@
 import { BusinessCategory, Tag } from '@api/business/types'
+import { MapStyle } from '@appTypes/businesses'
 import { Section } from '@appTypes/common'
 import defaultImage from '@public/images/business_default_image.jpg'
 import strings from "@utils/strings"
@@ -14,7 +15,10 @@ const defaults = {
             latitude: 42.357916,
             businessViewZoom: 16,
             transitionDuration: 2000,
-            mapStyle: "mapbox://styles/shoplocal4ukraine/cl9pxzjw6000p15o28e08i5vl",
+            mapStyles: {
+              [MapStyle.Streets]: "mapbox://styles/shoplocal4ukraine/cl9pxzjw6000p15o28e08i5vl",
+              [MapStyle.Satellite]: "mapbox://styles/shoplocal4ukraine/clbeq5esj000114pnz4rofqge"
+            },
             categoryIcon: {
               [BusinessCategory.Crafts]: 'shop',
               [BusinessCategory.Groceries]: 'grocery',

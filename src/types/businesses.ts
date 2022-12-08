@@ -37,6 +37,14 @@ enum MapDragState {
 }
 
 /**
+ * Stores possible map styles.
+ */
+enum MapStyle {
+    Streets,
+    Satellite
+}
+
+/**
  * Defines a state of a generic panel -- either closed or open. Can be extended as needed.
  */
 enum PanelState {
@@ -83,4 +91,4 @@ type SerializedBusinessModel = BusinessModel & {
 type SearchedSerializedBusiness = Fuse.FuseResult<SerializedBusinessModel>
 
 export type { IconLinkText, BusinessViewContextData, FilteredBusiness, SerializedBusinessModel, SearchedSerializedBusiness }
-export { Views, MapDragState, PanelState, FullScreenPanelPosition, SubmitStatus }
+export { Views, MapDragState, MapStyle, PanelState, FullScreenPanelPosition, SubmitStatus }
