@@ -20,7 +20,7 @@ export default function BusinessCard({ data, active } : { data: BusinessModel, a
     const imageSrc = getBusinessProfileImageSrc(data)
 
     return (
-        <div className={ `transition-all duration-200 p-1 pb-3 bg-white group flex flex-col w-full md:min-w-[12rem] md:max-w-[20rem] gap-3 shrink rounded-lg hover:drop-shadow-2xl ${ active ? "drop-shadow-2xl" : "" }` }>
+        <div className={ `transition-all duration-200 relative p-1 pb-3 bg-white group flex flex-col w-full md:min-w-[12rem] md:max-w-[20rem] gap-3 shrink rounded-lg hover:drop-shadow-2xl ${ active ? "drop-shadow-2xl" : "" }` }>
             <div className="flex relative w-full h-64 md:aspect-[5/3] md:h-auto">
                 <Image
                     src={ imageSrc }
@@ -29,11 +29,13 @@ export default function BusinessCard({ data, active } : { data: BusinessModel, a
                     className="relative object-cover rounded-lg"
                 />
             </div>
+            <div className="absolute top-2 right-2">
+                { BadgesRow(data.tags) }
+            </div>
             <div className="flex flex-col gap-2 px-3">
                 <div className="flex flex-col">
                     <div className="flex flex-row gap-2 items-center">
                         <h1 className="font-medium line-clamp-1">{ data.name }</h1>
-                        { BadgesRow(data.tags) }
                     </div>
                     <div className="text-base opacity-60">
                         { data.location.city ?? strings.businesses.infoPage.online }

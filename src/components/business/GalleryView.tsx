@@ -36,12 +36,12 @@ export const GalleryView = ({ infoPanelOpen, className }: Props) => {
     
     const gridBreakpoints = 
         infoPanelOpen 
-        ? "md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4"
+        ? "md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-2 2xl:grid-cols-3"
         : "md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5"
 
     const panelWidth =
         infoPanelOpen
-        ? "w-full md:w-3/4"
+        ? "w-full md:w-1/2 lg:w-2/3 xl:w-2/3 2xl:w-3/4"
         : "w-full"
 
     return (

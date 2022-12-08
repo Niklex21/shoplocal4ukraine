@@ -67,9 +67,9 @@ export const BusinessView = ({ infoPanelOpen, className, children }: Props) => {
             {/* TODO: this should move based on the infopanel state, but so far I haven't been able to come up with an elegant solution */}
             <div className={
                 twMerge(
-                    "fixed right-0 z-40 transition-all duration-200 md:bottom-0 p-5 md:p-0 h-0",
+                    "fixed right-0 z-40 transition-all duration-200 md:bottom-5 p-5 md:p-0 h-0",
                     selectedBusiness.id ? "bottom-10" : "bottom-0",
-                    infoPanelOpen ? "w-full md:w-3/4" : "w-full"
+                    infoPanelOpen ? "w-full md:w-1/2 lg:w-1/2 xl:w-2/3 2xl:w-3/4" : "w-full"
                 )}
             >
                 <Button

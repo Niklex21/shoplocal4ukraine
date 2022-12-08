@@ -105,10 +105,10 @@ export const InfoPanel = ({ className, panelState, setPanelState }: Props) => {
                         <div>
                             <div className="flex flex-row flex-wrap gap-1 items-center">
                                 <h1 className="text-2xl font-medium mr-1">{ business.name }</h1>
-                                { BadgesRow(business.tags) }
                             </div>
-                            <div className="flex flex-wrap gap-2 flex-row text-base mt-1 opacity-80">
-                                { business.serializedBusinessCategory }
+                            <div className="flex flex-wrap gap-2 flex-row text-base mt-1 opacity-80 content-center">
+                                <div className="flex align-middle">{ business.serializedBusinessCategory }</div>
+                                <div className="flex">{ BadgesRow(business.tags) }</div>
                             </div>
                         </div>
                         <div className="flex shrink justify-self-center items-center gap-3">
@@ -267,7 +267,7 @@ export const InfoPanel = ({ className, panelState, setPanelState }: Props) => {
                         anchor="left"
                         open={ panelState === PanelState.Open }
                         onClose={ () => setPanelState(PanelState.Closed) }
-                        className={ twMerge("md:h-full z-10 drop-shadow-none md:max-w-[25%]", className) }
+                        className={ twMerge("md:h-full z-10 drop-shadow-lg md:max-w-full", className) }
                         hideBackdrop={ true }
                         elevation={0}
                         disableEnforceFocus

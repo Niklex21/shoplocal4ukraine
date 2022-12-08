@@ -142,7 +142,7 @@ const Main: NextPageWithLayout<Props> = ({ businesses }: InferGetStaticPropsType
             <IconButton
                 className={
                     twMerge(
-                        "md:flex bg-white font-bold -translate-y-1/2 p-1 drop-shadow-xl py-4 rounded-none rounded-r-lg hover:bg-white hover:brightness-95",
+                        "md:flex bg-white font-bold -translate-y-1/2 p-1 drop-shadow-lg py-4 rounded-none rounded-r-lg hover:bg-white hover:brightness-95",
                         className
                     )
                 }
@@ -163,15 +163,15 @@ const Main: NextPageWithLayout<Props> = ({ businesses }: InferGetStaticPropsType
 
     const content = (
         <div className="flex h-full w-full" onClick={ () => setAutoCompleteState(false) }>
-            <InfoPanel panelState={ infoPanelState } setPanelState={ setInfoPanelState } className="transition-all duration-200 md:w-1/4" />
+            <InfoPanel panelState={ infoPanelState } setPanelState={ setInfoPanelState } className="transition-all duration-200 md:w-1/2 lg:w-1/3 xl:w-1/3 2xl:w-1/4" />
             <div className={
                 twMerge(
                     "absolute top-1/2 hidden md:flex transition-all duration-200",
                     selectedBusinessId.length > 0 ? "" : "md:hidden",
-                    infoPanelState === PanelState.Closed ? "left-0" : "left-1/4"
+                    infoPanelState === PanelState.Closed ? "left-0" : "md:left-1/2 lg:left-1/3 xl:left-1/3 2xl:left-1/4"
                 )
             }>
-                <ToggleStateButton className="z-40 my-auto" />
+                <ToggleStateButton className="z-10 my-auto" />
             </div>
             <div
                 className={
