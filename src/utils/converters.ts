@@ -17,8 +17,8 @@ export function businessCategoryConverter(category: BusinessCategory) : string {
             return strings.businesses.categories.restaurant;
         case BusinessCategory.Lifestyle:
             return strings.businesses.categories.lifestyle;
-        case BusinessCategory.Retail:
-            return strings.businesses.categories.retail;
+        case BusinessCategory.Cafe:
+            return strings.businesses.categories.cafe;
         case BusinessCategory.Services:
             return strings.businesses.categories.services;
         case BusinessCategory.Groceries:

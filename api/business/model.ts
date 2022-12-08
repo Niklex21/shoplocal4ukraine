@@ -21,8 +21,8 @@ function businessCategoryConverter(value: string) : BusinessCategory | null {
         case 'Lifestyle':
             category = BusinessCategory.Lifestyle;
             break;
-        case 'Retail':
-            category = BusinessCategory.Retail;
+        case 'Cafe':
+            category = BusinessCategory.Cafe;
             break;
         case 'Crafts':
             category = BusinessCategory.Crafts;

@@ -100,7 +100,7 @@ const strings_en = {
         categories: {
             crafts: 'Crafts',
             restaurant: 'Restaurant',
-            retail: 'Retail',
+            cafe: 'Cafe',
             services: 'Services',
             lifestyle: 'Lifestyle',
             groceries: 'Groceries',

@@ -65,6 +65,8 @@ export const MapView = ({ infoPanelOpen, className } : Props) => {
                 defaults.businesses.map.categoryIcon[BusinessCategory.Lifestyle],
                 ["==", ['get', 'businessCategory'], BusinessCategory.Restaurant],
                 defaults.businesses.map.categoryIcon[BusinessCategory.Restaurant],
+                ["==", ['get', 'businessCategory'], BusinessCategory.Cafe],
+                defaults.businesses.map.categoryIcon[BusinessCategory.Cafe],
                 ["==", ['get', 'businessCategory'], BusinessCategory.Services],
                 defaults.businesses.map.categoryIcon[BusinessCategory.Services],
                 ["==", ['get', 'businessCategory'], BusinessCategory.Shopping],

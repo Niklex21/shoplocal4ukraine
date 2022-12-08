@@ -6,7 +6,7 @@ import { Model } from "@api/types"
 export enum BusinessCategory {
     Crafts,
     Restaurant,
-    Retail,
+    Cafe,
     Services,
     Lifestyle,
     Groceries,

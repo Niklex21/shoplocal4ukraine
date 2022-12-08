@@ -20,6 +20,7 @@ const defaults = {
               [BusinessCategory.Groceries]: 'grocery',
               [BusinessCategory.Lifestyle]: 'fitness-centre',
               [BusinessCategory.Restaurant]: 'restaurant',
+              [BusinessCategory.Cafe]: 'cafe',
               [BusinessCategory.Services]: 'hardware',
               [BusinessCategory.Shopping]: 'shop'
             }
@@ -86,7 +87,7 @@ const BUSINESS_CATEGORIES : Array<BusinessCategory> = [
   BusinessCategory.Groceries,
   BusinessCategory.Lifestyle,
   BusinessCategory.Restaurant,
-  BusinessCategory.Retail,
+  BusinessCategory.Cafe,
   BusinessCategory.Services,
   BusinessCategory.Shopping
 ]
