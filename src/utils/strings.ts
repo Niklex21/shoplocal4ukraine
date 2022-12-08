@@ -68,6 +68,7 @@ const strings_en = {
         },
     },
     businesses: {
+        tipOnlyOnline: "Tip: business that don't have a physical location and operate only online are only visible from the Gallery View!",
         infoPage: {
             addSuggestEdit: "Add info/suggest an edit",
             sectionTitle: {

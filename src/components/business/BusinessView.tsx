@@ -12,6 +12,13 @@ import { atomCurrentBusiness, atomView } from "src/atoms/businesses";
 import strings from "@utils/strings"
 import { isEmpty } from "@utils/utils";
 import { isMobile } from "react-device-detect";
+import { toast } from "react-toastify";
+import { atomWithStorage } from "jotai/utils";
+
+/**
+ * Tracks whether or not it's the first time the user visits this page.
+ */
+const atomFirstTimeVisitor = atomWithStorage<boolean>('firstTime', true)
 
 /**
  * infoPanelOpen: opening a side panel results in a layout shift so we have to take that into account
@@ -60,6 +67,16 @@ export const BusinessView = ({ infoPanelOpen, className, children }: Props) => {
                 return MapView;
         }
     })()
+
+    const [ isFirstTime, setIsFirstTime ] = useAtom(atomFirstTimeVisitor)
+    if (isFirstTime) {
+        toast.info(strings.businesses.tipOnlyOnline, {
+            autoClose: false,
+            position: "bottom-left"
+        })
+
+        setIsFirstTime(false)
+    }
 
     return (
         <div className={ twMerge(`relative w-full flex flex-col overflow-auto h-full max-h-screen max-w-none p-0 transition-all duration-200`, className) }>
