@@ -47,7 +47,11 @@ export function modelToGeojsonFeature(business: BusinessModel) : Feature {
  * @returns true if the dictionary is empty (no keys), false otherwise
  */
 export function isEmpty(obj: Object) : boolean {
-    return !obj || Object.keys(obj).length === 0
+    if (obj.constructor === Object && obj && Object.keys(obj).length > 0) {
+        return false
+    }
+
+    return true
 }
 
 /**
@@ -78,17 +82,6 @@ export function serializeBusinessModel(b : BusinessModel) : SerializedBusinessMo
         serializedBusinessCategory: businessCategoryConverter(b.businessCategory),
         serializedTags: b.tags?.map(t => tagConverter(t)) ?? []
     }
-}
-
-/**
- * Removes the specific hash from the given url.
- * @param url the url to remove the has from
- * @param hashName the name of the hash
- * @example for hashName=view, will remove (#view=1); for hashName=categories, will remove (&categories=[1,2,3])
- * @returns the url without the specified hash part
- */
-export function urlRemoveHash(url: string, hashName: string) : string {
-    return url.replace(new RegExp("[#&]" + hashName + "=[^?#&]+(?=[?&])|[#&]" + hashName + "=.+$"), "")
 }
 
 /**

@@ -1,5 +1,5 @@
 import { FullScreenPanelPosition, IconLinkText, PanelState } from "@appTypes/businesses"
-import { atomCurrentBusiness, atomSearchQuery, atomSelectedBusinessID, atomSelectedCategories, atomView } from "src/atoms/businesses"
+import { atomCurrentBusiness, atomSearchQuery, atomSelectedBusinessID, atomSelectedCategories, atomSelectedTags, atomView } from "src/atoms/businesses"
 import FullScreenPanel from "@components/common/FullScreenPanel"
 import strings from "@utils/strings"
 import { atom, useAtom } from "jotai"
@@ -28,22 +28,26 @@ const atomWindowUrl = atom<string>("")
 // builds the current URL to copy based on the modification checkbox statuses
 const atomURLToCopy = atom<string>(
     (get) => {
-        let url = get(atomWindowUrl)
+        // cut off all the parameters
+        let url = get(atomWindowUrl).replaceAll(new RegExp("#.*", 'g'), "")
 
-        if (!get(atomIncludeView)) {
-            url = urlRemoveHash(url, LOCAL_STORAGE_KEYS.atomView)
+        if (get(atomSelectedBusinessID) !== "") {
+            let addString = "#"
+
+            addString += LOCAL_STORAGE_KEYS.atomBusinessId + '="' + get(atomSelectedBusinessID) + '"'
+
+            if (get(atomIncludeView)) {
+                addString += "&" + LOCAL_STORAGE_KEYS.atomView + '=' + get(atomView)
+            }
+
+            if (get(atomIncludeFilters)) {
+                addString += "&" + LOCAL_STORAGE_KEYS.atomSearch + '="' + get(atomSearchQuery) + '"'
+                addString += "&" + LOCAL_STORAGE_KEYS.atomCategories + '=[' + get(atomSelectedCategories) + ']'
+                addString += "&" + LOCAL_STORAGE_KEYS.atomTags + '=[' + get(atomSelectedTags) + ']'
+            }
+
+            return url + addString
         }
-
-        if (!get(atomIncludeFilters)) {
-            url = urlRemoveHash(url, LOCAL_STORAGE_KEYS.atomSearch)
-            url = urlRemoveHash(url, LOCAL_STORAGE_KEYS.atomCategories)
-            url = urlRemoveHash(url, LOCAL_STORAGE_KEYS.atomTags)
-        }
-
-        // replace the first & if there's no hash behind it
-        // since we are removing hash, we sometimes also accidentally remove the first hash,
-        // which leads to incorrect urls
-        url = url.replace(new RegExp("(?<![^#]*#[^#]*)&"), "#")
 
         return url
     }

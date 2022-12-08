@@ -326,6 +326,9 @@ const Main: NextPageWithLayout<Props> = ({ businesses }: InferGetStaticPropsType
 export const getStaticProps: GetStaticProps<Props> = async () => {
     logger.debug("Attempting to load published records")
 
+    // this is intentionally here rather than in a separate function
+    // as otherwise it reduces efficiency and breaks revalidate
+
     let options : QueryParams<FieldSet> = {}
 
     let formula = "Publish = 1"
