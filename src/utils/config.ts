@@ -33,7 +33,8 @@ const defaults = {
             defaultImage
         }
     },
-    requestTimeout: 5000
+    requestTimeout: 5000,
+    airtableRequestTimeout: 5000
 }
 
 const links : Array<Section> = [
