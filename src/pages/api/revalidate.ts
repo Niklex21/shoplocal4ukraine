@@ -3,14 +3,16 @@ import { withAxiom } from "next-axiom"
 import { AxiomAPIRequest } from "next-axiom/dist/withAxiom"
 
 async function handler(req: AxiomAPIRequest, res: NextApiResponse) {
+
+    const token = req.query.secret
+
     // Check for secret to confirm this is a valid request
     if (req.query.secret !== process.env.REVALIDATION_TOKEN) {
-      return res.status(401).json({ message: 'Invalid token' })
+        req.log.error(`Invalid token (given: ${ token })`)
+        return res.status(401).json({ message: 'Invalid token' })
     }
   
     try {
-      // this should be the actual path not a rewritten path
-      // e.g. for "/blog/[slug]" this should be "/blog/post-1"
       await res.revalidate('/businesses')
       return res.json({ revalidated: true })
     } catch (err) {
