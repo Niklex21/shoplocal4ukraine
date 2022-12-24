@@ -7,7 +7,7 @@ import { BusinessViewContext } from "src/pages/businesses"
 import { twMerge } from "tailwind-merge"
 
 import { FeatureCollection, Point } from "geojson"
-import { atomCurrentBusiness, atomMapDragState, atomSearchedBusinesses, atomSelectedBusinessID } from "src/atoms/businesses"
+import { atomCurrentBusiness, atomMapDragState, atomSearchedBusinesses, atomSelectedBusinessID, atomSelectedFromSearch } from "src/atoms/businesses"
 import { Layers as IconLayers, SatelliteAlt as IconSatellite, Streetview as IconStreets } from "@mui/icons-material"
 import { useAtom } from "jotai"
 import { MapDragState, MapStyle } from "@appTypes/businesses"
@@ -36,6 +36,8 @@ export const MapView = ({ infoPanelOpen, className } : Props) => {
 
     const [ businesses ] = useAtom(atomSearchedBusinesses)
     const [ selectedBusiness ] = useAtom(atomCurrentBusiness)
+
+    const [ selectedFromSearch, setSelectedFromSearch ] = useAtom(atomSelectedFromSearch)
 
     // businesses were filtered, but it's irrelevant for maps (for now)
     const businessItems : Array<BusinessModel> = businesses.map(b => b.item)
@@ -177,17 +179,18 @@ export const MapView = ({ infoPanelOpen, className } : Props) => {
     ]
 
     useEffect(() => {
-        if (!isEmpty(selectedBusiness)) {
+        if (selectedFromSearch && !isEmpty(selectedBusiness)) {
             // note the current order of the coordinates
             mapRef.current?.flyTo({
                 center: [
                     selectedBusiness.location?.longitude ?? defaults.businesses.map.longitude,
                     selectedBusiness.location?.latitude ?? defaults.businesses.map.latitude
                 ],
-                duration: defaults.businesses.map.transitionDuration
+                duration: defaults.businesses.map.transitionDuration,
+                zoom: defaults.businesses.map.businessViewZoom
             });
         }
-    }, [ selectedBusiness ])
+    }, [ selectedBusiness, selectedFromSearch ])
 
     // update selected text when a new business is selected
     useEffect(() => {
@@ -215,6 +218,7 @@ export const MapView = ({ infoPanelOpen, className } : Props) => {
         if (map) {
             map.on('click', BUSINESS_LAYER_ID, ({ features }) => {
                 if (features && features.length > 0 && features[0]) {
+                    setSelectedFromSearch(false)
                     setSelectedID(features[0]?.properties?.id || "")
                 }
             })
@@ -312,7 +316,7 @@ export const MapView = ({ infoPanelOpen, className } : Props) => {
                         cluster={ true }
                         clusterMaxZoom={14}
                         clusterRadius={50}
-                        clusterMinPoints={ 3 }
+                        clusterMinPoints={ 2 }
                     >
                         <Layer {...businessesLayer} />
                         <Layer {...clusterLayer} />

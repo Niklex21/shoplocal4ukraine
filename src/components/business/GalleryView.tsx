@@ -3,7 +3,7 @@ import { useContext } from "react";
 import { BusinessViewContext } from "src/pages/businesses";
 import BusinessCard from "./BusinessCard";
 import { twMerge } from "tailwind-merge";
-import { atomSearchedBusinesses, atomSelectedBusinessID } from "src/atoms/businesses";
+import { atomSearchedBusinesses, atomSelectedBusinessID, atomSelectedFromSearch } from "src/atoms/businesses";
 import { useAtom } from "jotai";
 import { SearchedSerializedBusiness } from "@appTypes/businesses";
 import strings from "@utils/strings";
@@ -24,6 +24,8 @@ export const GalleryView = ({ infoPanelOpen, className }: Props) => {
     let { logger } = useContext(BusinessViewContext);
     const [ selectedID, setSelectedID ] = useAtom(atomSelectedBusinessID)
     const [ businesses ] = useAtom(atomSearchedBusinesses)
+
+    const [ selectedFromSearch, setSelectedFromSearch ] = useAtom(atomSelectedFromSearch)
 
     logger = logger.with({ component: 'GalleryView' })
     logger.debug("Loading GalleryView...")
@@ -51,11 +53,23 @@ export const GalleryView = ({ infoPanelOpen, className }: Props) => {
             ? (<text className="text-lg italic">{ strings.businesses.noBusinessesFound }</text>)
             : sortedBusinesses.map(
                 ({ item }: { item: BusinessModel }) => (
-                    <div className="flex cursor-pointer" key={ item.id } id={ item.id } onClick={ () => setSelectedID(item.id) }>
-                        <BusinessCard
-                            data={ item }
-                            active={ item.id === selectedID }
-                        />
+                    <div
+                        className="flex cursor-pointer"
+                        key={ item.id }
+                        id={ item.id }
+                        onClick={ 
+                            () => { 
+                                setSelectedID(item.id)
+                                setSelectedFromSearch(false)
+                            }
+                        }
+                    >
+                        <a href={ `#business_id="${ item.id}"` } className="flex w-full h-full relative">
+                            <BusinessCard
+                                data={ item }
+                                active={ item.id === selectedID }
+                            />
+                        </a>
                     </div>
                 )
             )

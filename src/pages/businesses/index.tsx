@@ -12,7 +12,7 @@ import { BusinessViewContextData, PanelState, SearchedSerializedBusiness } from 
 import { BusinessView } from "@components/business/BusinessView"
 import { InfoPanel } from "@components/business/InfoPanel"
 
-import { atomSearchQuery, atomSelectedCategories, atomAllBusinesses, atomSelectedTags, atomCurrentBusiness, atomSearchedBusinesses, atomSelectedBusinessID } from "src/atoms/businesses"
+import { atomSearchQuery, atomSelectedCategories, atomAllBusinesses, atomSelectedTags, atomCurrentBusiness, atomSearchedBusinesses, atomSelectedBusinessID, atomSelectedFromSearch } from "src/atoms/businesses"
 import { useAtom } from "jotai"
 import strings from "@utils/strings"
 
@@ -55,6 +55,7 @@ const Main: NextPageWithLayout<Props> = ({ businesses }: InferGetStaticPropsType
     const [ searchedBusinesses ] = useAtom(atomSearchedBusinesses)
     const [ , setAllBusinesses ] = useAtom(atomAllBusinesses)
     const [ selectedBusinessId, setSelectedBusinessId ] = useAtom(atomSelectedBusinessID)
+    const [ selectedFromSearch, setSelectedFromSearch ] = useAtom(atomSelectedFromSearch)
 
     const [ infoPanelState, setInfoPanelState ] = useState<PanelState>(PanelState.Closed)
 
@@ -244,6 +245,7 @@ const Main: NextPageWithLayout<Props> = ({ businesses }: InferGetStaticPropsType
                                                 setSearchQuery(b.item.name)
                                                 setSelectedBusinessId(b.item.id)
                                                 setAutoCompleteState(false)
+                                                setSelectedFromSearch(true)
                                             }
                                         }
                                     >

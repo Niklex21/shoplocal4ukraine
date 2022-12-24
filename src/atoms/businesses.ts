@@ -108,6 +108,11 @@ const atomSearchedBusinesses = atom<Array<SearchedSerializedBusiness>>(
     }
 )
 
+/**
+ * Atom that stores whether or not the current business was selected from the search or from the business view.
+ */
+const atomSelectedFromSearch = atom<boolean>(false);
+
 export {
     atomView,
     atomMapDragState,
@@ -119,5 +124,6 @@ export {
     atomFilteredBusinesses,
     atomFuseSearch,
     atomSearchedBusinesses,
-    atomCurrentBusiness
+    atomCurrentBusiness,
+    atomSelectedFromSearch
 }
