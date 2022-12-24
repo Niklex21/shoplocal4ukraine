@@ -61,7 +61,7 @@ export default function ReportPanel({ className, panelState, closePanel }: Props
         }
 
         try {
-            setTimeout(() => {
+            setTimeout(async () => {
                 if (submitStatus === SubmitStatus.InProgress) {
                     logger.error(`Report request timed out after ${ defaults.requestTimeout } ms`)
                     controller.abort()
