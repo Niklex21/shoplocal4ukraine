@@ -20,7 +20,7 @@ const defaults = {
               [MapStyle.Satellite]: "mapbox://styles/shoplocal4ukraine/clbeq5esj000114pnz4rofqge"
             },
             categoryIcon: {
-              [BusinessCategory.Crafts]: 'shop',
+              [BusinessCategory.Crafts]: 'art-gallery',
               [BusinessCategory.Groceries]: 'grocery',
               [BusinessCategory.Lifestyle]: 'fitness-centre',
               [BusinessCategory.Restaurant]: 'restaurant',
