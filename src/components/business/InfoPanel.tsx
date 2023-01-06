@@ -1,4 +1,4 @@
-import { Card, CardMedia, CardContent, Container, IconButton, Tooltip, SwipeableDrawer, Drawer, Button } from "@mui/material";
+import { Card, CardMedia, CardContent, Container, IconButton, Tooltip, SwipeableDrawer, Drawer, Button, Box } from "@mui/material";
 import strings from "@utils/strings";
 import { getBusinessProfileImageSrc, isEmpty, urlShortener } from "@utils/utils";
 import Link from "next/link";
@@ -6,7 +6,7 @@ import { useContext, useState } from "react";
 import { BusinessViewContext } from "src/pages/businesses";
 import { IconLinkText, PanelState } from "@appTypes/businesses";
 import { twMerge } from "tailwind-merge";
-import { Report as IconReport, ContentCopy as IconCopy, Edit as IconEdit, ArrowLeft as IconArrowLeft, ArrowRight as IconArrowRight, Public as IconWebsite, Email as IconEmail, Phone as IconPhone, ShareOutlined as IconShare, Place as IconAddress, ArrowForward as IconArrow } from "@mui/icons-material";
+import { Report as IconReport, ContentCopy as IconCopy, KeyboardArrowDown as IconArrowDown, Edit as IconEdit, ArrowLeft as IconArrowLeft, ArrowRight as IconArrowRight, Public as IconWebsite, Email as IconEmail, Phone as IconPhone, ShareOutlined as IconShare, Place as IconAddress, ArrowForward as IconArrow } from "@mui/icons-material";
 import Image from 'next/image';
 import { atomCurrentBusiness, atomSelectedBusinessID } from "src/atoms/businesses";
 import { useAtom } from "jotai";
@@ -229,9 +229,15 @@ export const InfoPanel = ({ className, panelState, setPanelState }: Props) => {
     const MobilePuller = ({ className }: {className?: string}) => (
         <div
             className={twMerge(`flex bg-white w-full h-14 rounded-t-md align-middle drop-shadow-t-md justify-center p-2 visible`, className)}
-            onClick={ () => panelState === PanelState.Closed ? setPanelState(PanelState.Open) : setPanelState(PanelState.Closed) } 
+            onClick={ () => {
+                panelState === PanelState.Closed
+                ? setPanelState(PanelState.Open)
+                : setPanelState(PanelState.Closed), setSelectedID("")
+            }} 
         >
-            <div className="rounded-full w-10 h-2 my-auto bg-gray-700"></div>
+            <IconButton>
+                <IconArrowDown className="font-bold w-16 h-16" />
+            </IconButton>
         </div>
     )
 
@@ -250,6 +256,13 @@ export const InfoPanel = ({ className, panelState, setPanelState }: Props) => {
                         ModalProps={{
                             keepMounted: true
                         }}
+                        PaperProps={{
+                            sx: {
+                                // Since overflow is visible here and not 'auto' or 'scroll', the scrolling needs to happen in a nested div
+                                overflow: 'visible',
+                                height: `calc(90% - ${ defaults.businesses.infoPanel.bleedingArea })`
+                            }
+                        }}
                         className={
                             twMerge(
                                 "w-screen",
@@ -257,10 +270,11 @@ export const InfoPanel = ({ className, panelState, setPanelState }: Props) => {
                                 className
                             )
                         }
-                        hideBackdrop={ true }
                     >
-                        <MobilePuller />
-                        { Info }
+                        <Box height='100%' overflow='auto'>
+                            <MobilePuller />
+                            { Info }
+                        </Box>
                     </SwipeableDrawer>
                 ) : (
                     <Drawer

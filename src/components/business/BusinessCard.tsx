@@ -20,7 +20,7 @@ export default function BusinessCard({ data, active } : { data: BusinessModel, a
     const imageSrc = getBusinessProfileImageSrc(data)
 
     return (
-        <div className={ `transition-all duration-200 relative p-1 pb-3 bg-white group flex flex-col w-full md:min-w-[12rem] md:max-w-[20rem] gap-3 shrink rounded-lg hover:drop-shadow-2xl ${ active ? "drop-shadow-2xl" : "" }` }>
+        <div className={ `transition-all duration-200 relative p-1 pb-3 bg-white group flex flex-col w-full md:min-w-[12rem] md:max-w-[20rem] gap-3 shrink rounded-lg hover:drop-shadow-xl ${ active ? "drop-shadow-xl" : "" }` }>
             <div className="flex relative w-full h-64 md:aspect-[5/3] md:h-auto">
                 <Image
                     src={ imageSrc }

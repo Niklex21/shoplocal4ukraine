@@ -111,6 +111,9 @@ export const MapView = ({ infoPanelOpen, className } : Props) => {
                 mapStyleState === MapStyle.Streets ? "#0057B8" : "#FFD700",
                 mapStyleState === MapStyle.Streets ? "#000000" : "#ffffff",
             ],
+            "text-halo-blur": 0,
+            "text-halo-color": "#FFD700",
+            "text-halo-width": 10
         },
     }
 
@@ -128,7 +131,7 @@ export const MapView = ({ infoPanelOpen, className } : Props) => {
                 ['get', 'point_count'],
                 '#51bbd6',
                 10,
-                '#f1f075',
+                '#FFD700',
                 25,
                 '#f28cb1'
             ],
