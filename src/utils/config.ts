@@ -26,7 +26,8 @@ const defaults = {
               [BusinessCategory.Restaurant]: 'restaurant',
               [BusinessCategory.Cafe]: 'cafe',
               [BusinessCategory.Services]: 'hardware',
-              [BusinessCategory.Shopping]: 'shop'
+              [BusinessCategory.Shopping]: 'shop',
+              [BusinessCategory.Product]: 'shop'
             }
         },
         gallery: {
@@ -94,11 +95,13 @@ const BUSINESS_CATEGORIES : Array<BusinessCategory> = [
   BusinessCategory.Restaurant,
   BusinessCategory.Cafe,
   BusinessCategory.Services,
-  BusinessCategory.Shopping
+  BusinessCategory.Shopping,
+  BusinessCategory.Product
 ]
 
 const BUSINESS_TAGS : Array<Tag> = [
-  Tag.UkrainianOwned
+  Tag.UkrainianOwned,
+  Tag.OnlineOnly
 ]
 
 // stores the corresponding local storage keys so that they are configurable in one place

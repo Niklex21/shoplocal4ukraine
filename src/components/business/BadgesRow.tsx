@@ -28,8 +28,16 @@ export function BadgesRow(tags: Array<Tag>) {
         })
     }
 
+    if (tags.includes(Tag.OnlineOnly)) {
+        badges.push({
+            tooltip: strings.businesses.tag.onlineOnly,
+            color: "bg-blue-100",
+            content: (<>🌐 only</>)
+        })
+    }
+
     return (
-        <>
+        <div className="flex gap-1">
             {
                 badges.map(
                     ({ content, icon, color, tooltip }, index: number) =>
@@ -43,6 +51,6 @@ export function BadgesRow(tags: Array<Tag>) {
                         )
                 )
             }
-        </>
+        </div>
     )
 }

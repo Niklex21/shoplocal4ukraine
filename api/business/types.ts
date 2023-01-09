@@ -10,14 +10,16 @@ export enum BusinessCategory {
     Services,
     Lifestyle,
     Groceries,
-    Shopping
+    Shopping,
+    Product
 }
 
 /**
  * All the currently supported tags.
  */
 export enum Tag {
-    UkrainianOwned
+    UkrainianOwned,
+    OnlineOnly
 }
 
 /**

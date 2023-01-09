@@ -1,4 +1,4 @@
-import { BusinessCategory, BusinessModel } from "@api/business/types"
+import { BusinessCategory, BusinessModel, Tag } from "@api/business/types"
 import defaults from "@utils/config"
 import { findBusinessById, isEmpty, modelToGeojsonFeature } from "@utils/utils"
 import { GeolocateControl, NavigationControl, ScaleControl, Map, MapRef, Source, Layer, SymbolLayer, CircleLayer, GeoJSONSource } from "react-map-gl"
@@ -40,7 +40,8 @@ export const MapView = ({ infoPanelOpen, className } : Props) => {
     const [ selectedFromSearch, setSelectedFromSearch ] = useAtom(atomSelectedFromSearch)
 
     // businesses were filtered, but it's irrelevant for maps (for now)
-    const businessItems : Array<BusinessModel> = businesses.map(b => b.item)
+    // remove all online businesses
+    const businessItems : Array<BusinessModel> = businesses.map(b => b.item).filter(b => !b.tags.includes(Tag.OnlineOnly))
 
     const [ selectedID, setSelectedID ] = useAtom(atomSelectedBusinessID)
     const [ hoverID, setHoverID ] = useState<string>("")
@@ -91,6 +92,8 @@ export const MapView = ({ infoPanelOpen, className } : Props) => {
                 defaults.businesses.map.categoryIcon[BusinessCategory.Services],
                 ["==", ['get', 'businessCategory'], BusinessCategory.Shopping],
                 defaults.businesses.map.categoryIcon[BusinessCategory.Shopping],
+                ['==', ['get', 'businessCategory'], BusinessCategory.Product],
+                defaults.businesses.map.categoryIcon[BusinessCategory.Product],
                 defaults.businesses.map.categoryIcon[BusinessCategory.Shopping]
             ],
             "icon-size": 1.2,

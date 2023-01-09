@@ -25,6 +25,8 @@ export function businessCategoryConverter(category: BusinessCategory) : string {
             return strings.businesses.categories.groceries;
         case BusinessCategory.Shopping:
             return strings.businesses.categories.shopping;
+        case BusinessCategory.Product:
+            return strings.businesses.categories.product;
         default:
             processError(ErrorType.InvalidBusinessCategory, `Business category provided: ${ category }`);
             return "Invalid"
@@ -39,6 +41,8 @@ export function tagConverter(tag: Tag) : string {
     switch (tag) {
         case Tag.UkrainianOwned:
             return strings.businesses.tag.ukrainianOwned;
+        case Tag.OnlineOnly:
+            return strings.businesses.tag.onlineOnly;
         default:
             processError(ErrorType.InvalidTag, `Tag category provided: ${ tag }`);
             return "Invalid"

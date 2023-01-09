@@ -36,6 +36,9 @@ function businessCategoryConverter(value: string) : BusinessCategory | null {
         case 'Shopping':
             category = BusinessCategory.Shopping;
             break;
+        case 'Product':
+            category = BusinessCategory.Product;
+            break;
         default:
             processError(ErrorType.InvalidBusinessCategory, `Category provided: ${ value }`, logger.with({ "function": "businessCategoryConverter" }));
             return null;
@@ -56,6 +59,9 @@ function tagsConverter(values: Array<string>) : Array<Tag> {
         switch(tag) {
             case 'Ukrainian-Owned':
                 tags.push(Tag.UkrainianOwned);
+                break;
+            case 'Only online':
+                tags.push(Tag.OnlineOnly);
                 break;
             default:
                 processError(ErrorType.InvalidTag, `Tag supplied: ${ tag }`, logger.with({ "function": "tagsConverter" }));

@@ -106,6 +106,7 @@ const strings_en = {
             lifestyle: 'Lifestyle',
             groceries: 'Groceries',
             shopping: 'Shopping',
+            product: 'Product'
         },
         mapView: {
             layers: "Layers",
@@ -156,6 +157,7 @@ const strings_en = {
         },
         tag: {
             ukrainianOwned: 'Ukrainian-owned',
+            onlineOnly: "Online-only"
         },
     },
     countries: {
