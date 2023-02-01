@@ -36,6 +36,7 @@ const strings_en = {
             onlyUkrainianOwnedLabel: 'Only Ukrainian-Owned',
             locationFieldLabel: 'Enter your location...',
             searchButtonLabel: 'Search',
+            discoverBusinesses: "Discover businesses"
         },
         navbar: {
             businesses: 'Discover Businesses',
@@ -63,6 +64,7 @@ const strings_en = {
                     facebook: 'Facebook',
                     instagram: 'Instagram',
                     twitter: 'Twitter',
+                    telegram: 'Telegram'
                 },
             },
         },

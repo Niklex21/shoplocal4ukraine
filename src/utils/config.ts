@@ -69,19 +69,19 @@ const links : Array<Section> = [
         },
         {
           text: strings.landing.footer.sections.socials.linkedin,
-          link: '#',
+          link: 'https://www.linkedin.com/company/shop4ua/',
         },
         {
           text: strings.landing.footer.sections.socials.facebook,
-          link: '#',
+          link: 'https://www.facebook.com/shoplocal4ukraine',
         },
         {
           text: strings.landing.footer.sections.socials.instagram,
-          link: '#',
+          link: 'https://www.instagram.com/shop4ukraine/',
         },
         {
-          text: strings.landing.footer.sections.socials.twitter,
-          link: '#',
+          text: strings.landing.footer.sections.socials.telegram,
+          link: 'https://t.me/shop4ua',
         }
       ]
     },
