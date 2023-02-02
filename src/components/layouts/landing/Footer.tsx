@@ -7,9 +7,9 @@ import { links as sections } from "@utils/config"
 
 export default function Footer() {
   return (
-    <footer className="w-full flex p-16 flex-col gap-16 bg-gradient-radial from-ukraine-yellow to-white gradient-stop-50 bg-bottom-edge bg-size-2x">
-      <div className="flex justify-between">
-        <text className="text-3xl font-bold">
+    <footer className="w-full flex p-8 md:p-16 flex-col gap-16 md:bg-gradient-radial from-ukraine-yellow to-white gradient-stop-50 bg-bottom-edge bg-size-2x">
+      <div className="flex flex-col md:flex-row gap-4 justify-between">
+        <text className="flex text-3xl font-bold">
           { strings.landing.footer.callAction }
         </text>
         <Link href="/join">

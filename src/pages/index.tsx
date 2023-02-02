@@ -11,6 +11,7 @@ import { CarouselProvider, Slider, Slide, ButtonBack, ButtonNext } from "pure-re
 import Image from "next/image"
 import "pure-react-carousel/dist/react-carousel.es.css";
 import { IconButton } from "@mui/material";
+import { isMobile } from "react-device-detect";
 
 type Benefit = {
   icon: ReactNode,
@@ -43,22 +44,23 @@ const Home: NextPageWithLayout = () => {
     <div className="flex flex-col w-full gap-8">
       {/* HERO SECTION */}
       <div className="flex flex-col w-full items-center bg-fixed bg-center bg-no-repeat bg-cover" style={{ backgroundImage: `url(${ heroImage.src }`}}>
-        <div className="flex flex-col backdrop-blur-sm backdrop-brightness-50 p-32 w-full justify-center">
-          <div className="flex flex-col mx-auto">
-            <text className="text-7xl text-white font-bold leading-tight">{ strings.landing.home.callPrimary }</text>
-            <text className="text-2xl text-white mt-8 max-w-xl leading-normal">{ strings.landing.home.callSecondary }</text>
+        <div className="flex flex-col backdrop-blur-sm backdrop-brightness-50 p-8 md:p-32 w-full justify-center">
+          <div className="flex flex-col md:mx-auto">
+            <text className="mt-64 max-w-xs md:max-w-none md:mt-0 text-4xl md:text-7xl text-white font-bold leading-tight">{ strings.landing.home.callPrimary }</text>
+            <text className="text-lg md:text-2xl text-white mt-8 max-w-xl font-medium leading-normal">{ strings.landing.home.callSecondary }</text>
             <div className="mt-10 flex gap-4">
-              <Link href="/businesses">
+              {/* eslint-disable-next-line @next/next/no-html-link-for-pages */}
+              <a href="/businesses">
                 <ButtonSecondary text={ strings.landing.home.discoverBusinesses } className="text-2xl" />
-              </Link>
+              </a>
             </div>
           </div>
         </div>
       </div>
 
       {/* BENEFITS SECTION */}
-      <div className="flex w-full items-center px-32 py-16">
-        <div className={`grid grid-cols-3 gap-16 mx-auto`}>
+      <div className="flex w-full items-center p-8 md:px-32 md:py-16">
+        <div className="md:grid md:grid-cols-3 gap-16 flex flex-col mx-auto">
           {
             benefits.map(
               ({ icon, title, description } : Benefit, index) => (
@@ -74,15 +76,15 @@ const Home: NextPageWithLayout = () => {
       </div>
 
       {/* FEATURED BUSINESSES SECTION */}
-      <div className="flex-col w-full px-32 py-16">
-        <h1 className="text-5xl font-bold leading-tight">{ strings.landing.home.featured.title }</h1>
+      <div className="flex-col w-full p-8 md:px-32 md:py-16">
+        <h1 className="text-3xl md:text-5xl font-bold leading-tight">{ strings.landing.home.featured.title }</h1>
         <CarouselProvider
           naturalSlideHeight={ 100 }
           naturalSlideWidth={ 100 }
           isIntrinsicHeight={ true }
           totalSlides={ 5 }
-          className="px-16 mt-10"
-          visibleSlides={ 3 }
+          className="md:px-16 md:mt-10"
+          visibleSlides={ isMobile ? 1 : 3 }
         >
           <Slider>
             {
@@ -91,9 +93,9 @@ const Home: NextPageWithLayout = () => {
                   <Slide index={ index } key={ index }>
                     <div className="flex flex-col max-w-sm gap-2 py-16 w-full">
                       <div className="flex relative w-full h-64 rounded-lg">
-                        <Link href={ link }>
+                        <a href={ link }>
                           <Image src={image.src} layout="fill" className="object-contain cursor-pointer hover:brightness-105 shadow-md rounded-md" alt="Business Profile Picture" />
-                        </Link>
+                        </a>
                       </div>
                       <div className="flex flex-col">
                         <span className="text-2xl"><Link href={ link }>{ name }</Link></span>
@@ -125,14 +127,14 @@ const Home: NextPageWithLayout = () => {
       </div>
 
       {/* TESTIMONIAL SECTION */}
-      <div className="flex-col w-full px-32 py-16">
-        <h1 className="text-5xl font-bold leading-tight">{ strings.landing.home.testimonials.title }</h1>
+      <div className="flex-col w-full p-8 md:px-32 md:py-16">
+        <h1 className="text-3xl md:text-5xl font-bold leading-tight">{ strings.landing.home.testimonials.title }</h1>
         <CarouselProvider
           naturalSlideWidth={ 100 }
           isIntrinsicHeight={ true }
           totalSlides={ strings.landing.home.testimonials.slides.length }
           naturalSlideHeight={100}
-          className="px-16 mt-10"
+          className="md:px-16 md:mt-10"
           isPlaying={ true }
           infinite={ true }
         >
@@ -142,21 +144,26 @@ const Home: NextPageWithLayout = () => {
                   ({ name, title, text, image }, index) => (
                     <Slide index={ index } key={ index } >
                       <div className="flex w-full">
-                          <div className="py-16 grid grid-cols-2">
-                              <div className="relative flex">
+                          <div className="md:py-16 flex flex-col md:grid md:grid-cols-2">
+                              <div className="relative hidden md:flex">
                                   <Image src={ image.src } layout="fill" alt="Profile photo" className="w-full h-full flex-shrink-0 object-fit object-cover shadow-lg rounded" />
                                   <div className="w-32 md:flex hidden items-center justify-center absolute top-0 -mr-16 -mt-14 right-0 h-32 bg-indigo-100 rounded-full">
                                       {/* eslint-disable-next-line @next/next/no-img-element */}
                                       <img src="https://tuk-cdn.s3.amazonaws.com/can-uploader/testimonial-svg1.svg" alt="commas" />
                                   </div>
                               </div>
-                              <div className="pl-32 flex flex-col justify-between py-16">
+                              <div className="md:pl-32 flex flex-col justify-between py-16 w-full">
                                   <div>
                                       <p className="text-2xl font-medium leading-normal prose max-w-prose">{ text }</p>
                                   </div>
-                                  <div className="mt-8">
-                                      <p className="font-medium text-2xl">{ name }</p>
-                                      <p className="text-base mt-1 text-gray-600">{ title }</p>
+                                  <div className="flex flex-col mt-8 gap-2 justify-center w-full md:justify-left ">
+                                      <div className="flex relative md:hidden w-32 h-32">
+                                        <Image src={ image.src } layout="fill" alt="Profile photo" className="w-full h-full flex-shrink-0 object-fit object-cover shadow-lg rounded" />
+                                      </div>
+                                      <div>
+                                        <p className="font-medium text-2xl">{ name }</p>
+                                        <p className="text-base text-gray-600">{ title }</p>
+                                      </div>
                                   </div>
                               </div>
                           </div>

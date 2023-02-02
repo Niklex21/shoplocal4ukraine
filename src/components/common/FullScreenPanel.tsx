@@ -67,10 +67,9 @@ export default function FullScreenPanel({ className, panelState, closePanel, chi
                     { title }
                     <IconButton
                         aria-label="open sharing panel"
-                        className="text-3xl"
                         onClick={ closePanel }
                     >
-                        <IconClose />
+                        <IconClose className="text-4xl md:text-3xl" />
                     </IconButton>
                 </div>
                 { children }

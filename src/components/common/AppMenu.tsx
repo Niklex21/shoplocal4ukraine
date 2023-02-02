@@ -41,7 +41,7 @@ type Props = {
                 // flex overrides "hidden", instead hiding it by movement, thus enabling transitions
                 twMerge(
                     "transition-all flex md:max-w-xs overflow-auto gap-16 md:gap-8 p-8 justify-center md:justify-start md:rounded-none text-center md:text-start",
-                    menuState === PanelState.Closed ? "-left-full" : "",
+                    menuState === PanelState.Closed ? "hidden md:flex md:-left-full" : "",
                     className
                 )
             }
@@ -52,12 +52,12 @@ type Props = {
                     sections.map(
                         ({ name, links }) => (
                             <div key={ name } className="flex flex-col gap-4">
-                                <text className="font-bold text-xl">{ name }</text>
+                                <text className="font-bold text-2xl md:text-xl">{ name }</text>
                                 <div className="flex flex-col gap-3">
                                     {
                                         links.map(
                                             ({ text, link }) => (
-                                                <text key={ link } className="text-base cursor-pointer text-gray-700 hover:text-ukraine-blue">
+                                                <text key={ link } className="text-xl md:text-base cursor-pointer text-gray-700 hover:text-ukraine-blue">
                                                     <Link href={ link }>
                                                         { text }
                                                     </Link>

@@ -119,7 +119,7 @@ const strings_en = {
             join: 'Add Your Business',
         },
         footer: {
-            callAction: 'Support Ukraine, add a business',
+            callAction: 'Shop Local, Support Ukraine',
             callButton: 'Add Your Business',
             descriptionText: 'Discover local businesses that support Ukraine.',
             sections: {
