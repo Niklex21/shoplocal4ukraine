@@ -1,3 +1,5 @@
+import defaultImage from '@public/images/flag.jpg'
+
 const strings_en = {
     all: {
         title: 'Shop 4 Ukraine',
@@ -36,7 +38,79 @@ const strings_en = {
             onlyUkrainianOwnedLabel: 'Only Ukrainian-Owned',
             locationFieldLabel: 'Enter your location...',
             searchButtonLabel: 'Search',
-            discoverBusinesses: "Discover businesses"
+            discoverBusinesses: "Discover businesses",
+            benefits: {
+                free: {
+                    title: "Free",
+                    description: "Our platform is a non-profit, thus we do not charge any money to use it. No ads, no fees, no subscription."
+                },
+                verified: {
+                    title: "Verified",
+                    description: "All businesses on our list undergo a rigorous verification process, so you can be sure that your money goes to the right place."
+                },
+                support: {
+                    title: "Support Ukraine",
+                    description: "By shopping with Ukrainian-supporting or Ukrainian-owned businesses, your money helps others."
+                }
+            },
+            testimonials: {
+                title: "What our customers are saying",
+                slides: [
+                    {
+                        name: "John Doe",
+                        title: "Developer",
+                        text: "Stuff I said interesting stuff Stuff I said interesting stuff Stuff I said interesting stuff Stuff I said interesting stuff Stuff I said interesting stuff Stuff I said interesting stuff Stuff I said interesting stuff",
+                        image: defaultImage
+                    },
+                    {
+                        name: "John Doe",
+                        title: "Developer",
+                        text: "Stuff I said interesting stuff Stuff I said interesting stuff Stuff I said interesting stuff Stuff I said interesting stuff Stuff I said interesting stuff Stuff I said interesting stuff Stuff I said interesting stuff",
+                        image: defaultImage
+                    }
+                ]
+            },
+            featured: {
+                title: "Featured businesses",
+                readMore: "Read more...",
+                businesses: [
+                    {
+                        image: defaultImage,
+                        name: "Business",
+                        category: "Restaurant",
+                        description: "Really cool business did a lot of stuff for Ukraine of course must be rewarded hehe",
+                        link: '/businesses?id=""'
+                    },
+                    {
+                        image: defaultImage,
+                        name: "Business",
+                        category: "Restaurant",
+                        description: "Really cool business did a lot of stuff for Ukraine of course must be rewarded hehe",
+                        link: '/businesses?id=""'
+                    },
+                    {
+                        image: defaultImage,
+                        name: "Business",
+                        category: "Restaurant",
+                        description: "Really cool business did a lot of stuff for Ukraine of course must be rewarded hehe",
+                        link: '/businesses?id=""'
+                    },
+                    {
+                        image: defaultImage,
+                        name: "Business",
+                        category: "Restaurant",
+                        description: "Really cool business did a lot of stuff for Ukraine of course must be rewarded hehe",
+                        link: '/businesses?id=""'
+                    },
+                    {
+                        image: defaultImage,
+                        name: "Business",
+                        category: "Restaurant",
+                        description: "Really cool business did a lot of stuff for Ukraine of course must be rewarded hehe",
+                        link: '/businesses?id=""'
+                    }
+                ]
+            }
         },
         navbar: {
             businesses: 'Discover Businesses',
