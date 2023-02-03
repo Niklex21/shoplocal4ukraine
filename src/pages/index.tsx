@@ -77,7 +77,7 @@ const Home: NextPageWithLayout = () => {
 
       {/* FEATURED BUSINESSES SECTION */}
       <div className="flex-col w-full p-8 md:px-32 md:py-16">
-        <h1 className="text-3xl md:text-5xl font-bold leading-tight">{ strings.landing.home.featured.title }</h1>
+        <h1 className="text-3xl md:text-5xl font-bold leading-tight text-black px-4 py-2 before:block before:absolute before:-skew-x-12 before:-inset-1 before:bg-ukraine-yellow relative inline-block"><span className="text-black relative">{ strings.landing.home.featured.title }</span></h1>
         <CarouselProvider
           naturalSlideHeight={ 100 }
           naturalSlideWidth={ 100 }
@@ -98,7 +98,7 @@ const Home: NextPageWithLayout = () => {
                         </a>
                       </div>
                       <div className="flex flex-col">
-                        <span className="text-2xl"><Link href={ link }>{ name }</Link></span>
+                        <span className="text-2xl hover:text-ukraine-blue"><Link href={ link }>{ name }</Link></span>
                         <p className="text-gray-700">{ category }</p>
                       </div>
                       <p className="prose line-clamp-2">{ description }</p>
@@ -128,7 +128,7 @@ const Home: NextPageWithLayout = () => {
 
       {/* TESTIMONIAL SECTION */}
       <div className="flex-col w-full p-8 md:px-32 md:py-16">
-        <h1 className="text-3xl md:text-5xl font-bold leading-tight">{ strings.landing.home.testimonials.title }</h1>
+        <h1 className="text-3xl md:text-5xl font-bold leading-tight px-4 py-2 before:block before:absolute before:-skew-x-12 before:-inset-1 before:bg-ukraine-yellow relative inline-block"><span className="text-black relative">{ strings.landing.home.testimonials.title }</span></h1>
         <CarouselProvider
           naturalSlideWidth={ 100 }
           isIntrinsicHeight={ true }

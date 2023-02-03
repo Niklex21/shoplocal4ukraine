@@ -19,7 +19,7 @@ const strings_en = {
     },
     landing: {
         about: {
-            teamSectionTitle: 'The Team',
+            teamSectionTitle: 'The team',
             socials: {
                 email: 'Email',
                 linkedin: 'LinkedIn',
@@ -28,7 +28,20 @@ const strings_en = {
                 twitter: 'Twitter',
                 behance: 'Behance',
                 website: 'Website',
+                github: 'GitHub'
             },
+            whoWeAre: {
+                title: "Who we are",
+                mission: {
+                    m1: "We are a Boston-based",
+                    h1: "nonprofit",
+                    m2: "with a mission to",
+                    h2: "bring attention",
+                    m3: "to",
+                    h3: "Ukraine-supporting businesses",
+                    m4: "in your area."
+                }
+            }
         },
         home: {
             callPrimary: 'Shop Local, Support Ukraine',
@@ -114,13 +127,15 @@ const strings_en = {
         },
         navbar: {
             businesses: 'Discover Businesses',
+            howToSupportUkraine: "How To Support Ukraine",
             about: 'About Us',
             privacyStatement: 'Privacy Statement',
-            join: 'Add Your Business',
+            join: 'Add A Business',
+            blog: "Blog"
         },
         footer: {
             callAction: 'Shop Local, Support Ukraine',
-            callButton: 'Add Your Business',
+            callButton: 'Add A Business',
             descriptionText: 'Discover local businesses that support Ukraine.',
             sections: {
                 pages: {
@@ -129,7 +144,9 @@ const strings_en = {
                     businesses: 'Discover Businesses',
                     about: 'About Us',
                     privacyStatement: 'Privacy Statement',
-                    join: 'Add Your Business',
+                    join: 'Add A Business',
+                    blog: "Blog",
+                    howToSupportUkraine: "How to Support Ukraine"
                 },
                 socials: {
                     name: 'Contact us',

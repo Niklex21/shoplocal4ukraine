@@ -16,9 +16,19 @@ const links: Array<LinkType> = [
     link: '/businesses',
   },
   {
+    text: strings.landing.navbar.howToSupportUkraine,
+    link: '/how-to-support-ukraine',
+    page: Page.HowToSupport
+  },
+  {
     text: strings.landing.navbar.about,
     link: '/about',
     page: Page.About
+  },
+  {
+    text: strings.landing.navbar.blog,
+    link: '/blog',
+    page: Page.Blog
   },
   {
     text: strings.landing.navbar.join,
@@ -38,7 +48,7 @@ export default function Navbar({ current }: { current: Page }) {
 
   return (
     <>
-      <div className="hidden md:flex sticky flex-row justify-between w-full h-24 left-0 top-0 py-6 px-16 border-b-2 border-gray-100 bg-white z-10">
+      <div className="hidden md:flex sticky flex-row justify-between w-full h-24 left-0 top-0 py-6 px-16 bg-white drop-shadow-sm z-10">
         <Link href="/">
           <Image
             src={ Logo }

@@ -1,7 +1,7 @@
 import { Person } from "@appTypes/landing";
 import Image from 'next/image'
 
-import { Email as IconEmail, Language as IconWebsite, LinkedIn as IconLinkedin, Instagram as IconInstagram } from "@mui/icons-material"
+import { Email as IconEmail, Language as IconWebsite, LinkedIn as IconLinkedin, Instagram as IconInstagram, GitHub as IconGitHub } from "@mui/icons-material"
 import Link from "next/link";
 import { useState } from "react";
 import { AiFillBehanceCircle as IconBehance } from "react-icons/ai"
@@ -9,7 +9,7 @@ import { IconLinkText } from "@appTypes/businesses";
 import { IconButton, Tooltip } from "@mui/material";
 import strings from "@utils/strings"
 
-export function PersonCard({ name, profilePictureURL, role, description, gifURL, website, email, linkedin, instagram, behance } : Person) {
+export function PersonCard({ name, profilePictureURL, role, description, gifURL, website, email, linkedin, instagram, behance, github } : Person) {
 
     let socials : Array<IconLinkText> = []
 
@@ -53,6 +53,14 @@ export function PersonCard({ name, profilePictureURL, role, description, gifURL,
         text: strings.landing.about.socials.behance
     })
 
+    if (github) socials.push({
+        icon: (
+            <IconGitHub />
+        ),
+        link: github,
+        text: strings.landing.about.socials.github
+    })
+
     const [ currentImageURL, setCurrentImageURL ] = useState<string>(profilePictureURL)
 
     return (
@@ -61,10 +69,10 @@ export function PersonCard({ name, profilePictureURL, role, description, gifURL,
                 <Image
                     src={ currentImageURL }
                     alt="Profile Picture"
-                    className="object-contain rounded-full"
+                    className="object-cover rounded-full"
                     width={ "256px" }
                     height={ "256px" }
-                    onMouseOver={ () => setCurrentImageURL(gifURL) }
+                    onMouseOver={ () => setCurrentImageURL(gifURL === "" ? profilePictureURL : gifURL) }
                     onMouseOut={ () => setCurrentImageURL(profilePictureURL) }
                 />
             </div>

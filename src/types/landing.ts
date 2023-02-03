@@ -2,7 +2,9 @@ enum Page {
   None,
   About,
   Privacy,
-  Join
+  Join,
+  HowToSupport,
+  Blog
 }
 
 type Link = {
@@ -21,7 +23,8 @@ type Person = {
   email?: string,
   linkedin?: string,
   instagram?: string,
-  behance?: string
+  behance?: string,
+  github?: string
 }
 
 export type { Link, Person }

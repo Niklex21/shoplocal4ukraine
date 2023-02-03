@@ -51,13 +51,17 @@ const links : Array<Section> = [
           link: '/businesses',
         },
         {
+          text: strings.landing.footer.sections.pages.howToSupportUkraine,
+          link: '/how-to-support-ukraine'
+        },
+        {
           text: strings.landing.footer.sections.pages.about,
           link: '/about',
         },
         {
-          text: strings.landing.footer.sections.pages.join,
-          link: '/join',
-        }
+          text: strings.landing.footer.sections.pages.blog,
+          link: '/blog'
+        },
       ]
     },
     {

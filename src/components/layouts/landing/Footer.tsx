@@ -3,7 +3,38 @@ import Link from "next/link";
 import Image from 'next/image';
 import logo from "@public/images/logo.png"
 import { ButtonSecondary } from "@components/common/buttons";
+import { Email, Facebook, Instagram, LinkedIn, Message, Telegram, Twitter, WhatsApp } from "@mui/icons-material"
 import { links as sections } from "@utils/config"
+import { IconLinkText } from "@appTypes/businesses";
+import { Tooltip, IconButton } from "@mui/material";
+
+const socials : Array<IconLinkText> = [
+  {
+    icon: <Email />,
+    link: "mailto:shoplocal4ukraine@gmail.com",
+    text: "shoplocal4ukraine@gmail.com"
+  },
+  {
+      icon: <LinkedIn />,
+      link: "https://www.linkedin.com/company/shop4ua/",
+      text: "LinkedIn"
+  },
+  {
+      icon: <Facebook />,
+      link: "https://www.facebook.com/shoplocal4ukraine",
+      text: "Facebook"
+  },
+  {
+      icon: <Instagram />,
+      link: "https://www.instagram.com/shop4ukraine/",
+      text: "Instagram"
+  },
+  {
+      icon: <Telegram />,
+      link: "https://t.me/shop4ua",
+      text: "Telegram"
+  },
+]
 
 export default function Footer() {
   return (
@@ -29,6 +60,23 @@ export default function Footer() {
             </Link>
           </div>
           <text className="text-lg max-w-xs lg:max-w-none">{ strings.landing.footer.descriptionText }</text>
+          <div className="flex flex-row gap-2">
+            {
+                socials.map(
+                    ({ icon, link, text }, index: number) => (
+                        <Link href={ link ?? "" }  key={ index }>
+                            <a target="_blank">
+                                <Tooltip title={ text ?? "" }>
+                                    <IconButton className="hover:text-ukraine-blue">
+                                        { icon }
+                                    </IconButton>
+                                </Tooltip>
+                            </a>
+                        </Link>
+                    )
+                )
+            }
+          </div>
         </div>
         <div className="hidden lg:block"></div>
         <div className="grid grid-rows-1 grid-flow-col gap-8 md:gap-4">
