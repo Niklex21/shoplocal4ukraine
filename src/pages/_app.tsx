@@ -10,6 +10,7 @@ import { Analytics } from '@vercel/analytics/react';
 import {ErrorBoundary} from 'react-error-boundary'
 import { processError } from '@api/_error'
 import ErrorFallback from '@components/common/ErrorFallback'
+import localFont from '@next/font/local'
 
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: ReactElement) => ReactNode
@@ -18,6 +19,42 @@ export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
 type AppPropsWithLayout = AppProps & {
   Component: NextPageWithLayout
 }
+
+const eUkraine = localFont({
+  src: [
+    {
+      path: '../public/fonts/e-Ukraine/e-Ukraine-Thin.otf',
+      weight: '100',
+      style: 'normal'
+    },
+    {
+      path: '../public/fonts/e-Ukraine/e-Ukraine-UltraLight.otf',
+      weight: '200',
+      style: 'normal'
+    },
+    {
+      path: '../public/fonts/e-Ukraine/e-Ukraine-Light.otf',
+      weight: '300',
+      style: 'normal'
+    },
+    {
+      path: '../public/fonts/e-Ukraine/e-Ukraine-Regular.otf',
+      weight: '400',
+      style: 'normal'
+    },
+    {
+      path: '../public/fonts/e-Ukraine/e-Ukraine-Medium.otf',
+      weight: '500',
+      style: 'normal'
+    },
+    {
+      path: '../public/fonts/e-Ukraine/e-Ukraine-Bold.otf',
+      weight: '700',
+      style: 'normal'
+    }
+  ],
+  variable: '--font-eukraine'
+})
 
 function MyApp({ Component, pageProps }: AppPropsWithLayout) {
 

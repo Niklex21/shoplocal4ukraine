@@ -126,7 +126,7 @@ export default function SharePanel({ className, panelState, closePanel }: Props)
                     <Image
                         className="max-w-xs object-cover rounded-lg"
                         src={ imageSrc }
-                        layout="fill"
+                        fill={ true }
                         alt="Business Logo"
                     />
                 </div>
@@ -181,14 +181,12 @@ export default function SharePanel({ className, panelState, closePanel }: Props)
                 {
                     socials.map(
                         ({ icon, link, text }, index: number) => (
-                            <Link href={ link ?? "" }  key={ index }>
-                                <a target="_blank">
-                                    <Tooltip title={ text ?? "" }>
-                                        <IconButton className="hover:text-ukraine-blue">
-                                            { icon }
-                                        </IconButton>
-                                    </Tooltip>
-                                </a>
+                            <Link href={ link ?? "" } target="_blank" key={ index }>
+                                <Tooltip title={ text ?? "" }>
+                                    <IconButton className="hover:text-ukraine-blue">
+                                        { icon }
+                                    </IconButton>
+                                </Tooltip>
                             </Link>
                         )
                     )

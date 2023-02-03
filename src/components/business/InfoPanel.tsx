@@ -138,12 +138,10 @@ export const InfoPanel = ({ className, panelState, setPanelState }: Props) => {
                                 <div className="group flex content-center flex-row w-full gap-4 bg-white px-2 py-1 opacity-80 hover:brightness-95 text-ukraine-blue hover:opacity-100 items-center rounded-lg">
                                     <IconArrow />
                                     <div className="flex flex-row w-full justify-between gap-2">
-                                        <Link href={ business.location?.googleMapsURL || "#" }>
-                                            <a target="_blank">
-                                                <span className="break-all underline lg:no-underline hover:underline align-middle">
-                                                    { strings.businesses.infoPage.googleMapsURLText }
-                                                </span>
-                                            </a>    
+                                        <Link target="_blank" href={ business.location?.googleMapsURL || "#" }>
+                                            <span className="break-all underline lg:no-underline hover:underline align-middle">
+                                                { strings.businesses.infoPage.googleMapsURLText }
+                                            </span> 
                                         </Link>
                                         <Tooltip title={ strings.businesses.infoPage.tooltipCopyGoogleMapsURL } arrow={ true } placement="right">
                                             <IconButton
@@ -169,12 +167,10 @@ export const InfoPanel = ({ className, panelState, setPanelState }: Props) => {
                                                 <div className="flex flex-row w-full justify-between gap-2">
                                                     {
                                                         link ? (
-                                                            <Link href={ link || "#" }>
-                                                                <a target="_blank">
-                                                                    <span className={ twMerge("break-all", link ? "underline lg:no-underline hover:underline align-middle" : "") }>
-                                                                        { text }
-                                                                    </span>
-                                                                </a>    
+                                                            <Link target="_blank" href={ link || "#" }>
+                                                                <span className={ twMerge("break-all", link ? "underline lg:no-underline hover:underline align-middle" : "") }>
+                                                                    { text }
+                                                                </span>   
                                                             </Link>
                                                         ) : text
                                                     }

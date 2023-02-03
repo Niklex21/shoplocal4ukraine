@@ -169,7 +169,7 @@ export default function InfoEditPanel({ className, panelState, closePanel }: Pro
                     <Image
                         className="max-w-xs object-cover rounded-lg"
                         src={ imageSrc }
-                        layout="fill"
+                        fill={ true }
                         alt="Business Logo"
                     />
                 </div>

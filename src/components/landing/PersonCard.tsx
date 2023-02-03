@@ -70,8 +70,8 @@ export function PersonCard({ name, profilePictureURL, role, description, gifURL,
                     src={ currentImageURL }
                     alt="Profile Picture"
                     className="object-cover rounded-full"
-                    width={ "256px" }
-                    height={ "256px" }
+                    width={ 256 }
+                    height={ 256 }
                     onMouseOver={ () => setCurrentImageURL(gifURL === "" ? profilePictureURL : gifURL) }
                     onMouseOut={ () => setCurrentImageURL(profilePictureURL) }
                 />
@@ -84,14 +84,12 @@ export function PersonCard({ name, profilePictureURL, role, description, gifURL,
                     socials.map(
                         ({ icon, link, text }, index: number) => (
                             <div key={ index } className="text-3xl">
-                                <Link href={ link ?? "" }>
-                                    <a target="_blank">
-                                        <Tooltip title={ text ?? "" }>
-                                            <IconButton className="hover:text-ukraine-blue">
-                                                { icon }
-                                            </IconButton>
-                                        </Tooltip>
-                                    </a>
+                                <Link href={ link ?? "" } target="_blank">
+                                    <Tooltip title={ text ?? "" }>
+                                        <IconButton className="hover:text-ukraine-blue">
+                                            { icon }
+                                        </IconButton>
+                                    </Tooltip>
                                 </Link>
                             </div>
                         )

@@ -51,8 +51,8 @@ export function PersonCard({ name, profilePictureURL, role, description, gifURL,
                     src={ currentImageURL }
                     alt="Profile Picture"
                     className="object-contain rounded-full"
-                    width={ "256px" }
-                    height={ "256px" }
+                    width={ 256 }
+                    height={ 256 }
                     onMouseOver={ () => setCurrentImageURL(gifURL) }
                     onMouseOut={ () => setCurrentImageURL(profilePictureURL) }
                 />

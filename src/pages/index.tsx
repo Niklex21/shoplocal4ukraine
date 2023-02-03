@@ -77,7 +77,7 @@ const Home: NextPageWithLayout = () => {
 
       {/* FEATURED BUSINESSES SECTION */}
       <div className="flex-col w-full p-8 md:px-32 md:py-16">
-        <h1 className="text-3xl md:text-5xl font-bold leading-tight text-black px-4 py-2 before:block before:absolute before:-skew-x-12 before:-inset-1 before:bg-ukraine-yellow relative inline-block"><span className="text-black relative">{ strings.landing.home.featured.title }</span></h1>
+        <h1 className="text-2xl md:text-5xl font-bold leading-tight text-black px-4 py-2 before:block before:absolute before:-skew-x-12 before:-inset-1 before:bg-ukraine-yellow relative inline-block"><span className="text-black relative">{ strings.landing.home.featured.title }</span></h1>
         <CarouselProvider
           naturalSlideHeight={ 100 }
           naturalSlideWidth={ 100 }
@@ -94,11 +94,11 @@ const Home: NextPageWithLayout = () => {
                     <div className="flex flex-col max-w-sm gap-2 py-16 w-full">
                       <div className="flex relative w-full h-64 rounded-lg">
                         <a href={ link }>
-                          <Image src={image.src} layout="fill" className="object-contain cursor-pointer hover:brightness-105 shadow-md rounded-md" alt="Business Profile Picture" />
+                          <Image src={image.src} fill={ true } className="object-contain cursor-pointer hover:brightness-105 shadow-md rounded-md" alt="Business Profile Picture" />
                         </a>
                       </div>
                       <div className="flex flex-col">
-                        <span className="text-2xl hover:text-ukraine-blue"><Link href={ link }>{ name }</Link></span>
+                        <span className="text-xl hover:text-ukraine-blue"><Link href={ link }>{ name }</Link></span>
                         <p className="text-gray-700">{ category }</p>
                       </div>
                       <p className="prose line-clamp-2">{ description }</p>
@@ -128,7 +128,7 @@ const Home: NextPageWithLayout = () => {
 
       {/* TESTIMONIAL SECTION */}
       <div className="flex-col w-full p-8 md:px-32 md:py-16">
-        <h1 className="text-3xl md:text-5xl font-bold leading-tight px-4 py-2 before:block before:absolute before:-skew-x-12 before:-inset-1 before:bg-ukraine-yellow relative inline-block"><span className="text-black relative">{ strings.landing.home.testimonials.title }</span></h1>
+        <h1 className="text-2xl md:text-5xl font-bold leading-tight px-4 py-2 before:block before:absolute before:-skew-x-12 before:-inset-1 before:bg-ukraine-yellow relative inline-block"><span className="text-black relative">{ strings.landing.home.testimonials.title }</span></h1>
         <CarouselProvider
           naturalSlideWidth={ 100 }
           isIntrinsicHeight={ true }
@@ -146,7 +146,7 @@ const Home: NextPageWithLayout = () => {
                       <div className="flex w-full">
                           <div className="md:py-16 flex flex-col md:grid md:grid-cols-2">
                               <div className="relative hidden md:flex">
-                                  <Image src={ image.src } layout="fill" alt="Profile photo" className="w-full h-full flex-shrink-0 object-fit object-cover shadow-lg rounded" />
+                                  <Image src={ image.src } fill={ true } alt="Profile photo" className="w-full h-full flex-shrink-0 object-fit object-cover shadow-lg rounded" />
                                   <div className="w-32 md:flex hidden items-center justify-center absolute top-0 -mr-16 -mt-14 right-0 h-32 bg-indigo-100 rounded-full">
                                       {/* eslint-disable-next-line @next/next/no-img-element */}
                                       <img src="https://tuk-cdn.s3.amazonaws.com/can-uploader/testimonial-svg1.svg" alt="commas" />
@@ -154,14 +154,14 @@ const Home: NextPageWithLayout = () => {
                               </div>
                               <div className="md:pl-32 flex flex-col justify-between py-16 w-full">
                                   <div>
-                                      <p className="text-2xl font-medium leading-normal prose max-w-prose">{ text }</p>
+                                      <p className="text-xl font-medium leading-normal prose max-w-prose">{ text }</p>
                                   </div>
                                   <div className="flex flex-col mt-8 gap-2 justify-center w-full md:justify-left ">
                                       <div className="flex relative md:hidden w-32 h-32">
-                                        <Image src={ image.src } layout="fill" alt="Profile photo" className="w-full h-full flex-shrink-0 object-fit object-cover shadow-lg rounded" />
+                                        <Image src={ image.src } fill={ true } alt="Profile photo" className="w-full h-full flex-shrink-0 object-fit object-cover shadow-lg rounded" />
                                       </div>
                                       <div>
-                                        <p className="font-medium text-2xl">{ name }</p>
+                                        <p className="font-medium text-xl">{ name }</p>
                                         <p className="text-base text-gray-600">{ title }</p>
                                       </div>
                                   </div>

@@ -169,7 +169,7 @@ export default function ReportPanel({ className, panelState, closePanel }: Props
                     <Image
                         className="max-w-xs object-cover rounded-lg"
                         src={ imageSrc }
-                        layout="fill"
+                        fill={ true }
                         alt="Business Logo"
                     />
                 </div>
@@ -207,10 +207,8 @@ export default function ReportPanel({ className, panelState, closePanel }: Props
                                                 { strings.businesses.reportPanel.notSure }
                                                 &nbsp;
                                                 {/* TODO: replace this link with some other one later */}
-                                                <Link href="#">
-                                                    <a target="_blank">
-                                                        { strings.businesses.reportPanel.readMoreAboutReporting }
-                                                    </a>
+                                                <Link href="#" target="_blank">
+                                                    { strings.businesses.reportPanel.readMoreAboutReporting }
                                                 </Link>
                                             </div>
                                             <div className="flex flex-col gap-1">

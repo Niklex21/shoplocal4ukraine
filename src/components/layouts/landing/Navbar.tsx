@@ -1,5 +1,6 @@
 import Image from 'next/image'
 import Logo from '@public/images/logo.png'
+import LogoNoText from '@public/images/logoNoText.png'
 import Link from 'next/link'
 import strings from '@utils/strings'
 import { Page, Link as LinkType } from '@appTypes/landing'
@@ -49,14 +50,23 @@ export default function Navbar({ current }: { current: Page }) {
   return (
     <>
       <div className="hidden md:flex sticky flex-row justify-between w-full h-24 left-0 top-0 py-6 px-16 bg-white drop-shadow-sm z-10">
-        <Link href="/">
-          <Image
-            src={ Logo }
-            className="object-contain cursor-pointer object-left"
-            alt="Logo"
-          />
-        </Link>
-        <div className="justify-end flex gap-2 lg:gap-12 items-center">
+        <div className="flex h-full w-full relative">
+          <Link href="/">
+            <Image
+              src={ Logo }
+              fill={ true }
+              className="hidden xl:flex object-contain cursor-pointer object-left"
+              alt="Logo"
+            />
+            <Image
+              src={ LogoNoText }
+              fill={ true }
+              className="flex xl:hidden object-contain cursor-pointer object-left"
+              alt="Logo"
+            />
+          </Link>
+        </div>
+        <div className="justify-end flex gap-6 lg:gap-10 items-center shrink-0">
           {
             links.map(
               ({ text, link, page }: LinkType, index: number) => (

@@ -50,11 +50,12 @@ export default function Footer() {
       <hr />
       <div className="flex flex-col md:grid md:grid-cols-2 lg:grid-cols-3">
         <div className="flex flex-col gap-6 mb-8">
-          <div className="h-16 flex">
+          <div className="flex h-16 w-full relative">
             <Link href="/">
               <Image
                 src={ logo }
                 alt="logo"
+                fill={ true }
                 className="object-contain object-left cursor-pointer"
               />
             </Link>
@@ -64,14 +65,12 @@ export default function Footer() {
             {
                 socials.map(
                     ({ icon, link, text }, index: number) => (
-                        <Link href={ link ?? "" }  key={ index }>
-                            <a target="_blank">
-                                <Tooltip title={ text ?? "" }>
-                                    <IconButton className="hover:text-ukraine-blue">
-                                        { icon }
-                                    </IconButton>
-                                </Tooltip>
-                            </a>
+                        <Link href={ link ?? "" } target="_blank" key={ index }>
+                          <Tooltip title={ text ?? "" }>
+                              <IconButton className="hover:text-ukraine-blue">
+                                  { icon }
+                              </IconButton>
+                          </Tooltip>
                         </Link>
                     )
                 )

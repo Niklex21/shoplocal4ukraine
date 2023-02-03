@@ -25,7 +25,7 @@ export default function BusinessCard({ data, active } : { data: BusinessModel, a
                 <Image
                     src={ imageSrc }
                     alt={ data.name }
-                    layout="fill"
+                    fill={ true }
                     className="relative object-cover rounded-lg"
                 />
             </div>
