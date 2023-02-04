@@ -3,12 +3,17 @@ import Link from "next/link";
 import Image from 'next/image';
 import logo from "@public/images/logo.png"
 import { ButtonSecondary } from "@components/common/buttons";
-import { Email, Facebook, Instagram, LinkedIn, Message, Telegram, Twitter, WhatsApp } from "@mui/icons-material"
+import { Email, Facebook, Instagram, LinkedIn, Message, Phone, Telegram, Twitter, WhatsApp } from "@mui/icons-material"
 import { links as sections } from "@utils/config"
 import { IconLinkText } from "@appTypes/businesses";
 import { Tooltip, IconButton } from "@mui/material";
 
 const socials : Array<IconLinkText> = [
+  {
+    icon: <Phone />,
+    link: "tel:+13395451405",
+    text: "+13395451405"
+  },
   {
     icon: <Email />,
     link: "mailto:shoplocal4ukraine@gmail.com",
