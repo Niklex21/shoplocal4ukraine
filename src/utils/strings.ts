@@ -211,6 +211,10 @@ const strings_en = {
                     telegram: 'Telegram'
                 },
             },
+            subscriptionForm: {
+                subscribe: "Subscribe to our newsletter",
+                subscribeButton: "Subscribe"
+            }
         },
     },
     businesses: {

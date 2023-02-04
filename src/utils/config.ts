@@ -67,30 +67,9 @@ const links : Array<Section> = [
           text: strings.landing.footer.sections.pages.blog,
           link: '/blog'
         },
-      ]
-    },
-    {
-      name: strings.landing.footer.sections.socials.name,
-      links: [
         {
-          text: strings.landing.footer.sections.socials.email,
-          link: INFO.emailLink
-        },
-        {
-          text: strings.landing.footer.sections.socials.linkedin,
-          link: 'https://www.linkedin.com/company/shop4ua/',
-        },
-        {
-          text: strings.landing.footer.sections.socials.facebook,
-          link: 'https://www.facebook.com/shoplocal4ukraine',
-        },
-        {
-          text: strings.landing.footer.sections.socials.instagram,
-          link: 'https://www.instagram.com/shop4ukraine/',
-        },
-        {
-          text: strings.landing.footer.sections.socials.telegram,
-          link: 'https://t.me/shop4ua',
+          text: strings.landing.footer.sections.pages.join,
+          link: '/join'
         }
       ]
     },
