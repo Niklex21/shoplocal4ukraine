@@ -17,7 +17,7 @@ const socials : Array<IconLinkText> = [
   {
     icon: <Email />,
     link: "mailto:shoplocal4ukraine@gmail.com",
-    text: "shoplocal4ukraine@gmail.com"
+    text: "Email"
   },
   {
       icon: <LinkedIn />,
@@ -73,7 +73,7 @@ export default function Footer() {
                     <div id="mc_embed_signup_scroll">
                       <h2 className="text-oxford-blue text-xl font-bold">{ strings.landing.footer.subscriptionForm.subscribe }</h2>
                     </div>
-                    <div className="flex flex-row w-full gap-2">
+                    <div className="flex flex-col md:flex-row w-full gap-2">
                       <div className="mc-field-group flex flex-col gap-1 w-full">
                         <input type="email" name="EMAIL" className="required email bg-white ring-1 w-80 ring-ukraine-blue focus:outline-ukraine-blue rounded px-4 py-2" id="mce-EMAIL" required placeholder="email@example.com" />
                         <span id="mce-EMAIL-HELPERTEXT" className="helper_text"></span>
@@ -84,11 +84,11 @@ export default function Footer() {
                       </div>
                       {/* <!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups--> */}
                       <div style={{ position: "absolute", left: "-5000px" }} aria-hidden="true">
-                        <input type="text" name="b_5294169e3c5e26832ef9cc671_e8434e936c" tabIndex={-1} value="" />
+                        <input readOnly type="text" name="b_5294169e3c5e26832ef9cc671_e8434e936c" tabIndex={-1} value="" />
                       </div>
                       <div className="optionalParent">
                           <div className="clear foot">
-                              <input type="submit" name="subscribe" id="mc-embedded-subscribe" className="button px-4 py-2 rounded-full bg-ukraine-blue text-white font-bold cursor-pointer hover:bg-ukraine-yellow hover:text-oxford-blue hover:drop-shadow-button" value={ strings.landing.footer.subscriptionForm.subscribeButton } />
+                              <input readOnly type="submit" name="subscribe" id="mc-embedded-subscribe" className="button px-4 py-2 rounded-full bg-ukraine-blue text-white font-bold cursor-pointer hover:bg-ukraine-yellow hover:text-oxford-blue hover:drop-shadow-button" value={ strings.landing.footer.subscriptionForm.subscribeButton } />
                           </div>
                       </div>
                     </div>

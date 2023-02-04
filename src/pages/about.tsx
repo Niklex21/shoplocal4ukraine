@@ -137,8 +137,8 @@ const About : NextPageWithLayout = () => {
                 >
                     <span className="relative">{ strings.landing.about.whyWeDoIt.title }</span>
                 </h1>
-                <div className="text-lg md:text-2xl prose leading-relaxed col-span-2 text-slate-700 text-left max-w-4xl mx-auto">
-                    { strings.landing.about.whyWeDoIt.content }
+                <div className="text-lg md:text-2xl leading-loose col-span-2 text-slate-700 text-left max-w-4xl mx-auto">
+                    <span className="leading-relaxed">{ strings.landing.about.whyWeDoIt.content }</span>
                 </div>
                 <h1
                     className="hidden md:flex text-3xl md:text-5xl font-bold text-center m-auto p-2 before:block before:absolute before:-skew-x-12 before:-inset-1 before:bg-ukraine-yellow relative"
