@@ -25,7 +25,7 @@ async function handler(req: AxiomAPIRequest, res: NextApiResponse) {
         let result = await addReport(report)
 
         if (result) {
-            logger.debug("Successfully added report ", result)
+            logger.debug(`Successfully added report ${ result }`)
             return res.status(200).json({ reportNumber: result })
         }
 

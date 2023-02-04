@@ -240,7 +240,7 @@ export const MapView = ({ infoPanelOpen, className } : Props) => {
                         clusterId,
                         (err, zoom) => {
                             if (err) {
-                                logger.debug("Error while getting cluster expansion zoom: ", err);
+                                logger.debug(`Error while getting cluster expansion zoom: ${ err }`);
                                 return;
                             }
 
