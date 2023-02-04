@@ -80,7 +80,7 @@ export default function ReportPanel({ className, panelState, closePanel }: Props
                 setSubmitStatus(SubmitStatus.Error)
             }
         } catch (e) {
-            logger.error("Error while processing request", e)
+            logger.error(`Error while processing request ${e}`)
             setSubmitStatus(SubmitStatus.Error)
         }
     }

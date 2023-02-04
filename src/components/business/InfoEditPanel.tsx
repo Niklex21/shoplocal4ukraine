@@ -80,7 +80,7 @@ export default function InfoEditPanel({ className, panelState, closePanel }: Pro
                 setSubmitStatus(SubmitStatus.Error)
             }
         } catch (e) {
-            logger.error("Error while processing request", e)
+            logger.error(`Error while processing request: ${e}`)
             setSubmitStatus(SubmitStatus.Error)
         }
     }

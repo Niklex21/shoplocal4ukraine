@@ -50,7 +50,7 @@ async function handler(req: AxiomAPIRequest, res: NextApiResponse) {
 
         return res.status(200).json({ businesses })
     } catch (e) {
-        logger.error("Server error while processing report request: ", e)
+        logger.error(`Server error while processing report request: ${e}`)
         return res.status(500).end()
     }
 }
