@@ -20,7 +20,9 @@ module.exports = {
         "ukraine-yellow": "#FFD700",
         "ukraine-blue": "#0057B8",
         "oxford-blue": "#00162E",
-        "blond-yellow": "#FFF5C0"
+        "blond-yellow": "#FFF5C0",
+        "iceberg-blue": "#80ABDC",
+        "alice-blue": "#F0F5FB"
       },
       dropShadow: ({ theme }) => ({
         button: `4px 4px 0px ${theme("colors")["ukraine-blue"]}`,

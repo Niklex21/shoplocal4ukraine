@@ -64,21 +64,20 @@ export function PersonCard({ name, profilePictureURL, role, description, gifURL,
     const [ currentImageURL, setCurrentImageURL ] = useState<string>(profilePictureURL)
 
     return (
-        <div className="flex flex-col justify-center">
-            <div className="flex justify-center">
+        <div className="flex flex-col justify-center text-oxford-blue">
+            <div className="flex justify-center w-64 h-64 relative mx-auto">
                 <Image
                     src={ currentImageURL }
                     alt="Profile Picture"
                     className="object-cover rounded-full"
-                    width={ 256 }
-                    height={ 256 }
+                    fill={ true }
                     onMouseOver={ () => setCurrentImageURL(gifURL === "" ? profilePictureURL : gifURL) }
                     onMouseOut={ () => setCurrentImageURL(profilePictureURL) }
                 />
             </div>
             <text className="text-center text-2xl mt-4 font-bold">{ name }</text>
             <text className="text-center text-xl mt-2 text-ukraine-blue">{ role }</text>
-            <text className="text-center text-lg mt-2 max-w-xs text-gray-600">{ description }</text>
+            <text className="text-center text-lg mt-2 max-w-xs text-slate-700">{ description }</text>
             <div className="mt-2 flex w-full justify-center flex-row gap-1">
                 {
                     socials.map(

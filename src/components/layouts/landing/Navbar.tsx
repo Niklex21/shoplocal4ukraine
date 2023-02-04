@@ -84,9 +84,17 @@ export default function Navbar({ current }: { current: Page }) {
           }
         </div>
       </div>
-      <div className="flex md:hidden absolute z-40 h-24 w-24 top-0 right-0">
+      <div className="flex md:hidden relative z-40 h-24 p-6 w-full top-0 left-0 bg-white drop-shadow-sm justify-between">
+        <div className="flex h-full w-full relative">
+          <Image
+            src={ Logo }
+            fill={ true }
+            className="flex xl:hidden object-contain object-left"
+            alt="Logo"
+          />
+        </div>
         <IconButton onClick={ () => setMenuState(PanelState.Open) }>
-          <IconMenu className="text-white text-5xl" />
+          <IconMenu className="text-oxford-blue text-5xl" />
         </IconButton>
       </div>
       <AppMenu className="fixed" menuState={ menuState } setMenuState={ setMenuState } />

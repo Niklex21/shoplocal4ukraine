@@ -41,6 +41,59 @@ const strings_en = {
                     h3: "Ukraine-supporting businesses",
                     m4: "in your area."
                 }
+            },
+            whyWeDoIt: {
+                title: "Why we do it",
+                content: "All of our team members are Ukrainian, and with the ongoing war, we feel it is crucial to support our people through all possible avenues. With this project, we found a new way to do so — by bringing attention to Ukrainian-owned or Ukraine-supporting local businesses."
+            },
+            howThisWorks: {
+                title: "How this works",
+                customer: {
+                    title: "Customer",
+                    text: "Through our app, you have access to a map highlighting businesses around you that support Ukraine. Whether you are looking for a hotel, a coffee shop, or a gym — we've got you covered!"
+                },
+                business: {
+                    title: "Business",
+                    text: "If you are a business that supports Ukraine, we will add your information to our list, exposing and promoting your business to hundreds of active users. No additional actions required from you."
+                }
+            },
+            faq: {
+                title: "FAQ",
+                toggles: [
+                    {
+                        question: 'How do you define "business that supports Ukraine"?',
+                        answer: `We leave it at our own discretion to determine whether or not a business supports Ukraine. Each evaluation is performed by one of our team members, and all decisions are made on a case-by-case basis. All businesses that we display contain a short descriptions of their contributions that let them qualify as "Ukraine supporters".`,
+                        linkText: "Read more about our guidelines here.",
+                        link: "#"
+                    },
+                    {
+                        question: "How do you verify businesses?",
+                        answer: ""
+                    },
+                    {
+                        question: "How do you select featured businesses?",
+                        answer: ""
+                    },
+                    {
+                        question: "What if I know a businesses that I think should be on the website?",
+                        answer: ""
+                    },
+                    {
+                        question: "I have other questions. How do I get in contact with you?",
+                        answer: ""
+                    }
+                ]
+            },
+            roadmap: {
+                title: "Roadmap"
+            },
+            wantToWorkWithUs: {
+                title: "Want to work with us?",
+                text1: "Check out our open positions",
+                openPositionsLinkText: "here",
+                text2: ". If you don't find anything that fits you, shoot us an email at",
+                text3: "with your resume and explain in a few sentences how you would like to help us. We'd love to talk to you and we always need the help!",
+                text4: "If you are looking to collaborate with us, send us an email explaining how we can help each other — we'd love to find some common ground with you!"
             }
         },
         home: {

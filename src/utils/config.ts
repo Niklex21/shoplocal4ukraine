@@ -38,6 +38,11 @@ const defaults = {
     airtableRequestTimeout: 5000
 }
 
+const INFO = {
+  email: "shoplocal4ukraine@gmail.com",
+  emailLink: "mailto:shoplocal4ukraine@gmail.com"
+}
+
 const links : Array<Section> = [
     {
       name: strings.landing.footer.sections.pages.name,
@@ -69,7 +74,7 @@ const links : Array<Section> = [
       links: [
         {
           text: strings.landing.footer.sections.socials.email,
-          link: "mailto:shoplocal4ukraine@gmail.com"
+          link: INFO.emailLink
         },
         {
           text: strings.landing.footer.sections.socials.linkedin,
@@ -118,4 +123,4 @@ const LOCAL_STORAGE_KEYS = {
 }
 
 export default defaults
-export { links, BUSINESS_CATEGORIES, LOCAL_STORAGE_KEYS, BUSINESS_TAGS }
+export { links, BUSINESS_CATEGORIES, LOCAL_STORAGE_KEYS, BUSINESS_TAGS, INFO }
