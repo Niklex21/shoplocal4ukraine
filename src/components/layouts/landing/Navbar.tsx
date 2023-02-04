@@ -27,11 +27,6 @@ const links: Array<LinkType> = [
     page: Page.About
   },
   {
-    text: strings.landing.navbar.blog,
-    link: '/blog',
-    page: Page.Blog
-  },
-  {
     text: strings.landing.navbar.join,
     link: '/join',
     page: Page.Join

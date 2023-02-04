@@ -84,20 +84,22 @@ const About : NextPageWithLayout = () => {
                 >
                     <span className="relative text-black">{ strings.landing.about.whoWeAre.title }</span>
                 </h1>
-                <div className="text-2xl md:text-4xl font-bold leading-relaxed text-left md:text-center max-w-4xl mx-auto">
-                    { strings.landing.about.whoWeAre.mission.m1 }
-                    &nbsp;
-                    <span className="text-ukraine-blue">{ strings.landing.about.whoWeAre.mission.h1 }</span>
-                    &nbsp;
-                    { strings.landing.about.whoWeAre.mission.m2 }
-                    &nbsp;
-                    <span className="text-ukraine-blue">{ strings.landing.about.whoWeAre.mission.h2 }</span>
-                    &nbsp;
-                    { strings.landing.about.whoWeAre.mission.m3 }
-                    &nbsp;
-                    <span className="text-ukraine-blue">{ strings.landing.about.whoWeAre.mission.h3 }</span>
-                    &nbsp;
-                    { strings.landing.about.whoWeAre.mission.m4 }
+                <div className="text-2xl md:text-4xl font-bold text-left md:text-center max-w-4xl mx-auto">
+                    <span className="leading-relaxed">
+                        { strings.landing.about.whoWeAre.mission.m1 }
+                        &nbsp;
+                        <span className="text-ukraine-blue">{ strings.landing.about.whoWeAre.mission.h1 }</span>
+                        &nbsp;
+                        { strings.landing.about.whoWeAre.mission.m2 }
+                        &nbsp;
+                        <span className="text-ukraine-blue">{ strings.landing.about.whoWeAre.mission.h2 }</span>
+                        &nbsp;
+                        { strings.landing.about.whoWeAre.mission.m3 }
+                        &nbsp;
+                        <span className="text-ukraine-blue">{ strings.landing.about.whoWeAre.mission.h3 }</span>
+                        &nbsp;
+                        { strings.landing.about.whoWeAre.mission.m4 }
+                    </span>
                 </div>
             </div>
 
