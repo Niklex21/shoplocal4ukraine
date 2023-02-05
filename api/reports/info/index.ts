@@ -5,7 +5,7 @@ import { ReportEditInfoModel } from "./types"
 import { Table, FieldSet } from 'airtable'
 import { processError } from '@api/_error'
 
-const logger = log.with({ from: "api.reports" })
+const logger = log.with({ from: "api.reports.info.index" })
 
 const table : Table<FieldSet> = _base("tblIkXnNpCQFa1WXC") ?? _base("Missing/incorrect info")
 

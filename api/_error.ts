@@ -5,6 +5,7 @@ enum ErrorType {
     InvalidCountry = "Invalid Country",
     InvalidBusinessView = "Invalid Business View",
     InvalidTag = "Invalid Tag",
+    InvalidFeedbackCategory = "Invalid Feedback Category"
 }
 
 /**

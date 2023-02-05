@@ -26,7 +26,7 @@ async function handler(req: AxiomAPIRequest, res: NextApiResponse) {
 
         if (result) {
             logger.debug(`Successfully added report ${ result }`)
-            return res.status(200).json({ reportNumber: result })
+            return res.status(200).send({ reportNumber: result })
         }
 
         throw Error("Report could not be added, try again")

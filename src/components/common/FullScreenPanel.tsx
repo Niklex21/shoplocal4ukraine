@@ -48,7 +48,7 @@ export default function FullScreenPanel({ className, panelState, closePanel, chi
             <div
                 className={
                     twMerge(
-                        "absolute top-0 left-0 w-screen h-screen z-50 bg-black opacity-20",
+                        "fixed top-0 left-0 w-screen h-screen z-50 bg-black opacity-20",
                         panelState === PanelState.Closed ? "hidden" : ""
                     )
                 }
@@ -57,7 +57,7 @@ export default function FullScreenPanel({ className, panelState, closePanel, chi
             <div
                 className={
                     twMerge(
-                        `rounded-none md:rounded-lg z-50 absolute flex flex-col gap-4 bg-white p-6 justify-center overflow-auto max-w-full md:max-h-full w-full h-full ${ positionStyles } `,
+                        `rounded-none md:rounded-lg z-50 fixed flex flex-col gap-4 bg-white p-6 justify-center overflow-auto max-w-full md:max-h-full w-full h-full ${ positionStyles } `,
                         panelState === PanelState.Closed ? "hidden" : "",
                         className
                     )

@@ -7,6 +7,10 @@ const strings_en = {
         reportError: "Report a problem with the website",
         pages: {
             home: 'Home'
+        },
+        giveFeedback: {
+            full: "Give feedback/report a bug",
+            short: "Feedback"
         }
     },
     app: {
@@ -16,6 +20,10 @@ const strings_en = {
             fieldRequired: 'This field is required',
         },
         submit: 'Submit',
+        feedbackReport: {
+            bug: 'Bug',
+            suggestion: 'Suggestion'
+        }
     },
     landing: {
         about: {
@@ -282,6 +290,22 @@ const strings_en = {
             timedOut: 'Your request timed out :( Try again in a few seconds.',
             tryAgain: 'Try Again',
             error: 'An unknown error occurred :( Try again in a few seconds.'
+        },
+        feedbackPanel: {
+            title: 'Leave feedback',
+            success: 'Success!',
+            thankYou:
+                'Thank you for giving us feedback!.\nWe will do our best to implement it as soon as we can.\nIn the meantime, please do not hesitate to contact us if there is any other information you would like to bring to our attention. 🙂',
+            closePanel: 'Click here to close this dialog.',
+            caseNumber: 'Your ticket number is ',
+            contentPlaceholder: "Please be as detailed as possible in your feedback.",
+            contentFieldLabel: "Explain your feedback (required)",
+            contactPlaceholder: "Please provide your contact information (name and phone/email/social media) in case we need to reach out to you regarding this request. This is optional.",
+            contactFieldLabel: "Your contact info (optional)",
+            timedOut: 'Your request timed out :( Try again in a few seconds.',
+            tryAgain: 'Try Again',
+            error: 'An unknown error occurred :( Try again in a few seconds. If this error persists, please email us at shoplocal4ukraine@gmail.com.',
+            categoryFieldLabel: "Feedback category"
         },
         infoEditPanel: {
             title: 'Add/edit information',

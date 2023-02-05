@@ -19,6 +19,7 @@ import defaults from "@utils/config";
 import { BrowserView, isMobile, MobileView } from "react-device-detect";
 import { paperClasses } from "@mui/material/Paper";
 import { Tag } from "@api/business/types";
+import FeedbackPanel from "./FeedbackPanel";
 
 type Props = {
     className?: string,
@@ -38,6 +39,7 @@ export const InfoPanel = ({ className, panelState, setPanelState }: Props) => {
     const [ sharePanelState, setSharePanelState ] = useState<PanelState>(PanelState.Closed)
     const [ reportPanelState, setReportPanelState ] = useState<PanelState>(PanelState.Closed)
     const [ infoEditPanelState, setInfoEditPanelState ] = useState<PanelState>(PanelState.Closed)
+    const [ feedbackPanelState, setFeedbackPanelState ] = useState<PanelState>(PanelState.Closed)
 
     // add a component to the logger object
     logger = logger.with(({ component: "Info" }))
@@ -226,6 +228,12 @@ export const InfoPanel = ({ className, panelState, setPanelState }: Props) => {
                             </>
                         )
                     }
+
+                    {/* GIVE FEEDBACK SECTION */}
+                    <hr />
+                    <span className="flex italic cursor-pointer underline text-slate-400 text-base hover:text-ukraine-blue" onClick={ () => setFeedbackPanelState(PanelState.Open) }>
+                        { strings.all.giveFeedback.full }
+                    </span>
                 </div>
             </CardContent>
         </Card>
@@ -301,6 +309,10 @@ export const InfoPanel = ({ className, panelState, setPanelState }: Props) => {
                     </Drawer>
                 )
             }
+            <FeedbackPanel
+                panelState={ feedbackPanelState }
+                closePanel={ () => setFeedbackPanelState(PanelState.Closed)}
+            />
             <SharePanel
                 panelState={ sharePanelState }
                 closePanel={ () => setSharePanelState(PanelState.Closed) }

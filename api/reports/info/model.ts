@@ -1,7 +1,7 @@
 import { log } from "next-axiom";
 import { ReportEditInfoModel } from "./types";
 
-const logger = log.with({ "from": "api.reports.model" })
+const logger = log.with({ "from": "api.reports.info.model" })
 
 /**
  * Converts a given {@link ReportEditInfoModel } to Airtable-accepted dictionary data.

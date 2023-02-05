@@ -1,6 +1,7 @@
 // This contains a variety of different model-to-text converter functions.
 
 import { Tag, BusinessCategory } from "@api/business/types";
+import { FeedbackCategory } from "@api/reports/feedback/types";
 import { ErrorType, processError } from "@api/_error";
 import { Views } from "@appTypes/businesses";
 import strings from "./strings";
@@ -61,6 +62,23 @@ export function businessViewConverter(view: Views) : string {
             return strings.businesses.businessView.titleViewMap;
         default:
             processError(ErrorType.InvalidBusinessView, `BusinessView provided: ${ view }`);
+            return "Invalid"
+    }
+}
+
+/**
+ * Converts a given feedback category into the appropriate text string.
+ * @param category a feedback category
+ * @returns the category as a string
+ */
+export function feedbackCategoryConverter(category: FeedbackCategory) : string {
+    switch(category) {
+        case FeedbackCategory.Bug:
+            return strings.app.feedbackReport.bug;
+        case FeedbackCategory.Suggestion:
+            return strings.app.feedbackReport.suggestion;
+        default:
+            processError(ErrorType.InvalidFeedbackCategory, `Feedback category provided: ${ category }`)
             return "Invalid"
     }
 }

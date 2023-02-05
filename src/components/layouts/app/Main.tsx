@@ -3,21 +3,20 @@ import { ReactNode, useState } from 'react'
 import Head from 'next/head'
 import favicon from '@public/images/favicon.png'
 import strings from '@utils/strings'
-import { Menu as IconMenu } from "@mui/icons-material"
-import { IconButton, Tooltip } from '@mui/material'
+import { Feedback } from "@mui/icons-material"
 import { PanelState } from '@appTypes/businesses'
-import { AppMenu } from '../../common/AppMenu'
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify'
 import Script from 'next/script'
-import { isMobile } from 'react-device-detect'
-import { useAtom } from 'jotai'
+import FeedbackPanel from '@components/business/FeedbackPanel'
 
 type Props = {
     children?: ReactNode
 }
 
 export default function AppMainLayout({ children }: Props) {
+
+    const [ feedbackPanelState, setFeedbackPanelState ] = useState<PanelState>(PanelState.Closed)
 
     return (
         <>
@@ -45,6 +44,15 @@ export default function AppMainLayout({ children }: Props) {
             <div className="h-screen w-screen p-0 m-0 bg-white max-h-screen flex">
                 { children }
             </div>
+            {/* FEEDBACK TIP */}
+            <div className="flex -rotate-90 gap-2 fixed right-0 origin-bottom-right top-1/4 flex-row z-40 bg-ukraine-blue cursor-pointer hover:bg-ukraine-yellow hover:text-oxford-blue text-white px-4 py-2 rounded-t-md" onClick={ () => setFeedbackPanelState(PanelState.Open) }>
+                <Feedback />
+                { strings.all.giveFeedback.short }
+            </div>
+            <FeedbackPanel
+                panelState={ feedbackPanelState }
+                closePanel={ () => setFeedbackPanelState(PanelState.Closed)}
+            />
             <ToastContainer
                 position="bottom-left"
                 autoClose={5000}

@@ -64,10 +64,6 @@ const links : Array<Section> = [
           link: '/about',
         },
         {
-          text: strings.landing.footer.sections.pages.blog,
-          link: '/blog'
-        },
-        {
           text: strings.landing.footer.sections.pages.join,
           link: '/join'
         }
