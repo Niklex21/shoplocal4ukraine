@@ -7,7 +7,7 @@ import { BusinessViewContext } from "src/pages/businesses"
 import { twMerge } from "tailwind-merge"
 
 import { FeatureCollection, Point } from "geojson"
-import { atomCurrentBusiness, atomMapDragState, atomSearchedBusinesses, atomSelectedBusinessID, atomSelectedFromSearch } from "src/atoms/businesses"
+import { atomCurrentBusiness, atomMapDragState, atomMapStyleState, atomSearchedBusinesses, atomSelectedBusinessID, atomSelectedFromSearch } from "src/atoms/businesses"
 import { Layers as IconLayers, SatelliteAlt as IconSatellite, Streetview as IconStreets } from "@mui/icons-material"
 import { useAtom } from "jotai"
 import { MapDragState, MapStyle } from "@appTypes/businesses"
@@ -47,7 +47,7 @@ export const MapView = ({ infoPanelOpen, className } : Props) => {
     const [ hoverID, setHoverID ] = useState<string>("")
 
     // stores the current map style (streets/satellite, etc.)
-    const [ mapStyleState, setMapStyleState ] = useState<MapStyle>(MapStyle.Streets)
+    const [ mapStyleState, setMapStyleState ] = useAtom(atomMapStyleState)
     // tracks whether or not we should be showing the layer options right now
     const [ layersVisibleState, setLayersVisibleState ] = useState<boolean>(false)
     
@@ -344,18 +344,18 @@ export const MapView = ({ infoPanelOpen, className } : Props) => {
                                     <IconButton
                                         className={
                                             twMerge(
-                                                "ring-current ring-2 drop-shadow-md p-3 transition-all duration-200",
+                                                "ring-current drop-shadow-md ring-0 p-3 transition-all duration-200",
                                                 (
                                                     mapStyle === MapStyle.Satellite
-                                                    ? "text-ukraine-blue hover:bg-ukraine-blue hover:ring-ukraine-blue hover:text-white"
-                                                    : "text-white hover:bg-white hover:ring-white hover:text-ukraine-blue"
+                                                    ? "bg-oxford-blue text-white hover:brightness-110 hover:bg-oxford-blue"
+                                                    : "bg-white text-oxford-blue hover:brightness-90 hover:bg-white"
                                                 ),
                                                 "md:hidden md:group-hover:flex",
                                                 layersVisibleState ? "flex" : "hidden",
                                                 mapStyleState === mapStyle ? (
                                                     mapStyle === MapStyle.Satellite
-                                                    ? "text-slate-500 ring-slate-500 hover:bg-transparent hover:text-slate-500 hover:ring-slate-500"
-                                                    : "text-slate-400 ring-slate-400 hover:bg-transparent hover:text-slate-400 hover:ring-slate-400"
+                                                    ? "text-slate-500 bg-slate-400 hover:bg-slate-400 hover:brightness-100"
+                                                    : "text-slate-400 bg-slate-500 hover:bg-slate-500 hover:brightness-100"
                                                 ) : ""
                                             )
                                         }
@@ -369,7 +369,14 @@ export const MapView = ({ infoPanelOpen, className } : Props) => {
                     }
                     <Tooltip title={ strings.businesses.mapView.layers } arrow={ true } placement="right">
                         <IconButton
-                            className="bg-ukraine-blue drop-shadow-md group-hover:bg-ukraine-blue group-hover:brightness-110 text-white p-3 transition-all duration-200"
+                            className={
+                                twMerge(
+                                    mapStyleState === MapStyle.Satellite
+                                    ? "bg-white text-oxford-blue group-hover:brightness-90 group-hover:bg-white"
+                                    : "bg-oxford-blue group-hover:bg-oxford-blue group-hover:brightness-110 text-white",
+                                    "drop-shadow-md p-3 transition-all duration-200"
+                                )
+                            }
                             onClick={ () => setLayersVisibleState(true) }
                         >
                             <IconLayers />

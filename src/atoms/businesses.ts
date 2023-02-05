@@ -1,5 +1,5 @@
 import { BusinessCategory, BusinessModel, Tag } from "@api/business/types";
-import { MapDragState, SearchedSerializedBusiness, SerializedBusinessModel, Views } from "@appTypes/businesses";
+import { MapDragState, MapStyle, SearchedSerializedBusiness, SerializedBusinessModel, Views } from "@appTypes/businesses";
 import { atom } from "jotai";
 import Fuse from "fuse.js"
 import { atomWithHash } from "jotai/utils";
@@ -15,6 +15,11 @@ const atomView = atomWithHash(LOCAL_STORAGE_KEYS.atomView, Views.Gallery, { dela
  * Stores whether or not the map is being moved right now.
  */
 const atomMapDragState = atom<MapDragState>(MapDragState.Off)
+
+/**
+ * Stores the current map state (satellite or streets, for example).
+ */
+const atomMapStyleState = atom<MapStyle>(MapStyle.Streets)
 
 /**
  * Stores the currently selected business ID.
@@ -125,5 +130,6 @@ export {
     atomFuseSearch,
     atomSearchedBusinesses,
     atomCurrentBusiness,
-    atomSelectedFromSearch
+    atomSelectedFromSearch,
+    atomMapStyleState
 }

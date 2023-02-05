@@ -1,19 +1,18 @@
-import { Button, Container, Fab, IconButton, ToggleButton, ToggleButtonGroup, Tooltip } from "@mui/material";
+import { Button, IconButton, Tooltip } from "@mui/material";
 import { businessViewConverter } from "@utils/converters";
 import { ReactNode, useContext } from "react";
 import { BusinessViewContext } from "src/pages/businesses";
-import { PanelState, Views } from "@appTypes/businesses";
+import { MapStyle, Views } from "@appTypes/businesses";
 import { twMerge } from "tailwind-merge";
 import { GalleryView } from "./GalleryView";
 import { MapView } from "./MapView";
-import { Map as IconMap, Collections as IconCollections, Add as IconAdd, HdrStrongSharp, Menu as IconMenu } from '@mui/icons-material'
+import { Map as IconMap, Collections as IconCollections, Add as IconAdd } from '@mui/icons-material'
 import { useAtom } from "jotai";
-import { atomCurrentBusiness, atomView } from "src/atoms/businesses";
+import { atomCurrentBusiness, atomMapStyleState, atomView } from "src/atoms/businesses";
 import strings from "@utils/strings"
-import { isEmpty } from "@utils/utils";
-import { isMobile } from "react-device-detect";
 import { toast } from "react-toastify";
 import { atomWithStorage } from "jotai/utils";
+import Link from "next/link";
 
 /**
  * Tracks whether or not it's the first time the user visits this page.
@@ -37,6 +36,8 @@ export const BusinessView = ({ infoPanelOpen, className, children }: Props) => {
 
     const [view, setView] = useAtom(atomView);
     const [ selectedBusiness ] = useAtom(atomCurrentBusiness)
+
+    const [ mapStyleState ] = useAtom(atomMapStyleState)
 
     let { logger } = useContext(BusinessViewContext);
     logger = logger.with({ component: 'BusinessView' })
@@ -90,7 +91,14 @@ export const BusinessView = ({ infoPanelOpen, className, children }: Props) => {
                 )}
             >
                 <Button
-                    className="absolute left-1/2 bottom-4 focus:bg-ukraine-blue -translate-x-1/2 z-40 drop-shadow-md rounded-full bg-ukraine-blue text-white normal-case font-bold py-3 px-4"
+                    className={
+                        twMerge(
+                            mapStyleState === MapStyle.Streets || view === Views.Gallery
+                            ? "hover:bg-oxford-blue hover:brightness-110 bg-oxford-blue text-white"
+                            : "hover:bg-white hover:brightness-90 bg-white text-oxford-blue",
+                            "absolute left-1/2 bottom-4 -translate-x-1/2 z-40 drop-shadow-md rounded-full normal-case font-bold py-3 px-4"
+                        )
+                    }
                     onClick={ toggleViewSelection }
                     variant="contained"
                 >
@@ -100,6 +108,24 @@ export const BusinessView = ({ infoPanelOpen, className, children }: Props) => {
                     &nbsp;
                     { alternativeViewIcon }
                 </Button>
+                <div className="flex absolute bottom-4 right-10">
+                    <Tooltip title={ strings.businesses.businessView.tooltipAddBusiness } arrow={ true } placement="left">
+                        <Link href="/join" target="_blank">
+                            <IconButton
+                                className={
+                                    twMerge(
+                                        mapStyleState === MapStyle.Satellite
+                                        ? "bg-white text-oxford-blue hover:brightness-90 hover:bg-white"
+                                        : "bg-oxford-blue hover:bg-oxford-blue hover:brightness-110 text-white",
+                                        "drop-shadow-md p-3 transition-all duration-200"
+                                    )
+                                }
+                            >
+                                <IconAdd />
+                            </IconButton>
+                        </Link>
+                    </Tooltip>
+                </div>
             </div>
             { children }
         </div>
