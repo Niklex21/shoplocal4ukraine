@@ -63,7 +63,7 @@ const team : Array<Person> = [
         name: "Fedor Goryanyy",
         profilePictureURL: ImageFedor.src,
         role: "Software Engineer",
-        description: "In his free time, Fedor bikes and bakes pastries.",
+        description: "Apart from going to school, Fedor also enjoys swimming, cooking, reading, and sharing food with his cat.",
         gifURL: "",
         email: "fedorgny@gmail.com",
         linkedin: "https://www.linkedin.com/in/goryanyy/"
