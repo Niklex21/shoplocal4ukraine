@@ -377,7 +377,7 @@ export const MapView = ({ infoPanelOpen, className } : Props) => {
                                     "drop-shadow-md p-3 transition-all duration-200"
                                 )
                             }
-                            onClick={ () => setLayersVisibleState(true) }
+                            onClick={ () => layersVisibleState ? setLayersVisibleState(false) : setLayersVisibleState(true) }
                         >
                             <IconLayers />
                         </IconButton>

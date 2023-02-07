@@ -9,6 +9,7 @@ import FullScreenPanel from "@components/common/FullScreenPanel"
 import { useState } from "react"
 import FeedbackPanel from "@components/business/FeedbackPanel"
 import strings from "@utils/strings"
+import ImageWithFallback from "./ImageWithFallback"
 
 type Props = {
     className?: string,
@@ -27,7 +28,7 @@ type Props = {
         <div className="grid grid-cols-2 md:grid-cols-3 w-full items-center">
             <div className="flex items-center md:col-span-2 max-w-xs">
                 <Link href="/">
-                    <Image
+                    <ImageWithFallback
                         src={ Logo }
                         className="object-contain object-left"
                         alt="Logo"

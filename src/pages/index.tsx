@@ -12,6 +12,7 @@ import Image from "next/image"
 import "pure-react-carousel/dist/react-carousel.es.css";
 import { IconButton } from "@mui/material";
 import { isMobile } from "react-device-detect";
+import ImageWithFallback from "@components/common/ImageWithFallback";
 
 type Benefit = {
   icon: ReactNode,
@@ -94,7 +95,7 @@ const Home: NextPageWithLayout = () => {
                     <div className="flex flex-col max-w-sm gap-2 py-16 w-full">
                       <div className="flex relative w-full h-64 rounded-lg">
                         <a href={ link }>
-                          <Image src={image.src} fill={ true } className="object-contain cursor-pointer hover:brightness-105 shadow-md rounded-md" alt="Business Profile Picture" />
+                          <ImageWithFallback src={image.src} fill={ true } className="object-contain cursor-pointer hover:brightness-105 shadow-md rounded-md" alt="Business Profile Picture" />
                         </a>
                       </div>
                       <div className="flex flex-col">
@@ -146,7 +147,7 @@ const Home: NextPageWithLayout = () => {
                       <div className="flex w-full">
                           <div className="md:py-16 flex flex-col md:grid md:grid-cols-2">
                               <div className="relative hidden md:flex">
-                                  <Image src={ image.src } fill={ true } alt="Profile photo" className="w-full h-full flex-shrink-0 object-fit object-cover shadow-lg rounded" />
+                                  <ImageWithFallback src={ image.src } fill={ true } alt="Profile photo" className="w-full h-full flex-shrink-0 object-fit object-cover shadow-lg rounded" />
                                   <div className="w-32 md:flex hidden items-center justify-center absolute top-0 -mr-16 -mt-14 right-0 h-32 bg-indigo-100 rounded-full">
                                       {/* eslint-disable-next-line @next/next/no-img-element */}
                                       <img src="https://tuk-cdn.s3.amazonaws.com/can-uploader/testimonial-svg1.svg" alt="commas" />
@@ -158,7 +159,7 @@ const Home: NextPageWithLayout = () => {
                                   </div>
                                   <div className="flex flex-col mt-8 gap-2 justify-center w-full md:justify-left ">
                                       <div className="flex relative md:hidden w-32 h-32">
-                                        <Image src={ image.src } fill={ true } alt="Profile photo" className="w-full h-full flex-shrink-0 object-fit object-cover shadow-lg rounded" />
+                                        <ImageWithFallback src={ image.src } fill={ true } alt="Profile photo" className="w-full h-full flex-shrink-0 object-fit object-cover shadow-lg rounded" />
                                       </div>
                                       <div>
                                         <p className="font-medium text-xl">{ name }</p>

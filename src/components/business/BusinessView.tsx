@@ -114,9 +114,9 @@ export const BusinessView = ({ infoPanelOpen, className, children }: Props) => {
                             <IconButton
                                 className={
                                     twMerge(
-                                        mapStyleState === MapStyle.Satellite
-                                        ? "bg-white text-oxford-blue hover:brightness-90 hover:bg-white"
-                                        : "bg-oxford-blue hover:bg-oxford-blue hover:brightness-110 text-white",
+                                        mapStyleState === MapStyle.Streets || view === Views.Gallery
+                                        ? "hover:bg-oxford-blue hover:brightness-110 bg-oxford-blue text-white"
+                                        : "hover:bg-white hover:brightness-90 bg-white text-oxford-blue",
                                         "drop-shadow-md p-3 transition-all duration-200"
                                     )
                                 }

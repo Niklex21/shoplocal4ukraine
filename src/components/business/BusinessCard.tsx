@@ -10,6 +10,8 @@ import { getBusinessProfileImageSrc } from "@utils/utils"
 import { BadgesRow } from "./BadgesRow"
 import Image from "next/image"
 import strings from "@utils/strings"
+import ImageWithFallback from "@components/common/ImageWithFallback"
+import defaults from "@utils/config"
 
 /**
  * A business card that displays basic (preview) information about a business.
@@ -22,7 +24,8 @@ export default function BusinessCard({ data, active } : { data: BusinessModel, a
     return (
         <div className={ `transition-all duration-200 relative p-1 pb-3 bg-white group flex flex-col w-full md:min-w-[12rem] md:max-w-[20rem] gap-3 shrink rounded-lg hover:drop-shadow-xl ${ active ? "drop-shadow-xl" : "" }` }>
             <div className="flex relative w-full h-64 md:aspect-[5/3] md:h-auto">
-                <Image
+                <ImageWithFallback
+                    fallbackImageSrc={ defaults.businesses.gallery.defaultImage }
                     src={ imageSrc }
                     alt={ data.name }
                     fill={ true }

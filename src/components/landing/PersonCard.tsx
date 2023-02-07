@@ -8,6 +8,7 @@ import { AiFillBehanceCircle as IconBehance } from "react-icons/ai"
 import { IconLinkText } from "@appTypes/businesses";
 import { IconButton, Tooltip } from "@mui/material";
 import strings from "@utils/strings"
+import ImageWithFallback from "@components/common/ImageWithFallback";
 
 export function PersonCard({ name, profilePictureURL, role, description, gifURL, website, email, linkedin, instagram, behance, github } : Person) {
 
@@ -66,7 +67,7 @@ export function PersonCard({ name, profilePictureURL, role, description, gifURL,
     return (
         <div className="flex flex-col justify-center text-oxford-blue">
             <div className="flex justify-center w-64 h-64 relative mx-auto">
-                <Image
+                <ImageWithFallback
                     src={ currentImageURL }
                     alt="Profile Picture"
                     className="object-cover rounded-full"

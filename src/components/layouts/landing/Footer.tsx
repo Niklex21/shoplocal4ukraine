@@ -7,6 +7,7 @@ import { Email, Facebook, Instagram, LinkedIn, Message, Phone, Telegram, Twitter
 import { links as sections } from "@utils/config"
 import { IconLinkText } from "@appTypes/businesses";
 import { Tooltip, IconButton } from "@mui/material";
+import ImageWithFallback from "@components/common/ImageWithFallback";
 
 const socials : Array<IconLinkText> = [
   {
@@ -57,7 +58,7 @@ export default function Footer() {
         <div className="flex flex-col gap-6 mb-8 col-span-2">
           <div className="flex h-16 w-1/3 relative">
             <Link href="/">
-              <Image
+              <ImageWithFallback
                 src={ logo }
                 alt="logo"
                 fill={ true }

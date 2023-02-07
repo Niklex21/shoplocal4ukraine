@@ -10,6 +10,7 @@ import { Menu as IconMenu } from '@mui/icons-material'
 import { AppMenu } from '@components/common/AppMenu'
 import { PanelState } from '@appTypes/businesses'
 import { useState } from 'react'
+import ImageWithFallback from '@components/common/ImageWithFallback'
 
 const links: Array<LinkType> = [
   {
@@ -47,13 +48,13 @@ export default function Navbar({ current }: { current: Page }) {
       <div className="hidden md:flex sticky flex-row justify-between w-full h-24 left-0 top-0 py-6 px-16 bg-white drop-shadow-sm z-10">
         <div className="flex h-full w-full relative">
           <Link href="/">
-            <Image
+            <ImageWithFallback
               src={ Logo }
               fill={ true }
               className="hidden xl:flex object-contain cursor-pointer object-left"
               alt="Logo"
             />
-            <Image
+            <ImageWithFallback
               src={ LogoNoText }
               fill={ true }
               className="flex xl:hidden object-contain cursor-pointer object-left"
@@ -82,7 +83,7 @@ export default function Navbar({ current }: { current: Page }) {
       <div className="flex md:hidden relative z-40 h-24 p-6 w-full top-0 left-0 bg-white drop-shadow-sm justify-between">
         <div className="flex h-full w-full relative">
           <Link href="/">
-            <Image
+            <ImageWithFallback
               src={ Logo }
               fill={ true }
               className="flex xl:hidden object-contain object-left"

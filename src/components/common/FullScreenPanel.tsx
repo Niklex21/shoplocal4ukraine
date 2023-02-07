@@ -64,7 +64,7 @@ export default function FullScreenPanel({ className, panelState, closePanel, chi
                 }
             >
                 <div className="flex flex-row justify-between gap-8 text-lg items-center relative md:p-0 w-full">
-                    { title }
+                    <span className="font-bold">{ title }</span>
                     <IconButton
                         aria-label="open sharing panel"
                         onClick={ closePanel }

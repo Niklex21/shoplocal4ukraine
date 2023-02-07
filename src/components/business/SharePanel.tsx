@@ -5,7 +5,7 @@ import strings from "@utils/strings"
 import { atom, useAtom } from "jotai"
 import { twMerge } from "tailwind-merge"
 import Image from 'next/image'
-import { LOCAL_STORAGE_KEYS } from "@utils/config"
+import defaults, { LOCAL_STORAGE_KEYS } from "@utils/config"
 import { ContentCopy as IconCopy, Facebook, Instagram, LinkedIn, Message, Telegram, Twitter, WhatsApp } from "@mui/icons-material"
 import { Checkbox, FormControlLabel, FormGroup, IconButton, Tooltip } from "@mui/material"
 import { atomWithStorage } from "jotai/utils"
@@ -13,6 +13,7 @@ import { getBusinessProfileImageSrc } from "@utils/utils"
 import { useEffect } from "react"
 import { toast } from "react-toastify"
 import Link from "next/link"
+import ImageWithFallback from "@components/common/ImageWithFallback"
 
 type Props = {
     className?: string,
@@ -123,11 +124,12 @@ export default function SharePanel({ className, panelState, closePanel }: Props)
         >
             <div className="flex flex-row gap-4 items-center">
                 <div className="relative flex h-16 w-16 rounded-lg">
-                    <Image
+                    <ImageWithFallback
                         className="max-w-xs object-cover rounded-lg"
                         src={ imageSrc }
                         fill={ true }
                         alt="Business Logo"
+                        fallbackImageSrc={ defaults.businesses.gallery.defaultImage }
                     />
                 </div>
                 <div className="flex flex-col gap-1">

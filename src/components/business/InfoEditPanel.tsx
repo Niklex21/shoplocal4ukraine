@@ -12,6 +12,7 @@ import { ReactNode, useState } from "react";
 import { Button, CircularProgress } from "@mui/material";
 import defaults from "@utils/config";
 import { log } from "next-axiom";
+import ImageWithFallback from "@components/common/ImageWithFallback";
 
 type Props = {
     className?: string,
@@ -166,11 +167,12 @@ export default function InfoEditPanel({ className, panelState, closePanel }: Pro
         >
             <div className="flex flex-row gap-4 items-center">
                 <div className="relative flex h-16 w-16 rounded-lg">
-                    <Image
+                    <ImageWithFallback
                         className="max-w-xs object-cover rounded-lg"
                         src={ imageSrc }
                         fill={ true }
                         alt="Business Logo"
+                        fallbackImageSrc={ defaults.businesses.gallery.defaultImage }
                     />
                 </div>
                 <div className="flex flex-col gap-1">

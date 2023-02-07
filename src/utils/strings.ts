@@ -96,7 +96,7 @@ const strings_en = {
                 title: "Roadmap"
             },
             wantToWorkWithUs: {
-                title: "Want to work with us?",
+                title: "Let's get in touch!",
                 text1: "Check out our open positions",
                 openPositionsLinkText: "here",
                 text2: ". If you don't find anything that fits you, shoot us an email at",

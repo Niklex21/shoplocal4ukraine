@@ -18,6 +18,7 @@ import { INFO } from "@utils/config"
 import Image from "next/image"
 import roadmapHorizontal from "@public/images/roadmap_horizontal.svg"
 import roadmapVertical from "@public/images/roadmap_vertical.svg"
+import ImageWithFallback from "@components/common/ImageWithFallback"
 
 const team : Array<Person> = [
     {
@@ -210,10 +211,10 @@ const About : NextPageWithLayout = () => {
                     <span className="relative">{ strings.landing.about.roadmap.title }</span>
                 </h1>
                 <div className="col-span-2 w-full h-full relative hidden md:flex -mb-32 -mt-16">
-                    <Image src={ roadmapHorizontal.src } width={8000} height={8000} alt="Roadmap" sizes="100vw" />
+                    <ImageWithFallback src={ roadmapHorizontal.src } width={8000} height={8000} alt="Roadmap" sizes="100vw" />
                 </div>
                 <div className="col-span-2 w-full h-full relative flex md:hidden">
-                    <Image src={ roadmapVertical.src } width={8000} height={8000} alt="Roadmap" sizes="100vw" />
+                    <ImageWithFallback src={ roadmapVertical.src } width={8000} height={8000} alt="Roadmap" sizes="100vw" />
                 </div>
             </div>
 

@@ -265,7 +265,6 @@ export const InfoPanel = ({ className, panelState, setPanelState }: Props) => {
                         open={ panelState === PanelState.Open }
                         onClose={ () => { setPanelState(PanelState.Closed); setSelectedID("") } }
                         onOpen={ () => setPanelState(PanelState.Open) }
-                        swipeAreaWidth={ defaults.businesses.infoPanel.bleedingArea }
                         disableSwipeToOpen={ false }
                         ModalProps={{
                             keepMounted: true
