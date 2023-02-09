@@ -11,6 +11,9 @@ const strings_en = {
         giveFeedback: {
             full: "Give feedback/report a bug",
             short: "Feedback"
+        },
+        error: {
+            goHome: "Go home"
         }
     },
     app: {
@@ -250,11 +253,15 @@ const strings_en = {
         businessView: {
             titleViewMap: 'Map',
             titleViewGallery: 'Gallery',
-            searchBarLabel: 'Search map',
             categorySelectLabel: 'Select categories',
             tagSelectLabel: 'Select tags',
             tooltipAddBusiness: 'Add a business',
             show: 'Show',
+            searchBar: {
+                tooltipSearchIcon: "Search",
+                tooltipClearIcon: "Clear search",
+                placeholder: "Search businesses"
+            }
         },
         categories: {
             crafts: 'Crafts',

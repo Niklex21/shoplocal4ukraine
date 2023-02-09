@@ -1,5 +1,5 @@
 import { PanelState } from "@appTypes/businesses";
-import ReportPanel from "@components/business/ReportPanel";
+import FeedbackPanel from "@components/business/FeedbackPanel";
 import strings from "@utils/strings"
 import Link from "next/link"
 import { useState } from "react";
@@ -11,20 +11,20 @@ interface Props {
 
 export default function ErrorFallback({ error, resetErrorBoundary }: Props) {
 
-    const [ reportPanelState, setReportPanelState ] = useState<PanelState>(PanelState.Closed)
+    const [ feedbackPanelState, setFeedbackPanelState ] = useState<PanelState>(PanelState.Closed)
 
     return (
         <>
-            <div className="h-full w-full flex items-center justify-center flex-col gap-2">
+            <div className="h-full w-full flex items-center justify-center flex-col gap-8">
                 <text className="text-2xl">{ strings.all.genericError }</text>
-                <text className="underline text-slate-700 italic hover:text-ukraine-blue" onClick={ () => setReportPanelState(PanelState.Open) }>
+                <text className="underline text-xl text-slate-700 italic hover:text-ukraine-blue cursor-pointer" onClick={ () => setFeedbackPanelState(PanelState.Open) }>
                     { strings.all.reportError }
                 </text>
-                <Link href="/">
-                    { strings.all.pages.home }
+                <Link href="/" className="text-lg underline hover:text-ukraine-blue">
+                    { strings.all.error.goHome }
                 </Link>
             </div>
-            <ReportPanel panelState={ reportPanelState } closePanel={ () => setReportPanelState(PanelState.Closed) } />
+            <FeedbackPanel panelState={ feedbackPanelState } closePanel={ () => setFeedbackPanelState(PanelState.Closed) } />
         </>
     )
 }

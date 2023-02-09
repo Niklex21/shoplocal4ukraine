@@ -59,6 +59,10 @@ const atomCurrentBusiness = atom<SerializedBusinessModel>(
     )
 )
 
+const atomIsBusinessSelected = atom<boolean>(
+    (get) => get(atomSelectedBusinessID).length > 0
+)
+
 /**
  * A read-only atom that stores businesses that are filtered according to the currently selected categories
  */
@@ -131,5 +135,6 @@ export {
     atomSearchedBusinesses,
     atomCurrentBusiness,
     atomSelectedFromSearch,
-    atomMapStyleState
+    atomMapStyleState,
+    atomIsBusinessSelected
 }
