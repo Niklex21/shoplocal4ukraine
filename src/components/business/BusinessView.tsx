@@ -13,6 +13,7 @@ import strings from "@utils/strings"
 import { toast } from "react-toastify";
 import { atomWithStorage } from "jotai/utils";
 import Link from "next/link";
+import SearchBar from "./SearchBar";
 
 /**
  * Tracks whether or not it's the first time the user visits this page.
@@ -79,8 +80,15 @@ export const BusinessView = ({ infoPanelOpen, className, children }: Props) => {
         setIsFirstTime(false)
     }
 
+    const filterBar = (
+        <div className="flex w-full sticky p-4 top-0 left-0 z-10 bg-white">
+            <SearchBar className="absolute" />
+        </div>
+    )
+
     return (
         <div className={ twMerge(`relative w-full flex flex-col overflow-auto h-full max-h-screen max-w-none p-0 transition-all duration-200`, className) }>
+            { filterBar }
             <ViewComponent infoPanelOpen={ infoPanelOpen ?? false } className="self-end" />
             {/* TODO: this should move based on the infopanel state, but so far I haven't been able to come up with an elegant solution */}
             <div className={

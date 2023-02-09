@@ -1,28 +1,23 @@
-import { GetServerSideProps, GetStaticProps, InferGetStaticPropsType } from "next"
+import { GetStaticProps, InferGetStaticPropsType } from "next"
 import React, { createContext, ReactElement, useEffect, useState } from "react"
 import 'mapbox-gl/dist/mapbox-gl.css'
 
-import { getPublishedRecords } from "@api/business"
 import { NextPageWithLayout } from "../_app"
 import { AppLayout } from "@layouts/app"
-import { BusinessCategory, BusinessModel, Tag } from "@api/business/types"
+import { BusinessModel } from "@api/business/types"
 
 import { log } from 'next-axiom'
-import { BusinessViewContextData, PanelState, SearchedSerializedBusiness } from "@appTypes/businesses"
+import { BusinessViewContextData, PanelState } from "@appTypes/businesses"
 import { BusinessView } from "@components/business/BusinessView"
 import { InfoPanel } from "@components/business/InfoPanel"
 
-import { atomSearchQuery, atomSelectedCategories, atomAllBusinesses, atomSelectedTags, atomCurrentBusiness, atomSearchedBusinesses, atomSelectedBusinessID, atomSelectedFromSearch } from "src/atoms/businesses"
+import { atomAllBusinesses, atomIsBusinessSelected, atomSelectedBusinessID } from "src/atoms/businesses"
 import { useAtom } from "jotai"
 import strings from "@utils/strings"
 
-import { Search as IconSearch, Close as IconClose, ArrowLeft as IconArrowLeft, ArrowRight as IconArrowRight, Menu as IconMenu } from "@mui/icons-material"
-import { businessCategoryConverter, tagConverter } from "@utils/converters"
-import { Checkbox, IconButton, InputBase, ListItemText, MenuItem, Select, SelectChangeEvent, Tooltip } from "@mui/material"
-import { BUSINESS_CATEGORIES, BUSINESS_TAGS } from "@utils/config"
-import { isEmpty } from "@utils/utils"
+import { ArrowLeft as IconArrowLeft, ArrowRight as IconArrowRight } from "@mui/icons-material"
+import { IconButton, Tooltip } from "@mui/material"
 import { twMerge } from "tailwind-merge"
-import { isMobile } from "react-device-detect"
 import { jsonToBusiness } from "@api/business/model"
 import { QueryParams } from "airtable/lib/query_params"
 import { FieldSet } from "airtable/lib/field_set"
@@ -48,19 +43,10 @@ const Main: NextPageWithLayout<Props> = ({ businesses }: InferGetStaticPropsType
 
     logger.with({ component: 'Main' }).debug("Loading Main...")
 
-    const [ selectedBusiness ] = useAtom(atomCurrentBusiness)
-    const [ searchQuery, setSearchQuery ] = useAtom(atomSearchQuery)
-    const [ selectedCategories, setSelectedCategories ] = useAtom(atomSelectedCategories)
-    const [ selectedTags, setSelectedTags ] = useAtom(atomSelectedTags)
-    const [ searchedBusinesses ] = useAtom(atomSearchedBusinesses)
     const [ , setAllBusinesses ] = useAtom(atomAllBusinesses)
-    const [ selectedBusinessId, setSelectedBusinessId ] = useAtom(atomSelectedBusinessID)
-    const [ selectedFromSearch, setSelectedFromSearch ] = useAtom(atomSelectedFromSearch)
+    const [ isBusinessSelected ] = useAtom(atomIsBusinessSelected)
 
     const [ infoPanelState, setInfoPanelState ] = useState<PanelState>(PanelState.Closed)
-
-    // stores whether or no the autocomplete for the search field should be displayed
-    const [ autoCompleteState, setAutoCompleteState ] = useState<boolean>(false)
 
     const [ menuState, setMenuState ] = useState<PanelState>(PanelState.Closed)
 
@@ -70,58 +56,12 @@ const Main: NextPageWithLayout<Props> = ({ businesses }: InferGetStaticPropsType
     }, [ businesses, setAllBusinesses ])
 
     useEffect(() => {
-        if (selectedBusinessId.length > 0) {
+        if (isBusinessSelected) {
             setInfoPanelState(PanelState.Open)
         } else {
             setInfoPanelState(PanelState.Closed)
         }
-    }, [ selectedBusinessId, setInfoPanelState ])
-
-    /**
-     * Handles change in the category selector.
-     */
-    const handleCategoryChange = (event: SelectChangeEvent<BusinessCategory[]>) => {
-
-        let target : Array<BusinessCategory> = []
-
-        if (typeof event.target.value === "string") {
-            let currentTarget : Array<string> = event.target.value.split(',')
-            currentTarget.forEach(
-                (category: string) => {
-                    if (category in BusinessCategory) {
-                        target.push(BusinessCategory[category as any] as unknown as BusinessCategory)
-                    }
-                }
-            )
-        } else {
-            target = event.target.value ?? []
-        }
-
-        setSelectedCategories(target)
-    }
-
-    /**
-     * Handles change in the tags selector.
-     */
-     const handleTagsChange = (event: SelectChangeEvent<Tag[]>) => {
-
-        let target : Array<Tag> = []
-
-        if (typeof event.target.value === "string") {
-            let currentTarget : Array<string> = event.target.value.split(',')
-            currentTarget.forEach(
-                (tag: string) => {
-                    if (tag in Tag) {
-                        target.push(Tag[tag as any] as unknown as Tag)
-                    }
-                }
-            )
-        } else {
-            target = event.target.value ?? []
-        }
-
-        setSelectedTags(target)
-    }
+    }, [ isBusinessSelected, setInfoPanelState ])
 
     // context vars to pass down to the child components
     const context = {
@@ -163,12 +103,12 @@ const Main: NextPageWithLayout<Props> = ({ businesses }: InferGetStaticPropsType
     )
 
     const content = (
-        <div className="flex h-full w-full" onClick={ () => setAutoCompleteState(false) }>
+        <div className="flex h-full w-full">
             <InfoPanel panelState={ infoPanelState } setPanelState={ setInfoPanelState } className="transition-all duration-200 md:w-1/2 lg:w-1/3 xl:w-1/3 2xl:w-1/4" />
             <div className={
                 twMerge(
                     "absolute top-1/2 hidden md:flex transition-all duration-200",
-                    selectedBusinessId.length > 0 ? "" : "md:hidden",
+                    isBusinessSelected ? "" : "md:hidden",
                     infoPanelState === PanelState.Closed ? "left-0" : "md:left-1/2 lg:left-1/3 xl:left-1/3 2xl:left-1/4"
                 )
             }>
@@ -191,127 +131,6 @@ const Main: NextPageWithLayout<Props> = ({ businesses }: InferGetStaticPropsType
             <BusinessViewContext.Provider value={ context }>
                 { content }
             </BusinessViewContext.Provider>
-            {/* the search bar */}
-            <div className="flex flex-col md:flex-row absolute top-2 left-2 gap-6 items-start z-40">
-                <div 
-                    className={ twMerge("flex flex-col bg-white rounded-lg drop-shadow-md px-2", autoCompleteState ? "pb-2" : "") } 
-                >
-                    {/* BROWSER VIEW */}
-                    <div className="flex-row gap-4 h-12 items-center hidden md:flex">
-                        <Tooltip title={ strings.app.tooltipMenuButton } placement="bottom" arrow={ true }>
-                            <IconButton onClick={ () => setMenuState(PanelState.Open) } >
-                                <IconMenu className="text-gray-600" />
-                            </IconButton>
-                        </Tooltip>
-                        <input
-                            placeholder={ strings.businesses.businessView.searchBarLabel }
-                            className="focus:outline-none bg-white w-44 lg:w-64"
-                            onChange={ e => setSearchQuery(e.target.value) }
-                            aria-label='search businesses'
-                            type="text"
-                            value={ searchQuery }
-                            onFocus={ () => setAutoCompleteState(true) }
-                        />
-                        <Tooltip title={ strings.app.tooltipClearSearch } placement="bottom" arrow={ true }>
-                            <IconButton 
-                                onClick={
-                                    () => {
-                                        setSearchQuery("")
-                                        setSelectedBusinessId("")
-                                        setAutoCompleteState(false)
-                                    }
-                                }
-                                disabled={ searchQuery.length === 0 }
-                            >
-                                {
-                                    searchQuery.length > 0
-                                    ? <IconClose />
-                                    : <IconSearch />
-                                }
-                            </IconButton>
-                        </Tooltip>
-                    </div>
-                    <hr className={ autoCompleteState ? "" : "hidden" } />
-                    <div className={ twMerge("flex flex-col items-start my-2", autoCompleteState ? "" : "hidden") }>
-                        {
-                            searchedBusinesses.length > 0 ?
-                            searchedBusinesses.slice(0, Math.max(1, Math.min(searchedBusinesses.length - 1, 4))).map(
-                                (b : SearchedSerializedBusiness, index: number) => (
-                                    <div
-                                        className="flex w-full p-2 bg-white hover:brightness-95 hover:cursor-pointer rounded-lg"
-                                        key={ index }
-                                        onClick={ 
-                                            () => {
-                                                setSearchQuery(b.item.name)
-                                                setSelectedBusinessId(b.item.id)
-                                                setAutoCompleteState(false)
-                                                setSelectedFromSearch(true)
-                                            }
-                                        }
-                                    >
-                                        { b.item.name }
-                                    </div>
-                                )
-                            )
-                            : strings.businesses.noBusinessesFoundShort
-                        }
-                    </div>
-                </div>
-                <div className="flex-col md:flex-row items-center drop-shadow-md gap-4 cursor-pointer hidden">
-                    <Select
-                        multiple
-                        displayEmpty
-                        value={ selectedCategories }
-                        onChange={ handleCategoryChange }
-                        input={ <InputBase className="bg-white w-44 lg:w-64 h-12 px-4 p-2 rounded-lg cursor-pointer" /> }
-                        renderValue={
-                            selected => {
-                                return selected.length > 0
-                                    ? selected.map(s => businessCategoryConverter(s)).join(', ')
-                                    : strings.businesses.businessView.categorySelectLabel
-                            }
-                        }
-                        className="outline-none cursor-pointer"
-                    >
-                        {
-                            BUSINESS_CATEGORIES.map(
-                                (value: BusinessCategory, index: number) => (
-                                    <MenuItem key={ index } value={ value }>
-                                        <Checkbox checked={ selectedCategories.indexOf( value ) > -1 } />
-                                        <ListItemText primary={ businessCategoryConverter(value) } />
-                                    </MenuItem>
-                                )
-                            )
-                        }
-                    </Select>
-                    <Select
-                        multiple
-                        displayEmpty
-                        value={ selectedTags }
-                        onChange={ handleTagsChange }
-                        input={ <InputBase className="bg-white w-44 lg:w-64 h-12 px-4 p-2 rounded-lg cursor-pointer" /> }
-                        renderValue={
-                            selected => {
-                                return selected.length > 0
-                                    ? selected.map(s => tagConverter(s)).join(', ')
-                                    : strings.businesses.businessView.tagSelectLabel
-                            }
-                        }
-                        className="outline-none cursor-pointer"
-                    >
-                        {
-                            BUSINESS_TAGS.map(
-                                (value: Tag, index: number) => (
-                                    <MenuItem key={ index } value={ value }>
-                                        <Checkbox checked={ selectedTags.indexOf( value ) > -1 } />
-                                        <ListItemText primary={ tagConverter(value) } />
-                                    </MenuItem>
-                                )
-                            )
-                        }
-                    </Select>
-                </div>
-            </div>
             {/* BACKDROP */}
             <div
                 className={
