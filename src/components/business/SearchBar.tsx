@@ -4,7 +4,7 @@ import { twMerge } from "tailwind-merge"
 import { Search as IconSearch, Clear as IconClear, Search as IconBusiness, Add } from "@mui/icons-material"
 import strings from "@utils/strings"
 import { useAtom } from "jotai"
-import { atomSearchQuery, atomCurrentQuery, atomAutocompleteSuggestions, atomSelectedBusinessID, atomSelectedCategories, atomSelectedTags } from "src/atoms/businesses"
+import { atomSearchQuery, atomCurrentQuery, atomAutocompleteSuggestions, atomSelectedBusinessID, atomSelectedCategories, atomSelectedTags, atomSelectedFromSearch } from "src/atoms/businesses"
 import { getAutocompleteCategoryIcon } from "@utils/converters"
 import Link from "next/link"
 import { AutocompleteSuggestionCategory } from "@appTypes/businesses"
@@ -18,6 +18,7 @@ export default function SearchBar({ className }: Props) {
     const [ showAutoComplete, setShowAutoComplete ] = useState<boolean>(false)
     const [ searchQuery, setSearchQuery ] = useAtom(atomSearchQuery)
     const [ currentQuery, setCurrentQuery ] = useAtom(atomCurrentQuery)
+    const [ selectedFromSearch, setSelectedFromSearch ] = useAtom(atomSelectedFromSearch)
     // stores the currently hovered state with arrow keys or mouse
     const [ currentHover, setCurrentHover ] = useState<number | null>(null)
     const [ autoCompleteOptions ] = useAtom(atomAutocompleteSuggestions)
@@ -31,8 +32,11 @@ export default function SearchBar({ className }: Props) {
     const inputRef = useRef<HTMLInputElement | null>(null)
 
     useEffect(() => {
-        if (currentQuery === "") setSearchQuery(currentQuery)
-    }, [ currentQuery, setSearchQuery ])
+        if (currentQuery === "") {
+            setSearchQuery(currentQuery)
+            if (selectedFromSearch) setBusinessId("")
+        }
+    }, [ currentQuery, setSearchQuery, setBusinessId, selectedFromSearch ])
 
     // reset whenever autoComplete is reset
     useEffect(() => {
@@ -84,6 +88,7 @@ export default function SearchBar({ className }: Props) {
             case AutocompleteSuggestionCategory.Business:
                 setCurrentQuery(option.text)
                 setBusinessId(option.properties?.businessId ?? "")
+                setSelectedFromSearch(true)
                 return
             case AutocompleteSuggestionCategory.Category:
                 setCurrentQuery(option.text + " | " + currentQuery)
