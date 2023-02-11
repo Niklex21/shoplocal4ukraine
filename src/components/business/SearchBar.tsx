@@ -4,10 +4,10 @@ import { twMerge } from "tailwind-merge"
 import { Search as IconSearch, Clear as IconClear, Search as IconBusiness, Add } from "@mui/icons-material"
 import strings from "@utils/strings"
 import { useAtom } from "jotai"
-import { atomSearchQuery, atomCurrentQuery, atomAutocompleteSuggestions, atomSelectedBusinessID, atomSelectedCategories, atomSelectedTags, atomSelectedFromSearch } from "src/atoms/businesses"
+import { atomSearchQuery, atomCurrentQuery, atomAutocompleteSuggestions, atomSelectedBusinessID, atomSelectedCategories, atomSelectedTags, atomSelectedFromSearch, atomSearchHistory } from "src/atoms/businesses"
 import { getAutocompleteCategoryIcon } from "@utils/converters"
 import Link from "next/link"
-import { AutocompleteSuggestionCategory } from "@appTypes/businesses"
+import { AutocompleteSuggestion, AutocompleteSuggestionCategory } from "@appTypes/businesses"
 
 type Props = {
     className?: string
@@ -28,8 +28,11 @@ export default function SearchBar({ className }: Props) {
     // this is needed because blur event prevents handling onmouseup in any form
     // this way, the behaviour is natural
     const [ autoCompleteClick, setAutocompleteClick ] = useState<boolean>(false)
+    const [ searchHistory, setSearchHistory ] = useAtom(atomSearchHistory)
     
     const inputRef = useRef<HTMLInputElement | null>(null)
+    // stores the values currently shown to the user, as we may know display search history, apart from the auto-complete-options
+    const currentOptions = currentQuery === "" ? searchHistory.slice(Math.max(searchHistory.length - 5, 0)).reverse() : autoCompleteOptions
 
     useEffect(() => {
         if (currentQuery === "") {
@@ -59,6 +62,21 @@ export default function SearchBar({ className }: Props) {
         )
     }
 
+    // a utility to push the current item to the search history storage
+    const addSearchHistory = (search: AutocompleteSuggestion) => {
+        if (searchHistory.length === 100) setSearchHistory(searchHistory.slice(1))
+
+        search = {
+            ...search,
+            history: true
+        }
+
+        setSearchHistory([
+            ...searchHistory,
+            search
+        ])
+    }
+
     /**
      * Updates the current hover counter by the value provided.
      * 
@@ -78,11 +96,17 @@ export default function SearchBar({ className }: Props) {
         // if we are not selecting anything from the options
         if (currentHover === null) {
             setSearchQuery(currentQuery)
+            addSearchHistory({
+                text: currentQuery,
+                category: AutocompleteSuggestionCategory.Search
+            })
             return
         }
 
         // the one we are choosing
-        let option = autoCompleteOptions[currentHover]
+        let option = currentOptions[currentHover]
+
+        addSearchHistory(option)
 
         switch (option.category) {
             case AutocompleteSuggestionCategory.Business:
@@ -98,6 +122,10 @@ export default function SearchBar({ className }: Props) {
                 setCurrentQuery(option.text + " | " + currentQuery)
                 setSelectedTags([...selectedTags, option.properties?.tagId ?? -1])
                 return 
+            case AutocompleteSuggestionCategory.Search:
+                setCurrentQuery(option.text)
+                setSearchQuery(option.text)
+                return
         }
     }
 
@@ -105,9 +133,9 @@ export default function SearchBar({ className }: Props) {
     const autoComplete = (
         <div className={ twMerge("relative bg-white py-2 rounded-b-lg", showAutoComplete ? "flex flex-col" : "hidden") }>
             {
-                autoCompleteOptions.length > 0
-                ? autoCompleteOptions.map(
-                    ({ text, category, matches }, index) => (
+                currentOptions.length > 0
+                ? currentOptions.map(
+                    ({ text, category, matches, ...props }, index) => (
                         <span
                             className={
                                 twMerge(
@@ -120,8 +148,8 @@ export default function SearchBar({ className }: Props) {
                             onMouseDown={ () => setAutocompleteClick(true) }
                             onMouseUp={ () => { setAutocompleteClick(false); triggerSelection(); } }
                         >
-                            <span className="flex my-auto text-slate-300">{ createElement(getAutocompleteCategoryIcon(category)) }</span>
-                            <span className="">{ getBoldText(text, matches ? matches[0].indices : []) }</span>
+                            <span className="flex my-auto text-slate-300">{ createElement(getAutocompleteCategoryIcon({ text, category, matches, ...props})) }</span>
+                            <span className="">{ matches && currentQuery !== "" ? getBoldText(text, matches[0].indices) : text }</span>
                         </span>
                     )
                 )

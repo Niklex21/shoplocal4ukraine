@@ -95,7 +95,8 @@ type SearchedSerializedBusiness = Fuse.FuseResult<SerializedBusinessModel>
 enum AutocompleteSuggestionCategory {
     Business,
     Category,
-    Tag
+    Tag,
+    Search
 }
 
 /**
@@ -114,7 +115,8 @@ type AutocompleteSuggestion = {
         businessId?: string,
         categoryId?: number,
         tagId?: number
-    }
+    },
+    history?: boolean
 }
 
 export type { IconLinkText, BusinessViewContextData, FilteredBusiness, SerializedBusinessModel, SearchedSerializedBusiness, AutocompleteSuggestion }

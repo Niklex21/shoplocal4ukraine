@@ -2,7 +2,7 @@ import { BusinessCategory, BusinessModel, Tag } from "@api/business/types";
 import { AutocompleteSuggestion, AutocompleteSuggestionCategory, MapDragState, MapStyle, SearchedSerializedBusiness, SerializedBusinessModel, Views } from "@appTypes/businesses";
 import { atom } from "jotai";
 import Fuse from "fuse.js"
-import { atomWithHash } from "jotai/utils";
+import { atomWithHash, atomWithStorage } from "jotai/utils";
 import { findBusinessById, serializeBusinessModel, serializedToSearchSerialized } from "@utils/utils";
 import { BUSINESS_CATEGORIES, BUSINESS_TAGS, LOCAL_STORAGE_KEYS } from "@utils/config";
 import { businessCategoryConverter, tagConverter } from "@utils/converters";
@@ -89,11 +89,16 @@ const atomFilteredBusinesses = atom<Array<BusinessModel>>(
 )
 
 /**
+ * Stores the last 100 items searched.
+ */
+const atomSearchHistory = atomWithStorage<Array<AutocompleteSuggestion>>(LOCAL_STORAGE_KEYS.atomSearchHistory, [])
+
+/**
  * Stores all possible autocomplete options.
  */
 const atomAutocompleteOptions = atom<Array<AutocompleteSuggestion>>(
     (get) => {
-        let list : Array<AutocompleteSuggestion> = []
+        let list : Array<AutocompleteSuggestion> = [...get(atomSearchHistory)]
 
         // add all businesses to the list of the autocomplete
         get(atomAllBusinesses).forEach(
@@ -227,5 +232,6 @@ export {
     atomMapStyleState,
     atomIsBusinessSelected,
     atomCurrentQuery,
-    atomAutocompleteSuggestions
+    atomAutocompleteSuggestions,
+    atomSearchHistory
 }

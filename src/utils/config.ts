@@ -95,7 +95,8 @@ const LOCAL_STORAGE_KEYS = {
   atomBusinessId: "business_id",
   atomSearch: "search",
   atomCategories: "categories",
-  atomTags: "tags"
+  atomTags: "tags",
+  atomSearchHistory: "search_history"
 }
 
 export default defaults
