@@ -11,7 +11,7 @@ async function handler(req: AxiomAPIRequest, res: NextApiResponse) {
         req.log.error(`Invalid token (given: ${ token })`)
         return res.status(401).json({ message: 'Invalid token' })
     }
-  
+
     try {
       await res.revalidate('/businesses')
       return res.json({ revalidated: true })

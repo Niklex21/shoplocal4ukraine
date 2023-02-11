@@ -50,7 +50,7 @@ export const MapView = ({ infoPanelOpen, className } : Props) => {
     const [ mapStyleState, setMapStyleState ] = useAtom(atomMapStyleState)
     // tracks whether or not we should be showing the layer options right now
     const [ layersVisibleState, setLayersVisibleState ] = useState<boolean>(false)
-    
+
     const longitude = selectedBusiness.location?.longitude ?? defaults.businesses.map.longitude
     const latitude = selectedBusiness.location?.latitude ?? defaults.businesses.map.latitude
     const zoom = isEmpty(selectedBusiness) ? defaults.businesses.map.zoom : defaults.businesses.map.businessViewZoom
@@ -98,8 +98,8 @@ export const MapView = ({ infoPanelOpen, className } : Props) => {
             ],
             "icon-size": 1.2,
             "text-size": 16,
-            "text-font": 
-                mapStyleState === MapStyle.Streets 
+            "text-font":
+                mapStyleState === MapStyle.Streets
                 ? ["Open Sans Regular","Arial Unicode MS Regular"]
                 : ["Open Sans Bold","Arial Unicode MS Bold"],
             "text-optional": true,
@@ -207,7 +207,7 @@ export const MapView = ({ infoPanelOpen, className } : Props) => {
                 { source: SOURCE_ID },
                 { selected: false }
             )
-    
+
             map?.setFeatureState(
                 { source: SOURCE_ID, id: selectedID },
                 { selected: true }
@@ -280,7 +280,7 @@ export const MapView = ({ infoPanelOpen, className } : Props) => {
                     );
                 }
             });
-                 
+
             // When the mouse leaves the business layer, update the feature state of the
             // previously hovered feature.
             map.on('mouseleave', BUSINESS_LAYER_ID, () => {

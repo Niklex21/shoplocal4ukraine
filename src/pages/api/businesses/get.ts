@@ -39,13 +39,13 @@ async function handler(req: AxiomAPIRequest, res: NextApiResponse) {
                         logger.debug(`Success: got ${ records.length } published records`)
                         return records.map((r: any) => jsonToBusiness(r._rawJson))
                     }
-                
+
                     logger.debug("No records found, returning empty")
                     return []
                 })
             .catch(err => { throw Error(String(err).toString()) })
             ?? []
-            
+
         logger.debug(`Loaded ${ businesses.length } businesses`)
 
         return res.status(200).json({ businesses })

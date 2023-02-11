@@ -73,8 +73,8 @@ const Main: NextPageWithLayout<Props> = ({ businesses }: InferGetStaticPropsType
     // due to the weird MUI stuff with overflows
     const ToggleStateButton = ({ className }: { className?: string }) => (
         <Tooltip
-            title={ 
-                infoPanelState === PanelState.Closed ? 
+            title={
+                infoPanelState === PanelState.Closed ?
                 strings.businesses.infoPage.tooltipOpenPanel
                 : strings.businesses.infoPage.tooltipClosePanel
             }
@@ -167,13 +167,13 @@ export const getStaticProps: GetStaticProps<Props> = async () => {
                     logger.debug(`Success: got ${ records.length } published records`)
                     return records.map((r: any) => jsonToBusiness(r._rawJson))
                 }
-            
+
                 logger.debug("No records found, returning empty")
                 return []
             })
            .catch(err => processError(err, "", logger.with({ "function": "_getRecordsByFormula" })))
         ?? []
-        
+
     logger.debug(`Loaded ${ businesses.length } businesses`)
 
     return {

@@ -36,7 +36,7 @@ export function QuickSearches({ className }: Props) {
             icon: Restaurant,
             action: () => {
                 setCurrentQuery(businessCategoryConverter(BusinessCategory.Restaurant))
-                setSelectedCategories([...selectedCategories, BusinessCategory.Restaurant]) 
+                setSelectedCategories([...selectedCategories, BusinessCategory.Restaurant])
             }
         },
         {
@@ -44,7 +44,7 @@ export function QuickSearches({ className }: Props) {
             icon: LocalCafe,
             action: () => {
                 setCurrentQuery(businessCategoryConverter(BusinessCategory.Cafe))
-                setSelectedCategories([...selectedCategories, BusinessCategory.Cafe]) 
+                setSelectedCategories([...selectedCategories, BusinessCategory.Cafe])
             }
         },
         {
@@ -52,7 +52,7 @@ export function QuickSearches({ className }: Props) {
             icon: ShoppingCart,
             action: () => {
                 setCurrentQuery(businessCategoryConverter(BusinessCategory.Shopping))
-                setSelectedCategories([...selectedCategories, BusinessCategory.Shopping]) 
+                setSelectedCategories([...selectedCategories, BusinessCategory.Shopping])
             }
         }
     ]

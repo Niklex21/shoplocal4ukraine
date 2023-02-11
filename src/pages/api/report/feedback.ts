@@ -33,7 +33,7 @@ async function handler(req: AxiomAPIRequest, res: NextApiResponse) {
         }
 
         throw Error("Report could not be added, try again")
-        
+
     } catch (e) {
         logger.error(`Server error while processing report request: ${e}`)
         return res.status(500).end()

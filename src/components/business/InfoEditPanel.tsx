@@ -23,7 +23,7 @@ type Props = {
 const logger = log.with({ "from": "components.business.InfoEditPanel" })
 
 export default function InfoEditPanel({ className, panelState, closePanel }: Props) {
-    
+
     const [ currentBusiness ] = useAtom(atomCurrentBusiness)
     // tracks whether or not the report is being submitted
     const [ submitStatus, setSubmitStatus ] = useState<SubmitStatus>(SubmitStatus.NotSubmitted)
@@ -156,7 +156,7 @@ export default function InfoEditPanel({ className, panelState, closePanel }: Pro
             )
         }
     }
-    
+
     return (
         <FullScreenPanel
             className={ twMerge("max-w-md", className) }
@@ -202,7 +202,7 @@ export default function InfoEditPanel({ className, panelState, closePanel }: Pro
                             <div className="flex flex-col gap-4 justify-center">
                                 {
                                     submitStatus === SubmitStatus.Success ?
-                                    (<></>) : 
+                                    (<></>) :
                                     (
                                         <>
                                             <div className="flex flex-col gap-1">

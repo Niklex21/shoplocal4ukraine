@@ -35,9 +35,9 @@ export const GalleryView = ({ infoPanelOpen, className }: Props) => {
     const sortedBusinesses = businesses.sort(
         (a: SearchedSerializedBusiness, b: SearchedSerializedBusiness) => (a.score ?? 0) - (b.score ?? 0) || a.item.name.localeCompare(b.item.name)
     )
-    
-    const gridBreakpoints = 
-        infoPanelOpen 
+
+    const gridBreakpoints =
+        infoPanelOpen
         ? "md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-2 2xl:grid-cols-3"
         : "md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5"
 
@@ -57,8 +57,8 @@ export const GalleryView = ({ infoPanelOpen, className }: Props) => {
                         className="flex cursor-pointer"
                         key={ item.id }
                         id={ item.id }
-                        onClick={ 
-                            () => { 
+                        onClick={
+                            () => {
                                 setSelectedID(item.id)
                                 setSelectedFromSearch(false)
                             }

@@ -183,7 +183,7 @@ const About : NextPageWithLayout = () => {
                                         <span className={ twMerge("relative text-lg leading-relaxed whitespace-pre-line text-slate-700 transition-all duration-200", faqOpenIndex == index ? "block" : "hidden") }>
                                             { answer }
                                             {
-                                                link ? 
+                                                link ?
                                                 (
                                                     <>
                                                         <div className="mt-1" />
@@ -193,7 +193,7 @@ const About : NextPageWithLayout = () => {
                                                     </>
                                                 ) : (<></>)
                                             }
-                                            
+
                                         </span>
                                     </div>
                                 )

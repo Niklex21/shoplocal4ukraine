@@ -76,7 +76,7 @@ export function serializeBusinessModel(b : BusinessModel) : SerializedBusinessMo
     if (isEmpty(b)) {
         return {} as SerializedBusinessModel
     }
-    
+
     return {
         ...b,
         serializedBusinessCategory: businessCategoryConverter(b.businessCategory),

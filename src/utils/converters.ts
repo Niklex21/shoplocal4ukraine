@@ -92,7 +92,7 @@ export function feedbackCategoryConverter(category: FeedbackCategory) : string {
 export function getAutocompleteCategoryIcon(suggestion: AutocompleteSuggestion) : SvgIconComponent {
 
     if (suggestion.history) return History
-    
+
     switch(suggestion.category) {
         case AutocompleteSuggestionCategory.Business:
             return Place;

@@ -50,7 +50,7 @@ export const BusinessView = ({ infoPanelOpen, className, children }: Props) => {
     logger.debug(`Loading BusinessView for view: ${ businessViewConverter(view) }`)
 
     // the current view name to display on the button -- easier than using a state
-    const alternativeViewName = view === Views.Map 
+    const alternativeViewName = view === Views.Map
         ? strings.businesses.businessView.titleViewGallery
         : strings.businesses.businessView.titleViewMap
 
