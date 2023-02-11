@@ -1,5 +1,5 @@
 import { IconButton, SvgIcon, Tooltip } from "@mui/material"
-import { createElement, createRef, useEffect, useRef, useState } from "react"
+import { createElement, createRef, ReactNode, useEffect, useRef, useState } from "react"
 import { twMerge } from "tailwind-merge"
 import { Search as IconSearch, Clear as IconClear, Search as IconBusiness, Add } from "@mui/icons-material"
 import strings from "@utils/strings"
@@ -32,6 +32,17 @@ export default function SearchBar({ className }: Props) {
         setCurrentHover(null)
     }, [ showAutoComplete, setCurrentHover, autoCompleteOptions ])
 
+
+    // a utility function to convert a given text option to a boldened match option given the match indices
+    const getBoldText = (text: string, indices: readonly [number, number][]) : ReactNode => {
+        // find the biggest chunk of bold (not consecutive, but specifically as a biggest matches substring)
+        let boldArea = [...indices].sort((a, b) => (b[1] - b[0]) - (a[1] - a[0]))[0]
+
+        return text.split('').map(
+            (c, index) => index >= boldArea[0] && index <= boldArea[1] ? (<span className="font-bold" key={ index }>{ c }</span>) : (<>{ c }</>)
+        )
+    }
+
     /**
      * Updates the current hover counter by the value provided.
      * 
@@ -52,7 +63,7 @@ export default function SearchBar({ className }: Props) {
             {
                 autoCompleteOptions.length > 0
                 ? autoCompleteOptions.map(
-                    ({ text, category }, index) => (
+                    ({ text, category, matches }, index) => (
                         <span
                             className={
                                 twMerge(
@@ -64,7 +75,7 @@ export default function SearchBar({ className }: Props) {
                             onMouseEnter={ () => setCurrentHover(index) }
                         >
                             <span className="flex my-auto text-slate-300">{ createElement(getAutocompleteCategoryIcon(category)) }</span>
-                            { text }
+                            <span className="">{ getBoldText(text, matches ? matches[0].indices : []) }</span>
                         </span>
                     )
                 )

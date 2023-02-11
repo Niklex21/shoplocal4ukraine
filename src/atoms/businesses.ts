@@ -148,7 +148,7 @@ const atomAutocompleteFuse = atom<Fuse<AutocompleteSuggestion>>(
             includeMatches: true,
             findAllMatches: true,
             shouldSort: true,
-            keys: ['text']
+            keys: ['text'],
         }
     )
 )
