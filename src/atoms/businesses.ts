@@ -162,7 +162,7 @@ const atomAutocompleteFuse = atom<Fuse<AutocompleteSuggestion>>(
  * Autocomplete suggestions based on the current user query.
  */
 const atomAutocompleteSuggestions = atom<Array<AutocompleteSuggestion>>(
-    (get) => 
+    (get) =>
         get(atomAutocompleteFuse)
         .search(get(atomCurrentQuery))
         .slice(0, 5)

@@ -11,12 +11,12 @@ type Props = ImageProps & {
 
 /**
  * A wrapper around next/image that also allows for default images that load on error.
- * 
+ *
  * This functions in the same way as the standard Image from next.js, adding only a single prop.
  * If the image wasn't loaded properly, this component will attempt to replace it with the supplied fallbackImage.
- * 
- * @param param0 
- * @returns 
+ *
+ * @param param0
+ * @returns
  */
 export default function ImageWithFallback({ fallbackImageSrc, src, alt, onError, ...props }: Props) {
 

@@ -10,7 +10,7 @@ const nextConfig = {
       "dl.airtable.com",
       "thumbs.gfycat.com",
       "s3.us-west-2.amazonaws.com",
-      "v5.airtableusercontent.com"
+      "v5.airtableusercontent.com",
     ],
   },
 };

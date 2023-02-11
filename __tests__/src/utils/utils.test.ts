@@ -76,6 +76,5 @@ describe('isEmpty', () => {
     it('should return false on a non-empty dictionary', () => {
         expect(isEmpty({ "hello": "hello", 2: 1 })).toBe(false)
     })
-    
-})
 
+})

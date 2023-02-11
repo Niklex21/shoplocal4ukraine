@@ -7,7 +7,7 @@ export enum FeedbackCategory {
 
 /**
  * Schema describing a report of feedback for the website.
- * 
+ *
  * - id generated automatically
  * - number is an autoincrement
  * - category is either a bug or a suggestion

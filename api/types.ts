@@ -13,7 +13,7 @@ export type JsonModelConverter = {
 
 /**
  * A generic Model type to be inherited by specific models
- * [key: string]: any is a syntax that allows this object to be 
+ * [key: string]: any is a syntax that allows this object to be
  * referenced as dictionaries -- by string fields. This is done so
  * that we can write automatic converters for Airtable fields. This should
  * be used very sparingly.

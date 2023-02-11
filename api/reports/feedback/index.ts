@@ -20,7 +20,7 @@ async function addReport(report: ReportFeedbackModel) : Promise<number | null> {
 
     return table.create([modelToJson(report)])
         .then(records => {
-            logger.debug(`Added an Feedback report with number ${records[0]._rawJson['Number']}`)   
+            logger.debug(`Added an Feedback report with number ${records[0]._rawJson['Number']}`)
 
             return records[0].get('Number') as number
         })

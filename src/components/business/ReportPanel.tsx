@@ -23,7 +23,7 @@ type Props = {
 const logger = log.with({ "from": "components.business.ReportPanel" })
 
 export default function ReportPanel({ className, panelState, closePanel }: Props) {
-    
+
     const [ currentBusiness ] = useAtom(atomCurrentBusiness)
     // tracks whether or not the report is being submitted
     const [ submitStatus, setSubmitStatus ] = useState<SubmitStatus>(SubmitStatus.NotSubmitted)
@@ -156,7 +156,7 @@ export default function ReportPanel({ className, panelState, closePanel }: Props
             )
         }
     }
-    
+
     return (
         <FullScreenPanel
             className={ twMerge("max-w-md", className) }
@@ -202,7 +202,7 @@ export default function ReportPanel({ className, panelState, closePanel }: Props
                             <div className="flex flex-col gap-4 justify-center">
                                 {
                                     submitStatus === SubmitStatus.Success ?
-                                    (<></>) : 
+                                    (<></>) :
                                     (
                                         <>
                                             <div className="prose italic opacity-80 text-sm">

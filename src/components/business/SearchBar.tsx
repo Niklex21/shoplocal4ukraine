@@ -30,7 +30,7 @@ export default function SearchBar({ className }: Props) {
     // this way, the behaviour is natural
     const [ autoCompleteClick, setAutocompleteClick ] = useState<boolean>(false)
     const [ searchHistory, setSearchHistory ] = useAtom(atomSearchHistory)
-    
+
     const inputRef = useRef<HTMLInputElement | null>(null)
     // stores the values currently shown to the user, as we may know display search history, apart from the auto-complete-options
     const currentOptions = currentQuery === "" ? searchHistory.slice(Math.max(searchHistory.length - 5, 0)).reverse() : autoCompleteOptions
@@ -80,7 +80,7 @@ export default function SearchBar({ className }: Props) {
 
     /**
      * Updates the current hover counter by the value provided.
-     * 
+     *
      * @param value should usually be +1 if the counter should be increased (going down) or -1 (if we are going up)
      */
     const updateCurrentHoverHandler = (value: number) => {
@@ -118,13 +118,13 @@ export default function SearchBar({ className }: Props) {
             case AutocompleteSuggestionCategory.Category:
                 setCurrentQuery(option.text)
                     let c = option.properties?.categoryId ?? -1
-                    if (!selectedCategories.includes(c)) setSelectedCategories([...selectedCategories, c])  
+                    if (!selectedCategories.includes(c)) setSelectedCategories([...selectedCategories, c])
                 return
             case AutocompleteSuggestionCategory.Tag:
                 setCurrentQuery(option.text)
                 let t = option.properties?.tagId ?? -1
                 if (!selectedTags.includes(t)) setSelectedTags([...selectedTags, t])
-                return 
+                return
             case AutocompleteSuggestionCategory.Search:
                 setCurrentQuery(option.text)
                 setSearchQuery(option.text)
@@ -187,7 +187,7 @@ export default function SearchBar({ className }: Props) {
     const removeTag = (value: Tag) => {
         setSelectedTags(selectedTags.filter(item => item !== value))
     }
-    
+
     const filtersApplied = (
         <div className="flex gap-2 ml-2 max-w-xs overflow-x-auto">
             {

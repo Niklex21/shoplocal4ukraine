@@ -143,7 +143,7 @@ export const InfoPanel = ({ className, panelState, setPanelState }: Props) => {
                                         <Link target="_blank" href={ business.location?.googleMapsURL || "#" }>
                                             <span className="break-all underline lg:no-underline hover:underline align-middle">
                                                 { strings.businesses.infoPage.googleMapsURLText }
-                                            </span> 
+                                            </span>
                                         </Link>
                                         <Tooltip title={ strings.businesses.infoPage.tooltipCopyGoogleMapsURL } arrow={ true } placement="right">
                                             <IconButton
@@ -172,7 +172,7 @@ export const InfoPanel = ({ className, panelState, setPanelState }: Props) => {
                                                             <Link target="_blank" href={ link || "#" }>
                                                                 <span className={ twMerge("break-all", link ? "underline lg:no-underline hover:underline align-middle" : "") }>
                                                                     { text }
-                                                                </span>   
+                                                                </span>
                                                             </Link>
                                                         ) : text
                                                     }
@@ -247,7 +247,7 @@ export const InfoPanel = ({ className, panelState, setPanelState }: Props) => {
                 panelState === PanelState.Closed
                 ? setPanelState(PanelState.Open)
                 : setPanelState(PanelState.Closed), setSelectedID("")
-            }} 
+            }}
         >
             <IconButton>
                 <IconArrowDown className="font-bold w-16 h-16" />
