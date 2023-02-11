@@ -115,7 +115,7 @@ const atomAutocompleteOptions = atom<Array<AutocompleteSuggestion>>(
                     text: businessCategoryConverter(c),
                     category: AutocompleteSuggestionCategory.Category,
                     properties: {
-                        categoryId: index
+                        categoryId: BUSINESS_CATEGORIES[index]
                     }
                 })
             }
@@ -128,7 +128,7 @@ const atomAutocompleteOptions = atom<Array<AutocompleteSuggestion>>(
                     text: tagConverter(t),
                     category: AutocompleteSuggestionCategory.Tag,
                     properties: {
-                        categoryId: index
+                        tagId: BUSINESS_TAGS[index]
                     }
                 })
             }

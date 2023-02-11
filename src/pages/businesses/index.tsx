@@ -11,7 +11,7 @@ import { BusinessViewContextData, PanelState } from "@appTypes/businesses"
 import { BusinessView } from "@components/business/BusinessView"
 import { InfoPanel } from "@components/business/InfoPanel"
 
-import { atomAllBusinesses, atomIsBusinessSelected, atomSelectedBusinessID } from "src/atoms/businesses"
+import { atomAllBusinesses, atomCurrentBusiness, atomIsBusinessSelected, atomSelectedBusinessID } from "src/atoms/businesses"
 import { useAtom } from "jotai"
 import strings from "@utils/strings"
 
@@ -44,6 +44,7 @@ const Main: NextPageWithLayout<Props> = ({ businesses }: InferGetStaticPropsType
     logger.with({ component: 'Main' }).debug("Loading Main...")
 
     const [ , setAllBusinesses ] = useAtom(atomAllBusinesses)
+    const [ currentBusiness ] = useAtom(atomCurrentBusiness)
     const [ isBusinessSelected ] = useAtom(atomIsBusinessSelected)
 
     const [ infoPanelState, setInfoPanelState ] = useState<PanelState>(PanelState.Closed)
@@ -61,7 +62,7 @@ const Main: NextPageWithLayout<Props> = ({ businesses }: InferGetStaticPropsType
         } else {
             setInfoPanelState(PanelState.Closed)
         }
-    }, [ isBusinessSelected, setInfoPanelState ])
+    }, [ currentBusiness, isBusinessSelected, setInfoPanelState ])
 
     // context vars to pass down to the child components
     const context = {
