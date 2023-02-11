@@ -260,7 +260,8 @@ const strings_en = {
             searchBar: {
                 tooltipSearchIcon: "Search",
                 tooltipClearIcon: "Clear search",
-                placeholder: "Search businesses"
+                placeholder: "Search businesses",
+                nothingFound: "Add a missing place"
             }
         },
         categories: {

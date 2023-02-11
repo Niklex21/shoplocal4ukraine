@@ -1,6 +1,7 @@
 import { BusinessCategory, Tag } from '@api/business/types'
-import { MapStyle } from '@appTypes/businesses'
+import { AutocompleteSuggestionCategory, MapStyle } from '@appTypes/businesses'
 import { Section } from '@appTypes/common'
+import { Category, Label, Place } from '@mui/icons-material'
 import defaultImage from '@public/images/business_default_image.jpg'
 import strings from "@utils/strings"
 

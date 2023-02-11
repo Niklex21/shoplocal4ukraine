@@ -3,7 +3,8 @@
 import { Tag, BusinessCategory } from "@api/business/types";
 import { FeedbackCategory } from "@api/reports/feedback/types";
 import { ErrorType, processError } from "@api/_error";
-import { Views } from "@appTypes/businesses";
+import { AutocompleteSuggestionCategory, Views } from "@appTypes/businesses";
+import { Category, Label, Place, SvgIconComponent } from "@mui/icons-material";
 import strings from "./strings";
 
 /**
@@ -80,5 +81,21 @@ export function feedbackCategoryConverter(category: FeedbackCategory) : string {
         default:
             processError(ErrorType.InvalidFeedbackCategory, `Feedback category provided: ${ category }`)
             return "Invalid"
+    }
+}
+
+/**
+ * Returns a category-appropriate icon based on the autocomplete suggestion supplied.
+ * @param category an autocomplete suggestion category
+ * @returns an instance of an icon to represent the category
+ */
+export function getAutocompleteCategoryIcon(category: AutocompleteSuggestionCategory) : SvgIconComponent {
+    switch(category) {
+        case AutocompleteSuggestionCategory.Business:
+            return Place;
+        case AutocompleteSuggestionCategory.Category:
+            return Category;
+        case AutocompleteSuggestionCategory.Tag:
+            return Label;
     }
 }

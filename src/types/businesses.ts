@@ -1,6 +1,8 @@
 import { BusinessModel } from "@api/business/types";
+import { SvgIconComponent } from "@mui/icons-material";
 import Fuse from 'fuse.js';
 import { Logger } from "next-axiom";
+import { ReactNode } from "react";
 
 /**
  * Defines a generic icon, link, text structure for parsing icon buttons.
@@ -90,5 +92,30 @@ type SerializedBusinessModel = BusinessModel & {
  */
 type SearchedSerializedBusiness = Fuse.FuseResult<SerializedBusinessModel>
 
-export type { IconLinkText, BusinessViewContextData, FilteredBusiness, SerializedBusinessModel, SearchedSerializedBusiness }
-export { Views, MapDragState, MapStyle, PanelState, FullScreenPanelPosition, SubmitStatus }
+enum AutocompleteSuggestionCategory {
+    Business,
+    Category,
+    Tag
+}
+
+/**
+ * Autocomplete suggestions to display in the search bar.
+ */
+type AutocompleteSuggestion = {
+    text: string,
+    category: AutocompleteSuggestionCategory,
+    matches?: ReadonlyArray<{
+        indices: ReadonlyArray<[number, number]>
+        key?: string
+        refIndex?: number
+        value?: string
+    }>,
+    properties?: {
+        businessId?: string,
+        categoryId?: number,
+        tagId?: number
+    }
+}
+
+export type { IconLinkText, BusinessViewContextData, FilteredBusiness, SerializedBusinessModel, SearchedSerializedBusiness, AutocompleteSuggestion }
+export { Views, MapDragState, MapStyle, PanelState, FullScreenPanelPosition, SubmitStatus, AutocompleteSuggestionCategory }

@@ -1,10 +1,11 @@
 import { BusinessCategory, BusinessModel, Tag } from "@api/business/types";
-import { MapDragState, MapStyle, SearchedSerializedBusiness, SerializedBusinessModel, Views } from "@appTypes/businesses";
+import { AutocompleteSuggestion, AutocompleteSuggestionCategory, MapDragState, MapStyle, SearchedSerializedBusiness, SerializedBusinessModel, Views } from "@appTypes/businesses";
 import { atom } from "jotai";
 import Fuse from "fuse.js"
 import { atomWithHash } from "jotai/utils";
 import { findBusinessById, serializeBusinessModel, serializedToSearchSerialized } from "@utils/utils";
-import { LOCAL_STORAGE_KEYS } from "@utils/config";
+import { BUSINESS_CATEGORIES, BUSINESS_TAGS, LOCAL_STORAGE_KEYS } from "@utils/config";
+import { businessCategoryConverter, tagConverter } from "@utils/converters";
 
 /**
  * Stores the view settings for the business viewer.
@@ -31,6 +32,11 @@ const atomSelectedBusinessID = atomWithHash<string>(LOCAL_STORAGE_KEYS.atomBusin
  * Stores the current search query in the search bar in the main businesses view.
  */
 const atomSearchQuery = atomWithHash<string>(LOCAL_STORAGE_KEYS.atomSearch, "", { delayInit: true })
+
+/**
+ * Stores the current query that the user is typing in but have not yet selected.
+ */
+const atomCurrentQuery = atom<string>("")
 
 /**
  * Stores the selected categories that filter the businesses.
@@ -80,6 +86,89 @@ const atomFilteredBusinesses = atom<Array<BusinessModel>>(
 
         return target
     }
+)
+
+/**
+ * Stores all possible autocomplete options.
+ */
+const atomAutocompleteOptions = atom<Array<AutocompleteSuggestion>>(
+    (get) => {
+        let list : Array<AutocompleteSuggestion> = []
+
+        // add all businesses to the list of the autocomplete
+        get(atomAllBusinesses).forEach(
+            ({ name, id }) => {
+                list.push({
+                    text: name,
+                    category: AutocompleteSuggestionCategory.Business,
+                    properties: {
+                        businessId: id
+                    }
+                })
+            }
+        )
+
+        // add all possible business categories
+        BUSINESS_CATEGORIES.forEach(
+            (c, index) => {
+                list.push({
+                    text: businessCategoryConverter(c),
+                    category: AutocompleteSuggestionCategory.Category,
+                    properties: {
+                        categoryId: index
+                    }
+                })
+            }
+        )
+
+        // add all possible tags
+        BUSINESS_TAGS.forEach(
+            (t, index) => {
+                list.push({
+                    text: tagConverter(t),
+                    category: AutocompleteSuggestionCategory.Tag,
+                    properties: {
+                        categoryId: index
+                    }
+                })
+            }
+        )
+
+        return list
+    }
+)
+
+/**
+ * Stores the fuse object for the autocomplete suggestions.
+ */
+const atomAutocompleteFuse = atom<Fuse<AutocompleteSuggestion>>(
+    (get) => new Fuse<AutocompleteSuggestion>(
+        get(atomAutocompleteOptions),
+        {
+            includeMatches: true,
+            findAllMatches: true,
+            shouldSort: true,
+            keys: ['text']
+        }
+    )
+)
+
+/**
+ * Autocomplete suggestions based on the current user query.
+ */
+const atomAutocompleteSuggestions = atom<Array<AutocompleteSuggestion>>(
+    (get) => 
+        get(atomAutocompleteFuse)
+        .search(get(atomCurrentQuery))
+        .slice(0, 5)
+        .map(
+            ({ item, matches }) => {
+                return {
+                    ...item,
+                    matches
+                }
+            }
+        )
 )
 
 /**
@@ -136,5 +225,7 @@ export {
     atomCurrentBusiness,
     atomSelectedFromSearch,
     atomMapStyleState,
-    atomIsBusinessSelected
+    atomIsBusinessSelected,
+    atomCurrentQuery,
+    atomAutocompleteSuggestions
 }
