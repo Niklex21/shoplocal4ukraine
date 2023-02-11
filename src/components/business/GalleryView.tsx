@@ -64,12 +64,12 @@ export const GalleryView = ({ infoPanelOpen, className }: Props) => {
                             }
                         }
                     >
-                        <a href={ `#business_id="${ item.id}"` } className="flex w-full h-full relative">
+                        <div className="flex w-full h-full relative" onClick={ () => setSelectedID(selectedID)}>
                             <BusinessCard
                                 data={ item }
                                 active={ item.id === selectedID }
                             />
-                        </a>
+                        </div>
                     </div>
                 )
             )

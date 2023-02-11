@@ -1,13 +1,14 @@
 import { IconButton, SvgIcon, Tooltip } from "@mui/material"
 import { createElement, createRef, ReactNode, useEffect, useRef, useState } from "react"
 import { twMerge } from "tailwind-merge"
-import { Search as IconSearch, Clear as IconClear, Search as IconBusiness, Add } from "@mui/icons-material"
+import { Search as IconSearch, Clear as IconClear, Search as IconBusiness, Add, Close } from "@mui/icons-material"
 import strings from "@utils/strings"
 import { useAtom } from "jotai"
 import { atomSearchQuery, atomCurrentQuery, atomAutocompleteSuggestions, atomSelectedBusinessID, atomSelectedCategories, atomSelectedTags, atomSelectedFromSearch, atomSearchHistory } from "src/atoms/businesses"
-import { getAutocompleteCategoryIcon } from "@utils/converters"
+import { businessCategoryConverter, getAutocompleteCategoryIcon, tagConverter } from "@utils/converters"
 import Link from "next/link"
 import { AutocompleteSuggestion, AutocompleteSuggestionCategory } from "@appTypes/businesses"
+import { BusinessCategory, Tag } from "@api/business/types"
 
 type Props = {
     className?: string
@@ -115,12 +116,14 @@ export default function SearchBar({ className }: Props) {
                 setSelectedFromSearch(true)
                 return
             case AutocompleteSuggestionCategory.Category:
-                setCurrentQuery(option.text + " | " + currentQuery)
-                setSelectedCategories([...selectedCategories, option.properties?.categoryId ?? -1])  
+                setCurrentQuery(option.text)
+                    let c = option.properties?.categoryId ?? -1
+                    if (!selectedCategories.includes(c)) setSelectedCategories([...selectedCategories, c])  
                 return
             case AutocompleteSuggestionCategory.Tag:
-                setCurrentQuery(option.text + " | " + currentQuery)
-                setSelectedTags([...selectedTags, option.properties?.tagId ?? -1])
+                setCurrentQuery(option.text)
+                let t = option.properties?.tagId ?? -1
+                if (!selectedTags.includes(t)) setSelectedTags([...selectedTags, t])
                 return 
             case AutocompleteSuggestionCategory.Search:
                 setCurrentQuery(option.text)
@@ -175,11 +178,56 @@ export default function SearchBar({ className }: Props) {
         </div>
     )
 
+    // utility function to remove a category
+    const removeCategory = (value: BusinessCategory) => {
+        setSelectedCategories(selectedCategories.filter(item => item !== value))
+    }
+
+    // utility function to remove a tag
+    const removeTag = (value: Tag) => {
+        setSelectedTags(selectedTags.filter(item => item !== value))
+    }
+    
+    const filtersApplied = (
+        <div className="flex gap-2 ml-2 max-w-xs overflow-x-auto">
+            {
+                selectedCategories.length + selectedTags.length > 0
+                ? (<span className="flex font-bold my-auto mr-2">{ strings.businesses.businessView.searchBar.filters }</span>)
+                : (<></>)
+            }
+            {
+                selectedCategories.map(
+                    (value, index) => (
+                        <span className="px-3 py-1 rounded-full align-middle flex gap-1 bg-blue-50 text-sm my-auto hover:brightness-95" key={ index }>
+                            <span className="flex my-auto">{ businessCategoryConverter(value) }</span>
+                            <IconButton className="cursor-pointer bg-blue-100" onClick={ () => removeCategory(value) }>
+                                <Close className="text-xs" />
+                            </IconButton>
+                        </span>
+                    )
+                )
+            }
+            {
+                selectedTags.map(
+                    (value, index) => (
+                        <span className="px-2 py-1 rounded-full text-center flex gap-1 bg-yellow-50 text-sm my-auto hover:brightness-95" key={ index }>
+                            <span className="flex my-auto">{ tagConverter(value) }</span>
+                            <IconButton className="cursor-pointer bg-yellow-100" onClick={ () => removeTag(value) }>
+                                <Close className="text-xs" />
+                            </IconButton>
+                        </span>
+                    )
+                )
+            }
+        </div>
+    )
+
     return (
         <div
             className={ twMerge("flex w-auto shrink grow flex-col drop-shadow-md divide-y-2 divide-slate-50 divide-solid", className) }
         >
             <div className={ twMerge("flex flex-row gap-1 px-2 py-1 bg-white", showAutoComplete ? "rounded-t-lg" : "rounded-lg") }>
+                { filtersApplied }
                 <div className="flex relative">
                     <input
                         className="px-4 py-2 w-64 grow shrink focus:outline-none  bg-white"

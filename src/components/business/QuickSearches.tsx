@@ -27,7 +27,7 @@ export function QuickSearches({ className }: Props) {
         {
             text: strings.businesses.businessView.quickSearches.ukrainianOwned,
             action: () => {
-                setCurrentQuery(tagConverter(Tag.UkrainianOwned) + " | " + currentQuery)
+                setCurrentQuery(tagConverter(Tag.UkrainianOwned))
                 setSelectedTags([...selectedTags, Tag.UkrainianOwned])
             }
         },
@@ -35,7 +35,7 @@ export function QuickSearches({ className }: Props) {
             text: strings.businesses.businessView.quickSearches.restaurants,
             icon: Restaurant,
             action: () => {
-                setCurrentQuery(businessCategoryConverter(BusinessCategory.Restaurant) + " | " + currentQuery)
+                setCurrentQuery(businessCategoryConverter(BusinessCategory.Restaurant))
                 setSelectedCategories([...selectedCategories, BusinessCategory.Restaurant]) 
             }
         },
@@ -43,7 +43,7 @@ export function QuickSearches({ className }: Props) {
             text: strings.businesses.businessView.quickSearches.cafe,
             icon: LocalCafe,
             action: () => {
-                setCurrentQuery(businessCategoryConverter(BusinessCategory.Cafe) + " | " + currentQuery)
+                setCurrentQuery(businessCategoryConverter(BusinessCategory.Cafe))
                 setSelectedCategories([...selectedCategories, BusinessCategory.Cafe]) 
             }
         },
@@ -51,7 +51,7 @@ export function QuickSearches({ className }: Props) {
             text: strings.businesses.businessView.quickSearches.shopping,
             icon: ShoppingCart,
             action: () => {
-                setCurrentQuery(businessCategoryConverter(BusinessCategory.Shopping) + " | " + currentQuery)
+                setCurrentQuery(businessCategoryConverter(BusinessCategory.Shopping))
                 setSelectedCategories([...selectedCategories, BusinessCategory.Shopping]) 
             }
         }

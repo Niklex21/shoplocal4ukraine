@@ -261,7 +261,8 @@ const strings_en = {
                 tooltipSearchIcon: "Search",
                 tooltipClearIcon: "Clear search",
                 placeholder: "Search businesses",
-                nothingFound: "Add a missing place"
+                nothingFound: "Add a missing place",
+                filters: "Filters: "
             },
             quickSearches: {
                 ukrainianOwned: "🇺🇦-owned",

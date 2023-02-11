@@ -101,7 +101,7 @@ const atomAutocompleteOptions = atom<Array<AutocompleteSuggestion>>(
         let list : Array<AutocompleteSuggestion> = [...get(atomSearchHistory)]
 
         // add all businesses to the list of the autocomplete
-        get(atomAllBusinesses).forEach(
+        get(atomFilteredBusinesses).forEach(
             ({ name, id }) => {
                 list.push({
                     text: name,
@@ -189,12 +189,7 @@ const atomFuseSearch = atom<Fuse<SerializedBusinessModel>>(
             keys: [
                 'name',
                 'serializedBusinessCategory',
-                'serializedTags',
-                'location.address',
-                'location.city',
-                'location.country',
-                'description',
-                'contributions'
+                'serializedTags'
             ]
         }
     )
