@@ -15,6 +15,7 @@ import { atomWithStorage } from "jotai/utils";
 import Link from "next/link";
 import SearchBar from "./SearchBar";
 import { AppMenu } from "@components/common/AppMenu";
+import { QuickSearches } from "./QuickSearches";
 
 /**
  * Tracks whether or not it's the first time the user visits this page.
@@ -84,8 +85,9 @@ export const BusinessView = ({ infoPanelOpen, className, children }: Props) => {
     }
 
     const filterBar = (
-        <div className={ twMerge("fixed top-4 z-30 ml-4", infoPanelOpen ? "left-4 md:left-1/2 xl:left-1/3 2xl:left-1/4" : "left-0 md:left-24") }>
+        <div className={ twMerge("flex flex-row items-start gap-4 fixed top-4 z-30 ml-4", infoPanelOpen ? "left-4 md:left-1/2 xl:left-1/3 2xl:left-1/4" : "left-0 md:left-24") }>
             <SearchBar  />
+            <QuickSearches className="mt-1.5" />
         </div>
     )
 

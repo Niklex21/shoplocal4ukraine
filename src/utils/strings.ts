@@ -262,6 +262,12 @@ const strings_en = {
                 tooltipClearIcon: "Clear search",
                 placeholder: "Search businesses",
                 nothingFound: "Add a missing place"
+            },
+            quickSearches: {
+                ukrainianOwned: "🇺🇦-owned",
+                restaurants: "Restaurants",
+                cafe: "Cafe",
+                shopping: "Shopping"
             }
         },
         categories: {
