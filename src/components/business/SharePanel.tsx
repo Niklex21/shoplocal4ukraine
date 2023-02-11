@@ -1,5 +1,5 @@
 import { FullScreenPanelPosition, IconLinkText, PanelState } from "@appTypes/businesses"
-import { atomCurrentBusiness, atomSearchQuery, atomSelectedBusinessID, atomSelectedCategories, atomView } from "src/atoms/businesses"
+import { atomCurrentBusiness, atomSearchQuery, atomSelectedBusinessID, atomSelectedCategories, atomSelectedTags, atomView } from "src/atoms/businesses"
 import FullScreenPanel from "@components/common/FullScreenPanel"
 import strings from "@utils/strings"
 import { atom, useAtom } from "jotai"
@@ -9,10 +9,11 @@ import defaults, { LOCAL_STORAGE_KEYS } from "@utils/config"
 import { ContentCopy as IconCopy, Facebook, Instagram, LinkedIn, Message, Telegram, Twitter, WhatsApp } from "@mui/icons-material"
 import { Checkbox, FormControlLabel, FormGroup, IconButton, Tooltip } from "@mui/material"
 import { atomWithStorage } from "jotai/utils"
-import { urlRemoveHash } from "@utils/utils"
+import { getBusinessProfileImageSrc } from "@utils/utils"
 import { useEffect } from "react"
 import { toast } from "react-toastify"
 import Link from "next/link"
+import ImageWithFallback from "@components/common/ImageWithFallback"
 
 type Props = {
     className?: string,
@@ -28,22 +29,26 @@ const atomWindowUrl = atom<string>("")
 // builds the current URL to copy based on the modification checkbox statuses
 const atomURLToCopy = atom<string>(
     (get) => {
-        let url = get(atomWindowUrl)
+        // cut off all the parameters
+        let url = get(atomWindowUrl).replaceAll(new RegExp("#.*", 'g'), "")
 
-        if (!get(atomIncludeView)) {
-            url = urlRemoveHash(url, LOCAL_STORAGE_KEYS.atomView)
+        if (get(atomSelectedBusinessID) !== "") {
+            let addString = "#"
+
+            addString += LOCAL_STORAGE_KEYS.atomBusinessId + '="' + get(atomSelectedBusinessID) + '"'
+
+            if (get(atomIncludeView)) {
+                addString += "&" + LOCAL_STORAGE_KEYS.atomView + '=' + get(atomView)
+            }
+
+            if (get(atomIncludeFilters)) {
+                addString += "&" + LOCAL_STORAGE_KEYS.atomSearch + '="' + get(atomSearchQuery) + '"'
+                addString += "&" + LOCAL_STORAGE_KEYS.atomCategories + '=[' + get(atomSelectedCategories) + ']'
+                addString += "&" + LOCAL_STORAGE_KEYS.atomTags + '=[' + get(atomSelectedTags) + ']'
+            }
+
+            return url + addString
         }
-
-        if (!get(atomIncludeFilters)) {
-            url = urlRemoveHash(url, LOCAL_STORAGE_KEYS.atomSearch)
-            url = urlRemoveHash(url, LOCAL_STORAGE_KEYS.atomCategories)
-            url = urlRemoveHash(url, LOCAL_STORAGE_KEYS.atomTags)
-        }
-
-        // replace the first & if there's no hash behind it
-        // since we are removing hash, we sometimes also accidentally remove the first hash,
-        // which leads to incorrect urls
-        url = url.replace(new RegExp("(?<![^#]*#[^#]*)&"), "#")
 
         return url
     }
@@ -107,23 +112,24 @@ export default function SharePanel({ className, panelState, closePanel }: Props)
         setWindowUrl(window.location.href)
     }, [ panelState, setWindowUrl ])
 
-    const imageSrc = currentBusiness.images && currentBusiness.images.length > 0 ? currentBusiness.images[0] : defaults.businesses.gallery.defaultImage.src
+    const imageSrc = getBusinessProfileImageSrc(currentBusiness)
 
     return (
         <FullScreenPanel
-            className={ twMerge("rounded-lg", className) }
+            className={ twMerge("max-w-md", className) }
             panelState={ panelState }
             closePanel={ closePanel }
             position={ FullScreenPanelPosition.Center}
             title={ strings.businesses.sharePanel.title }
         >
-            <div className="flex flex-col md:flex-row gap-4">
-                <div className="relative flex h-16 md:h-auto md:w-16 rounded-lg">
-                    <Image
-                        className="max-w-xs object-contain"
+            <div className="flex flex-row gap-4 items-center">
+                <div className="relative flex h-16 w-16 rounded-lg">
+                    <ImageWithFallback
+                        className="max-w-xs object-cover rounded-lg"
                         src={ imageSrc }
-                        layout="fill"
+                        fill={ true }
                         alt="Business Logo"
+                        fallbackImageSrc={ defaults.businesses.gallery.defaultImage }
                     />
                 </div>
                 <div className="flex flex-col gap-1">
@@ -173,18 +179,16 @@ export default function SharePanel({ className, panelState, closePanel }: Props)
                 </Tooltip>
             </div>
             <hr />
-            <div className="flex flex-row gap-2">
+            <div className="flex flex-row gap-2 justify-center">
                 {
                     socials.map(
                         ({ icon, link, text }, index: number) => (
-                            <Link href={ link ?? "" }  key={ index }>
-                                <a target="_blank">
-                                    <Tooltip title={ text ?? "" }>
-                                        <IconButton className="hover:text-ukraine-blue">
-                                            { icon }
-                                        </IconButton>
-                                    </Tooltip>
-                                </a>
+                            <Link href={ link ?? "" } target="_blank" key={ index }>
+                                <Tooltip title={ text ?? "" }>
+                                    <IconButton className="hover:text-ukraine-blue">
+                                        { icon }
+                                    </IconButton>
+                                </Tooltip>
                             </Link>
                         )
                     )

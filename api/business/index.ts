@@ -1,7 +1,7 @@
 import { FieldSet, Records, Table } from 'airtable'
 import { QueryParams } from 'airtable/lib/query_params'
 
-import base from '../_airtable'
+import _base from '../_airtable'
 import { processError } from '../_error'
 import { jsonToBusiness } from './model'
 import { BusinessModel } from './types'
@@ -10,7 +10,7 @@ import { log } from 'next-axiom'
 
 const logger = log.with({ from: "api.business" })
 
-const table : Table<FieldSet> = base('Business')
+const table : Table<FieldSet> = _base('Business')
 
 /**
  * A private util function to get all records from the business table with a specific formula.
@@ -80,7 +80,7 @@ async function getRecordById(id: string) : Promise<BusinessModel | null> {
            .catch(err => {
                 processError(err, "", logger.with({ "function": "getRecordById" }))
                 return null
-           })
+            })
 }
 
 export { getPublishedRecords, getRecordById }

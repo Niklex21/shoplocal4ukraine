@@ -30,16 +30,16 @@ export default function FullScreenPanel({ className, panelState, closePanel, chi
     const positionStyles = (() => {
         switch (position) {
             case FullScreenPanelPosition.Left:
-                return "left-0 top-0 h-screen"
+                return "left-0 top-0 h-screen md:w-auto"
             case FullScreenPanelPosition.Right:
-                return "right-0 top-0 h-screen"
+                return "right-0 top-0 md:w-auto h-screen"
             case FullScreenPanelPosition.Top:
-                return "left-0 top-0 w-screen"
+                return "left-0 top-0 md:h-auto w-screen"
             case FullScreenPanelPosition.Bottom:
-                return "left-0 bottom-0 w-screen"
+                return "left-0 bottom-0 md:h-auto w-screen"
             case FullScreenPanelPosition.Center:
             default:
-                return "top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+                return "top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-screen md:w-auto md:h-auto"
         }
     })()
 
@@ -48,7 +48,7 @@ export default function FullScreenPanel({ className, panelState, closePanel, chi
             <div
                 className={
                     twMerge(
-                        "absolute top-0 left-0 w-screen h-screen z-50 bg-black opacity-20",
+                        "fixed top-0 left-0 w-screen h-screen z-50 bg-black opacity-20",
                         panelState === PanelState.Closed ? "hidden" : ""
                     )
                 }
@@ -57,20 +57,19 @@ export default function FullScreenPanel({ className, panelState, closePanel, chi
             <div
                 className={
                     twMerge(
-                        `z-50 absolute ${ positionStyles } flex flex-col gap-4 bg-slate-50 p-6 max-w-full`,
+                        `rounded-none md:rounded-lg z-50 fixed flex flex-col gap-4 bg-white p-6 justify-center overflow-auto max-w-full md:max-h-full w-full h-full ${ positionStyles } `,
                         panelState === PanelState.Closed ? "hidden" : "",
                         className
                     )
                 }
             >
-                <div className="w-full flex flex-row justify-between gap-8 text-lg items-center">
-                    { title }
+                <div className="flex flex-row justify-between gap-8 text-lg items-center relative md:p-0 w-full">
+                    <span className="font-bold">{ title }</span>
                     <IconButton
                         aria-label="open sharing panel"
-                        className="text-3xl"
                         onClick={ closePanel }
                     >
-                        <IconClose />
+                        <IconClose className="text-4xl md:text-3xl" />
                     </IconButton>
                 </div>
                 { children }

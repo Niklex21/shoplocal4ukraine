@@ -1,6 +1,7 @@
 import { BusinessModel } from "@api/business/types";
-import { FilteredBusiness, SearchedSerializedBusiness, SerializedBusinessModel } from "@appTypes/businesses";
+import { SearchedSerializedBusiness, SerializedBusinessModel } from "@appTypes/businesses";
 import { Feature } from "geojson";
+import defaults from "./config";
 import { businessCategoryConverter, tagConverter } from "./converters";
 
 /**
@@ -46,7 +47,11 @@ export function modelToGeojsonFeature(business: BusinessModel) : Feature {
  * @returns true if the dictionary is empty (no keys), false otherwise
  */
 export function isEmpty(obj: Object) : boolean {
-    return Object.keys(obj).length === 0
+    if (obj.constructor === Object && obj && Object.keys(obj).length > 0) {
+        return false
+    }
+
+    return true
 }
 
 /**
@@ -68,20 +73,22 @@ export function serializedToSearchSerialized(b: SerializedBusinessModel) : Searc
  * @returns an instance of {@link SerializedBusinessModel}
  */
 export function serializeBusinessModel(b : BusinessModel) : SerializedBusinessModel {
+    if (isEmpty(b)) {
+        return {} as SerializedBusinessModel
+    }
+
     return {
         ...b,
         serializedBusinessCategory: businessCategoryConverter(b.businessCategory),
-        serializedTags: b.tags.map(t => tagConverter(t))
+        serializedTags: b.tags?.map(t => tagConverter(t)) ?? []
     }
 }
 
 /**
- * Removes the specific hash from the given url.
- * @param url the url to remove the has from
- * @param hashName the name of the hash
- * @example for hashName=view, will remove (#view=1); for hashName=categories, will remove (&categories=[1,2,3])
- * @returns the url without the specified hash part
+ * Returns the source of the profile image for a business.
+ * @param b the business
+ * @returns the first image in the list or a default image if the image is not available
  */
-export function urlRemoveHash(url: string, hashName: string) {
-    return url.replace(new RegExp("[#&]" + hashName + "=[^?#&]+(?=[?&])|[#&]" + hashName + "=.+$"), "")
+export function getBusinessProfileImageSrc(b: BusinessModel) : string {
+    return b.images && b.images.length > 0 ? b.images[0] : defaults.businesses.gallery.defaultImage.src
 }

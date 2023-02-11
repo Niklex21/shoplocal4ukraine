@@ -1,22 +1,25 @@
-import { Page } from "@appTypes/landing"
-import { LandingLayout } from "@layouts/landing"
-import { ReactElement } from "react"
-import { NextPageWithLayout } from "./_app"
+import { Page } from '@appTypes/landing';
+import { LandingLayout } from '@layouts/landing';
+import Script from 'next/script';
+import { ReactElement } from 'react';
+import { NextPageWithLayout } from './_app';
 
-const Join : NextPageWithLayout = () => {
+const Join: NextPageWithLayout = () => {
     return (
         <>
-            Join
+            <Script src="https://static.airtable.com/js/embed/embed_snippet_v1.js"></Script>
+            <iframe
+                className="airtable-embed airtable-dynamic-height bg-none rounded-none border-none"
+                src="https://airtable.com/embed/shrWIgk68QyqEcqCS?backgroundColor=purple"
+                width="100%"
+                height="3750"
+            ></iframe>
         </>
-    )
-}
+    );
+};
 
 Join.getLayout = function getLayout(page: ReactElement) {
-    return (
-        <LandingLayout current={ Page.Join }>
-            { page }
-        </LandingLayout>
-    )
-}
+    return <LandingLayout current={Page.Join}>{page}</LandingLayout>;
+};
 
-export default Join
+export default Join;

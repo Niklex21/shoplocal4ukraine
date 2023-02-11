@@ -1,6 +1,7 @@
+import { JsonModelConverter } from "@api/types";
 import {processError, ErrorType } from "@api/_error";
 import { log } from "next-axiom";
-import { BusinessCategory, Tag, Country, BusinessModel, MapBusinessJSON, Location } from "./types";
+import { BusinessCategory, Tag, Country, BusinessModel, Location } from "./types";
 
 
 const logger = log.with({ "from": "api.businesses.model" })
@@ -20,8 +21,8 @@ function businessCategoryConverter(value: string) : BusinessCategory | null {
         case 'Lifestyle':
             category = BusinessCategory.Lifestyle;
             break;
-        case 'Retail':
-            category = BusinessCategory.Retail;
+        case 'Cafe':
+            category = BusinessCategory.Cafe;
             break;
         case 'Crafts':
             category = BusinessCategory.Crafts;
@@ -34,6 +35,9 @@ function businessCategoryConverter(value: string) : BusinessCategory | null {
             break;
         case 'Shopping':
             category = BusinessCategory.Shopping;
+            break;
+        case 'Product':
+            category = BusinessCategory.Product;
             break;
         default:
             processError(ErrorType.InvalidBusinessCategory, `Category provided: ${ value }`, logger.with({ "function": "businessCategoryConverter" }));
@@ -55,6 +59,9 @@ function tagsConverter(values: Array<string>) : Array<Tag> {
         switch(tag) {
             case 'Ukrainian-Owned':
                 tags.push(Tag.UkrainianOwned);
+                break;
+            case 'Only online':
+                tags.push(Tag.OnlineOnly);
                 break;
             default:
                 processError(ErrorType.InvalidTag, `Tag supplied: ${ tag }`, logger.with({ "function": "tagsConverter" }));
@@ -143,7 +150,7 @@ export function jsonToBusiness(data: any) : BusinessModel {
 
     const fields = data['fields'];
 
-    const jsonToBusinessMap : Array<MapBusinessJSON> = [
+    const jsonToBusinessMap : Array<JsonModelConverter> = [
         {
             key: 'name',
             json: 'Name'
@@ -151,6 +158,10 @@ export function jsonToBusiness(data: any) : BusinessModel {
         {
             key: 'description',
             json: 'Description'
+        },
+        {
+            key: 'contributions',
+            json: 'Contributions'
         },
         {
             key: 'businessCategory',

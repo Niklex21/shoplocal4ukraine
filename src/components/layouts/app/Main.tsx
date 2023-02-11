@@ -1,16 +1,14 @@
-import { ReactNode } from 'react'
+import { ReactNode, useState } from 'react'
 
 import Head from 'next/head'
 import favicon from '@public/images/favicon.png'
 import strings from '@utils/strings'
-import { useAtom } from "jotai"
-import { Menu as IconMenu } from "@mui/icons-material"
-import { IconButton, Tooltip } from '@mui/material'
+import { Feedback } from "@mui/icons-material"
 import { PanelState } from '@appTypes/businesses'
-import { menuStateAtom } from 'src/atoms/global'
-import { AppMenu } from './AppMenu'
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify'
+import Script from 'next/script'
+import FeedbackPanel from '@components/business/FeedbackPanel'
 
 type Props = {
     children?: ReactNode
@@ -18,7 +16,7 @@ type Props = {
 
 export default function AppMainLayout({ children }: Props) {
 
-    const [ menuState, setMenuState ] = useAtom(menuStateAtom)
+    const [ feedbackPanelState, setFeedbackPanelState ] = useState<PanelState>(PanelState.Closed)
 
     return (
         <>
@@ -26,30 +24,35 @@ export default function AppMainLayout({ children }: Props) {
                 <link rel="shortcut icon" href={ favicon.src } />
                 <title key="title">{ strings.all.title }</title>
             </Head>
-            <div className="h-screen w-screen p-0 m-0 bg-slate-50 max-h-screen flex">
+            <Script id="mcjs">
+                {`
+                    !function(c,h,i,m,p){
+                        m=c.createElement(h),p=c.getElementsByTagName(h)[0],m.async=1,m.src=i,p.parentNode.insertBefore(m,p)
+                    }(document,"script","https://chimpstatic.com/mcjs-connected/js/users/5294169e3c5e26832ef9cc671/6ac9341a1aa166e2f49201439.js");
+                `}
+            </Script>
+            <Script strategy="afterInteractive" src="https://www.googletagmanager.com/gtag/js?id=G-P68Q0F71ED" />
+            <Script id="google-analytics" strategy="afterInteractive">
+                {`
+                    window.dataLayer = window.dataLayer || [];
+                    function gtag(){dataLayer.push(arguments);}
+                    gtag('js', new Date());
+
+                    gtag('config', 'G-P68Q0F71ED');
+                `}
+            </Script>
+            <div className="h-screen w-screen p-0 m-0 bg-white max-h-screen flex">
                 { children }
-                <Tooltip title={ strings.app.tooltipMenuButton }>
-                    <div
-                        className="flex absolute top-2 left-2 z-10 p-1 bg-slate-50 cursor-pointer rounded-lg drop-shadow-md hover:bg-slate-100"
-                        onClick={ () => setMenuState(PanelState.Open) }
-                    >
-                        {/* the hover effect disables inner MUI hover circle bg */}
-                        <IconButton
-                            className={ "text-gray-800 text-3xl cursor-pointer hover:bg-inherit" }
-                        >
-                            <IconMenu />
-                        </IconButton>
-                    </div>
-                </Tooltip>
-                <div
-                    className={
-                        "absolute top-0 h-full w-full left-0 bg-black transition-opacity duration-500 " +
-                        (menuState === PanelState.Closed ? "opacity-0 -z-50" : "opacity-20 z-50")
-                    }
-                    onClick={ () => setMenuState(PanelState.Closed) }
-                />
-                <AppMenu />
             </div>
+            {/* FEEDBACK TIP */}
+            <div className="flex -rotate-90 gap-2 fixed right-0 origin-bottom-right top-1/4 flex-row z-40 bg-ukraine-blue cursor-pointer hover:bg-ukraine-yellow hover:text-oxford-blue text-white px-4 py-2 rounded-t-md" onClick={ () => setFeedbackPanelState(PanelState.Open) }>
+                <Feedback />
+                { strings.all.giveFeedback.short }
+            </div>
+            <FeedbackPanel
+                panelState={ feedbackPanelState }
+                closePanel={ () => setFeedbackPanelState(PanelState.Closed)}
+            />
             <ToastContainer
                 position="bottom-left"
                 autoClose={5000}

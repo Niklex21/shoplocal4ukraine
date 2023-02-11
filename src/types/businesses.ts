@@ -1,7 +1,8 @@
 import { BusinessModel } from "@api/business/types";
-import { Dispatch, SetStateAction } from "react";
+import { SvgIconComponent } from "@mui/icons-material";
 import Fuse from 'fuse.js';
 import { Logger } from "next-axiom";
+import { ReactNode } from "react";
 
 /**
  * Defines a generic icon, link, text structure for parsing icon buttons.
@@ -38,11 +39,30 @@ enum MapDragState {
 }
 
 /**
+ * Stores possible map styles.
+ */
+enum MapStyle {
+    Streets,
+    Satellite
+}
+
+/**
  * Defines a state of a generic panel -- either closed or open. Can be extended as needed.
  */
 enum PanelState {
     Closed,
     Open
+}
+
+/**
+ * Defines a generic info submit status.
+ */
+enum SubmitStatus {
+    NotSubmitted,
+    InProgress,
+    Success,
+    TimeOut,
+    Error
 }
 
 /**
@@ -72,5 +92,32 @@ type SerializedBusinessModel = BusinessModel & {
  */
 type SearchedSerializedBusiness = Fuse.FuseResult<SerializedBusinessModel>
 
-export type { IconLinkText, BusinessViewContextData, FilteredBusiness, SerializedBusinessModel, SearchedSerializedBusiness }
-export { Views, MapDragState, PanelState, FullScreenPanelPosition }
+enum AutocompleteSuggestionCategory {
+    Business,
+    Category,
+    Tag,
+    Search
+}
+
+/**
+ * Autocomplete suggestions to display in the search bar.
+ */
+type AutocompleteSuggestion = {
+    text: string,
+    category: AutocompleteSuggestionCategory,
+    matches?: ReadonlyArray<{
+        indices: ReadonlyArray<[number, number]>
+        key?: string
+        refIndex?: number
+        value?: string
+    }>,
+    properties?: {
+        businessId?: string,
+        categoryId?: number,
+        tagId?: number
+    },
+    history?: boolean
+}
+
+export type { IconLinkText, BusinessViewContextData, FilteredBusiness, SerializedBusinessModel, SearchedSerializedBusiness, AutocompleteSuggestion }
+export { Views, MapDragState, MapStyle, PanelState, FullScreenPanelPosition, SubmitStatus, AutocompleteSuggestionCategory }

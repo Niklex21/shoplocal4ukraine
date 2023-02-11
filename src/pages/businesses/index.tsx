@@ -1,27 +1,36 @@
 import { GetStaticProps, InferGetStaticPropsType } from "next"
-import { createContext, ReactElement, useEffect } from "react"
+import React, { createContext, ReactElement, useEffect, useState } from "react"
 import 'mapbox-gl/dist/mapbox-gl.css'
 
-import { getPublishedRecords } from "@api/business"
 import { NextPageWithLayout } from "../_app"
 import { AppLayout } from "@layouts/app"
-import { BusinessCategory, BusinessModel, Tag } from "@api/business/types"
+import { BusinessModel } from "@api/business/types"
 
 import { log } from 'next-axiom'
-import { BusinessViewContextData } from "@appTypes/businesses"
+import { BusinessViewContextData, PanelState } from "@appTypes/businesses"
 import { BusinessView } from "@components/business/BusinessView"
 import { InfoPanel } from "@components/business/InfoPanel"
 
-import { atomSelectedBusinessID, atomSearchQuery, atomSelectedCategories, atomAllBusinesses, atomSelectedTags } from "src/atoms/businesses"
+import { atomAllBusinesses, atomCurrentBusiness, atomIsBusinessSelected, atomSelectedBusinessID } from "src/atoms/businesses"
 import { useAtom } from "jotai"
 import strings from "@utils/strings"
 
-import { Search as IconSearch } from "@mui/icons-material"
-import { businessCategoryConverter, tagConverter } from "@utils/converters"
-import { Checkbox, InputBase, ListItemText, MenuItem, Select, SelectChangeEvent } from "@mui/material"
-import { BUSINESS_CATEGORIES, BUSINESS_TAGS } from "@utils/config"
+import { ArrowLeft as IconArrowLeft, ArrowRight as IconArrowRight } from "@mui/icons-material"
+import { IconButton, Tooltip } from "@mui/material"
+import { twMerge } from "tailwind-merge"
+import { jsonToBusiness } from "@api/business/model"
+import { QueryParams } from "airtable/lib/query_params"
+import { FieldSet } from "airtable/lib/field_set"
+import Table from "airtable/lib/table"
+import { processError } from "@api/_error"
+import _base from "@api/_airtable"
+import { AppMenu } from "@components/common/AppMenu"
 
 const logger = log.with({ from: 'page.businesses.index' })
+
+type Props = {
+    businesses: BusinessModel[]
+}
 
 /**
  * Stores the global view-related context that is passed down to all the elements of the view.
@@ -30,84 +39,91 @@ export const BusinessViewContext = createContext<BusinessViewContextData>({
     logger
 });
 
-const Main: NextPageWithLayout = ({ businesses }: InferGetStaticPropsType<typeof getStaticProps>) => {
+const Main: NextPageWithLayout<Props> = ({ businesses }: InferGetStaticPropsType<typeof getStaticProps>) => {
 
     logger.with({ component: 'Main' }).debug("Loading Main...")
 
-    const [ selectedID, ] = useAtom(atomSelectedBusinessID)
-    const [ searchQuery, setSearchQuery ] = useAtom(atomSearchQuery)
-    const [ selectedCategories, setSelectedCategories ] = useAtom(atomSelectedCategories)
-    const [ selectedTags, setSelectedTags ] = useAtom(atomSelectedTags)
-    const [ _, setAllBusinesses ] = useAtom(atomAllBusinesses)
+    const [ , setAllBusinesses ] = useAtom(atomAllBusinesses)
+    const [ currentBusiness ] = useAtom(atomCurrentBusiness)
+    const [ isBusinessSelected ] = useAtom(atomIsBusinessSelected)
+
+    const [ infoPanelState, setInfoPanelState ] = useState<PanelState>(PanelState.Closed)
+
+    const [ menuState, setMenuState ] = useState<PanelState>(PanelState.Closed)
 
     // set all businesses when the props are changed
     useEffect(() => {
         setAllBusinesses(businesses)
     }, [ businesses, setAllBusinesses ])
 
-    /**
-     * Handles change in the category selector.
-     */
-    const handleCategoryChange = (event: SelectChangeEvent<BusinessCategory[]>) => {
-
-        let target : Array<BusinessCategory> = []
-
-        if (typeof event.target.value === "string") {
-            let currentTarget : Array<string> = event.target.value.split(',')
-            currentTarget.forEach(
-                (category: string) => {
-                    if (category in BusinessCategory) {
-                        target.push(BusinessCategory[category as any] as unknown as BusinessCategory)
-                    }
-                }
-            )
+    useEffect(() => {
+        if (isBusinessSelected) {
+            setInfoPanelState(PanelState.Open)
         } else {
-            target = event.target.value ?? []
+            setInfoPanelState(PanelState.Closed)
         }
-
-        setSelectedCategories(target)
-    }
-
-    /**
-     * Handles change in the tags selector.
-     */
-     const handleTagsChange = (event: SelectChangeEvent<Tag[]>) => {
-
-        let target : Array<Tag> = []
-
-        if (typeof event.target.value === "string") {
-            let currentTarget : Array<string> = event.target.value.split(',')
-            currentTarget.forEach(
-                (tag: string) => {
-                    if (tag in Tag) {
-                        target.push(Tag[tag as any] as unknown as Tag)
-                    }
-                }
-            )
-        } else {
-            target = event.target.value ?? []
-        }
-
-        setSelectedTags(target)
-    }
+    }, [ currentBusiness, isBusinessSelected, setInfoPanelState ])
 
     // context vars to pass down to the child components
     const context = {
         logger
     }
 
-    const content = selectedID !== "" ? (
-        <div className="grid grid-rows-2 md:grid-rows-none md:grid-cols-2 lg:grid-cols-4 w-full h-full">
-            <BusinessView
-                className="lg:col-span-3"
-            />
-            <InfoPanel
-                className="lg:col-span-1"
-            />
-        </div>
-    ) : (
-        <div className="w-full h-full">
-            <BusinessView />
+    // TODO: this really should probably be a part of the infopanel, but it hasn't been working well so far
+    // due to the weird MUI stuff with overflows
+    const ToggleStateButton = ({ className }: { className?: string }) => (
+        <Tooltip
+            title={
+                infoPanelState === PanelState.Closed ?
+                strings.businesses.infoPage.tooltipOpenPanel
+                : strings.businesses.infoPage.tooltipClosePanel
+            }
+            placement="right"
+            arrow={ true }
+        >
+            <IconButton
+                className={
+                    twMerge(
+                        "md:flex bg-white font-bold -translate-y-1/2 p-1 drop-shadow-lg py-4 rounded-none rounded-r-lg hover:bg-white hover:brightness-95",
+                        className
+                    )
+                }
+                onClick={
+                    infoPanelState === PanelState.Closed ?
+                    () => setInfoPanelState(PanelState.Open)
+                    : () => setInfoPanelState(PanelState.Closed)
+                }
+            >
+                {
+                    infoPanelState === PanelState.Closed ?
+                    (<IconArrowRight />)
+                    : (<IconArrowLeft />)
+                }
+            </IconButton>
+        </Tooltip>
+    )
+
+    const content = (
+        <div className="flex h-full w-full">
+            <InfoPanel panelState={ infoPanelState } setPanelState={ setInfoPanelState } className="transition-all duration-200 md:w-1/2 lg:w-1/3 xl:w-1/3 2xl:w-1/4" />
+            <div className={
+                twMerge(
+                    "absolute top-1/2 hidden md:flex transition-all duration-200",
+                    isBusinessSelected ? "" : "md:hidden",
+                    infoPanelState === PanelState.Closed ? "left-0" : "md:left-1/2 lg:left-1/3 xl:left-1/3 2xl:left-1/4"
+                )
+            }>
+                <ToggleStateButton className="z-10 my-auto" />
+            </div>
+            <div
+                className={
+                    twMerge(
+                        "h-full flex flex-row w-full transition-all duration-200 justify-end items-center",
+                    )
+                }
+            >
+                <BusinessView className="flex w-full" infoPanelOpen={ infoPanelState === PanelState.Open }  />
+            </div>
         </div>
     )
 
@@ -116,88 +132,55 @@ const Main: NextPageWithLayout = ({ businesses }: InferGetStaticPropsType<typeof
             <BusinessViewContext.Provider value={ context }>
                 { content }
             </BusinessViewContext.Provider>
-            {/* the search bar */}
-            <div className="flex flex-col md:flex-row absolute top-2 left-20 gap-6">
-                <div className="flex flex-row bg-slate-50 rounded-lg items-center drop-shadow-md gap-4 px-4 p-2 h-12">
-                    <IconSearch className="text-gray-600" />
-                    <input
-                        placeholder={ strings.businesses.businessView.searchBarLabel }
-                        className="focus:outline-none bg-slate-50 w-44 lg:w-64"
-                        onChange={ e => setSearchQuery(e.target.value) }
-                        aria-label='search businesses'
-                        defaultValue={ searchQuery }
-                        type="text"
-                    />
-                </div>
-                <div className="flex flex-row items-center drop-shadow-md gap-4 cursor-pointer">
-                    <Select
-                        multiple
-                        displayEmpty
-                        value={ selectedCategories }
-                        onChange={ handleCategoryChange }
-                        input={ <InputBase className="bg-slate-50 w-44 lg:w-64 h-12 px-4 p-2 rounded-lg cursor-pointer" /> }
-                        renderValue={
-                            selected => {
-                                return selected.length > 0
-                                    ? selected.map(s => businessCategoryConverter(s)).join(', ')
-                                    : strings.businesses.businessView.categorySelectLabel
-                            }
-                        }
-                        className="outline-none cursor-pointer"
-                    >
-                        {
-                            BUSINESS_CATEGORIES.map(
-                                (value: BusinessCategory, index: number) => (
-                                    <MenuItem key={ index } value={ value }>
-                                        <Checkbox checked={ selectedCategories.indexOf( value ) > -1 } />
-                                        <ListItemText primary={ businessCategoryConverter(value) } />
-                                    </MenuItem>
-                                )
-                            )
-                        }
-                    </Select>
-                    <Select
-                        multiple
-                        displayEmpty
-                        value={ selectedTags }
-                        onChange={ handleTagsChange }
-                        input={ <InputBase className="bg-slate-50 w-44 lg:w-64 h-12 px-4 p-2 rounded-lg cursor-pointer" /> }
-                        renderValue={
-                            selected => {
-                                return selected.length > 0
-                                    ? selected.map(s => tagConverter(s)).join(', ')
-                                    : strings.businesses.businessView.tagSelectLabel
-                            }
-                        }
-                        className="outline-none cursor-pointer"
-                    >
-                        {
-                            BUSINESS_TAGS.map(
-                                (value: Tag, index: number) => (
-                                    <MenuItem key={ index } value={ value }>
-                                        <Checkbox checked={ selectedTags.indexOf( value ) > -1 } />
-                                        <ListItemText primary={ tagConverter(value) } />
-                                    </MenuItem>
-                                )
-                            )
-                        }
-                    </Select>
-                </div>
-            </div>
+            {/* BACKDROP */}
+            <div
+                className={
+                    "absolute top-0 h-full w-full left-0 bg-black transition-opacity duration-500 " +
+                    (menuState === PanelState.Closed ? "opacity-0 -z-50" : "opacity-20 z-50")
+                }
+                onClick={ () => setMenuState(PanelState.Closed) }
+            />
+            <AppMenu menuState={ menuState } setMenuState={ setMenuState } />
         </>
     )
 }
 
-export const getStaticProps: GetStaticProps = async (context) => {
-    let businesses : Array<BusinessModel> = await getPublishedRecords()
+export const getStaticProps: GetStaticProps<Props> = async () => {
+    logger.debug("Attempting to load published records")
 
-    logger.debug("Loaded businesses: ", businesses)
+    // this is intentionally here rather than in a separate function
+    // as otherwise it reduces efficiency and breaks revalidate
+
+    let options : QueryParams<FieldSet> = {}
+
+    let formula = "Publish = 1"
+    options["filterByFormula"] = formula
+
+    const table : Table<FieldSet> = _base('Business')
+
+    let businesses : BusinessModel[] = await
+        table.select(options)
+           .all()
+           .then(records => {
+                logger.debug(`Success getting records by formula ${ formula }`)
+                if (records) {
+                    logger.debug(`Success: got ${ records.length } published records`)
+                    return records.map((r: any) => jsonToBusiness(r._rawJson))
+                }
+
+                logger.debug("No records found, returning empty")
+                return []
+            })
+           .catch(err => processError(err, "", logger.with({ "function": "_getRecordsByFormula" })))
+        ?? []
+
+    logger.debug(`Loaded ${ businesses.length } businesses`)
 
     return {
         props: {
             businesses
         },
-        revalidate: 5
+        revalidate: 120
     }
 }
 

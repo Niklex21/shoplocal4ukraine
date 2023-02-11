@@ -4,6 +4,7 @@ import Image from 'next/image'
 import { Email as IconEmail, Language as IconWebsite, LinkedIn as IconLinkedin, Instagram as IconInstagram } from "@mui/icons-material"
 import Link from "next/link";
 import { useState } from "react";
+import ImageWithFallback from "@components/common/ImageWithFallback";
 
 type Social = {
     icon: JSX.Element,
@@ -47,12 +48,12 @@ export function PersonCard({ name, profilePictureURL, role, description, gifURL,
     return (
         <div className="flex flex-col justify-center">
             <div className="flex justify-center">
-                <Image
+                <ImageWithFallback
                     src={ currentImageURL }
                     alt="Profile Picture"
                     className="object-contain rounded-full"
-                    width={ "256px" }
-                    height={ "256px" }
+                    width={ 256 }
+                    height={ 256 }
                     onMouseOver={ () => setCurrentImageURL(gifURL) }
                     onMouseOut={ () => setCurrentImageURL(profilePictureURL) }
                 />

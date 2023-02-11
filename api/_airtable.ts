@@ -1,10 +1,12 @@
+import defaults from "@utils/config"
 import Airtable from "airtable"
 import { log } from 'next-axiom'
 
 // Airtable database REST API set-up
 
 Airtable.configure({
-    apiKey: process.env.AIRTABLE_API_KEY
+    apiKey: process.env.AIRTABLE_API_KEY,
+    requestTimeout: defaults.airtableRequestTimeout
 })
 
 log.with({ from: 'api.setup' }).debug("Connecting to Airtable...")

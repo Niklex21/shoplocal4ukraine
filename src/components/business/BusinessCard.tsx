@@ -5,9 +5,13 @@ import {
     CardActionArea,
     CardMedia,
   } from "@mui/material"
-import { Place as IconPlace } from "@mui/icons-material"
+import { businessCategoryConverter } from "@utils/converters"
+import { getBusinessProfileImageSrc } from "@utils/utils"
+import { BadgesRow } from "./BadgesRow"
+import Image from "next/image"
+import strings from "@utils/strings"
+import ImageWithFallback from "@components/common/ImageWithFallback"
 import defaults from "@utils/config"
-import { tagConverter, businessCategoryConverter } from "@utils/converters"
 
 /**
  * A business card that displays basic (preview) information about a business.
@@ -15,34 +19,37 @@ import { tagConverter, businessCategoryConverter } from "@utils/converters"
  */
 export default function BusinessCard({ data, active } : { data: BusinessModel, active: boolean }) {
 
-    const imageSrc = data.images && data.images.length > 0 ? data.images[0] : defaults.businesses.gallery.defaultImage.src
-
-    const tags = data.tags.length > 0 ?
-        (
-            <>
-                &nbsp;&bull;&nbsp;
-                { tagConverter(data.tags[0]) }
-            </>
-        ) : ""
+    const imageSrc = getBusinessProfileImageSrc(data)
 
     return (
-        <Card className={ `flex w-80 shrink border-2 ${ active ? "border-ukraine-blue" : "border-transparent"}` }>
-            <CardActionArea>
-                <CardMedia
-                    component="img"
-                    className="h-36"
-                    image={ imageSrc }
+        <div className={ `transition-all duration-200 relative p-1 pb-3 bg-white group flex flex-col w-full md:min-w-[12rem] md:max-w-[20rem] gap-3 shrink rounded-lg hover:drop-shadow-xl ${ active ? "drop-shadow-xl" : "" }` }>
+            <div className="flex relative w-full h-64 md:aspect-[5/3] md:h-auto">
+                <ImageWithFallback
+                    fallbackImageSrc={ defaults.businesses.gallery.defaultImage }
+                    src={ imageSrc }
                     alt={ data.name }
+                    fill={ true }
+                    className="relative object-cover rounded-lg"
                 />
-                <CardContent>
-                    <div className="text-sm text-ukraine-blue font-semibold">
-                        { businessCategoryConverter(data.businessCategory) }
-                        { tags }
+            </div>
+            <div className="absolute top-2 right-2">
+                { BadgesRow(data.tags) }
+            </div>
+            <div className="flex flex-col gap-2 px-3">
+                <div className="flex flex-col">
+                    <div className="flex flex-row gap-2 items-center">
+                        <h1 className="font-medium line-clamp-1">{ data.name }</h1>
                     </div>
-                    <h1 className="text-lg mt-2 font-medium">{ data.name }</h1>
-                    <div className="text-gray-500 break-words line-clamp-3 mt-2">{ data.description }</div>
-                </CardContent>
-            </CardActionArea>
-        </Card>
+                    <div className="text-base opacity-60">
+                        { data.location.city ?? strings.businesses.infoPage.online }
+                    </div>
+                </div>
+                <div className="flex flex-row w-full justify-between text-sm font-semibold uppercase">
+                    <text className="text-ukraine-blue">
+                        { businessCategoryConverter(data.businessCategory) }
+                    </text>
+                </div>
+            </div>
+        </div>
     )
 }

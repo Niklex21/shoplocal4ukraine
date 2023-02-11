@@ -1,20 +1,26 @@
 import { BusinessCategory, BusinessModel, Tag } from "@api/business/types";
-import { MapDragState, SearchedSerializedBusiness, SerializedBusinessModel, Views } from "@appTypes/businesses";
+import { AutocompleteSuggestion, AutocompleteSuggestionCategory, MapDragState, MapStyle, SearchedSerializedBusiness, SerializedBusinessModel, Views } from "@appTypes/businesses";
 import { atom } from "jotai";
 import Fuse from "fuse.js"
-import { atomWithHash } from "jotai/utils";
+import { atomWithHash, atomWithStorage } from "jotai/utils";
 import { findBusinessById, serializeBusinessModel, serializedToSearchSerialized } from "@utils/utils";
-import { LOCAL_STORAGE_KEYS } from "@utils/config";
+import { BUSINESS_CATEGORIES, BUSINESS_TAGS, LOCAL_STORAGE_KEYS } from "@utils/config";
+import { businessCategoryConverter, tagConverter } from "@utils/converters";
 
 /**
  * Stores the view settings for the business viewer.
  */
-const atomView = atomWithHash(LOCAL_STORAGE_KEYS.atomView, Views.Map, { delayInit: true })
+const atomView = atomWithHash(LOCAL_STORAGE_KEYS.atomView, Views.Gallery, { delayInit: true })
 
 /**
  * Stores whether or not the map is being moved right now.
  */
 const atomMapDragState = atom<MapDragState>(MapDragState.Off)
+
+/**
+ * Stores the current map state (satellite or streets, for example).
+ */
+const atomMapStyleState = atom<MapStyle>(MapStyle.Streets)
 
 /**
  * Stores the currently selected business ID.
@@ -26,6 +32,11 @@ const atomSelectedBusinessID = atomWithHash<string>(LOCAL_STORAGE_KEYS.atomBusin
  * Stores the current search query in the search bar in the main businesses view.
  */
 const atomSearchQuery = atomWithHash<string>(LOCAL_STORAGE_KEYS.atomSearch, "", { delayInit: true })
+
+/**
+ * Stores the current query that the user is typing in but have not yet selected.
+ */
+const atomCurrentQuery = atom<string>("")
 
 /**
  * Stores the selected categories that filter the businesses.
@@ -54,6 +65,10 @@ const atomCurrentBusiness = atom<SerializedBusinessModel>(
     )
 )
 
+const atomIsBusinessSelected = atom<boolean>(
+    (get) => get(atomSelectedBusinessID).length > 0
+)
+
 /**
  * A read-only atom that stores businesses that are filtered according to the currently selected categories
  */
@@ -74,6 +89,94 @@ const atomFilteredBusinesses = atom<Array<BusinessModel>>(
 )
 
 /**
+ * Stores the last 100 items searched.
+ */
+const atomSearchHistory = atomWithStorage<Array<AutocompleteSuggestion>>(LOCAL_STORAGE_KEYS.atomSearchHistory, [])
+
+/**
+ * Stores all possible autocomplete options.
+ */
+const atomAutocompleteOptions = atom<Array<AutocompleteSuggestion>>(
+    (get) => {
+        let list : Array<AutocompleteSuggestion> = [...get(atomSearchHistory)]
+
+        // add all businesses to the list of the autocomplete
+        get(atomFilteredBusinesses).forEach(
+            ({ name, id }) => {
+                list.push({
+                    text: name,
+                    category: AutocompleteSuggestionCategory.Business,
+                    properties: {
+                        businessId: id
+                    }
+                })
+            }
+        )
+
+        // add all possible business categories
+        BUSINESS_CATEGORIES.forEach(
+            (c, index) => {
+                list.push({
+                    text: businessCategoryConverter(c),
+                    category: AutocompleteSuggestionCategory.Category,
+                    properties: {
+                        categoryId: BUSINESS_CATEGORIES[index]
+                    }
+                })
+            }
+        )
+
+        // add all possible tags
+        BUSINESS_TAGS.forEach(
+            (t, index) => {
+                list.push({
+                    text: tagConverter(t),
+                    category: AutocompleteSuggestionCategory.Tag,
+                    properties: {
+                        tagId: BUSINESS_TAGS[index]
+                    }
+                })
+            }
+        )
+
+        return list
+    }
+)
+
+/**
+ * Stores the fuse object for the autocomplete suggestions.
+ */
+const atomAutocompleteFuse = atom<Fuse<AutocompleteSuggestion>>(
+    (get) => new Fuse<AutocompleteSuggestion>(
+        get(atomAutocompleteOptions),
+        {
+            includeMatches: true,
+            findAllMatches: true,
+            shouldSort: true,
+            keys: ['text'],
+        }
+    )
+)
+
+/**
+ * Autocomplete suggestions based on the current user query.
+ */
+const atomAutocompleteSuggestions = atom<Array<AutocompleteSuggestion>>(
+    (get) =>
+        get(atomAutocompleteFuse)
+        .search(get(atomCurrentQuery))
+        .slice(0, 5)
+        .map(
+            ({ item, matches }) => {
+                return {
+                    ...item,
+                    matches
+                }
+            }
+        )
+)
+
+/**
  * A read-only atom that stores the FuseSearch object derived from current filtered businesses.
  */
 const atomFuseSearch = atom<Fuse<SerializedBusinessModel>>(
@@ -86,11 +189,7 @@ const atomFuseSearch = atom<Fuse<SerializedBusinessModel>>(
             keys: [
                 'name',
                 'serializedBusinessCategory',
-                'serializedTags',
-                'location.address',
-                'location.city',
-                'location.country',
-                'description'
+                'serializedTags'
             ]
         }
     )
@@ -107,6 +206,11 @@ const atomSearchedBusinesses = atom<Array<SearchedSerializedBusiness>>(
     }
 )
 
+/**
+ * Atom that stores whether or not the current business was selected from the search or from the business view.
+ */
+const atomSelectedFromSearch = atom<boolean>(false);
+
 export {
     atomView,
     atomMapDragState,
@@ -118,5 +222,11 @@ export {
     atomFilteredBusinesses,
     atomFuseSearch,
     atomSearchedBusinesses,
-    atomCurrentBusiness
+    atomCurrentBusiness,
+    atomSelectedFromSearch,
+    atomMapStyleState,
+    atomIsBusinessSelected,
+    atomCurrentQuery,
+    atomAutocompleteSuggestions,
+    atomSearchHistory
 }
