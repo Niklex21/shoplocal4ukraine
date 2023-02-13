@@ -51,7 +51,7 @@ const Home: NextPageWithLayout = () => {
       </div>
       <div className="flex">
         <div className="flex flex-col gap-8">
-          <text className="text-6xl md:text-[10rem] text-ukraine-yellow font-extrabold">03/18/23</text>
+          <text className="text-6xl md:text-[10rem] text-ukraine-yellow font-extrabold">02/18/23</text>
           <div className="flex flex-row gap-2 mx-auto">
             <Link href="https://www.instagram.com/shop4ukraine" target="_blank">
               <IconButton>
