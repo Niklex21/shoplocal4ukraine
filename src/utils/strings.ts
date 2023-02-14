@@ -93,7 +93,7 @@ const strings_en = {
                     },
                     {
                         question: "I have other questions. How do I get in contact with you?",
-                        answer: "We are happy to hear from you! You can reach us via mail at shop4ukraine@gmail.com or call us at +1-339-545-1405."
+                        answer: "We are happy to hear from you! You can reach us via mail at shoplocal4ukraine@gmail.com or call us at +1-339-545-1405."
                     }
                 ]
             },
