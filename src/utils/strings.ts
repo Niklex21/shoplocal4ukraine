@@ -44,18 +44,18 @@ const strings_en = {
             whoWeAre: {
                 title: "Who we are",
                 mission: {
-                    m1: "We are a Boston-based",
-                    h1: "nonprofit",
-                    m2: "with a mission to",
-                    h2: "bring attention",
-                    m3: "to",
+                    m1: "Supporting Ukraine should be",
+                    h1: "simple and cost-free",
+                    m2: ". We are",
+                    h2: "Boston-based students",
+                    m3: "with a mission to help",
                     h3: "Ukraine-supporting businesses",
                     m4: "in your area."
                 }
             },
             whyWeDoIt: {
                 title: "Why we do it",
-                content: "All of our team members are Ukrainian, and with the ongoing war, we feel it is crucial to support our people through all possible avenues. With this project, we found a new way to do so — by bringing attention to Ukrainian-owned or Ukraine-supporting local businesses."
+                content: "We are Ukrainian students living in Boston while our home country is going through war. It means a lot to us when local businesses and Bostonians support our Ukrainian community through small but meaningful actions. However, such help often comes at a cost to business owners, which makes their support even more valuable. \nShop4UA is created by us, the Ukrainian students, to support the local businesses that are standing with us in the fight for Freedom and Peace. \nSupporting Ukraine should not come at a cost, and Shop4UA is born to make that happen."
             },
             howThisWorks: {
                 title: "How this works",
@@ -65,7 +65,7 @@ const strings_en = {
                 },
                 business: {
                     title: "Business",
-                    text: "If you are a business that supports Ukraine, we will add your information to our list, exposing and promoting your business to hundreds of active users. No additional actions required from you."
+                    text: "Want to help Ukraine but not sure where to start? We want to give you a hand in brainstorming and promoting your support! If you are a business that already supports Ukraine, we want to promote you and your initiatives to the Ukrainian community and Ukraine-supporters in Boston."
                 }
             },
             faq: {
@@ -73,25 +73,27 @@ const strings_en = {
                 toggles: [
                     {
                         question: 'How do you define "business that supports Ukraine"?',
-                        answer: `We leave it at our own discretion to determine whether or not a business supports Ukraine. Each evaluation is performed by one of our team members, and all decisions are made on a case-by-case basis. All businesses that we display contain a short descriptions of their contributions that let them qualify as "Ukraine supporters".`,
-                        linkText: "Read more about our guidelines here.",
-                        link: "#"
+                        answer: `We leave it at our own discretion to determine whether or not a business supports Ukraine. Each evaluation is performed by one of our team members, and all decisions are made on a case-by-case basis. All businesses that we display contain a short descriptions of their contributions that let them qualify as "Ukraine supporters".Most common way a business can support Ukraine is donate cash or goods to a local nonprofit or community event, but support is not only limited to donations!`,
+                        linkText: "Read more here about how local businesses can support Ukraine and the Ukrainian community.",
+                        link: "https://shop4ua.notion.site/Guide-for-Local-Businesses-on-Supporting-Ukraine-60bceb5aa5f2455fa4debe82d0aaf15e"
                     },
                     {
                         question: "How do you verify businesses?",
-                        answer: ""
+                        answer: "The verification of support is done on a case-by-case basis. First, we identify businesses by talking to community members, local Ukrainian nonprofits, local news papers, and internet searches. Then, we proceed to document proof of support, usually in a form of a social media post, a news article, or business’ statement on their website. The proof and description of the business’ initiative is added to our database, which will be reviewed by our editor prior to being published."
                     },
                     {
                         question: "How do you select featured businesses?",
-                        answer: ""
+                        answer: "Featured businesses are displayed on Shop4UA’s landing page and introduced in our newsletter and social media. The selection of a business to feature is decided on a case-by-case basis. We aim to feature businesses that have an active initiative for Ukraine, such as a fundraiser or a community event, but we can also feature new businesses that are Ukraine-owned or support our cause. Please let us know via email if you want to nominate your or someone’s business to be featured!"
                     },
                     {
                         question: "What if I know a businesses that I think should be on the website?",
-                        answer: ""
+                        answer: "Tell us about them! You can add the business yourself here or send us a brief email with some basic information about the business and why you think they should be on Shop4UA. Thank you for your contribution!",
+                        linkText: "Add a business here",
+                        link: "https://www.shop4ua.com/join"
                     },
                     {
                         question: "I have other questions. How do I get in contact with you?",
-                        answer: ""
+                        answer: "We are happy to hear from you! You can reach us via mail at shoplocal4ukraine@gmail.com or call us at +1-339-545-1405."
                     }
                 ]
             },
@@ -100,11 +102,11 @@ const strings_en = {
             },
             wantToWorkWithUs: {
                 title: "Let's get in touch!",
-                text1: "Check out our open positions",
+                text1: "We need any possible help to grow Shop4UA! Interested in joining our team? Find our open positions",
                 openPositionsLinkText: "here",
-                text2: ". If you don't find anything that fits you, shoot us an email at",
-                text3: "with your resume and explain in a few sentences how you would like to help us. We'd love to talk to you and we always need the help!",
-                text4: "If you are looking to collaborate with us, send us an email explaining how we can help each other — we'd love to find some common ground with you!"
+                text2: "or shoot us an email at",
+                text3: "with a brief note about you and how you can help our mission.",
+                text4: "We always looking for collaborations and connections with local businesses, community members, and nonprofits. Let’s get in touch via mail at shoplocal4ukraine@gmail.com!"
             }
         },
         home: {
@@ -119,7 +121,7 @@ const strings_en = {
             benefits: {
                 free: {
                     title: "Free",
-                    description: "Our platform is a non-profit, thus we do not charge any money to use it. No ads, no fees, no subscription."
+                    description: "Shop4UA is born to support local business and community. Businesses do not have to pay anything to be featured and promoted on our platform, and customers browse our site with no ads and fees."
                 },
                 verified: {
                     title: "Verified",
@@ -127,7 +129,7 @@ const strings_en = {
                 },
                 support: {
                     title: "Support Ukraine",
-                    description: "By shopping with Ukrainian-supporting or Ukrainian-owned businesses, your money helps others."
+                    description: "By shopping with Ukrainian-supporting or Ukrainian-owned businesses, you are supporting the local Ukrainian community and our fight for Freedom and Peace."
                 }
             },
             testimonials: {
