@@ -87,7 +87,7 @@ export default function SearchBar({ className }: Props) {
         // need to start from -1 if we are going up from null
         let hover = currentHover ?? (value === 1 ? -1 : 0)
 
-        let n = autoCompleteOptions.length
+        let n = currentOptions.length
         // this weird formula is so we rotate properly
         // this formula takes a modulo, rather than the remainder (%)
         setCurrentHover((((hover + value) % n ) + n) % n)
