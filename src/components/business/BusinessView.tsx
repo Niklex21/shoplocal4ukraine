@@ -92,7 +92,7 @@ export const BusinessView = ({ infoPanelOpen, className, children }: Props) => {
     )
 
     const menu = (
-        <IconButton className="fixed top-4 z-30 left-4 w-12 h-12 rounded-md bg-white hover:bg-white hover:brightness-95" onClick={ () => setMenuState(PanelState.Open) }>
+        <IconButton className="fixed top-4 z-30 left-4 w-12 h-12 rounded-md drop-shadow-md bg-white hover:bg-white hover:brightness-95" onClick={ () => setMenuState(PanelState.Open) }>
             <IconMenu className="text-oxford-blue" />
         </IconButton>
     )

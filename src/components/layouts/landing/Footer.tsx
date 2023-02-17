@@ -7,40 +7,10 @@ import { Email, Facebook, Instagram, LinkedIn, Message, Phone, Telegram, Twitter
 import { links as sections } from "@utils/config"
 import { IconLinkText } from "@appTypes/businesses";
 import { Tooltip, IconButton } from "@mui/material";
-import ImageWithFallback from "@components/common/ImageWithFallback";
-
-const socials : Array<IconLinkText> = [
-  {
-    icon: <Phone />,
-    link: "tel:+13395451405",
-    text: "+13395451405"
-  },
-  {
-    icon: <Email />,
-    link: "mailto:shoplocal4ukraine@gmail.com",
-    text: "Email"
-  },
-  {
-      icon: <LinkedIn />,
-      link: "https://www.linkedin.com/company/shop4ua/",
-      text: "LinkedIn"
-  },
-  {
-      icon: <Facebook />,
-      link: "https://www.facebook.com/shoplocal4ukraine",
-      text: "Facebook"
-  },
-  {
-      icon: <Instagram />,
-      link: "https://www.instagram.com/shop4ukraine/",
-      text: "Instagram"
-  },
-  {
-      icon: <Telegram />,
-      link: "https://t.me/shop4ua",
-      text: "Telegram"
-  },
-]
+import ImageWithFallback from "@components/common/ImageWithFallback"
+import { socials } from "@utils/config";
+import { createElement } from "react";
+import { SvgIconComponent } from "@mui/icons-material";
 
 export default function Footer() {
   return (
@@ -100,7 +70,6 @@ export default function Footer() {
         <div className="hidden lg:block"></div>
         <div className="flex flex-col gap-8 col-span-2">
           <div className="grid grid-rows-1 grid-flow-col gap-8 md:gap-16">
-            {/* TODO: feedback */}
             {
               sections.map(
                 ({ name, links }) => (
@@ -123,21 +92,23 @@ export default function Footer() {
                 )
               )
             }
-            <div className="flex flex-col gap-4">
-              <text className="font-bold text-xl">{ strings.landing.footer.sections.socials.name }</text>
-              {
-                  socials.map(
-                      ({ icon, link, text }, index: number) => (
-                          <Link href={ link ?? "" } target="_blank" key={ index }>
-                              <span className="flex flex-row gap-2 hover:text-ukraine-blue text-base cursor-pointer text-gray-700">
-                                { icon }
-                                { text }
-                              </span>
-                          </Link>
-                      )
-                  )
-              }
-            </div>
+            <a id="contacts" className="cursor-text">
+              <div className="flex flex-col gap-4">
+                <text className="font-bold text-xl">{ strings.landing.footer.sections.socials.name }</text>
+                {
+                    socials.map(
+                        ({ iconSVG, link, text, }, index: number) => (
+                            <Link href={ link ?? "" } target="_blank" key={ index }>
+                                <span className="flex flex-row gap-2 hover:text-ukraine-blue text-base cursor-pointer text-gray-700">
+                                  { createElement(iconSVG!) }
+                                  { text }
+                                </span>
+                            </Link>
+                        )
+                    )
+                }
+              </div>
+            </a>
           </div>
         </div>
       </div>

@@ -1,8 +1,12 @@
 import defaultImage from '@public/images/flag.jpg'
+import solodko from '@public/images/featured/solodko.png'
+import galaxyKitchen from '@public/images/featured/galaxy_kitchen.jpg'
+import estheticBean from '@public/images/featured/esthetic_bean.jpg'
+
 
 const strings_en = {
     all: {
-        title: 'Shop 4 Ukraine',
+        title: 'Shop Local 4 Ukraine',
         genericError: "Sorry, something went wrong.",
         reportError: "Report a problem with the website",
         pages: {
@@ -55,7 +59,7 @@ const strings_en = {
             },
             whyWeDoIt: {
                 title: "Why we do it",
-                content: "We are Ukrainian students living in Boston while our home country is going through war. It means a lot to us when local businesses and Bostonians support our Ukrainian community through small but meaningful actions. However, such help often comes at a cost to business owners, which makes their support even more valuable. \nShop4UA is created by us, the Ukrainian students, to support the local businesses that are standing with us in the fight for Freedom and Peace. \nSupporting Ukraine should not come at a cost, and Shop4UA is born to make that happen."
+                content: "We are Ukrainian students living in Boston while our home country is going through war. It means a lot to us when local businesses and Bostonians support our Ukrainian community through small but meaningful actions.However, such help often comes at a cost to business owners, which makes their support even more valuable. \n\nShop4UA is created by us, the Ukrainian students, to support the local businesses that are standing with us in the fight for Freedom and Peace. \n\nSupporting Ukraine should not come at a cost, and Shop4UA is born to make that happen."
             },
             howThisWorks: {
                 title: "How this works",
@@ -83,7 +87,7 @@ const strings_en = {
                     },
                     {
                         question: "How do you select featured businesses?",
-                        answer: "Featured businesses are displayed on Shop4UA’s landing page and introduced in our newsletter and social media. The selection of a business to feature is decided on a case-by-case basis. We aim to feature businesses that have an active initiative for Ukraine, such as a fundraiser or a community event, but we can also feature new businesses that are Ukraine-owned or support our cause. Please let us know via email if you want to nominate your or someone’s business to be featured!"
+                        answer: "Featured businesses are displayed on Shop4UA's landing page and introduced in our newsletter and social media. The selection of a business to feature is decided on a case-by-case basis. We aim to feature businesses that have an active initiative for Ukraine, such as a fundraiser or a community event, but we can also feature new businesses that are Ukraine-owned or support our cause. Please let us know via email if you want to nominate your or someone’s business to be featured!"
                     },
                     {
                         question: "What if I know a businesses that I think should be on the website?",
@@ -93,7 +97,10 @@ const strings_en = {
                     },
                     {
                         question: "I have other questions. How do I get in contact with you?",
-                        answer: "We are happy to hear from you! You can reach us via mail at shoplocal4ukraine@gmail.com or call us at +1-339-545-1405."
+                        answer: "We are happy to hear from you!",
+                        linkText: "Check out our contacts below.",
+                        link: "#contacts",
+                        linkNoBlank: true
                     }
                 ]
             },
@@ -106,8 +113,9 @@ const strings_en = {
                 openPositionsLinkText: "here",
                 text2: "or shoot us an email at",
                 text3: "with a brief note about you and how you can help our mission.",
-                text4: "We always looking for collaborations and connections with local businesses, community members, and nonprofits. Let’s get in touch via mail at shoplocal4ukraine@gmail.com!"
-            }
+                text4: "We always looking for collaborations and connections with local businesses, community members, and nonprofits. Let's get in touch!"
+            },
+            supportedByTitle: "Supported by"
         },
         home: {
             callPrimary: 'Shop Local, Support Ukraine',
@@ -154,39 +162,25 @@ const strings_en = {
                 readMore: "Read more...",
                 businesses: [
                     {
-                        image: defaultImage,
-                        name: "Business",
-                        category: "Restaurant",
-                        description: "Really cool business did a lot of stuff for Ukraine of course must be rewarded hehe",
-                        link: '/businesses?id=""'
+                        image: solodko,
+                        name: "Solodko Boston",
+                        category: "Cafe",
+                        description: "Ukrainian-owned cafe in Brighton, MA, with excellent pastries and custom cakes.",
+                        link: '/businesses#business_id="recDKndwX1LT0IZCF"'
                     },
                     {
-                        image: defaultImage,
-                        name: "Business",
-                        category: "Restaurant",
-                        description: "Really cool business did a lot of stuff for Ukraine of course must be rewarded hehe",
-                        link: '/businesses?id=""'
+                        image: galaxyKitchen,
+                        name: "Galaxy Kitchen",
+                        category: "Services",
+                        description: "Ukrainian-owned business dedicated to help you find the optimal kitchen solutions.",
+                        link: '/businesses#business_id="recIe3T4qOk3t4d2z"'
                     },
                     {
-                        image: defaultImage,
-                        name: "Business",
-                        category: "Restaurant",
-                        description: "Really cool business did a lot of stuff for Ukraine of course must be rewarded hehe",
-                        link: '/businesses?id=""'
-                    },
-                    {
-                        image: defaultImage,
-                        name: "Business",
-                        category: "Restaurant",
-                        description: "Really cool business did a lot of stuff for Ukraine of course must be rewarded hehe",
-                        link: '/businesses?id=""'
-                    },
-                    {
-                        image: defaultImage,
-                        name: "Business",
-                        category: "Restaurant",
-                        description: "Really cool business did a lot of stuff for Ukraine of course must be rewarded hehe",
-                        link: '/businesses?id=""'
+                        image: estheticBean,
+                        name: "Esthetic Bean",
+                        category: "Cafe",
+                        description: "A Ukrainian-owned bakery with a warm-hearted atmosphere.",
+                        link: '/businesses#business_id="recSKQUgGhsdJ6LEv"'
                     }
                 ]
             }

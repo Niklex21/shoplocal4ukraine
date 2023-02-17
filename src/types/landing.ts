@@ -10,7 +10,8 @@ enum Page {
 type Link = {
   text: string,
   link: string,
-  page?: Page
+  page?: Page,
+  targetBlank?: boolean
 }
 
 type Person = {

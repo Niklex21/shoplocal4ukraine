@@ -9,6 +9,7 @@ import { ReactNode } from "react";
  */
 type IconLinkText = {
     icon?: JSX.Element,
+    iconSVG? : SvgIconComponent,
     link?: string,
     text?: string
 }

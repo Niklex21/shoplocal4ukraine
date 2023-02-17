@@ -2,11 +2,10 @@ import { FullScreenPanelPosition, PanelState } from "@appTypes/businesses"
 import { SetStateAction } from "jotai"
 import Link from "next/link"
 import { twMerge } from "tailwind-merge"
-import Image from 'next/image'
-import { links as sections } from "@utils/config"
+import { links as sections, socials } from "@utils/config"
 import Logo from '@public/images/logo.png'
 import FullScreenPanel from "@components/common/FullScreenPanel"
-import { useState } from "react"
+import { createElement, useState } from "react"
 import FeedbackPanel from "@components/business/FeedbackPanel"
 import strings from "@utils/strings"
 import ImageWithFallback from "./ImageWithFallback"
@@ -49,7 +48,7 @@ type Props = {
                 className={
                     // flex overrides "hidden", instead hiding it by movement, thus enabling transitions
                     twMerge(
-                        "transition-all flex md:max-w-xs w-screen h-screen overflow-auto gap-16 md:gap-8 p-8 justify-center md:justify-start md:rounded-none text-center md:text-start",
+                        "transition-all flex md:max-w-xs w-screen h-screen overflow-auto gap-8 p-8 justify-center md:justify-start md:rounded-none text-center md:text-start",
                         menuState === PanelState.Closed ? "hidden md:flex md:-left-full" : "",
                         className
                     )
@@ -67,7 +66,7 @@ type Props = {
                                             links.map(
                                                 ({ text, link }) => (
                                                     <text key={ link } className="text-xl md:text-base cursor-pointer text-gray-700 hover:text-ukraine-blue">
-                                                        <Link href={ link }>
+                                                        <Link href={ link } onClick={ () => setMenuState(PanelState.Closed)}>
                                                             { text }
                                                         </Link>
                                                     </text>
@@ -76,6 +75,22 @@ type Props = {
                                         }
                                     </div>
                                 </div>
+                            )
+                        )
+                    }
+                </div>
+                <hr />
+                <div className="flex flex-col gap-4">
+                    <text className="font-bold text-2xl md:text-xl">{ strings.landing.footer.sections.socials.name }</text>
+                    {
+                        socials.map(
+                            ({ iconSVG, link, text, }, index: number) => (
+                                <Link href={ link ?? "" } target="_blank" key={ index } onClick={ () => setMenuState(PanelState.Closed)}>
+                                    <span className="flex flex-row justify-center md:justify-start gap-2 text-xl md:text-base cursor-pointer text-gray-700 hover:text-ukraine-blue">
+                                        { createElement(iconSVG!) }
+                                        { text }
+                                    </span>
+                                </Link>
                             )
                         )
                     }
