@@ -3,10 +3,11 @@ import { NextPageWithLayout } from "./_app";
 
 import { LandingLayout } from "@layouts/landing";
 import heroImage from "@public/images/map_screenshot.png"
+import logo from "@public/images/logo_white.png"
 import Link from "next/link"
 import strings from "@utils/strings"
 import { ButtonSecondary } from "@components/common/buttons";
-import { ArrowBack as IconArrowBack, ArrowForward as IconArrowForward, MoneyOff as IconMoneyOff, Verified as IconVerified, VolunteerActivism as IconVolunteerActivism } from "@mui/icons-material";
+import { ArrowBack as IconArrowBack, ArrowForward as IconArrowForward, Email, Facebook, Instagram, LinkedIn, MoneyOff as IconMoneyOff, Telegram, Verified as IconVerified, VolunteerActivism as IconVolunteerActivism } from "@mui/icons-material";
 import { CarouselProvider, Slider, Slide, ButtonBack, ButtonNext } from "pure-react-carousel";
 import Image from "next/image"
 import "pure-react-carousel/dist/react-carousel.es.css";
@@ -41,6 +42,43 @@ const benefits : Array<Benefit> = [
 ]
 
 const Home: NextPageWithLayout = () => {
+
+  // temporary thing, remove before launch
+  return (
+    <div className="w-screen h-screen bg-oxford-blue flex flex-col md:grid grid-cols-2 text-left items-center justify-center">
+      <div className="flex relative h-64 md:h-96 w-80 md:w-96 mx-auto">
+        <ImageWithFallback src={logo} alt="logo" className="object-contain" fill={ true } />
+      </div>
+      <div className="flex">
+        <div className="flex flex-col gap-8">
+          <text className="text-6xl md:text-[10rem] text-ukraine-yellow font-extrabold">02/18/23</text>
+          <div className="flex flex-row gap-2 mx-auto">
+            <Link href="https://www.instagram.com/shop4ukraine" target="_blank">
+              <IconButton>
+                <Instagram className="text-white opacity-70 text-4xl md:text-9xl hover:opacity-100" />
+              </IconButton>
+            </Link>
+            <Link href="https://www.facebook.com/shoplocal4ukraine" target="_blank">
+              <IconButton>
+                <Facebook className="text-white opacity-70 text-4xl md:text-9xl hover:opacity-100" />
+              </IconButton>
+            </Link>
+            <Link href="https://www.linkedin.com/company/shop4ua/" target="_blank">
+              <IconButton>
+                <LinkedIn className="text-white opacity-70 text-4xl md:text-9xl hover:opacity-100" />
+              </IconButton>
+            </Link>
+            <Link href="https://t.me/shop4ua" target="_blank">
+              <IconButton>
+                <Telegram className="text-white opacity-70 text-4xl md:text-9xl hover:opacity-100" />
+              </IconButton>
+            </Link>
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+
   return (
     <div className="flex flex-col w-full gap-8">
       {/* HERO SECTION */}
@@ -78,7 +116,7 @@ const Home: NextPageWithLayout = () => {
 
       {/* FEATURED BUSINESSES SECTION */}
       <div className="flex-col w-full p-8 md:px-32 md:py-16">
-        <h1 className="text-2xl md:text-5xl font-bold leading-tight text-black px-4 py-2 before:block before:absolute before:-skew-x-12 before:-inset-1 before:bg-ukraine-yellow relative inline-block"><span className="text-black relative">{ strings.landing.home.featured.title }</span></h1>
+        <h1 className="text-2xl md:text-4xl font-bold leading-tight text-black px-4 py-2 before:block before:absolute before:-skew-x-12 before:-inset-1 before:bg-ukraine-yellow relative inline-block"><span className="text-black relative">{ strings.landing.home.featured.title }</span></h1>
         <CarouselProvider
           naturalSlideHeight={ 100 }
           naturalSlideWidth={ 100 }
@@ -129,7 +167,7 @@ const Home: NextPageWithLayout = () => {
 
       {/* TESTIMONIAL SECTION */}
       <div className="flex-col w-full p-8 md:px-32 md:py-16">
-        <h1 className="text-2xl md:text-5xl font-bold leading-tight px-4 py-2 before:block before:absolute before:-skew-x-12 before:-inset-1 before:bg-ukraine-yellow relative inline-block"><span className="text-black relative">{ strings.landing.home.testimonials.title }</span></h1>
+        <h1 className="text-2xl md:text-4xl font-bold leading-tight px-4 py-2 before:block before:absolute before:-skew-x-12 before:-inset-1 before:bg-ukraine-yellow relative inline-block"><span className="text-black relative">{ strings.landing.home.testimonials.title }</span></h1>
         <CarouselProvider
           naturalSlideWidth={ 100 }
           isIntrinsicHeight={ true }
