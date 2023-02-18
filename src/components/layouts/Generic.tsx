@@ -14,7 +14,7 @@ type Props = {
 }
 
 export default function GenericLayout({ children }: Props) {
-    
+
     return (
         <>
             <Head>

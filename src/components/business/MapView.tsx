@@ -310,7 +310,7 @@ export const MapView = ({ infoPanelOpen, className } : Props) => {
                 interactiveLayerIds={ [ BUSINESS_LAYER_ID, CLUSTERS_LAYER_ID ] }
                 reuseMaps={ true }
             >
-                { 
+                {
                     !isMobile ? (
                         <ScaleControl position="top-right" />
                     ) : (<></>)
