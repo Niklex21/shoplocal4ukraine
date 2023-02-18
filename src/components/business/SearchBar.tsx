@@ -93,9 +93,9 @@ export default function SearchBar({ className }: Props) {
         setCurrentHover((((hover + value) % n ) + n) % n)
     }
 
-    const triggerSelection = () => {
+    const triggerSelection = (index?: number) => {
         // if we are not selecting anything from the options
-        if (currentHover === null) {
+        if (currentHover === null && index === null) {
             setSearchQuery(currentQuery)
             addSearchHistory({
                 text: currentQuery,
@@ -105,9 +105,10 @@ export default function SearchBar({ className }: Props) {
         }
 
         // the one we are choosing
-        let option = currentOptions[currentHover]
+        // added a "!" because one of them has to be valid per the if above, and compiler doesn't realize that
+        let option = currentOptions[(index !== null && index !== undefined ? index : currentHover)!]
 
-        addSearchHistory(option)
+        if (!option.history) addSearchHistory(option)
 
         switch (option.category) {
             case AutocompleteSuggestionCategory.Business:
@@ -149,7 +150,7 @@ export default function SearchBar({ className }: Props) {
                             key={ index }
                             onMouseEnter={ () => setCurrentHover(index) }
                             onMouseDown={ () => setAutocompleteClick(true) }
-                            onMouseUp={ () => { setAutocompleteClick(false); triggerSelection(); } }
+                            onMouseUp={ () => { setAutocompleteClick(false); triggerSelection(index); } }
                         >
                             <span className="flex my-auto text-slate-300">{ createElement(getAutocompleteCategoryIcon({ text, category, matches, ...props})) }</span>
                             <span className="">{ matches && currentQuery !== "" ? getBoldText(text, matches[0].indices) : text }</span>
