@@ -61,15 +61,19 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
   // Use the layout defined at the page level, if available
   const getLayout = Component.getLayout ?? ((page) => page)
 
-  return getLayout(
+  return (
     <ErrorBoundary
       FallbackComponent={ ErrorFallback }
       onError={ (err: Error, { componentStack } : { componentStack: string }) => processError(err, componentStack) }
     >
-      <StyledEngineProvider injectFirst>
-        <Component {...pageProps} />
-        <Analytics />
-      </StyledEngineProvider>
+      {
+        getLayout(
+          <StyledEngineProvider injectFirst>
+            <Component {...pageProps} />
+            <Analytics />
+          </StyledEngineProvider>
+        )
+      }
     </ErrorBoundary>
   )
 }

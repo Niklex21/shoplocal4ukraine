@@ -21,39 +21,38 @@ export function QuickSearches({ className }: Props) {
 
     const [ selectedCategories, setSelectedCategories ] = useAtom(atomSelectedCategories)
     const [ selectedTags, setSelectedTags ] = useAtom(atomSelectedTags)
-    const [ currentQuery, setCurrentQuery ] = useAtom(atomCurrentQuery)
+
+    const updateCategory = (c : BusinessCategory) => {
+        if (!selectedCategories.includes(c)) {
+            setSelectedCategories([...selectedCategories, c])
+        }
+    }
+
+    const updateTags = (t : Tag) => {
+        if (!selectedTags.includes(t)){
+            setSelectedTags([...selectedTags, t])
+        }
+    }
 
     const quickSearches : QuickSearch[] = [
         {
             text: strings.businesses.businessView.quickSearches.ukrainianOwned,
-            action: () => {
-                setCurrentQuery(tagConverter(Tag.UkrainianOwned))
-                setSelectedTags([...selectedTags, Tag.UkrainianOwned])
-            }
+            action: () => updateTags(Tag.UkrainianOwned)
         },
         {
             text: strings.businesses.businessView.quickSearches.restaurants,
             icon: Restaurant,
-            action: () => {
-                setCurrentQuery(businessCategoryConverter(BusinessCategory.Restaurant))
-                setSelectedCategories([...selectedCategories, BusinessCategory.Restaurant])
-            }
+            action: () => updateCategory(BusinessCategory.Restaurant)
         },
         {
             text: strings.businesses.businessView.quickSearches.cafe,
             icon: LocalCafe,
-            action: () => {
-                setCurrentQuery(businessCategoryConverter(BusinessCategory.Cafe))
-                setSelectedCategories([...selectedCategories, BusinessCategory.Cafe])
-            }
+            action: () => updateCategory(BusinessCategory.Cafe)
         },
         {
             text: strings.businesses.businessView.quickSearches.shopping,
             icon: ShoppingCart,
-            action: () => {
-                setCurrentQuery(businessCategoryConverter(BusinessCategory.Shopping))
-                setSelectedCategories([...selectedCategories, BusinessCategory.Shopping])
-            }
+            action: () => updateCategory(BusinessCategory.Shopping)
         }
     ]
 
@@ -62,7 +61,7 @@ export function QuickSearches({ className }: Props) {
             {
                 quickSearches.map(
                     ({ text, action, icon }, index) => (
-                        <span className="flex px-4 gap-1 py-2 drop-shadow-md my-auto items-center cursor-pointer bg-white hover:brightness-95 text-oxford-blue text-sm rounded-full" onClick={ action } key={ index }>
+                        <span className="flex flex-nowrap whitespace-nowrap px-4 gap-1 py-2 drop-shadow-md my-auto items-center cursor-pointer bg-white hover:brightness-95 text-oxford-blue text-sm rounded-full" onClick={ action } key={ index }>
                             { icon ? createElement(icon, { className: "text-sm"}) : (<></>) }
                             { text }
                         </span>

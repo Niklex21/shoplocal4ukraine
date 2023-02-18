@@ -1,6 +1,5 @@
-import Image from 'next/image'
 import Logo from '@public/images/logo.png'
-import LogoNoText from '@public/images/logoNoText.png'
+import logoMinimized from '@public/images/logo_minimized.svg'
 import Link from 'next/link'
 import strings from '@utils/strings'
 import { Page, Link as LinkType } from '@appTypes/landing'
@@ -19,8 +18,8 @@ const links: Array<LinkType> = [
   },
   {
     text: strings.landing.navbar.howToSupportUkraine,
-    link: '/how-to-support-ukraine',
-    page: Page.HowToSupport
+    link: 'https://www.notion.so/shop4ua/Guide-for-Local-Businesses-on-Supporting-Ukraine-60bceb5aa5f2455fa4debe82d0aaf15e?pvs=4',
+    targetBlank: true
   },
   {
     text: strings.landing.navbar.about,
@@ -55,7 +54,7 @@ export default function Navbar({ current }: { current: Page }) {
               alt="Logo"
             />
             <ImageWithFallback
-              src={ LogoNoText }
+              src={ logoMinimized }
               fill={ true }
               className="flex xl:hidden object-contain cursor-pointer object-left"
               alt="Logo"
@@ -65,11 +64,11 @@ export default function Navbar({ current }: { current: Page }) {
         <div className="justify-end flex gap-6 lg:gap-10 items-center shrink-0">
           {
             links.map(
-              ({ text, link, page }: LinkType, index: number) => (
+              ({ text, link, page, targetBlank }: LinkType, index: number) => (
                 <span
                   key={ index }
                   className={ `font-lg text-center cursor-pointer hover:text-ukraine-blue ${ current === page ? "text-ukraine-blue" : "" }` }>
-                  <Link href={ link }>
+                  <Link href={ link } target={ targetBlank ? "_blank" : ""}>
                     {
                       index === links.length - 1 ? ButtonPrimary(text) : text
                     }

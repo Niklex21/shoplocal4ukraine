@@ -64,16 +64,23 @@ export function PersonCard({ name, profilePictureURL, role, description, gifURL,
 
     const [ currentImageURL, setCurrentImageURL ] = useState<string>(profilePictureURL)
 
+    const toggleImageURL = () => {
+        if (gifURL === "") return
+
+        setCurrentImageURL( currentImageURL === gifURL ? profilePictureURL : gifURL)
+    }
+
     return (
         <div className="flex flex-col justify-center text-oxford-blue">
             <div className="flex justify-center w-64 h-64 relative mx-auto">
-                <ImageWithFallback
+                <Image
                     src={ currentImageURL }
                     alt="Profile Picture"
                     className="object-cover rounded-full"
                     fill={ true }
                     onMouseOver={ () => setCurrentImageURL(gifURL === "" ? profilePictureURL : gifURL) }
                     onMouseOut={ () => setCurrentImageURL(profilePictureURL) }
+                    onClick={ () => toggleImageURL() }
                 />
             </div>
             <text className="text-center text-2xl mt-4 font-bold">{ name }</text>

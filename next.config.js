@@ -11,6 +11,7 @@ const nextConfig = {
       "thumbs.gfycat.com",
       "s3.us-west-2.amazonaws.com",
       "v5.airtableusercontent.com",
+      "media.tenor.com",
     ],
   },
 };

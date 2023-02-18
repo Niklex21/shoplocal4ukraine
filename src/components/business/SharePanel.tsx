@@ -178,7 +178,8 @@ export default function SharePanel({ className, panelState, closePanel }: Props)
                     </IconButton>
                 </Tooltip>
             </div>
-            <hr />
+            {/* TODO: add social sharing */}
+            {/* <hr />
             <div className="flex flex-row gap-2 justify-center">
                 {
                     socials.map(
@@ -193,7 +194,7 @@ export default function SharePanel({ className, panelState, closePanel }: Props)
                         )
                     )
                 }
-            </div>
+            </div> */}
         </FullScreenPanel>
     )
 }

@@ -15,7 +15,7 @@ export default function ErrorFallback({ error, resetErrorBoundary }: Props) {
 
     return (
         <>
-            <div className="h-full w-full flex items-center justify-center flex-col gap-8">
+            <div className="h-screen w-full flex items-center justify-center flex-col gap-8 m-auto">
                 <text className="text-2xl">{ strings.all.genericError }</text>
                 <text className="underline text-xl text-slate-700 italic hover:text-ukraine-blue cursor-pointer" onClick={ () => setFeedbackPanelState(PanelState.Open) }>
                     { strings.all.reportError }

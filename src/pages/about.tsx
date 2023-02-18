@@ -10,6 +10,10 @@ import ImageArtem from "@public/images/team/artem.jpg"
 import ImagePolina from "@public/images/team/polina.jpg"
 import ImageRostyk from "@public/images/team/rostyk.jpg"
 import ImageFedor from "@public/images/team/fedor.jpeg"
+import logoUCCN from "@public/images/supporters/uccn.png"
+import logoUkraineForward from "@public/images/supporters/ukraineforward.png"
+import logoMriya from "@public/images/supporters/mriya.svg"
+import logoTufts from "@public/images/supporters/tufts.png"
 import { PersonCard } from "@components/landing/PersonCard"
 import { ExpandLess, ExpandMore, Face, Store } from "@mui/icons-material"
 import Link from "next/link"
@@ -26,7 +30,7 @@ const team : Array<Person> = [
         profilePictureURL: ImageArtem.src,
         role: "Co-founder/Ops Director",
         description: "Artem plays ping pong, hangs out with his friends, engages in geopolitical discussions, and spams thousands of Russians with anti-propaganda.",
-        gifURL: "",
+        gifURL: "https://media.tenor.com/fttWAFyvF3gAAAAC/pepe-frog.gif",
         email: "tdinh02@tufts.edu",
         linkedin: "https://www.linkedin.com/in/long-artem-dinh/"
     },
@@ -43,7 +47,7 @@ const team : Array<Person> = [
     {
         name: "Polina Kuzmenko",
         profilePictureURL: ImagePolina.src,
-        role: "Graphic Designer",
+        role: "Web Designer",
         description: "Polina is always hungry for new experiences. Being creative is her lifestyle. She loves surfing and cuddling with her two cats.",
         gifURL: "",
         email: "polya.kuzmenko@gmail.com",
@@ -71,6 +75,30 @@ const team : Array<Person> = [
     }
 ]
 
+type Supporter = {
+    link: string,
+    logoSrc: string
+}
+
+const supportedBy : Array<Supporter> = [
+    {
+        link: "https://derbyecenter.tufts.edu",
+        logoSrc: logoTufts.src
+    },
+    {
+        link: "https://mriya-ua.org",
+        logoSrc: logoMriya.src
+    },
+    {
+        link: "https://uccn.org",
+        logoSrc: logoUCCN.src
+    },
+    {
+        link: "https://www.ukraineforward.org",
+        logoSrc: logoUkraineForward.src
+    },
+]
+
 const About : NextPageWithLayout = () => {
 
     const [ faqOpenIndex, setFAQOpenIndex ] = useState<number>(-1)
@@ -90,7 +118,6 @@ const About : NextPageWithLayout = () => {
                         { strings.landing.about.whoWeAre.mission.m1 }
                         &nbsp;
                         <span className="text-ukraine-blue">{ strings.landing.about.whoWeAre.mission.h1 }</span>
-                        &nbsp;
                         { strings.landing.about.whoWeAre.mission.m2 }
                         &nbsp;
                         <span className="text-ukraine-blue">{ strings.landing.about.whoWeAre.mission.h2 }</span>
@@ -138,8 +165,8 @@ const About : NextPageWithLayout = () => {
                 >
                     <span className="relative">{ strings.landing.about.whyWeDoIt.title }</span>
                 </h1>
-                <div className="text-lg md:text-2xl leading-loose col-span-2 text-slate-700 text-left max-w-4xl mx-auto">
-                    <span className="leading-relaxed">{ strings.landing.about.whyWeDoIt.content }</span>
+                <div className="text-lg md:text-xl leading-loose col-span-2 text-slate-700 text-left max-w-4xl mx-auto">
+                    <span className="leading-normal whitespace-pre-line">{ strings.landing.about.whyWeDoIt.content }</span>
                 </div>
                 <h1
                     className="hidden md:flex text-3xl md:text-5xl font-bold text-center m-auto p-2 before:block before:absolute before:-skew-x-12 before:-inset-1 before:bg-ukraine-yellow relative"
@@ -159,7 +186,7 @@ const About : NextPageWithLayout = () => {
                     <div className="flex flex-col gap-4 col-span-2">
                         {
                             strings.landing.about.faq.toggles.map(
-                                ({ question, answer, linkText, link }, index) => (
+                                ({ question, answer, linkText, link, linkNoBlank }, index) => (
                                     <div
                                         key={ index }
                                         className="flex flex-col gap-4 items-middle w-full p-2 text-xl"
@@ -187,7 +214,7 @@ const About : NextPageWithLayout = () => {
                                                 (
                                                     <>
                                                         <div className="mt-1" />
-                                                        <Link href={ link } className="underline italic hover:text-ukraine-blue" target="_blank">
+                                                        <Link href={ link } className="underline italic hover:text-ukraine-blue" target={ linkNoBlank ? "" : "_blank" }>
                                                             { linkText }
                                                         </Link>
                                                     </>
@@ -224,27 +251,29 @@ const About : NextPageWithLayout = () => {
                     <h1
                         className="flex text-3xl md:text-5xl font-bold text-center m-auto p-2 before:block before:absolute before:-skew-x-12 before:-inset-1 before:bg-ukraine-yellow relative"
                     >
-                        <span className="relative">{ strings.landing.about.wantToWorkWithUs.title }</span>
+                        <span className="relative leading-snug">{ strings.landing.about.wantToWorkWithUs.title }</span>
                     </h1>
                     <div className="text-lg md:text-xl text-slate-700 leading-loose col-span-2">
-                        { strings.landing.about.wantToWorkWithUs.text1 }&nbsp;
-                        <Link href="#" className="underline hover:text-ukraine-blue" target="_blank">
-                            { strings.landing.about.wantToWorkWithUs.openPositionsLinkText }
-                        </Link>
-                        { strings.landing.about.wantToWorkWithUs.text2 }&nbsp;
-                        <Link href={ INFO.emailLink } className="underline hover:text-ukraine-blue">
-                            { INFO.email }
-                        </Link>
-                        &nbsp;{ strings.landing.about.wantToWorkWithUs.text3 }
-                        <div className="mt-4" />
-                        { strings.landing.about.wantToWorkWithUs.text4 }
+                        <span className="leading-relaxed">
+                            { strings.landing.about.wantToWorkWithUs.text1 }&nbsp;
+                            <Link href="https://shop4ua.notion.site/Job-Board-Shop-4-UA-8cad57eab22041c7a1b99bc0f29a4d1f" className="underline hover:text-ukraine-blue" target="_blank">
+                                { strings.landing.about.wantToWorkWithUs.openPositionsLinkText }
+                            </Link>&nbsp;
+                            { strings.landing.about.wantToWorkWithUs.text2 }&nbsp;
+                            <Link href={ INFO.emailLink } className="underline hover:text-ukraine-blue">
+                                { INFO.email }
+                            </Link>
+                            &nbsp;{ strings.landing.about.wantToWorkWithUs.text3 }
+                            <div className="mt-4" />
+                            { strings.landing.about.wantToWorkWithUs.text4 }
+                        </span>
                     </div>
                 </div>
             </div>
 
             {/* TEAM MEMBERS SECTION */}
             <div className="flex flex-col w-full p-8 md:p-16 justify-center justify-items-center gap-16 bg-white">
-                <text className="text-5xl font-bold mx-auto text-center px-4 py-2 before:block before:absolute before:-skew-x-12 before:-inset-1 before:bg-ukraine-yellow relative inline-block"><span className="text-black relative">{ strings.landing.about.teamSectionTitle }</span></text>
+                <text className="text-3xl md:text-5xl font-bold mx-auto text-center px-4 py-2 before:block before:absolute before:-skew-x-12 before:-inset-1 before:bg-ukraine-yellow relative inline-block"><span className="text-black relative">{ strings.landing.about.teamSectionTitle }</span></text>
                 <div className="mx-auto flex flex-col md:grid md:grid-cols-2 lg:grid-cols-3 justify-items-center items-start gap-16">
                     {
                         team.map(
@@ -253,6 +282,29 @@ const About : NextPageWithLayout = () => {
                                     key={ index }
                                     { ...person }
                                 />
+                            )
+                        )
+                    }
+                </div>
+            </div>
+
+            {/* SUPPORTED BY */}
+            <div className="flex flex-col w-full p-8 md:p-16 justify-center justify-items-center gap-16 bg-white">
+                <text className="text-3xl md:text-5xl font-bold mx-auto text-center px-4 py-2 before:block before:absolute before:-skew-x-12 before:-inset-1 before:bg-ukraine-yellow relative inline-block"><span className="text-black relative">{ strings.landing.about.supportedByTitle }</span></text>
+                <div className="mx-auto flex justify-center flex-wrap gap-16">
+                    {
+                        supportedBy.map(
+                            ({ link, logoSrc }, index) => (
+                                <Link href={ link } target="_blank" key={ index }>
+                                    <div className="flex justify-center w-64 h-32 relative shrink mx-auto aspect-auto">
+                                        <Image
+                                            src={ logoSrc }
+                                            alt="Profile Picture"
+                                            className="object-contain"
+                                            fill={ true }
+                                        />
+                                    </div>
+                                </Link>
                             )
                         )
                     }

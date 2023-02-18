@@ -304,30 +304,34 @@ export const MapView = ({ infoPanelOpen, className } : Props) => {
                 onMove={ evt => setViewState(evt.viewState) }
                 onDragStart={ () => setDragState(MapDragState.On) }
                 onDragEnd={ () => setDragState(MapDragState.Off) }
-                style={{ width: '100%', height: '100%' }}
+                style={{ width: '100%', height: isMobile ? 'calc(100% - 4rem)' : "100%" }}
                 mapStyle={ defaults.businesses.map.mapStyles[mapStyleState] }
                 mapboxAccessToken={ process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN }
                 interactiveLayerIds={ [ BUSINESS_LAYER_ID, CLUSTERS_LAYER_ID ] }
                 reuseMaps={ true }
             >
-                    <GeolocateControl />
-                    <NavigationControl />
-                    <ScaleControl />
+                {
+                    !isMobile ? (
+                        <ScaleControl position="top-right" />
+                    ) : (<></>)
+                }
+                <NavigationControl position={ isMobile ? "bottom-right" : "top-right" } />
+                <GeolocateControl trackUserLocation={ true } showUserHeading={ true } position={ isMobile ? "bottom-right" : "top-right" } />
 
-                    <Source
-                        id={ SOURCE_ID }
-                        type="geojson"
-                        data={ geojson }
-                        generateId={ true }
-                        cluster={ true }
-                        clusterMaxZoom={14}
-                        clusterRadius={50}
-                        clusterMinPoints={ 2 }
-                    >
-                        <Layer {...businessesLayer} />
-                        <Layer {...clusterLayer} />
-                        <Layer {...clusterCountLayer} />
-                    </Source>
+                <Source
+                    id={ SOURCE_ID }
+                    type="geojson"
+                    data={ geojson }
+                    generateId={ true }
+                    cluster={ true }
+                    clusterMaxZoom={14}
+                    clusterRadius={50}
+                    clusterMinPoints={ 2 }
+                >
+                    <Layer {...businessesLayer} />
+                    <Layer {...clusterLayer} />
+                    <Layer {...clusterCountLayer} />
+                </Source>
             </Map>
             <div className={
                 twMerge(
@@ -336,7 +340,7 @@ export const MapView = ({ infoPanelOpen, className } : Props) => {
                     infoPanelOpen ? "w-full md:w-1/2 lg:w-1/2 xl:w-2/3 2xl:w-3/4" : "w-full"
                 )}
             >
-                <div className="flex flex-col gap-4 group absolute left-10 bottom-4 ">
+                <div className="flex flex-col gap-4 group absolute left-4 bottom-24 md:bottom-4">
                     {
                         mapStyleOptions.map(
                             ({ title, mapStyle, icon }, index: number) => (

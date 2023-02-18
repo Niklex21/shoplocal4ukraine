@@ -1,7 +1,7 @@
-import { IconButton, SvgIcon, Tooltip } from "@mui/material"
+import { Badge, IconButton, SvgIcon, Tooltip } from "@mui/material"
 import { createElement, createRef, ReactNode, useEffect, useRef, useState } from "react"
 import { twMerge } from "tailwind-merge"
-import { Search as IconSearch, Clear as IconClear, Search as IconBusiness, Add, Close } from "@mui/icons-material"
+import { Search as IconSearch, Clear as IconClear, Search as IconBusiness, Add, Close, FilterList as IconFilterList } from "@mui/icons-material"
 import strings from "@utils/strings"
 import { useAtom } from "jotai"
 import { atomSearchQuery, atomCurrentQuery, atomAutocompleteSuggestions, atomSelectedBusinessID, atomSelectedCategories, atomSelectedTags, atomSelectedFromSearch, atomSearchHistory } from "src/atoms/businesses"
@@ -17,6 +17,7 @@ type Props = {
 export default function SearchBar({ className }: Props) {
 
     const [ showAutoComplete, setShowAutoComplete ] = useState<boolean>(false)
+    const [ showFilters, setShowFilters ] = useState<boolean>(false)
     const [ searchQuery, setSearchQuery ] = useAtom(atomSearchQuery)
     const [ currentQuery, setCurrentQuery ] = useAtom(atomCurrentQuery)
     const [ selectedFromSearch, setSelectedFromSearch ] = useAtom(atomSelectedFromSearch)
@@ -35,12 +36,18 @@ export default function SearchBar({ className }: Props) {
     // stores the values currently shown to the user, as we may know display search history, apart from the auto-complete-options
     const currentOptions = currentQuery === "" ? searchHistory.slice(Math.max(searchHistory.length - 5, 0)).reverse() : autoCompleteOptions
 
+    const filtersCount = selectedCategories.length + selectedTags.length
+
     useEffect(() => {
         if (currentQuery === "") {
             setSearchQuery(currentQuery)
             if (selectedFromSearch) setBusinessId("")
         }
     }, [ currentQuery, setSearchQuery, setBusinessId, selectedFromSearch ])
+
+    useEffect(() => {
+        if (filtersCount === 0) setShowFilters(false)
+    }, [ filtersCount ])
 
     // reset whenever autoComplete is reset
     useEffect(() => {
@@ -87,15 +94,15 @@ export default function SearchBar({ className }: Props) {
         // need to start from -1 if we are going up from null
         let hover = currentHover ?? (value === 1 ? -1 : 0)
 
-        let n = autoCompleteOptions.length
+        let n = currentOptions.length
         // this weird formula is so we rotate properly
         // this formula takes a modulo, rather than the remainder (%)
         setCurrentHover((((hover + value) % n ) + n) % n)
     }
 
-    const triggerSelection = () => {
+    const triggerSelection = (index?: number) => {
         // if we are not selecting anything from the options
-        if (currentHover === null) {
+        if (currentHover === null && index === null) {
             setSearchQuery(currentQuery)
             addSearchHistory({
                 text: currentQuery,
@@ -105,9 +112,10 @@ export default function SearchBar({ className }: Props) {
         }
 
         // the one we are choosing
-        let option = currentOptions[currentHover]
+        // added a "!" because one of them has to be valid per the if above, and compiler doesn't realize that
+        let option = currentOptions[(index !== null && index !== undefined ? index : currentHover)!]
 
-        addSearchHistory(option)
+        if (!option.history) addSearchHistory(option)
 
         switch (option.category) {
             case AutocompleteSuggestionCategory.Business:
@@ -116,12 +124,12 @@ export default function SearchBar({ className }: Props) {
                 setSelectedFromSearch(true)
                 return
             case AutocompleteSuggestionCategory.Category:
-                setCurrentQuery(option.text)
-                    let c = option.properties?.categoryId ?? -1
-                    if (!selectedCategories.includes(c)) setSelectedCategories([...selectedCategories, c])
+                setCurrentQuery("")
+                let c = option.properties?.categoryId ?? -1
+                if (!selectedCategories.includes(c)) setSelectedCategories([...selectedCategories, c])
                 return
             case AutocompleteSuggestionCategory.Tag:
-                setCurrentQuery(option.text)
+                setCurrentQuery("")
                 let t = option.properties?.tagId ?? -1
                 if (!selectedTags.includes(t)) setSelectedTags([...selectedTags, t])
                 return
@@ -132,7 +140,6 @@ export default function SearchBar({ className }: Props) {
         }
     }
 
-    // TODO: hover effects better?
     const autoComplete = (
         <div className={ twMerge("relative bg-white py-2 rounded-b-lg", showAutoComplete ? "flex flex-col" : "hidden") }>
             {
@@ -149,7 +156,7 @@ export default function SearchBar({ className }: Props) {
                             key={ index }
                             onMouseEnter={ () => setCurrentHover(index) }
                             onMouseDown={ () => setAutocompleteClick(true) }
-                            onMouseUp={ () => { setAutocompleteClick(false); triggerSelection(); } }
+                            onMouseUp={ () => { setAutocompleteClick(false); triggerSelection(index); } }
                         >
                             <span className="flex my-auto text-slate-300">{ createElement(getAutocompleteCategoryIcon({ text, category, matches, ...props})) }</span>
                             <span className="">{ matches && currentQuery !== "" ? getBoldText(text, matches[0].indices) : text }</span>
@@ -188,54 +195,77 @@ export default function SearchBar({ className }: Props) {
         setSelectedTags(selectedTags.filter(item => item !== value))
     }
 
+    const clearAllFilters = () => {
+        setSelectedTags([])
+        setSelectedCategories([])
+    }
+
     const filtersApplied = (
-        <div className="flex gap-2 ml-2 max-w-xs overflow-x-auto">
-            {
-                selectedCategories.length + selectedTags.length > 0
-                ? (<span className="flex font-bold my-auto mr-2">{ strings.businesses.businessView.searchBar.filters }</span>)
-                : (<></>)
-            }
-            {
-                selectedCategories.map(
-                    (value, index) => (
-                        <span className="px-3 py-1 rounded-full align-middle flex gap-1 bg-blue-50 text-sm my-auto hover:brightness-95" key={ index }>
-                            <span className="flex my-auto">{ businessCategoryConverter(value) }</span>
-                            <IconButton className="cursor-pointer bg-blue-100" onClick={ () => removeCategory(value) }>
-                                <Close className="text-xs" />
-                            </IconButton>
-                        </span>
-                    )
-                )
-            }
-            {
-                selectedTags.map(
-                    (value, index) => (
-                        <span className="px-2 py-1 rounded-full text-center flex gap-1 bg-yellow-50 text-sm my-auto hover:brightness-95" key={ index }>
-                            <span className="flex my-auto">{ tagConverter(value) }</span>
-                            <IconButton className="cursor-pointer bg-yellow-100" onClick={ () => removeTag(value) }>
-                                <Close className="text-xs" />
-                            </IconButton>
-                        </span>
-                    )
-                )
-            }
+        <div className={ twMerge("relative bg-white py-4 px-6 rounded-b-lg gap-4", showFilters ? "flex flex-col" : "hidden") }>
+            <span className="font-bold">{ strings.businesses.businessView.searchBar.filters.title }</span>
+            <div className="flex flex-col gap-2 p-4 w-full rounded-md bg-blue-50">
+                <span className="">{ strings.businesses.businessView.searchBar.filters.categoryTitle }</span>
+                <div className="flex flex-wrap gap-1">
+                    {
+                        selectedCategories.map(
+                            (value, index) => (
+                                <span className="pl-3 pr-1 py-1 rounded-full align-middle flex gap-1 bg-blue-100 text-sm my-auto hover:brightness-95" key={ index }>
+                                    <span className="flex my-auto">{ businessCategoryConverter(value) }</span>
+                                    <IconButton className="cursor-pointer bg-blue-200" onClick={ () => removeCategory(value) }>
+                                        <Close className="text-xs" />
+                                    </IconButton>
+                                </span>
+                            )
+                        )
+                    }
+                </div>
+            </div>
+            <span className="uppercase">{ strings.businesses.businessView.searchBar.filters.and }</span>
+            <div className="flex flex-col gap-2 p-4 w-full rounded-md bg-yellow-50">
+                <span className="">{ strings.businesses.businessView.searchBar.filters.tagsTitle }</span>
+                <div className="flex flex-wrap gap-1">
+                    {
+                        selectedTags.map(
+                            (value, index) => (
+                                <span className="pl-3 pr-1 py-1 rounded-full text-center flex gap-1 bg-yellow-100 text-sm my-auto hover:brightness-95" key={ index }>
+                                    <span className="flex my-auto">{ tagConverter(value) }</span>
+                                    <IconButton className="cursor-pointer bg-yellow-200" onClick={ () => removeTag(value) }>
+                                        <Close className="text-xs" />
+                                    </IconButton>
+                                </span>
+                            )
+                        )
+                    }
+                </div>
+            </div>
+            <span className="italic underline hover:text-ukraine-blue cursor-pointer mr-auto" onClick={ () => clearAllFilters() }>
+                { strings.businesses.businessView.searchBar.filters.clearAll }
+            </span>
         </div>
     )
 
+    const toggleFilters = () => setShowFilters(!showFilters)
+
     return (
         <div
-            className={ twMerge("flex w-auto shrink grow flex-col drop-shadow-md divide-y-2 divide-slate-50 divide-solid", className) }
+            className={ twMerge("flex shrink grow flex-col drop-shadow-md divide-y-2 divide-slate-50 divide-solid w-screen md:w-96", className) }
         >
-            <div className={ twMerge("flex flex-row gap-1 px-2 py-1 bg-white", showAutoComplete ? "rounded-t-lg" : "rounded-lg") }>
-                { filtersApplied }
-                <div className="flex relative">
+            <div className={ twMerge("flex relative w-full flex-row gap-1 px-2 py-1 bg-white", showAutoComplete || showFilters ? "rounded-t-lg" : "rounded-lg") }>
+                <Tooltip title={ strings.businesses.businessView.searchBar.tooltipFiltersIcon }>
+                    <IconButton disabled={ filtersCount === 0 } onClick={ () => toggleFilters() }>
+                        <Badge badgeContent={ filtersCount } color="primary">
+                            <IconFilterList />
+                        </Badge>
+                    </IconButton>
+                </Tooltip>
+                <div className="flex w-full relative">
                     <input
-                        className="px-4 py-2 w-64 grow shrink focus:outline-none  bg-white"
+                        className="px-4 py-2 w-full focus:outline-none bg-white"
                         placeholder={ strings.businesses.businessView.searchBar.placeholder }
                         value={ currentQuery }
                         onChange={ (e) => setCurrentQuery(e.currentTarget.value) }
                         ref={ inputRef }
-                        onFocus={() => setShowAutoComplete(true)}
+                        onFocus={() => { setShowAutoComplete(true); setShowFilters(false); } }
                         onBlur={ () => autoCompleteClick ? {} : setShowAutoComplete(false)}
                         onKeyDown={ (ke) => {
                             // has to be flipped, because we are indexing top-to-bottom
@@ -266,6 +296,7 @@ export default function SearchBar({ className }: Props) {
                     </IconButton>
                 </Tooltip>
             </div>
+            { filtersApplied }
             { autoComplete }
         </div>
     )

@@ -43,42 +43,6 @@ const benefits : Array<Benefit> = [
 
 const Home: NextPageWithLayout = () => {
 
-  // temporary thing, remove before launch
-  return (
-    <div className="w-screen h-screen bg-oxford-blue flex flex-col md:grid grid-cols-2 text-left items-center justify-center">
-      <div className="flex relative h-64 md:h-96 w-80 md:w-96 mx-auto">
-        <ImageWithFallback src={logo} alt="logo" className="object-contain" fill={ true } />
-      </div>
-      <div className="flex">
-        <div className="flex flex-col gap-8">
-          <text className="text-6xl md:text-[10rem] text-ukraine-yellow font-extrabold">02/18/23</text>
-          <div className="flex flex-row gap-2 mx-auto">
-            <Link href="https://www.instagram.com/shop4ukraine" target="_blank">
-              <IconButton>
-                <Instagram className="text-white opacity-70 text-4xl md:text-9xl hover:opacity-100" />
-              </IconButton>
-            </Link>
-            <Link href="https://www.facebook.com/shoplocal4ukraine" target="_blank">
-              <IconButton>
-                <Facebook className="text-white opacity-70 text-4xl md:text-9xl hover:opacity-100" />
-              </IconButton>
-            </Link>
-            <Link href="https://www.linkedin.com/company/shop4ua/" target="_blank">
-              <IconButton>
-                <LinkedIn className="text-white opacity-70 text-4xl md:text-9xl hover:opacity-100" />
-              </IconButton>
-            </Link>
-            <Link href="https://t.me/shop4ua" target="_blank">
-              <IconButton>
-                <Telegram className="text-white opacity-70 text-4xl md:text-9xl hover:opacity-100" />
-              </IconButton>
-            </Link>
-          </div>
-        </div>
-      </div>
-    </div>
-  )
-
   return (
     <div className="flex flex-col w-full gap-8">
       {/* HERO SECTION */}
@@ -121,7 +85,7 @@ const Home: NextPageWithLayout = () => {
           naturalSlideHeight={ 100 }
           naturalSlideWidth={ 100 }
           isIntrinsicHeight={ true }
-          totalSlides={ 5 }
+          totalSlides={ 3 }
           className="md:px-16 md:mt-10"
           visibleSlides={ isMobile ? 1 : 3 }
         >
@@ -133,7 +97,7 @@ const Home: NextPageWithLayout = () => {
                     <div className="flex flex-col max-w-sm gap-2 py-16 w-full">
                       <div className="flex relative w-full h-64 rounded-lg">
                         <a href={ link }>
-                          <ImageWithFallback src={image.src} fill={ true } className="object-contain cursor-pointer hover:brightness-105 shadow-md rounded-md" alt="Business Profile Picture" />
+                          <ImageWithFallback src={image.src} fill={ true } className="object-cover cursor-pointer hover:brightness-105 shadow-md rounded-md" alt="Business Profile Picture" />
                         </a>
                       </div>
                       <div className="flex flex-col">
@@ -166,7 +130,7 @@ const Home: NextPageWithLayout = () => {
       </div>
 
       {/* TESTIMONIAL SECTION */}
-      <div className="flex-col w-full p-8 md:px-32 md:py-16">
+      {/* <div className="flex-col w-full p-8 md:px-32 md:py-16">
         <h1 className="text-2xl md:text-4xl font-bold leading-tight px-4 py-2 before:block before:absolute before:-skew-x-12 before:-inset-1 before:bg-ukraine-yellow relative inline-block"><span className="text-black relative">{ strings.landing.home.testimonials.title }</span></h1>
         <CarouselProvider
           naturalSlideWidth={ 100 }
@@ -187,7 +151,6 @@ const Home: NextPageWithLayout = () => {
                               <div className="relative hidden md:flex">
                                   <ImageWithFallback src={ image.src } fill={ true } alt="Profile photo" className="w-full h-full flex-shrink-0 object-fit object-cover shadow-lg rounded" />
                                   <div className="w-32 md:flex hidden items-center justify-center absolute top-0 -mr-16 -mt-14 right-0 h-32 bg-indigo-100 rounded-full">
-                                      {/* eslint-disable-next-line @next/next/no-img-element */}
                                       <img src="https://tuk-cdn.s3.amazonaws.com/can-uploader/testimonial-svg1.svg" alt="commas" />
                                   </div>
                               </div>
@@ -226,7 +189,7 @@ const Home: NextPageWithLayout = () => {
                 </ButtonNext>
             </div>
         </CarouselProvider>
-      </div>
+      </div> */}
     </div>
   )
 }
