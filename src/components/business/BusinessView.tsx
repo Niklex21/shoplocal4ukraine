@@ -99,14 +99,14 @@ export const BusinessView = ({ infoPanelOpen, className, children }: Props) => {
     )
 
     const menu = (
-        <IconButton className="hidden md:flex fixed top-4 z-30 left-4 w-12 h-12 rounded-md drop-shadow-md bg-white ring-2 ring-oxford-blue hover:bg-white hover:brightness-95" onClick={ () => setMenuState(PanelState.Open) }>
+        <IconButton className="hidden md:flex fixed top-4 z-30 left-4 w-12 h-12 rounded-md drop-shadow-md bg-white hover:bg-white hover:brightness-95" onClick={ () => setMenuState(PanelState.Open) }>
             <IconMenu className="text-oxford-blue" />
         </IconButton>
     )
 
     return (
         <>
-            <div className={ twMerge(`relative w-full flex flex-col overflow-auto h-full max-h-screen max-w-none p-0 transition-all duration-200`, className) }>
+            <div className={ twMerge(`relative w-full flex flex-col overflow-auto h-full max-h-screen max-w-none p-0 transition-all duration-200`, isMobile ? "pb-20" : "", className) }>
                 <Tooltip title={ strings.app.tooltipMenuButton }>
                     { menu }
                 </Tooltip>
@@ -126,7 +126,7 @@ export const BusinessView = ({ infoPanelOpen, className, children }: Props) => {
                                 mapStyleState === MapStyle.Streets || view === Views.Gallery
                                 ? "hover:bg-oxford-blue hover:brightness-110 bg-oxford-blue text-white"
                                 : "hover:bg-white hover:brightness-90 bg-white text-oxford-blue",
-                                "absolute left-1/2 bottom-4 -translate-x-1/2 z-40 drop-shadow-md rounded-full normal-case font-bold py-3 px-4"
+                                "absolute left-1/2 bottom-24 md:bottom-4 -translate-x-1/2 z-40 drop-shadow-md rounded-full normal-case font-bold py-3 px-4"
                             )
                         }
                         onClick={ toggleViewSelection }
@@ -138,7 +138,7 @@ export const BusinessView = ({ infoPanelOpen, className, children }: Props) => {
                         &nbsp;
                         { alternativeViewIcon }
                     </Button>
-                    <div className="flex absolute bottom-4 right-10">
+                    <div className="hidden md:flex absolute bottom-4 right-10">
                         <Tooltip title={ strings.businesses.businessView.tooltipAddBusiness } arrow={ true } placement="left">
                             <Link href="/join" target="_blank">
                                 <IconButton

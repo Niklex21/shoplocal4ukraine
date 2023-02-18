@@ -4,6 +4,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify'
 import Script from 'next/script'
 import GenericLayout from '../Generic'
+import MobileMenu from './MobileMenu';
 
 type Props = {
     children?: ReactNode
@@ -33,6 +34,7 @@ export default function AppMainLayout({ children }: Props) {
                 </Script>
                 <div className="h-screen w-screen p-0 m-0 bg-white max-h-screen flex">
                     { children }
+                    <MobileMenu className="flex md:hidden" />
                 </div>
                 <ToastContainer
                     position="bottom-left"

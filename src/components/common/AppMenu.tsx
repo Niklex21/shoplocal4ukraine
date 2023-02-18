@@ -60,12 +60,12 @@ type Props = {
                         sections.map(
                             ({ name, links }) => (
                                 <div key={ name } className="flex flex-col gap-4">
-                                    <text className="font-bold text-2xl md:text-xl">{ name }</text>
+                                    <text className="font-bold text-xl">{ name }</text>
                                     <div className="flex flex-col gap-3">
                                         {
                                             links.map(
                                                 ({ text, link }) => (
-                                                    <text key={ link } className="text-xl md:text-base cursor-pointer text-gray-700 hover:text-ukraine-blue">
+                                                    <text key={ link } className="text-lg md:text-base cursor-pointer text-gray-700 hover:text-ukraine-blue">
                                                         <Link href={ link } onClick={ () => setMenuState(PanelState.Closed)}>
                                                             { text }
                                                         </Link>
@@ -81,12 +81,12 @@ type Props = {
                 </div>
                 <hr />
                 <div className="flex flex-col gap-4">
-                    <text className="font-bold text-2xl md:text-xl">{ strings.landing.footer.sections.socials.name }</text>
+                    <text className="font-bold text-xl">{ strings.landing.footer.sections.socials.name }</text>
                     {
                         socials.map(
                             ({ iconSVG, link, text, }, index: number) => (
                                 <Link href={ link ?? "" } target="_blank" key={ index } onClick={ () => setMenuState(PanelState.Closed)}>
-                                    <span className="flex flex-row justify-center md:justify-start gap-2 text-xl md:text-base cursor-pointer text-gray-700 hover:text-ukraine-blue">
+                                    <span className="flex flex-row justify-center md:justify-start gap-2 text-lg md:text-base cursor-pointer text-gray-700 hover:text-ukraine-blue">
                                         { createElement(iconSVG!) }
                                         { text }
                                     </span>

@@ -20,6 +20,8 @@ type Props = {
 
 export default function LandingMainLayout({ children, current=Page.None }: Props) {
 
+    const [ feedbackPanelState, setFeedbackPanelState ] = useState<PanelState>(PanelState.Closed)
+
     return (
         <>
             <GenericLayout>
@@ -28,6 +30,15 @@ export default function LandingMainLayout({ children, current=Page.None }: Props
                     { children }
                     <Footer />
                 </div>
+                {/* FEEDBACK TIP */}
+                <div className="flex -rotate-90 gap-2 fixed right-0 origin-bottom-right top-1/4 flex-row z-40 bg-ukraine-blue cursor-pointer hover:bg-ukraine-yellow hover:text-oxford-blue text-white px-4 py-2 rounded-t-md" onClick={ () => setFeedbackPanelState(PanelState.Open) }>
+                    <Feedback />
+                    { strings.all.giveFeedback.short }
+                </div>
+                <FeedbackPanel
+                    panelState={ feedbackPanelState }
+                    closePanel={ () => setFeedbackPanelState(PanelState.Closed)}
+                />
                 <ToastContainer />
             </GenericLayout>
         </>

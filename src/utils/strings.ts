@@ -261,7 +261,13 @@ const strings_en = {
                 tooltipClearIcon: "Clear search",
                 placeholder: "Search businesses",
                 nothingFound: "Add a missing place",
-                filters: "Filters: ",
+                filters: {
+                    title: "Filters applied: ",
+                    categoryTitle: "Categories (either one)",
+                    tagsTitle: "Tags (either one)",
+                    and: "and",
+                    clearAll: "Clear all filters"
+                },
                 tooltipFiltersIcon: "Applied filters"
             },
             quickSearches: {

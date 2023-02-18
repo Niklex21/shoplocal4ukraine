@@ -265,7 +265,6 @@ export const InfoPanel = ({ className, panelState, setPanelState }: Props) => {
                         open={ panelState === PanelState.Open }
                         onClose={ () => { setPanelState(PanelState.Closed); setSelectedID("") } }
                         onOpen={ () => setPanelState(PanelState.Open) }
-                        disableSwipeToOpen={ false }
                         disableEnforceFocus
                         ModalProps={{
                             keepMounted: true
