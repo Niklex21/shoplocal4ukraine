@@ -47,33 +47,36 @@ export const GalleryView = ({ infoPanelOpen, className }: Props) => {
         : "w-full"
 
     return (
-        <div className={ twMerge(`flex flex-wrap flex-col md:grid ${ gridBreakpoints } ${ panelWidth } gap-8 md:gap-x-10 md:gap-y-10 py-20 px-6 md:px-14 justify-center`, className) }>
-          {
-            sortedBusinesses.length === 0
-            ? (<text className="text-lg italic">{ strings.businesses.noBusinessesFound }</text>)
-            : sortedBusinesses.map(
-                ({ item }: { item: BusinessModel }) => (
-                    <div
-                        className="flex cursor-pointer"
-                        key={ item.id }
-                        id={ item.id }
-                        onClick={
-                            () => {
-                                setSelectedID(item.id)
-                                setSelectedFromSearch(false)
+        <>
+            <div className="w-full fixed z-10 h-24 drop-shadow-md flex bg-gradient-to-b from-white to-transparent">&nbsp;</div>
+            <div className={ twMerge(`flex flex-wrap flex-col md:grid ${ gridBreakpoints } ${ panelWidth } gap-8 md:gap-x-10 md:gap-y-10 p-6 my-12 md:p-14 justify-center`, className) }>
+            {
+                sortedBusinesses.length === 0
+                ? (<text className="text-lg italic">{ strings.businesses.noBusinessesFound }</text>)
+                : sortedBusinesses.map(
+                    ({ item }: { item: BusinessModel }) => (
+                        <div
+                            className="flex cursor-pointer"
+                            key={ item.id }
+                            id={ item.id }
+                            onClick={
+                                () => {
+                                    setSelectedID(item.id)
+                                    setSelectedFromSearch(false)
+                                }
                             }
-                        }
-                    >
-                        <div className="flex w-full h-full relative" onClick={ () => setSelectedID(selectedID)}>
-                            <BusinessCard
-                                data={ item }
-                                active={ item.id === selectedID }
-                            />
+                        >
+                            <div className="flex w-full h-full relative" onClick={ () => setSelectedID(selectedID)}>
+                                <BusinessCard
+                                    data={ item }
+                                    active={ item.id === selectedID }
+                                />
+                            </div>
                         </div>
-                    </div>
+                    )
                 )
-            )
-          }
-        </div>
+            }
+            </div>
+        </>
     )
 }
