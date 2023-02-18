@@ -16,6 +16,7 @@ import Link from "next/link";
 import SearchBar from "./SearchBar";
 import { AppMenu } from "@components/common/AppMenu";
 import { QuickSearches } from "./QuickSearches";
+import { isMobile } from "react-device-detect";
 
 /**
  * Tracks whether or not it's the first time the user visits this page.
@@ -85,14 +86,20 @@ export const BusinessView = ({ infoPanelOpen, className, children }: Props) => {
     }
 
     const filterBar = (
-        <div className={ twMerge("flex flex-row items-start gap-4 fixed top-4 z-30 ml-4", infoPanelOpen ? "left-4 md:left-1/2 xl:left-1/3 2xl:left-1/4" : "left-0 md:left-24") }>
-            <SearchBar  />
-            <QuickSearches className="mt-1.5" />
+        <div className={ twMerge("flex flex-col md:flex-row items-start gap-4 fixed top-4 z-30 left-0", infoPanelOpen ? "md:left-1/2 xl:left-1/3 2xl:left-1/4 md:ml-4" : "md:ml-20 md:pl-0") }>
+            {/* has to be padding instead of margins on mobile due to box sizing */}
+            <SearchBar className="px-4 md:px-0"  />
+            {/* TODO: for now disabled on mobile because scrolling is not working */}
+            <QuickSearches className={
+                twMerge(
+                    "ml-4 md:ml-0 md:mt-1.5 hidden md:flex"
+                )
+            }/>
         </div>
     )
 
     const menu = (
-        <IconButton className="fixed top-4 z-30 left-4 w-12 h-12 rounded-md drop-shadow-md bg-white hover:bg-white hover:brightness-95" onClick={ () => setMenuState(PanelState.Open) }>
+        <IconButton className="hidden md:flex fixed top-4 z-30 left-4 w-12 h-12 rounded-md drop-shadow-md bg-white ring-2 ring-oxford-blue hover:bg-white hover:brightness-95" onClick={ () => setMenuState(PanelState.Open) }>
             <IconMenu className="text-oxford-blue" />
         </IconButton>
     )
@@ -100,7 +107,9 @@ export const BusinessView = ({ infoPanelOpen, className, children }: Props) => {
     return (
         <>
             <div className={ twMerge(`relative w-full flex flex-col overflow-auto h-full max-h-screen max-w-none p-0 transition-all duration-200`, className) }>
-                { menu }
+                <Tooltip title={ strings.app.tooltipMenuButton }>
+                    { menu }
+                </Tooltip>
                 { filterBar }
                 <ViewComponent infoPanelOpen={ infoPanelOpen ?? false } className="self-end" />
                 {/* TODO: this should move based on the infopanel state, but so far I haven't been able to come up with an elegant solution */}

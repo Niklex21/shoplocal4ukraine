@@ -92,7 +92,7 @@ const socials: Array<IconLinkText> = [
     {
         iconSVG: Phone,
         link: 'tel:+13395451405',
-        text: '+13395451405',
+        text: '+1 (339) 545-1405',
     },
     {
         iconSVG: Email,

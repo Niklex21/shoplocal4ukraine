@@ -18,6 +18,9 @@ const strings_en = {
         },
         error: {
             goHome: "Go home"
+        },
+        meta: {
+            description: "Shop local to support Ukraine."
         }
     },
     app: {
@@ -258,7 +261,8 @@ const strings_en = {
                 tooltipClearIcon: "Clear search",
                 placeholder: "Search businesses",
                 nothingFound: "Add a missing place",
-                filters: "Filters: "
+                filters: "Filters: ",
+                tooltipFiltersIcon: "Applied filters"
             },
             quickSearches: {
                 ukrainianOwned: "🇺🇦-owned",

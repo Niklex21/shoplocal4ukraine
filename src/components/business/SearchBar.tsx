@@ -1,7 +1,7 @@
-import { IconButton, SvgIcon, Tooltip } from "@mui/material"
+import { Badge, IconButton, SvgIcon, Tooltip } from "@mui/material"
 import { createElement, createRef, ReactNode, useEffect, useRef, useState } from "react"
 import { twMerge } from "tailwind-merge"
-import { Search as IconSearch, Clear as IconClear, Search as IconBusiness, Add, Close } from "@mui/icons-material"
+import { Search as IconSearch, Clear as IconClear, Search as IconBusiness, Add, Close, FilterList as IconFilterList } from "@mui/icons-material"
 import strings from "@utils/strings"
 import { useAtom } from "jotai"
 import { atomSearchQuery, atomCurrentQuery, atomAutocompleteSuggestions, atomSelectedBusinessID, atomSelectedCategories, atomSelectedTags, atomSelectedFromSearch, atomSearchHistory } from "src/atoms/businesses"
@@ -117,12 +117,12 @@ export default function SearchBar({ className }: Props) {
                 setSelectedFromSearch(true)
                 return
             case AutocompleteSuggestionCategory.Category:
-                setCurrentQuery(option.text)
-                    let c = option.properties?.categoryId ?? -1
-                    if (!selectedCategories.includes(c)) setSelectedCategories([...selectedCategories, c])
+                setCurrentQuery("")
+                let c = option.properties?.categoryId ?? -1
+                if (!selectedCategories.includes(c)) setSelectedCategories([...selectedCategories, c])
                 return
             case AutocompleteSuggestionCategory.Tag:
-                setCurrentQuery(option.text)
+                setCurrentQuery("")
                 let t = option.properties?.tagId ?? -1
                 if (!selectedTags.includes(t)) setSelectedTags([...selectedTags, t])
                 return
@@ -133,7 +133,6 @@ export default function SearchBar({ className }: Props) {
         }
     }
 
-    // TODO: hover effects better?
     const autoComplete = (
         <div className={ twMerge("relative bg-white py-2 rounded-b-lg", showAutoComplete ? "flex flex-col" : "hidden") }>
             {
@@ -223,15 +222,23 @@ export default function SearchBar({ className }: Props) {
         </div>
     )
 
+    const filtersCount = selectedCategories.length + selectedTags.length
+
     return (
         <div
-            className={ twMerge("flex w-auto shrink grow flex-col drop-shadow-md divide-y-2 divide-slate-50 divide-solid", className) }
+            className={ twMerge("flex shrink grow flex-col drop-shadow-md divide-y-2 divide-slate-50 divide-solid w-screen md:w-96", className) }
         >
-            <div className={ twMerge("flex flex-row gap-1 px-2 py-1 bg-white", showAutoComplete ? "rounded-t-lg" : "rounded-lg") }>
-                { filtersApplied }
-                <div className="flex relative">
+            <div className={ twMerge("flex relative w-full flex-row gap-1 px-2 py-1 bg-white", showAutoComplete ? "rounded-t-lg" : "rounded-lg") }>
+                <Tooltip title={ strings.businesses.businessView.searchBar.tooltipFiltersIcon }>
+                    <IconButton disabled={ filtersCount === 0 }>
+                        <Badge badgeContent={ filtersCount } color="primary">
+                            <IconFilterList />
+                        </Badge>
+                    </IconButton>
+                </Tooltip>
+                <div className="flex w-full relative">
                     <input
-                        className="px-4 py-2 w-64 grow shrink focus:outline-none  bg-white"
+                        className="px-4 py-2 w-full focus:outline-none bg-white"
                         placeholder={ strings.businesses.businessView.searchBar.placeholder }
                         value={ currentQuery }
                         onChange={ (e) => setCurrentQuery(e.currentTarget.value) }

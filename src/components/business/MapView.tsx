@@ -310,24 +310,24 @@ export const MapView = ({ infoPanelOpen, className } : Props) => {
                 interactiveLayerIds={ [ BUSINESS_LAYER_ID, CLUSTERS_LAYER_ID ] }
                 reuseMaps={ true }
             >
-                    <GeolocateControl />
-                    <NavigationControl />
-                    <ScaleControl />
+                <GeolocateControl trackUserLocation={ true } showUserHeading={ true } />
+                <NavigationControl />
+                <ScaleControl />
 
-                    <Source
-                        id={ SOURCE_ID }
-                        type="geojson"
-                        data={ geojson }
-                        generateId={ true }
-                        cluster={ true }
-                        clusterMaxZoom={14}
-                        clusterRadius={50}
-                        clusterMinPoints={ 2 }
-                    >
-                        <Layer {...businessesLayer} />
-                        <Layer {...clusterLayer} />
-                        <Layer {...clusterCountLayer} />
-                    </Source>
+                <Source
+                    id={ SOURCE_ID }
+                    type="geojson"
+                    data={ geojson }
+                    generateId={ true }
+                    cluster={ true }
+                    clusterMaxZoom={14}
+                    clusterRadius={50}
+                    clusterMinPoints={ 2 }
+                >
+                    <Layer {...businessesLayer} />
+                    <Layer {...clusterLayer} />
+                    <Layer {...clusterCountLayer} />
+                </Source>
             </Map>
             <div className={
                 twMerge(
