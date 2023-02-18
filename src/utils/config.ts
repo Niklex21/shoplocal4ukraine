@@ -74,7 +74,7 @@ const links: Array<Section> = [
             },
             {
                 text: strings.landing.footer.sections.pages.howToSupportUkraine,
-                link: '/how-to-support-ukraine',
+                link: 'https://www.notion.so/shop4ua/Guide-for-Local-Businesses-on-Supporting-Ukraine-60bceb5aa5f2455fa4debe82d0aaf15e?pvs=4',
             },
             {
                 text: strings.landing.footer.sections.pages.about,

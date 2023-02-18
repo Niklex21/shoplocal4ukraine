@@ -80,13 +80,13 @@ const strings_en = {
                 toggles: [
                     {
                         question: 'How do you define "business that supports Ukraine"?',
-                        answer: `We leave it at our own discretion to determine whether or not a business supports Ukraine. Each evaluation is performed by one of our team members, and all decisions are made on a case-by-case basis. All businesses that we display contain a short descriptions of their contributions that let them qualify as "Ukraine supporters".Most common way a business can support Ukraine is donate cash or goods to a local nonprofit or community event, but support is not only limited to donations!`,
+                        answer: `We leave it at our own discretion to determine whether or not a business supports Ukraine. Each evaluation is performed by one of our team members, and all decisions are made on a case-by-case basis. All businesses that we display contain a short descriptions of their contributions that let them qualify as "Ukraine supporters". Most common way a business can support Ukraine is donate cash or goods to a local nonprofit or community event, but support is not only limited to donations!`,
                         linkText: "Read more here about how local businesses can support Ukraine and the Ukrainian community.",
                         link: "https://shop4ua.notion.site/Guide-for-Local-Businesses-on-Supporting-Ukraine-60bceb5aa5f2455fa4debe82d0aaf15e"
                     },
                     {
                         question: "How do you verify businesses?",
-                        answer: "The verification of support is done on a case-by-case basis. First, we identify businesses by talking to community members, local Ukrainian nonprofits, local news papers, and internet searches. Then, we proceed to document proof of support, usually in a form of a social media post, a news article, or business’ statement on their website. The proof and description of the business’ initiative is added to our database, which will be reviewed by our editor prior to being published."
+                        answer: "The verification of support is done on a case-by-case basis. First, we identify businesses by talking to community members, local Ukrainian nonprofits, local news papers, and internet searches. Then, we proceed to document proof of support, usually in a form of a social media post, a news article, or business statement on their website. The proof and description of the business’ initiative is added to our database, which will be reviewed by our editor prior to being published."
                     },
                     {
                         question: "How do you select featured businesses?",

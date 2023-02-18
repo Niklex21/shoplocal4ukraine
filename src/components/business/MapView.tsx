@@ -304,7 +304,7 @@ export const MapView = ({ infoPanelOpen, className } : Props) => {
                 onMove={ evt => setViewState(evt.viewState) }
                 onDragStart={ () => setDragState(MapDragState.On) }
                 onDragEnd={ () => setDragState(MapDragState.Off) }
-                style={{ width: '100%', height: "100%" }}
+                style={{ width: '100%', height: isMobile ? 'calc(100% - 4rem)' : "100%" }}
                 mapStyle={ defaults.businesses.map.mapStyles[mapStyleState] }
                 mapboxAccessToken={ process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN }
                 interactiveLayerIds={ [ BUSINESS_LAYER_ID, CLUSTERS_LAYER_ID ] }

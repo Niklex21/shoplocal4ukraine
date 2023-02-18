@@ -48,7 +48,7 @@ type Props = {
                 className={
                     // flex overrides "hidden", instead hiding it by movement, thus enabling transitions
                     twMerge(
-                        "transition-all flex md:max-w-xs w-screen h-screen overflow-auto gap-8 p-8 justify-center md:justify-start md:rounded-none text-center md:text-start",
+                        "transition-all flex md:max-w-xs w-screen h-screen overflow-auto gap-8 py-20 md:py-8 p-8 justify-center md:justify-start md:rounded-none text-center md:text-start",
                         menuState === PanelState.Closed ? "hidden md:flex md:-left-full" : "",
                         className
                     )
