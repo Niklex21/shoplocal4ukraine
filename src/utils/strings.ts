@@ -33,6 +33,11 @@ const strings_en = {
         feedbackReport: {
             bug: 'Bug',
             suggestion: 'Suggestion'
+        },
+        mobileMenu: {
+            menu: "Menu",
+            add: "Add a business",
+            feedback: "Feedback"
         }
     },
     landing: {
