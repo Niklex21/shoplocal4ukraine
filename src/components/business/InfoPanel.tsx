@@ -117,7 +117,7 @@ export const InfoPanel = ({ className, panelState, setPanelState }: Props) => {
                         <div className="flex shrink justify-self-center items-center gap-3">
                             <Tooltip title={ strings.businesses.infoPage.tooltipShare }>
                                 <IconButton
-                                    className="text-ukraine-blue ring-1 ring-current"
+                                    className="ring-1 ring-current opacity-80 hover:brightness-95 text-ukraine-blue hover:opacity-100"
                                     onClick={ () => setSharePanelState(PanelState.Open) }
                                 >
                                     <IconShare className="text-2xl" />
@@ -125,7 +125,7 @@ export const InfoPanel = ({ className, panelState, setPanelState }: Props) => {
                             </Tooltip>
                             <Tooltip title={ strings.businesses.infoPage.tooltipReport }>
                                 <IconButton
-                                    className="text-red-600 ring-1 ring-current"
+                                    className="ring-1 ring-current opacity-80 hover:brightness-95 text-ukraine-blue hover:opacity-100"
                                     onClick={ () => setReportPanelState(PanelState.Open) }
                                 >
                                     <IconReport className="text-2xl" />
