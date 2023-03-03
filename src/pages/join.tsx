@@ -1,5 +1,6 @@
 import { Page } from '@appTypes/landing';
 import { LandingLayout } from '@layouts/landing';
+import strings from '@utils/strings';
 import Script from 'next/script';
 import { ReactElement } from 'react';
 import { NextPageWithLayout } from './_app';
@@ -21,5 +22,7 @@ const Join: NextPageWithLayout = () => {
 Join.getLayout = function getLayout(page: ReactElement) {
     return <LandingLayout current={Page.Join}>{page}</LandingLayout>;
 };
+
+Join.title = strings.landing.join.title
 
 export default Join;

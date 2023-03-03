@@ -3,6 +3,7 @@ import { NextPageWithLayout } from "./_app"
 
 import { LandingLayout } from "@layouts/landing"
 import { Page } from "@appTypes/landing"
+import strings_en from "@utils/strings"
 
 
 const Privacy : NextPageWithLayout = () => {
@@ -20,5 +21,7 @@ Privacy.getLayout = function getLayout(page: ReactElement) {
         </LandingLayout>
     )
 }
+
+Privacy.title = strings_en.landing.privacy.title
 
 export default Privacy

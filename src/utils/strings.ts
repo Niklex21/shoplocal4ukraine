@@ -41,7 +41,14 @@ const strings_en = {
         }
     },
     landing: {
+        join: {
+            title: "Join"
+        },
+        privacy: {
+            title: "Privacy Statement"
+        },
         about: {
+            title: "About",
             teamSectionTitle: 'The team',
             socials: {
                 email: 'Email',
@@ -233,6 +240,7 @@ const strings_en = {
         },
     },
     businesses: {
+        pageTitle: "Businesses",
         tipOnlyOnline: "Tip: business that don't have a physical location and operate only online are only visible from the Gallery View!",
         infoPage: {
             addSuggestEdit: "Add info/suggest an edit",

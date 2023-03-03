@@ -11,7 +11,7 @@ import { BusinessViewContextData, PanelState } from "@appTypes/businesses"
 import { BusinessView } from "@components/business/BusinessView"
 import { InfoPanel } from "@components/business/InfoPanel"
 
-import { atomAllBusinesses, atomCurrentBusiness, atomIsBusinessSelected, atomSelectedBusinessID } from "src/atoms/businesses"
+import { atomAllBusinesses, atomCurrentBusiness, atomIsBusinessSelected } from "src/atoms/businesses"
 import { useAtom } from "jotai"
 import strings from "@utils/strings"
 
@@ -24,7 +24,6 @@ import { FieldSet } from "airtable/lib/field_set"
 import Table from "airtable/lib/table"
 import { processError } from "@api/_error"
 import _base from "@api/_airtable"
-import { AppMenu } from "@components/common/AppMenu"
 
 const logger = log.with({ from: 'page.businesses.index' })
 
@@ -57,8 +56,10 @@ const Main: NextPageWithLayout<Props> = ({ businesses }: InferGetStaticPropsType
     useEffect(() => {
         if (isBusinessSelected) {
             setInfoPanelState(PanelState.Open)
+            document.title = currentBusiness.name + " | " + strings.businesses.pageTitle + " | " + strings.all.title
         } else {
             setInfoPanelState(PanelState.Closed)
+            document.title = strings.businesses.pageTitle + " | " + strings.all.title
         }
     }, [ currentBusiness, isBusinessSelected, setInfoPanelState ])
 
@@ -181,5 +182,7 @@ Main.getLayout = function getLayout(page: ReactElement) {
         </AppLayout>
     )
 }
+
+Main.title = strings.businesses.pageTitle
 
 export default Main
