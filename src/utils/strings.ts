@@ -273,6 +273,9 @@ const strings_en = {
                     and: "and",
                     clearAll: "Clear all filters"
                 },
+                autocomplete: {
+                    clearSearch: "Clear search history"
+                },
                 tooltipFiltersIcon: "Applied filters"
             },
             quickSearches: {

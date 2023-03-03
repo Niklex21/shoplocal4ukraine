@@ -72,6 +72,7 @@ export default function SearchBar({ className }: Props) {
 
     // a utility to push the current item to the search history storage
     const addSearchHistory = (search: AutocompleteSuggestion) => {
+        // TODO: kind of a hack, should be limited at the atom state ideally
         if (searchHistory.length === 100) setSearchHistory(searchHistory.slice(1))
 
         search = {
@@ -79,8 +80,9 @@ export default function SearchBar({ className }: Props) {
             history: true
         }
 
+        // filter is so that previous history items are removed
         setSearchHistory([
-            ...searchHistory,
+            ...searchHistory.filter(x => JSON.stringify(x) != JSON.stringify(search)),
             search
         ])
     }
@@ -115,7 +117,21 @@ export default function SearchBar({ className }: Props) {
         // added a "!" because one of them has to be valid per the if above, and compiler doesn't realize that
         let option = currentOptions[(index !== null && index !== undefined ? index : currentHover)!]
 
-        if (!option.history) addSearchHistory(option)
+        // if we are just entering the search query
+        if (option === undefined || option === null) {
+            if (currentQuery === "") {
+                return
+            }
+
+            setSearchQuery(currentQuery)
+            addSearchHistory({
+                text: currentQuery,
+                category: AutocompleteSuggestionCategory.Search
+            })
+            return
+        }
+
+        addSearchHistory(option)
 
         switch (option.category) {
             case AutocompleteSuggestionCategory.Business:
@@ -140,28 +156,46 @@ export default function SearchBar({ className }: Props) {
         }
     }
 
+    const clearSearchHistory = () => {
+        setSearchHistory([])
+    }
+
     const autoComplete = (
         <div className={ twMerge("relative bg-white py-2 rounded-b-lg", showAutoComplete ? "flex flex-col" : "hidden") }>
             {
                 currentOptions.length > 0
-                ? currentOptions.map(
-                    ({ text, category, matches, ...props }, index) => (
-                        <span
-                            className={
-                                twMerge(
-                                    "flex gap-4 flex-row items-align-middle px-6 py-2 cursor-pointer text-slate-500 text-base",
-                                    index == currentHover ? "bg-slate-100" : "bg-white"
+                ? (
+                    <>
+                        { 
+                            currentOptions.map(
+                                ({ text, category, matches, ...props }, index) => (
+                                    <span
+                                        className={
+                                            twMerge(
+                                                "flex gap-4 flex-row items-align-middle px-6 py-2 cursor-pointer text-slate-500 text-base",
+                                                index == currentHover ? "bg-slate-100" : "bg-white"
+                                            )
+                                        }
+                                        key={ index }
+                                        onMouseEnter={ () => setCurrentHover(index) }
+                                        onMouseLeave={ () => setCurrentHover(null) }
+                                        onMouseDown={ () => setAutocompleteClick(true) }
+                                        onMouseUp={ () => { setAutocompleteClick(false); triggerSelection(index); } }
+                                    >
+                                        <span className="flex my-auto text-slate-300">{ createElement(getAutocompleteCategoryIcon({ text, category, matches, ...props})) }</span>
+                                        <span className="">{ matches && currentQuery !== "" ? getBoldText(text, matches[0].indices) : text }</span>
+                                    </span>
                                 )
-                            }
-                            key={ index }
-                            onMouseEnter={ () => setCurrentHover(index) }
+                            )
+                        }
+                        <span
+                            className="italic underline text-slate-500 hover:text-ukraine-blue px-6 py-2 cursor-pointer mr-auto"
                             onMouseDown={ () => setAutocompleteClick(true) }
-                            onMouseUp={ () => { setAutocompleteClick(false); triggerSelection(index); } }
+                            onMouseUp={ () => { setAutocompleteClick(false); clearSearchHistory(); } }
                         >
-                            <span className="flex my-auto text-slate-300">{ createElement(getAutocompleteCategoryIcon({ text, category, matches, ...props})) }</span>
-                            <span className="">{ matches && currentQuery !== "" ? getBoldText(text, matches[0].indices) : text }</span>
+                            { strings.businesses.businessView.searchBar.autocomplete.clearSearch }
                         </span>
-                    )
+                    </>
                 )
                 : (
                     <Link href="/join" target="_blank">
@@ -173,6 +207,7 @@ export default function SearchBar({ className }: Props) {
                                 )
                             }
                             onMouseEnter={ () => setCurrentHover(0) }
+                            onMouseLeave={ () => setCurrentHover(null) }
                             onMouseDown={ () => setAutocompleteClick(true) }
                             onMouseUp={ () => { setAutocompleteClick(false); } }
                         >
@@ -283,7 +318,7 @@ export default function SearchBar({ className }: Props) {
                         onClick={ () => {
                             currentQuery === ""
                             ? inputRef.current!.focus()
-                            : setSearchQuery(currentQuery)
+                            : triggerSelection()
                         }}
                         className="flex my-auto hover:text-ukraine-blue"
                     >
