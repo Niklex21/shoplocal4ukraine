@@ -11,7 +11,7 @@ import { BusinessViewContextData, PanelState } from "@appTypes/businesses"
 import { BusinessView } from "@components/business/BusinessView"
 import { InfoPanel } from "@components/business/InfoPanel"
 
-import { atomAllBusinesses, atomCurrentBusiness, atomIsBusinessSelected, atomSelectedBusinessID } from "src/atoms/businesses"
+import { atomAllBusinesses, atomCurrentBusiness, atomIsBusinessSelected } from "src/atoms/businesses"
 import { useAtom } from "jotai"
 import strings from "@utils/strings"
 
@@ -24,7 +24,6 @@ import { FieldSet } from "airtable/lib/field_set"
 import Table from "airtable/lib/table"
 import { processError } from "@api/_error"
 import _base from "@api/_airtable"
-import { AppMenu } from "@components/common/AppMenu"
 
 const logger = log.with({ from: 'page.businesses.index' })
 
@@ -49,8 +48,6 @@ const Main: NextPageWithLayout<Props> = ({ businesses }: InferGetStaticPropsType
 
     const [ infoPanelState, setInfoPanelState ] = useState<PanelState>(PanelState.Closed)
 
-    const [ menuState, setMenuState ] = useState<PanelState>(PanelState.Closed)
-
     // set all businesses when the props are changed
     useEffect(() => {
         setAllBusinesses(businesses)
@@ -59,8 +56,10 @@ const Main: NextPageWithLayout<Props> = ({ businesses }: InferGetStaticPropsType
     useEffect(() => {
         if (isBusinessSelected) {
             setInfoPanelState(PanelState.Open)
+            document.title = currentBusiness.name + " | " + strings.businesses.pageTitle + " | " + strings.all.title
         } else {
             setInfoPanelState(PanelState.Closed)
+            document.title = strings.businesses.pageTitle + " | " + strings.all.title
         }
     }, [ currentBusiness, isBusinessSelected, setInfoPanelState ])
 
@@ -104,7 +103,7 @@ const Main: NextPageWithLayout<Props> = ({ businesses }: InferGetStaticPropsType
     )
 
     const content = (
-        <div className="flex h-full w-full">
+        <div className="flex relative h-full w-full">
             <InfoPanel panelState={ infoPanelState } setPanelState={ setInfoPanelState } className="transition-all duration-200 md:w-1/2 lg:w-1/3 xl:w-1/3 2xl:w-1/4" />
             <div className={
                 twMerge(
@@ -118,11 +117,11 @@ const Main: NextPageWithLayout<Props> = ({ businesses }: InferGetStaticPropsType
             <div
                 className={
                     twMerge(
-                        "h-full flex flex-row w-full transition-all duration-200 justify-end items-center",
+                        "h-full relative flex flex-row w-full transition-all duration-200 justify-end items-center",
                     )
                 }
             >
-                <BusinessView className="flex w-full" infoPanelOpen={ infoPanelState === PanelState.Open }  />
+                <BusinessView className="flex relative h-full w-full" infoPanelOpen={ infoPanelState === PanelState.Open }  />
             </div>
         </div>
     )
@@ -132,15 +131,6 @@ const Main: NextPageWithLayout<Props> = ({ businesses }: InferGetStaticPropsType
             <BusinessViewContext.Provider value={ context }>
                 { content }
             </BusinessViewContext.Provider>
-            {/* BACKDROP */}
-            <div
-                className={
-                    "absolute top-0 h-full w-full left-0 bg-black transition-opacity duration-500 " +
-                    (menuState === PanelState.Closed ? "opacity-0 -z-50" : "opacity-20 z-50")
-                }
-                onClick={ () => setMenuState(PanelState.Closed) }
-            />
-            <AppMenu menuState={ menuState } setMenuState={ setMenuState } />
         </>
     )
 }
@@ -192,5 +182,7 @@ Main.getLayout = function getLayout(page: ReactElement) {
         </AppLayout>
     )
 }
+
+Main.title = strings.businesses.pageTitle
 
 export default Main

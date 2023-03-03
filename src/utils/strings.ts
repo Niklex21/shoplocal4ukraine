@@ -33,10 +33,22 @@ const strings_en = {
         feedbackReport: {
             bug: 'Bug',
             suggestion: 'Suggestion'
+        },
+        mobileMenu: {
+            menu: "Menu",
+            add: "Add a business",
+            feedback: "Feedback"
         }
     },
     landing: {
+        join: {
+            title: "Join"
+        },
+        privacy: {
+            title: "Privacy Statement"
+        },
         about: {
+            title: "About",
             teamSectionTitle: 'The team',
             socials: {
                 email: 'Email',
@@ -228,6 +240,7 @@ const strings_en = {
         },
     },
     businesses: {
+        pageTitle: "Businesses",
         tipOnlyOnline: "Tip: business that don't have a physical location and operate only online are only visible from the Gallery View!",
         infoPage: {
             addSuggestEdit: "Add info/suggest an edit",
@@ -267,6 +280,9 @@ const strings_en = {
                     tagsTitle: "Tags (either one)",
                     and: "and",
                     clearAll: "Clear all filters"
+                },
+                autocomplete: {
+                    clearSearch: "Clear search history"
                 },
                 tooltipFiltersIcon: "Applied filters"
             },

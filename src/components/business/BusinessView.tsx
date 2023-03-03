@@ -88,8 +88,7 @@ export const BusinessView = ({ infoPanelOpen, className, children }: Props) => {
     const filterBar = (
         <div className={ twMerge("flex flex-col md:flex-row items-start gap-4 fixed top-4 z-30 left-0", infoPanelOpen ? "md:left-1/2 xl:left-1/3 2xl:left-1/4 md:ml-4" : "md:ml-20 md:pl-0") }>
             {/* has to be padding instead of margins on mobile due to box sizing */}
-            <SearchBar className="px-4 md:px-0"  />
-            {/* TODO: for now disabled on mobile because scrolling is not working */}
+            <SearchBar className="px-4 md:px-0" />
             <QuickSearches className={
                 twMerge(
                     "ml-4 md:ml-0 md:mt-1.5 hidden md:flex"
@@ -106,7 +105,7 @@ export const BusinessView = ({ infoPanelOpen, className, children }: Props) => {
 
     return (
         <>
-            <div className={ twMerge(`relative w-full flex flex-col overflow-auto h-full max-h-screen max-w-none p-0 transition-all duration-200`, isMobile ? "pb-20" : "", className) }>
+            <div className={ twMerge(`relative w-full flex flex-col overflow-auto h-full max-h-screen max-w-none p-0 transition-all duration-200`, className) }>
                 <Tooltip title={ strings.app.tooltipMenuButton }>
                     { menu }
                 </Tooltip>

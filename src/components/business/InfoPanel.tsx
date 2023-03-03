@@ -1,4 +1,4 @@
-import { Card, CardMedia, CardContent, Container, IconButton, Tooltip, SwipeableDrawer, Drawer, Button, Box } from "@mui/material";
+import { Card, CardMedia, CardContent, IconButton, Tooltip, SwipeableDrawer, Drawer, Button, Box } from "@mui/material";
 import strings from "@utils/strings";
 import { getBusinessProfileImageSrc, isEmpty, urlShortener } from "@utils/utils";
 import Link from "next/link";
@@ -6,8 +6,7 @@ import { useContext, useState } from "react";
 import { BusinessViewContext } from "src/pages/businesses";
 import { IconLinkText, PanelState } from "@appTypes/businesses";
 import { twMerge } from "tailwind-merge";
-import { Report as IconReport, ContentCopy as IconCopy, KeyboardArrowDown as IconArrowDown, Edit as IconEdit, ArrowLeft as IconArrowLeft, ArrowRight as IconArrowRight, Public as IconWebsite, Email as IconEmail, Phone as IconPhone, ShareOutlined as IconShare, Place as IconAddress, ArrowForward as IconArrow } from "@mui/icons-material";
-import Image from 'next/image';
+import { Report as IconReport, ContentCopy as IconCopy, KeyboardArrowDown as IconArrowDown, Edit as IconEdit, Public as IconWebsite, Email as IconEmail, Phone as IconPhone, ShareOutlined as IconShare, Place as IconAddress, ArrowForward as IconArrow } from "@mui/icons-material";
 import { atomCurrentBusiness, atomSelectedBusinessID } from "src/atoms/businesses";
 import { useAtom } from "jotai";
 import SharePanel from "./SharePanel";
@@ -16,7 +15,7 @@ import { toast } from "react-toastify"
 import ReportPanel from "./ReportPanel";
 import InfoEditPanel from "./InfoEditPanel"
 import defaults from "@utils/config";
-import { BrowserView, isMobile, MobileView } from "react-device-detect";
+import { isMobile } from "react-device-detect";
 import { paperClasses } from "@mui/material/Paper";
 import { Tag } from "@api/business/types";
 import FeedbackPanel from "./FeedbackPanel";
@@ -117,7 +116,7 @@ export const InfoPanel = ({ className, panelState, setPanelState }: Props) => {
                         <div className="flex shrink justify-self-center items-center gap-3">
                             <Tooltip title={ strings.businesses.infoPage.tooltipShare }>
                                 <IconButton
-                                    className="text-ukraine-blue ring-1 ring-current"
+                                    className="ring-1 ring-current opacity-80 hover:brightness-95 text-ukraine-blue hover:opacity-100"
                                     onClick={ () => setSharePanelState(PanelState.Open) }
                                 >
                                     <IconShare className="text-2xl" />
@@ -125,7 +124,7 @@ export const InfoPanel = ({ className, panelState, setPanelState }: Props) => {
                             </Tooltip>
                             <Tooltip title={ strings.businesses.infoPage.tooltipReport }>
                                 <IconButton
-                                    className="text-red-600 ring-1 ring-current"
+                                    className="ring-1 ring-current opacity-80 hover:brightness-95 text-ukraine-blue hover:opacity-100"
                                     onClick={ () => setReportPanelState(PanelState.Open) }
                                 >
                                     <IconReport className="text-2xl" />
@@ -278,7 +277,7 @@ export const InfoPanel = ({ className, panelState, setPanelState }: Props) => {
                         }}
                         className={
                             twMerge(
-                                "w-screen",
+                                "w-full",
                                 "z-40 drop-shadow-none",
                                 className
                             )

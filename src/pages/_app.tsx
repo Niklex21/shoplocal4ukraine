@@ -3,7 +3,7 @@ export { reportWebVitals } from 'next-axiom'
 import '../styles/globals.css'
 
 import type { AppProps } from 'next/app'
-import { ReactElement, ReactNode } from 'react'
+import { ReactElement, ReactNode, useEffect, useState } from 'react'
 import { NextPage } from 'next'
 import { StyledEngineProvider } from '@mui/material/styles'
 import { Analytics } from '@vercel/analytics/react';
@@ -11,9 +11,12 @@ import {ErrorBoundary} from 'react-error-boundary'
 import { processError } from '@api/_error'
 import ErrorFallback from '@components/common/ErrorFallback'
 import localFont from '@next/font/local'
+import strings from '@utils/strings'
+import Head from 'next/head'
 
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
-  getLayout?: (page: ReactElement) => ReactNode
+  getLayout?: (page: ReactElement) => ReactNode,
+  title?: string
 }
 
 type AppPropsWithLayout = AppProps & {
@@ -69,6 +72,9 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
       {
         getLayout(
           <StyledEngineProvider injectFirst>
+            <Head>
+              <title key="title">{ (Component.title ? (Component.title + " | ") : "") + strings.all.title }</title>
+            </Head>
             <Component {...pageProps} />
             <Analytics />
           </StyledEngineProvider>

@@ -322,4 +322,6 @@ About.getLayout = function getLayout(page: ReactElement) {
     )
 }
 
+About.title = strings.landing.about.title
+
 export default About

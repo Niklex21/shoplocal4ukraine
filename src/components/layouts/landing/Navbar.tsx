@@ -94,7 +94,7 @@ export default function Navbar({ current }: { current: Page }) {
           <IconMenu className="text-oxford-blue text-5xl" />
         </IconButton>
       </div>
-      <AppMenu className="fixed" menuState={ menuState } setMenuState={ setMenuState } />
+      <AppMenu menuState={ menuState } setMenuState={ setMenuState } />
     </>
   )
 }

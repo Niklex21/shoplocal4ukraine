@@ -32,7 +32,7 @@ export default function AppMainLayout({ children }: Props) {
                         gtag('config', 'G-P68Q0F71ED');
                     `}
                 </Script>
-                <div className="h-screen w-screen p-0 m-0 bg-white max-h-screen flex">
+                <div className="h-full overflow-auto relative w-full p-0 m-0 bg-white flex min-safe-h-screen">
                     { children }
                     <MobileMenu className="flex md:hidden" />
                 </div>
