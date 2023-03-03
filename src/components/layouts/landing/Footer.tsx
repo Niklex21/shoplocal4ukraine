@@ -46,7 +46,7 @@ export default function Footer() {
                     </div>
                     <div className="flex flex-col md:flex-row w-full gap-2">
                       <div className="mc-field-group flex flex-col gap-1 w-full">
-                        <input type="email" name="EMAIL" className="required email bg-white ring-1 w-80 ring-ukraine-blue focus:outline-ukraine-blue rounded px-4 py-2" id="mce-EMAIL" required placeholder="email@example.com" />
+                        <input type="email" name="EMAIL" className="required email bg-white ring-1 w-full md:w-80 ring-ukraine-blue focus:outline-ukraine-blue rounded px-4 py-2" id="mce-EMAIL" required placeholder="email@example.com" />
                         <span id="mce-EMAIL-HELPERTEXT" className="helper_text"></span>
                       </div>
                       <div id="mce-responses" className="clear foot">
