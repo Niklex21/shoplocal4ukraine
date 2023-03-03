@@ -4,11 +4,13 @@ import Link from "next/link"
 import { twMerge } from "tailwind-merge"
 import { links as sections, socials } from "@utils/config"
 import Logo from '@public/images/logo.png'
+import smallLogo from "@public/images/logoNoText.png"
 import FullScreenPanel from "@components/common/FullScreenPanel"
 import { createElement, useState } from "react"
 import FeedbackPanel from "@components/business/FeedbackPanel"
 import strings from "@utils/strings"
 import ImageWithFallback from "./ImageWithFallback"
+import { isMobile } from "react-device-detect"
 
 type Props = {
     className?: string,
@@ -24,12 +26,12 @@ type Props = {
     const [ feedbackPanelState, setFeedbackPanelState ] = useState<PanelState>(PanelState.Closed)
 
     const title = (
-        <div className="grid grid-cols-2 md:grid-cols-3 w-full items-center">
+        <div className="flex flex-row md:grid md:grid-cols-3 w-full items-center">
             <div className="flex items-center md:col-span-2 max-w-xs">
                 <Link href="/">
                     <ImageWithFallback
-                        src={ Logo }
-                        className="object-contain object-left"
+                        src={ isMobile ? smallLogo : Logo }
+                        className="object-contain object-left w-12 h-12 my-auto md:w-full md:h-full"
                         alt="Logo"
                     />
                 </Link>
@@ -48,7 +50,7 @@ type Props = {
                 className={
                     // flex overrides "hidden", instead hiding it by movement, thus enabling transitions
                     twMerge(
-                        "transition-all flex md:max-w-xs w-screen h-screen overflow-auto gap-8 py-20 md:py-8 p-8 justify-center md:justify-start md:rounded-none text-center md:text-start",
+                        "transition-all flex md:max-w-xs w-full h-full gap-8 p-8 justify-center md:justify-start md:rounded-none text-center md:text-start",
                         menuState === PanelState.Closed ? "hidden md:flex md:-left-full" : "",
                         className
                     )
@@ -60,12 +62,12 @@ type Props = {
                         sections.map(
                             ({ name, links }) => (
                                 <div key={ name } className="flex flex-col gap-4">
-                                    <text className="font-bold text-xl">{ name }</text>
+                                    <text className="font-bold text-lg md:text-xl">{ name }</text>
                                     <div className="flex flex-col gap-3">
                                         {
                                             links.map(
                                                 ({ text, link }) => (
-                                                    <text key={ link } className="text-lg md:text-base cursor-pointer text-gray-700 hover:text-ukraine-blue">
+                                                    <text key={ link } className="text-base cursor-pointer text-gray-700 hover:text-ukraine-blue">
                                                         <Link href={ link } onClick={ () => setMenuState(PanelState.Closed)}>
                                                             { text }
                                                         </Link>
@@ -81,13 +83,13 @@ type Props = {
                 </div>
                 <hr />
                 <div className="flex flex-col gap-4">
-                    <text className="font-bold text-xl">{ strings.landing.footer.sections.socials.name }</text>
+                    <text className="font-bold text-lg md:text-xl">{ strings.landing.footer.sections.socials.name }</text>
                     {
                         socials.map(
                             ({ iconSVG, link, text, }, index: number) => (
                                 <Link href={ link ?? "" } target="_blank" key={ index } onClick={ () => setMenuState(PanelState.Closed)}>
-                                    <span className="flex flex-row justify-center md:justify-start gap-2 text-lg md:text-base cursor-pointer text-gray-700 hover:text-ukraine-blue">
-                                        { createElement(iconSVG!) }
+                                    <span className="flex flex-row justify-center md:justify-start gap-2 text-base cursor-pointer text-gray-700 hover:text-ukraine-blue">
+                                        { createElement(iconSVG!, { className: "text-xl md:text-2xl my-auto" }) }
                                         { text }
                                     </span>
                                 </Link>
@@ -97,7 +99,7 @@ type Props = {
                 </div>
                 {/* GIVE FEEDBACK SECTION */}
                 <hr />
-                <span className="flex italic mx-auto md:ml-0 cursor-pointer underline text-slate-400 text-base hover:text-ukraine-blue" onClick={ () => setFeedbackPanelState(PanelState.Open) }>
+                <span className="flex md:mb-0 italic mx-auto md:ml-0 cursor-pointer underline text-slate-400 text-base hover:text-ukraine-blue" onClick={ () => setFeedbackPanelState(PanelState.Open) }>
                     { strings.all.giveFeedback.full }
                 </span>
             </FullScreenPanel>

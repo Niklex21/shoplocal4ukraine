@@ -222,6 +222,8 @@ export const MapView = ({ infoPanelOpen, className } : Props) => {
         let hoveredBusinessId : string | null = null
 
         if (map) {
+            map.on("load", () => map.resize())
+
             map.on('click', BUSINESS_LAYER_ID, ({ features }) => {
                 if (features && features.length > 0 && features[0]) {
                     setSelectedFromSearch(false)
@@ -297,14 +299,14 @@ export const MapView = ({ infoPanelOpen, className } : Props) => {
     })
 
     return (
-        <div className={ twMerge('flex w-screen h-screen z-0 relative', className) }>
+        <div className={ twMerge('flex w-full grow safe-h-screen z-0 relative', className) }>
             <Map
                 ref={ mapRef as Ref<MapRef>}
                 {...viewState}
                 onMove={ evt => setViewState(evt.viewState) }
                 onDragStart={ () => setDragState(MapDragState.On) }
                 onDragEnd={ () => setDragState(MapDragState.Off) }
-                style={{ width: '100%', height: isMobile ? 'calc(100% - 4rem)' : "100%" }}
+                style={{ width: '100%', height: isMobile ? 'calc(100% - 5rem)' : "100%" }}
                 mapStyle={ defaults.businesses.map.mapStyles[mapStyleState] }
                 mapboxAccessToken={ process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN }
                 interactiveLayerIds={ [ BUSINESS_LAYER_ID, CLUSTERS_LAYER_ID ] }

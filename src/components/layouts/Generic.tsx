@@ -15,6 +15,8 @@ type Props = {
 
 export default function GenericLayout({ children }: Props) {
 
+    const [ feedbackPanelState, setFeedbackPanelState ] = useState<PanelState>(PanelState.Closed)
+
     return (
         <>
             <Head>
@@ -36,6 +38,15 @@ export default function GenericLayout({ children }: Props) {
                 />
             </Head>
             { children }
+            {/* FEEDBACK TIP */}
+            <div className="hidden md:flex -rotate-90 gap-2 fixed right-0 origin-bottom-right top-1/4 flex-row z-40 bg-ukraine-blue cursor-pointer hover:bg-ukraine-yellow hover:text-oxford-blue text-white px-4 py-2 rounded-t-md" onClick={ () => setFeedbackPanelState(PanelState.Open) }>
+                <Feedback />
+                { strings.all.giveFeedback.short }
+            </div>
+            <FeedbackPanel
+                panelState={ feedbackPanelState }
+                closePanel={ () => setFeedbackPanelState(PanelState.Closed)}
+            />
         </>
     )
 }
