@@ -283,7 +283,7 @@ export default function SearchBar({ className }: Props) {
 
     return (
         <div
-            className={ twMerge("flex shrink grow flex-col drop-shadow-md divide-y-2 divide-slate-50 divide-solid w-screen md:w-96", className) }
+            className={ twMerge("flex shrink grow flex-col drop-shadow-md divide-y-2 divide-slate-50 divide-solid w-full md:w-96", className) }
         >
             <div className={ twMerge("flex relative w-full flex-row gap-1 px-2 py-1 bg-white", showAutoComplete || showFilters ? "rounded-t-lg" : "rounded-lg") }>
                 <Tooltip title={ strings.businesses.businessView.searchBar.tooltipFiltersIcon }>

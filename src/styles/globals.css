@@ -48,4 +48,24 @@
     .gradient-stop-75 {
         --tw-gradient-stops: var(--tw-gradient-from) 0, var(--tw-gradient-to) 75%, var(--tw-gradient-to) 100%;
     }
+
+    .min-safe-h-screen {
+        /* equivalent to 100dvh in major browsers */
+        min-height: calc(
+            100vh - env(safe-area-inset-bottom, 0) - env(safe-area-inset-top, 0)
+        );
+    }
+
+    .safe-h-screen {
+        height: calc(
+            100dvh - env(safe-area-inset-bottom, 0) - env(safe-area-inset-top, 0)
+        );
+    }
+    
+    @supports (-webkit-touch-callout: none) {
+        .min-safe-h-screen {
+            /* for ios safari 15, safe-area-inset-bottom is 0, so a special fix apply here */
+            min-height: -webkit-fill-available;
+        }
+    }
 }

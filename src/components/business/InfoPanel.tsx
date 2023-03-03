@@ -278,7 +278,7 @@ export const InfoPanel = ({ className, panelState, setPanelState }: Props) => {
                         }}
                         className={
                             twMerge(
-                                "w-screen",
+                                "w-full",
                                 "z-40 drop-shadow-none",
                                 className
                             )

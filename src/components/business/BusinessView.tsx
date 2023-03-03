@@ -106,7 +106,7 @@ export const BusinessView = ({ infoPanelOpen, className, children }: Props) => {
 
     return (
         <>
-            <div className={ twMerge(`relative w-full flex flex-col overflow-auto h-full max-h-screen max-w-none p-0 transition-all duration-200`, isMobile ? "pb-20" : "", className) }>
+            <div className={ twMerge(`relative w-full flex flex-col overflow-auto h-full max-h-screen max-w-none p-0 transition-all duration-200`, className) }>
                 <Tooltip title={ strings.app.tooltipMenuButton }>
                     { menu }
                 </Tooltip>

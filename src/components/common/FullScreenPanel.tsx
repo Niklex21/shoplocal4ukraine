@@ -1,8 +1,9 @@
 import { FullScreenPanelPosition, PanelState } from "@appTypes/businesses"
-import { ReactNode } from "react"
+import { ReactNode, useEffect, useRef } from "react"
 import { twMerge } from "tailwind-merge"
 import { Close as IconClose } from "@mui/icons-material"
 import { IconButton } from "@mui/material"
+import { isMobile } from "react-device-detect"
 
 type Props = {
     className?: string,
@@ -30,40 +31,63 @@ export default function FullScreenPanel({ className, panelState, closePanel, chi
     const positionStyles = (() => {
         switch (position) {
             case FullScreenPanelPosition.Left:
-                return "left-0 top-0 h-screen md:w-auto"
+                return "left-0 top-0 h-full md:w-auto"
             case FullScreenPanelPosition.Right:
-                return "right-0 top-0 md:w-auto h-screen"
+                return "right-0 top-0 md:w-auto h-full"
             case FullScreenPanelPosition.Top:
-                return "left-0 top-0 md:h-auto w-screen"
+                return "left-0 top-0 md:h-auto w-full"
             case FullScreenPanelPosition.Bottom:
-                return "left-0 bottom-0 md:h-auto w-screen"
+                return "left-0 bottom-0 md:h-auto w-full"
             case FullScreenPanelPosition.Center:
             default:
-                return "top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-screen md:w-auto md:h-auto"
+                return "top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-full md:w-auto md:h-auto"
         }
     })()
 
+    const hiddenInputRef = useRef<HTMLInputElement>(null)
+
+    useEffect(() => {
+        if (hiddenInputRef && hiddenInputRef.current) hiddenInputRef.current.focus()
+    })
+
     return (
         <>
+            {
+                !isMobile
+                && (
+                    <div
+                        className={
+                            twMerge(
+                                "fixed top-0 left-0 w-full h-full z-50 bg-black opacity-20",
+                                panelState === PanelState.Closed ? "hidden" : ""
+                            )
+                        }
+                        onClick={ closePanel }
+                    />
+                )
+            }
             <div
                 className={
                     twMerge(
-                        "fixed top-0 left-0 w-screen h-screen z-50 bg-black opacity-20",
-                        panelState === PanelState.Closed ? "hidden" : ""
-                    )
-                }
-                onClick={ closePanel }
-            />
-            <div
-                className={
-                    twMerge(
-                        `rounded-none md:rounded-lg z-50 fixed flex flex-col gap-4 bg-white p-6 justify-center overflow-auto max-w-full md:max-h-full w-full h-full ${ positionStyles } `,
+                        "rounded-none md:rounded-lg z-50 absolute flex flex-col gap-4 bg-white p-6 justify-center overflow-auto max-w-full md:max-h-full w-full h-full",
+                        positionStyles,
                         panelState === PanelState.Closed ? "hidden" : "",
                         className
                     )
                 }
+                onKeyDown={
+                    (ke) => {
+                        if (ke.key === "Escape") closePanel()
+                    }
+                } 
             >
-                <div className="flex flex-row justify-between gap-8 text-lg items-center relative md:p-0 w-full">
+                {/* need this hidden input so that the whole thing can autofocus, and when the escape character is pressed, the panel closes */}
+                <input
+                    autoFocus
+                    ref={ hiddenInputRef }
+                    className="w-0 h-0"
+                />
+                <div className="flex flex-row justify-between gap-8 text-lg items-center relative md:p-0 w-full mt-16 md:mt-0">
                     <span className="font-bold">{ title }</span>
                     <IconButton
                         aria-label="open sharing panel"
@@ -73,6 +97,8 @@ export default function FullScreenPanel({ className, panelState, closePanel, chi
                     </IconButton>
                 </div>
                 { children }
+                {/* needed because otherwise the menu is rendering weirdly */}
+                <span className="flex md:hidden">&nbsp;</span>
             </div>
         </>
     )
