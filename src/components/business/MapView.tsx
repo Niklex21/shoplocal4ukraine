@@ -41,7 +41,7 @@ export const MapView = ({ infoPanelOpen, className } : Props) => {
 
     // businesses were filtered, but it's irrelevant for maps (for now)
     // remove all online businesses
-    const businessItems : Array<BusinessModel> = businesses.map(b => b.item).filter(b => !b.tags.includes(Tag.Online))
+    const businessItems : Array<BusinessModel> = businesses.map(b => b.item).filter(b => b.location.latitude !== undefined)
 
     const [ selectedID, setSelectedID ] = useAtom(atomSelectedBusinessID)
     const [ hoverID, setHoverID ] = useState<string>("")
