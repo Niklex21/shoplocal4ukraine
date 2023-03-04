@@ -37,14 +37,16 @@ const defaults = {
                     'mapbox://styles/shoplocal4ukraine/clbeq5esj000114pnz4rofqge',
             },
             categoryIcon: {
-                [BusinessCategory.Crafts]: 'art-gallery',
-                [BusinessCategory.Groceries]: 'grocery',
-                [BusinessCategory.Lifestyle]: 'fitness-centre',
-                [BusinessCategory.Restaurant]: 'restaurant',
-                [BusinessCategory.Cafe]: 'cafe',
-                [BusinessCategory.Services]: 'hardware',
+                [BusinessCategory.CafeAndBakery]: 'cafe',
+                [BusinessCategory.Education]: 'college',
+                [BusinessCategory.FoodAndBeverage]: 'convenience',
+                [BusinessCategory.Dining]: 'restaurant',
+                [BusinessCategory.ArtsAndEntertainment]: 'art-gallery',
+                [BusinessCategory.CommunityAndReligion]: 'place-of-worship',
                 [BusinessCategory.Shopping]: 'shop',
-                [BusinessCategory.Product]: 'shop',
+                [BusinessCategory.HomeServices]: 'hardware',
+                [BusinessCategory.OtherServices]: 'laundry',
+                [BusinessCategory.HealthAndWellness]: 'fitness-centre'
             },
         },
         gallery: {
@@ -123,17 +125,25 @@ const socials: Array<IconLinkText> = [
 
 // stores all possible business categories to be used in rendering
 const BUSINESS_CATEGORIES: Array<BusinessCategory> = [
-    BusinessCategory.Crafts,
-    BusinessCategory.Groceries,
-    BusinessCategory.Lifestyle,
-    BusinessCategory.Restaurant,
-    BusinessCategory.Cafe,
-    BusinessCategory.Services,
+    BusinessCategory.CafeAndBakery,
+    BusinessCategory.Education,
+    BusinessCategory.FoodAndBeverage,
+    BusinessCategory.Dining,
+    BusinessCategory.ArtsAndEntertainment,
+    BusinessCategory.CommunityAndReligion,
     BusinessCategory.Shopping,
-    BusinessCategory.Product,
+    BusinessCategory.HomeServices,
+    BusinessCategory.OtherServices,
+    BusinessCategory.HealthAndWellness
 ];
 
-const BUSINESS_TAGS: Array<Tag> = [Tag.UkrainianOwned, Tag.OnlineOnly];
+const BUSINESS_TAGS: Array<Tag> = [
+    Tag.LeadSupporter,
+    Tag.OnRequest,
+    Tag.Online,
+    Tag.SellUkrainianProducts,
+    Tag.UkrainianOwned
+];
 
 // stores the corresponding local storage keys so that they are configurable in one place
 const LOCAL_STORAGE_KEYS = {

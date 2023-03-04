@@ -42,12 +42,12 @@ export function QuickSearches({ className }: Props) {
         {
             text: strings.businesses.businessView.quickSearches.restaurants,
             icon: Restaurant,
-            action: () => updateCategory(BusinessCategory.Restaurant)
+            action: () => updateCategory(BusinessCategory.Dining)
         },
         {
             text: strings.businesses.businessView.quickSearches.cafe,
             icon: LocalCafe,
-            action: () => updateCategory(BusinessCategory.Cafe)
+            action: () => updateCategory(BusinessCategory.CafeAndBakery)
         },
         {
             text: strings.businesses.businessView.quickSearches.shopping,

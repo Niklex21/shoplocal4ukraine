@@ -1,5 +1,5 @@
 import { BusinessCategory, BusinessModel, Tag } from "@api/business/types"
-import defaults from "@utils/config"
+import defaults, { BUSINESS_CATEGORIES } from "@utils/config"
 import { findBusinessById, isEmpty, modelToGeojsonFeature } from "@utils/utils"
 import { GeolocateControl, NavigationControl, ScaleControl, Map, MapRef, Source, Layer, SymbolLayer, CircleLayer, GeoJSONSource } from "react-map-gl"
 import { ReactNode, Ref, useContext, useEffect, useRef, useState } from "react"
@@ -41,7 +41,7 @@ export const MapView = ({ infoPanelOpen, className } : Props) => {
 
     // businesses were filtered, but it's irrelevant for maps (for now)
     // remove all online businesses
-    const businessItems : Array<BusinessModel> = businesses.map(b => b.item).filter(b => !b.tags.includes(Tag.OnlineOnly))
+    const businessItems : Array<BusinessModel> = businesses.map(b => b.item).filter(b => b.location.latitude !== undefined)
 
     const [ selectedID, setSelectedID ] = useAtom(atomSelectedBusinessID)
     const [ hoverID, setHoverID ] = useState<string>("")
@@ -65,6 +65,18 @@ export const MapView = ({ infoPanelOpen, className } : Props) => {
     const CLUSTER_COUNT_LAYER_ID = 'cluster-count'
     const SOURCE_ID = 'map'
 
+    // stores the config case map for the icons to unpack later
+    // explicit any because the config is stupid and it's annoying to typize it properly anyways
+    const icons : any = []
+    BUSINESS_CATEGORIES.forEach(category => {
+        icons.push([
+            "==",
+            ["get", "businessCategory"],
+            category
+        ])
+        icons.push(defaults.businesses.map.categoryIcon[category])
+    });
+
     // Mapbox layer properties (https://visgl.github.io/react-map-gl/docs/api-reference/layer)
     const businessesLayer : SymbolLayer = {
         "id": BUSINESS_LAYER_ID,
@@ -78,22 +90,7 @@ export const MapView = ({ infoPanelOpen, className } : Props) => {
             "text-radial-offset": 1,
             "icon-image": [
                 'case',
-                ["==", ['get', 'businessCategory'], BusinessCategory.Crafts],
-                defaults.businesses.map.categoryIcon[BusinessCategory.Crafts],
-                ["==", ['get', 'businessCategory'], BusinessCategory.Groceries],
-                defaults.businesses.map.categoryIcon[BusinessCategory.Groceries],
-                ["==", ['get', 'businessCategory'], BusinessCategory.Lifestyle],
-                defaults.businesses.map.categoryIcon[BusinessCategory.Lifestyle],
-                ["==", ['get', 'businessCategory'], BusinessCategory.Restaurant],
-                defaults.businesses.map.categoryIcon[BusinessCategory.Restaurant],
-                ["==", ['get', 'businessCategory'], BusinessCategory.Cafe],
-                defaults.businesses.map.categoryIcon[BusinessCategory.Cafe],
-                ["==", ['get', 'businessCategory'], BusinessCategory.Services],
-                defaults.businesses.map.categoryIcon[BusinessCategory.Services],
-                ["==", ['get', 'businessCategory'], BusinessCategory.Shopping],
-                defaults.businesses.map.categoryIcon[BusinessCategory.Shopping],
-                ['==', ['get', 'businessCategory'], BusinessCategory.Product],
-                defaults.businesses.map.categoryIcon[BusinessCategory.Product],
+                ...icons,
                 defaults.businesses.map.categoryIcon[BusinessCategory.Shopping]
             ],
             "icon-size": 1.2,
