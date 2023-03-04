@@ -10,7 +10,8 @@ type Badge = {
     icon?: JSX.Element,
     tooltip?: string,
     color?: string,
-    content?: ReactNode
+    emoji?: string,
+    shortText?: string
 }
 
 /**
@@ -18,36 +19,45 @@ type Badge = {
  * @param tags a list of tags for a given business
  */
 export function BadgesRow(tags: Array<Tag>) {
-    let badges : Array<Badge> = [];
-
-    if (tags.includes(Tag.UkrainianOwned)) {
-        badges.push({
-            tooltip: strings.businesses.tag.ukrainianOwned,
+    let map : { [key in Tag]: Badge} = {
+        [Tag.UkrainianOwned]: {
             color: "bg-yellow-100",
-            content: (<>🇺🇦 owned</>)
-        })
+            emoji: "🇺🇦"
+        },
+        [Tag.Online]: {
+            color: "bg-blue-100",
+            emoji: "🌐"
+        },
+        [Tag.LeadSupporter]: {
+            color: "bg-orange-100",
+            emoji: "🏆"
+        },
+        [Tag.OnRequest]: {
+            color: "bg-green-100",
+            emoji: "📞"
+        },
+        [Tag.SellUkrainianProducts]: {
+            color: "bg-pink-100",
+            emoji: "🛒"
+        },
     }
 
-    if (tags.includes(Tag.OnlineOnly)) {
-        badges.push({
-            tooltip: strings.businesses.tag.onlineOnly,
-            color: "bg-blue-100",
-            content: (<>🌐 only</>)
-        })
-    }
+    let badges : Array<Badge> = tags.map(t => {
+        return { ...map[t], tooltip: strings.businesses.tag[t], shortText: strings.businesses.tagShort[t] }
+    });
 
     return (
         <div className="flex gap-1">
             {
                 badges.map(
-                    ({ content, icon, color, tooltip }, index: number) =>
+                    ({ emoji, shortText, icon, color, tooltip }, index: number) =>
                         tooltip ?
                         (
                             <Tooltip title={ tooltip ?? "" } key={ index } arrow={ true } placement="top">
-                                <Chip size="small" icon={ icon ?? <></> } label={ content ?? <></> } className={ twMerge("font-bold text-gray-700", color ?? "") } />
+                                <Chip size="small" icon={ icon ?? <></> } label={ (emoji ?? "") + " " + (shortText ?? "") } className={ twMerge("font-bold text-gray-700", color ?? "") } />
                             </Tooltip>
                         ) : (
-                            <Chip size="small" icon={ icon ?? <></> } label={ content ?? <></> } className={ color ?? "" } key={ index } />
+                            <Chip size="small" icon={ icon ?? <></> } label={ (emoji ?? "") + " " + (shortText ?? "") } className={ color ?? "" } key={ index } />
                         )
                 )
             }

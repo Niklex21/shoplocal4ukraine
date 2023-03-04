@@ -4,14 +4,16 @@ import { Model } from "@api/types"
  * All the currently supported business categories.
  */
 export enum BusinessCategory {
-    Crafts,
-    Restaurant,
-    Cafe,
-    Services,
-    Lifestyle,
-    Groceries,
+    CafeAndBakery,
+    Education,
+    FoodAndBeverage,
+    Dining,
+    ArtsAndEntertainment,
+    CommunityAndReligion,
     Shopping,
-    Product
+    HomeServices,
+    OtherServices,
+    HealthAndWellness
 }
 
 /**
@@ -19,7 +21,10 @@ export enum BusinessCategory {
  */
 export enum Tag {
     UkrainianOwned,
-    OnlineOnly
+    Online,
+    OnRequest,
+    SellUkrainianProducts,
+    LeadSupporter
 }
 
 /**

@@ -12,39 +12,23 @@ const logger = log.with({ "from": "api.businesses.model" })
  * @returns null if the value is invalid, one of the {@link BusinessCategory} options otherwise
  */
 function businessCategoryConverter(value: string) : BusinessCategory | null {
-    let category : BusinessCategory;
-
-    switch (value) {
-        case 'Restaurant':
-            category = BusinessCategory.Restaurant;
-            break;
-        case 'Lifestyle':
-            category = BusinessCategory.Lifestyle;
-            break;
-        case 'Cafe':
-            category = BusinessCategory.Cafe;
-            break;
-        case 'Crafts':
-            category = BusinessCategory.Crafts;
-            break;
-        case 'Services':
-            category = BusinessCategory.Services;
-            break;
-        case 'Groceries':
-            category = BusinessCategory.Groceries;
-            break;
-        case 'Shopping':
-            category = BusinessCategory.Shopping;
-            break;
-        case 'Product':
-            category = BusinessCategory.Product;
-            break;
-        default:
-            processError(ErrorType.InvalidBusinessCategory, `Category provided: ${ value }`, logger.with({ "function": "businessCategoryConverter" }));
-            return null;
+    let map : { [key:string] : BusinessCategory } = {
+        'Cafe & Bakery': BusinessCategory.CafeAndBakery,
+        'Education': BusinessCategory.Education,
+        'Food & Beverage': BusinessCategory.FoodAndBeverage,
+        'Dining': BusinessCategory.Dining,
+        'Arts & Entertainment': BusinessCategory.ArtsAndEntertainment,
+        'Community & Religion': BusinessCategory.CommunityAndReligion,
+        'Shopping': BusinessCategory.Shopping,
+        'Home Services': BusinessCategory.HomeServices,
+        'Other Services': BusinessCategory.OtherServices,
+        'Health & Wellness': BusinessCategory.HealthAndWellness
     }
 
-    return category;
+    if (value in map) return map[value]
+
+    processError(ErrorType.InvalidBusinessCategory, `Category provided: ${ value }`, logger.with({ "function": "businessCategoryConverter" }));
+    return null
 }
 
 /**
@@ -53,20 +37,20 @@ function businessCategoryConverter(value: string) : BusinessCategory | null {
  * @returns an array of {@link Tag} options
  */
 function tagsConverter(values: Array<string>) : Array<Tag> {
-    let tags : Array<Tag> = [];
+    let map : { [key:string]: Tag } = {
+        'Ukrainian-Owned': Tag.UkrainianOwned,
+        'Online': Tag.Online,
+        'On Request': Tag.OnRequest,
+        'Ukrainian Product': Tag.SellUkrainianProducts,
+        'Lead Supporter': Tag.LeadSupporter
+    }
 
+    let tags : Array<Tag> = [];
     values.forEach((tag) => {
-        switch(tag) {
-            case 'Ukrainian-Owned':
-                tags.push(Tag.UkrainianOwned);
-                break;
-            case 'Only online':
-                tags.push(Tag.OnlineOnly);
-                break;
-            default:
-                processError(ErrorType.InvalidTag, `Tag supplied: ${ tag }`, logger.with({ "function": "tagsConverter" }));
-                break;
-        }
+        if (tag in map)
+            tags.push(map[tag])
+        else
+            processError(ErrorType.InvalidTag, `Tag supplied: ${ tag }`, logger.with({ "function": "tagsConverter" }))
     })
 
     return tags;

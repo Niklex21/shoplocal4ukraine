@@ -2,6 +2,7 @@ import defaultImage from '@public/images/flag.jpg'
 import solodko from '@public/images/featured/solodko.png'
 import galaxyKitchen from '@public/images/featured/galaxy_kitchen.jpg'
 import estheticBean from '@public/images/featured/esthetic_bean.jpg'
+import { BusinessCategory, Tag } from '@api/business/types';
 
 
 const strings_en = {
@@ -287,21 +288,23 @@ const strings_en = {
                 tooltipFiltersIcon: "Applied filters"
             },
             quickSearches: {
-                ukrainianOwned: "🇺🇦-owned",
-                restaurants: "Restaurants",
-                cafe: "Cafe",
+                ukrainianOwned: "🇺🇦 owned",
+                restaurants: "Dining",
+                cafe: "Cafe & Bakery",
                 shopping: "Shopping"
             }
         },
         categories: {
-            crafts: 'Crafts',
-            restaurant: 'Restaurant',
-            cafe: 'Cafe',
-            services: 'Services',
-            lifestyle: 'Lifestyle',
-            groceries: 'Groceries',
-            shopping: 'Shopping',
-            product: 'Product'
+            [BusinessCategory.CafeAndBakery]: 'Cafe & Bakery',
+            [BusinessCategory.Education]: 'Education',
+            [BusinessCategory.FoodAndBeverage]: 'Food & Beverage',
+            [BusinessCategory.Dining]: 'Dining',
+            [BusinessCategory.ArtsAndEntertainment]: 'Arts & Entertainment',
+            [BusinessCategory.CommunityAndReligion]: 'Community & Religion',
+            [BusinessCategory.Shopping]: 'Shopping',
+            [BusinessCategory.HomeServices]: 'Home Services',
+            [BusinessCategory.OtherServices]: 'Other Services',
+            [BusinessCategory.HealthAndWellness]: 'Health & Wellness'
         },
         mapView: {
             layers: "Layers",
@@ -367,9 +370,19 @@ const strings_en = {
             toastSuccessCopy: 'Copied link',
         },
         tag: {
-            ukrainianOwned: 'Ukrainian-owned',
-            onlineOnly: "Online-only"
+            [Tag.LeadSupporter]: 'Lead Supporter',
+            [Tag.OnRequest]: 'On Request',
+            [Tag.Online]: 'Online',
+            [Tag.SellUkrainianProducts]: 'Sell Ukrainian Products',
+            [Tag.UkrainianOwned]: 'Ukrainian-Owned'
         },
+        tagShort: {
+            [Tag.LeadSupporter]: 'supporter',
+            [Tag.OnRequest]: 'on-request',
+            [Tag.Online]: 'online',
+            [Tag.SellUkrainianProducts]: 'Ukrainian product',
+            [Tag.UkrainianOwned]: 'owned'
+        }
     },
     countries: {
         USA: 'USA',

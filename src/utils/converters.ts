@@ -12,27 +12,12 @@ import strings from "./strings";
  * @param category the business category
  */
 export function businessCategoryConverter(category: BusinessCategory) : string {
-    switch (category) {
-        case BusinessCategory.Crafts:
-            return strings.businesses.categories.crafts;
-        case BusinessCategory.Restaurant:
-            return strings.businesses.categories.restaurant;
-        case BusinessCategory.Lifestyle:
-            return strings.businesses.categories.lifestyle;
-        case BusinessCategory.Cafe:
-            return strings.businesses.categories.cafe;
-        case BusinessCategory.Services:
-            return strings.businesses.categories.services;
-        case BusinessCategory.Groceries:
-            return strings.businesses.categories.groceries;
-        case BusinessCategory.Shopping:
-            return strings.businesses.categories.shopping;
-        case BusinessCategory.Product:
-            return strings.businesses.categories.product;
-        default:
-            processError(ErrorType.InvalidBusinessCategory, `Business category provided: ${ category }`);
-            return "Invalid"
+    if (category in strings.businesses.categories) {
+        return strings.businesses.categories[category]
     }
+
+    processError(ErrorType.InvalidBusinessCategory, `Business category provided: ${ category }`);
+    return "Invalid"
 }
 
 /**
@@ -40,15 +25,12 @@ export function businessCategoryConverter(category: BusinessCategory) : string {
  * @param tag the tag category
  */
 export function tagConverter(tag: Tag) : string {
-    switch (tag) {
-        case Tag.UkrainianOwned:
-            return strings.businesses.tag.ukrainianOwned;
-        case Tag.OnlineOnly:
-            return strings.businesses.tag.onlineOnly;
-        default:
-            processError(ErrorType.InvalidTag, `Tag category provided: ${ tag }`);
-            return "Invalid"
+    if (tag in strings.businesses.tag) {
+        return strings.businesses.tag[tag]
     }
+
+    processError(ErrorType.InvalidTag, `Tag category provided: ${ tag }`);
+    return "Invalid"
 }
 
 /**
