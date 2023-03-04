@@ -213,20 +213,11 @@ export const InfoPanel = ({ className, panelState, setPanelState }: Props) => {
                         <h3 className="prose text-xl mb-1 font-semibold">{ strings.businesses.infoPage.sectionTitle.description }</h3>
                         <span className="prose break-words opacity-80">{ business.description }</span>
                     </div>
-                    {
-                        // if Ukrainian-owned, we don't need contributions
-                        business.tags.includes(Tag.UkrainianOwned)
-                        ? (<></>)
-                        : (
-                            <>
-                                <hr />
-                                <div className="max-w-sm">
-                                    <h3 className="prose text-xl mb-1 font-semibold">{ strings.businesses.infoPage.sectionTitle.contributions }</h3>
-                                    <span className="prose break-words opacity-80">{ business.contributions }</span>
-                                </div>
-                            </>
-                        )
-                    }
+                    <hr />
+                    <div className="max-w-sm">
+                        <h3 className="prose text-xl mb-1 font-semibold">{ strings.businesses.infoPage.sectionTitle.contributions }</h3>
+                        <span className="prose break-words opacity-80">{ business.contributions }</span>
+                    </div>
 
                     {/* GIVE FEEDBACK SECTION */}
                     <hr />
