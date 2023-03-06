@@ -3,6 +3,7 @@ import solodko from '@public/images/featured/solodko.png'
 import galaxyKitchen from '@public/images/featured/galaxy_kitchen.jpg'
 import estheticBean from '@public/images/featured/esthetic_bean.jpg'
 import { BusinessCategory, Tag } from '@api/business/types';
+import { DarkModeOptions } from '@appTypes/common';
 
 
 const strings_en = {
@@ -39,6 +40,14 @@ const strings_en = {
             menu: "Menu",
             add: "Add a business",
             feedback: "Feedback"
+        },
+        darkMode: {
+            scheme: "Color scheme",
+            tooltips: {
+                [DarkModeOptions.Light]: "Light mode",
+                [DarkModeOptions.System]: "Same as system",
+                [DarkModeOptions.Dark]: "Dark mode",
+            }
         }
     },
     landing: {

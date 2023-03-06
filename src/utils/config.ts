@@ -153,6 +153,7 @@ const LOCAL_STORAGE_KEYS = {
     atomCategories: 'categories',
     atomTags: 'tags',
     atomSearchHistory: 'search_history',
+    atomDarkMode: "dark_mode"
 };
 
 export default defaults;

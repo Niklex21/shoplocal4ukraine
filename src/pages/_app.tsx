@@ -13,6 +13,9 @@ import ErrorFallback from '@components/common/ErrorFallback'
 import localFont from '@next/font/local'
 import strings from '@utils/strings'
 import Head from 'next/head'
+import { DarkModeOptions } from '@appTypes/common'
+import { useAtom } from 'jotai'
+import { atomDarkMode } from 'src/atoms/global'
 
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: ReactElement) => ReactNode,
@@ -63,6 +66,17 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
 
   // Use the layout defined at the page level, if available
   const getLayout = Component.getLayout ?? ((page) => page)
+
+  const [ darkMode ] = useAtom(atomDarkMode)
+
+  useEffect(() => {
+    // On page load or when changing themes, best to add inline in `head` to avoid FOUC
+    if (darkMode === DarkModeOptions.Dark) {
+      document.documentElement.classList.add('dark')
+    } else {
+      document.documentElement.classList.remove('dark')
+    }
+  })
 
   return (
     <ErrorBoundary

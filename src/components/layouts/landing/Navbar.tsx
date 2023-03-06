@@ -10,6 +10,7 @@ import { AppMenu } from '@components/common/AppMenu'
 import { PanelState } from '@appTypes/businesses'
 import { useState } from 'react'
 import ImageWithFallback from '@components/common/ImageWithFallback'
+import DarkModeSwitch from '@components/common/DarkModeSwitch'
 
 const links: Array<LinkType> = [
   {
@@ -77,6 +78,7 @@ export default function Navbar({ current }: { current: Page }) {
               )
             )
           }
+          <DarkModeSwitch />
         </div>
       </div>
       <div className="flex md:hidden relative z-40 h-24 p-6 w-full top-0 left-0 bg-white drop-shadow-sm justify-between">
