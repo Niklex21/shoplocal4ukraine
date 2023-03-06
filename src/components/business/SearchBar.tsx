@@ -161,7 +161,7 @@ export default function SearchBar({ className }: Props) {
     }
 
     const autoComplete = (
-        <div className={ twMerge("relative bg-white py-2 rounded-b-lg", showAutoComplete ? "flex flex-col" : "hidden") }>
+        <div className={ twMerge("relative bg-white dark:bg-slate-700 py-2 rounded-b-lg", showAutoComplete ? "flex flex-col" : "hidden") }>
             {
                 currentOptions.length > 0
                 ? (
@@ -172,8 +172,8 @@ export default function SearchBar({ className }: Props) {
                                     <span
                                         className={
                                             twMerge(
-                                                "flex gap-4 flex-row items-align-middle px-6 py-2 cursor-pointer text-slate-500 text-base",
-                                                index == currentHover ? "bg-slate-100" : "bg-white"
+                                                "flex gap-4 flex-row items-align-middle px-6 py-2 cursor-pointer text-slate-500 dark:text-slate-200 text-base",
+                                                index == currentHover ? "bg-slate-100 dark:bg-slate-600" : "bg-white dark:bg-slate-700"
                                             )
                                         }
                                         key={ index }
@@ -182,14 +182,14 @@ export default function SearchBar({ className }: Props) {
                                         onMouseDown={ () => setAutocompleteClick(true) }
                                         onMouseUp={ () => { setAutocompleteClick(false); triggerSelection(index); } }
                                     >
-                                        <span className="flex my-auto text-slate-300">{ createElement(getAutocompleteCategoryIcon({ text, category, matches, ...props})) }</span>
+                                        <span className="flex my-auto text-slate-300 dark:text-slate-100">{ createElement(getAutocompleteCategoryIcon({ text, category, matches, ...props})) }</span>
                                         <span className="">{ matches && currentQuery !== "" ? getBoldText(text, matches[0].indices) : text }</span>
                                     </span>
                                 )
                             )
                         }
                         <span
-                            className="italic underline text-slate-500 hover:text-ukraine-blue px-6 py-2 cursor-pointer mr-auto"
+                            className="italic underline text-slate-500 dark:text-slate-200 hover:text-ukraine-blue dark:hover:text-ukraine-yellow px-6 py-2 cursor-pointer mr-auto"
                             onMouseDown={ () => setAutocompleteClick(true) }
                             onMouseUp={ () => { setAutocompleteClick(false); clearSearchHistory(); } }
                         >
@@ -202,8 +202,8 @@ export default function SearchBar({ className }: Props) {
                         <span
                             className={
                                 twMerge(
-                                    "flex gap-4 flex-row items-align-middle px-6 py-2 cursor-pointer text-slate-500 text-base",
-                                    0 == currentHover ? "bg-slate-100" : "bg-white"
+                                    "flex gap-4 flex-row items-align-middle px-6 py-2 cursor-pointer text-slate-500 dark:text-slate-200 text-base",
+                                    0 == currentHover ? "bg-slate-100 dark:bg-slate-600" : "bg-white dark:bg-slate-700"
                                 )
                             }
                             onMouseEnter={ () => setCurrentHover(0) }
@@ -211,7 +211,7 @@ export default function SearchBar({ className }: Props) {
                             onMouseDown={ () => setAutocompleteClick(true) }
                             onMouseUp={ () => { setAutocompleteClick(false); } }
                         >
-                            <span className="flex my-auto text-slate-300"><Add /></span>
+                            <span className="flex my-auto text-slate-300 dark:text-slate-100"><Add /></span>
                             { strings.businesses.businessView.searchBar.nothingFound }
                         </span>
                     </Link>
@@ -236,18 +236,18 @@ export default function SearchBar({ className }: Props) {
     }
 
     const filtersApplied = (
-        <div className={ twMerge("relative bg-white py-4 px-6 rounded-b-lg gap-4", showFilters ? "flex flex-col" : "hidden") }>
+        <div className={ twMerge("relative bg-white dark:bg-slate-700 py-4 px-6 rounded-b-lg gap-4 text-oxford-blue dark:text-white", showFilters ? "flex flex-col" : "hidden") }>
             <span className="font-bold">{ strings.businesses.businessView.searchBar.filters.title }</span>
-            <div className="flex flex-col gap-2 p-4 w-full rounded-md bg-blue-50">
+            <div className="flex flex-col gap-2 p-4 w-full rounded-md bg-blue-50 dark:bg-blue-700">
                 <span className="">{ strings.businesses.businessView.searchBar.filters.categoryTitle }</span>
                 <div className="flex flex-wrap gap-1">
                     {
                         selectedCategories.map(
                             (value, index) => (
-                                <span className="pl-3 pr-1 py-1 rounded-full align-middle flex gap-1 bg-blue-100 text-sm my-auto hover:brightness-95" key={ index }>
+                                <span className="pl-3 pr-1 py-1 rounded-full align-middle flex gap-1 bg-blue-100 dark:bg-blue-600 text-sm my-auto hover:brightness-95" key={ index }>
                                     <span className="flex my-auto">{ businessCategoryConverter(value) }</span>
-                                    <IconButton className="cursor-pointer bg-blue-200" onClick={ () => removeCategory(value) }>
-                                        <Close className="text-xs" />
+                                    <IconButton className="cursor-pointer bg-blue-200 dark:bg-blue-500" onClick={ () => removeCategory(value) }>
+                                        <Close className="text-xs dark:text-white" />
                                     </IconButton>
                                 </span>
                             )
@@ -256,15 +256,15 @@ export default function SearchBar({ className }: Props) {
                 </div>
             </div>
             <span className="uppercase">{ strings.businesses.businessView.searchBar.filters.and }</span>
-            <div className="flex flex-col gap-2 p-4 w-full rounded-md bg-yellow-50">
+            <div className="flex flex-col gap-2 p-4 w-full rounded-md bg-yellow-50 dark:bg-yellow-900">
                 <span className="">{ strings.businesses.businessView.searchBar.filters.tagsTitle }</span>
                 <div className="flex flex-wrap gap-1">
                     {
                         selectedTags.map(
                             (value, index) => (
-                                <span className="pl-3 pr-1 py-1 rounded-full text-center flex gap-1 bg-yellow-100 text-sm my-auto hover:brightness-95" key={ index }>
+                                <span className="pl-3 pr-1 py-1 rounded-full text-center flex gap-1 bg-yellow-100 dark:bg-yellow-700 text-sm my-auto hover:brightness-95" key={ index }>
                                     <span className="flex my-auto">{ tagConverter(value) }</span>
-                                    <IconButton className="cursor-pointer bg-yellow-200" onClick={ () => removeTag(value) }>
+                                    <IconButton className="cursor-pointer bg-yellow-200 dark:bg-yellow-600" onClick={ () => removeTag(value) }>
                                         <Close className="text-xs" />
                                     </IconButton>
                                 </span>
@@ -273,7 +273,7 @@ export default function SearchBar({ className }: Props) {
                     }
                 </div>
             </div>
-            <span className="italic underline hover:text-ukraine-blue cursor-pointer mr-auto" onClick={ () => clearAllFilters() }>
+            <span className="italic underline hover:text-ukraine-blue dark:text-slate-300 dark:hover:text-ukraine-yellow cursor-pointer mr-auto" onClick={ () => clearAllFilters() }>
                 { strings.businesses.businessView.searchBar.filters.clearAll }
             </span>
         </div>
@@ -283,21 +283,23 @@ export default function SearchBar({ className }: Props) {
 
     return (
         <div
-            className={ twMerge("flex shrink grow flex-col drop-shadow-md divide-y-2 divide-slate-50 divide-solid w-full md:w-96", className) }
+            className={ twMerge("flex shrink grow flex-col drop-shadow-md dark:drop-shadow-white-md divide-y-2 divide-slate-50 dark:divide-slate-600 divide-solid w-full md:w-96", className) }
         >
-            <div className={ twMerge("flex relative w-full flex-row gap-1 px-2 py-1 bg-white", showAutoComplete || showFilters ? "rounded-t-lg" : "rounded-lg") }>
+            <div className={ twMerge("flex relative w-full flex-row gap-1 px-2 py-1 bg-white dark:bg-slate-700", showAutoComplete || showFilters ? "rounded-t-lg" : "rounded-lg") }>
                 <Tooltip title={ strings.businesses.businessView.searchBar.tooltipFiltersIcon }>
                     <IconButton disabled={ filtersCount === 0 } onClick={ () => toggleFilters() }>
                         <Badge badgeContent={ filtersCount } color="primary">
-                            <IconFilterList />
+                            <IconFilterList className="dark:text-white" />
                         </Badge>
                     </IconButton>
                 </Tooltip>
                 <div className="flex w-full relative">
                     <input
-                        className="px-4 py-2 w-full focus:outline-none bg-white"
+                        className="px-4 py-2 w-full focus:outline-none bg-white dark:bg-slate-700 dark:text-white"
                         placeholder={ strings.businesses.businessView.searchBar.placeholder }
                         value={ currentQuery }
+                        type="text"
+                        autoComplete="organization"
                         onChange={ (e) => setCurrentQuery(e.currentTarget.value) }
                         ref={ inputRef }
                         onFocus={() => { setShowAutoComplete(true); setShowFilters(false); } }
@@ -311,7 +313,7 @@ export default function SearchBar({ className }: Props) {
                         onMouseEnter={() => setCurrentHover(null)}
                     />
                     {/* this div is needed for the gradient effect in the end that shows the text extends beyond the limits */}
-                    <div className="absolute right-0 h-full w-10 bg-gradient-to-l from-white to-transparent"></div>
+                    <div className="absolute right-0 h-full w-10 bg-gradient-to-l from-white to-transparent dark:from-slate-700"></div>
                 </div>
                 <Tooltip title={ strings.businesses.businessView.searchBar.tooltipSearchIcon }>
                     <IconButton
@@ -320,13 +322,13 @@ export default function SearchBar({ className }: Props) {
                             ? inputRef.current!.focus()
                             : triggerSelection()
                         }}
-                        className="flex my-auto hover:text-ukraine-blue"
+                        className="flex my-auto hover:text-ukraine-blue dark:text-white dark:hover:text-ukraine-yellow"
                     >
                         <IconSearch />
                     </IconButton>
                 </Tooltip>
                 <Tooltip title={ strings.businesses.businessView.searchBar.tooltipClearIcon }>
-                    <IconButton disabled={ currentQuery === "" } onClick={ () => setCurrentQuery("") } className="flex my-auto hover:text-ukraine-blue">
+                    <IconButton disabled={ currentQuery === "" } onClick={ () => setCurrentQuery("") } className="flex my-auto hover:text-ukraine-blue dark:text-white dark:hover:text-ukraine-yellow">
                         <IconClear />
                     </IconButton>
                 </Tooltip>

@@ -69,7 +69,7 @@ export default function FullScreenPanel({ className, panelState, closePanel, chi
             <div
                 className={
                     twMerge(
-                        "rounded-none md:rounded-lg z-50 absolute flex flex-col gap-4 bg-white p-6 justify-center overflow-auto max-w-full md:max-h-full w-full h-full",
+                        "rounded-none md:rounded-lg z-50 absolute flex flex-col gap-4 bg-white dark:bg-oxford-blue text-oxford-blue dark:text-white p-6 justify-center overflow-auto max-w-full md:max-h-full w-full h-full",
                         positionStyles,
                         panelState === PanelState.Closed ? "hidden" : "",
                         className
@@ -88,12 +88,12 @@ export default function FullScreenPanel({ className, panelState, closePanel, chi
                     className="w-0 h-0 hidden md:flex"
                 />
                 <div className="flex flex-row justify-between gap-8 text-lg items-center relative md:p-0 w-full mt-16 md:mt-0">
-                    <span className="font-bold">{ title }</span>
+                    <span className="font-bold dark:text-white">{ title }</span>
                     <IconButton
                         aria-label="open sharing panel"
                         onClick={ closePanel }
                     >
-                        <IconClose className="text-4xl md:text-3xl" />
+                        <IconClose className="text-4xl md:text-3xl dark:text-white" />
                     </IconButton>
                 </div>
                 { children }

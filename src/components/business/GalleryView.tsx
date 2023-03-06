@@ -49,7 +49,7 @@ export const GalleryView = ({ infoPanelOpen, className }: Props) => {
     return (
         <>
             {/* gradient for better visibility, needs a space to display */}
-            <div className="w-full fixed z-10 h-24 drop-shadow-md flex bg-gradient-to-b from-white to-transparent">&nbsp;</div>
+            <div className="w-full fixed z-10 h-24 drop-shadow-md flex bg-gradient-to-b from-white dark:from-oxford-blue to-transparent">&nbsp;</div>
             <div className={ twMerge(`flex flex-wrap flex-col md:grid ${ gridBreakpoints } ${ panelWidth } gap-8 md:gap-x-10 md:gap-y-10 p-6 pb-36 md:pb-14 my-12 md:p-14 justify-center`, className) }>
                 {
                     sortedBusinesses.length === 0

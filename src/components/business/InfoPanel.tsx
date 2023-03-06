@@ -94,7 +94,7 @@ export const InfoPanel = ({ className, panelState, setPanelState }: Props) => {
     ]
 
     const Info = (
-        <Card className='relative md:h-full w-full max-w-full rounded-none overflow-y-scroll'>
+        <Card className='relative md:h-full w-full max-w-full rounded-none overflow-y-scroll bg-white dark:bg-oxford-blue text-oxford-blue dark:text-white'>
             <CardMedia
                 component="img"
                 className="h-64"
@@ -116,7 +116,7 @@ export const InfoPanel = ({ className, panelState, setPanelState }: Props) => {
                         <div className="flex shrink justify-self-center items-center gap-3">
                             <Tooltip title={ strings.businesses.infoPage.tooltipShare }>
                                 <IconButton
-                                    className="ring-1 ring-current opacity-80 hover:brightness-95 text-ukraine-blue hover:opacity-100"
+                                    className="ring-1 ring-current opacity-80 hover:brightness-95 text-ukraine-blue dark:text-ukraine-yellow hover:opacity-100"
                                     onClick={ () => setSharePanelState(PanelState.Open) }
                                 >
                                     <IconShare className="text-2xl" />
@@ -124,7 +124,7 @@ export const InfoPanel = ({ className, panelState, setPanelState }: Props) => {
                             </Tooltip>
                             <Tooltip title={ strings.businesses.infoPage.tooltipReport }>
                                 <IconButton
-                                    className="ring-1 ring-current opacity-80 hover:brightness-95 text-ukraine-blue hover:opacity-100"
+                                    className="ring-1 ring-current opacity-80 hover:brightness-95 text-ukraine-blue dark:text-ukraine-yellow hover:opacity-100"
                                     onClick={ () => setReportPanelState(PanelState.Open) }
                                 >
                                     <IconReport className="text-2xl" />
@@ -136,7 +136,7 @@ export const InfoPanel = ({ className, panelState, setPanelState }: Props) => {
                         {
                             business.location?.googleMapsURL ?
                             (
-                                <div className="group flex content-center flex-row w-full gap-4 bg-white px-2 py-1 opacity-80 hover:brightness-95 text-ukraine-blue hover:opacity-100 items-center rounded-lg">
+                                <div className="group flex content-center flex-row w-full gap-4 bg-white dark:bg-oxford-blue px-2 py-1 opacity-80 hover:brightness-95 dark:hover:brightness-110 text-ukraine-blue dark:text-white hover:opacity-100 items-center rounded-lg">
                                     <IconArrow />
                                     <div className="flex flex-row w-full justify-between gap-2">
                                         <Link target="_blank" href={ business.location?.googleMapsURL || "#" }>
@@ -151,7 +151,7 @@ export const InfoPanel = ({ className, panelState, setPanelState }: Props) => {
                                                     toast.success(strings.businesses.sharePanel.toastSuccessCopy)
                                                 }}
                                             >
-                                                <IconCopy className="text-base text-current md:invisible group-hover:visible" />
+                                                <IconCopy className="text-base text-current md:invisible group-hover:visible dark:text-white" />
                                             </IconButton>
                                         </Tooltip>
                                     </div>
@@ -163,7 +163,7 @@ export const InfoPanel = ({ className, panelState, setPanelState }: Props) => {
                                 contacts.map(
                                     ({ icon, link, text, tooltipText }, index: number) => (
                                         <div key={ index } className="cursor-pointer">
-                                            <div className="group content-center flex flex-row w-full gap-4 bg-white px-2 py-1 opacity-80 hover:brightness-95 hover:opacity-100 items-center rounded-lg">
+                                            <div className="group content-center flex flex-row w-full gap-4 bg-white dark:bg-oxford-blue dark:text-ukraine-white dark:hover:brightness-110 px-2 py-1 opacity-80 hover:brightness-95 hover:opacity-100 items-center rounded-lg">
                                                 { icon }
                                                 <div className="flex flex-row w-full justify-between gap-2">
                                                     {
@@ -186,7 +186,7 @@ export const InfoPanel = ({ className, panelState, setPanelState }: Props) => {
                                                                 toast.success(strings.businesses.sharePanel.toastSuccessCopy)
                                                             }}
                                                         >
-                                                            <IconCopy className="text-base text-current md:invisible group-hover:visible" />
+                                                            <IconCopy className="text-base text-current md:invisible group-hover:visible dark:text-white" />
                                                         </IconButton>
                                                     </Tooltip>
                                                 </div>
@@ -196,32 +196,32 @@ export const InfoPanel = ({ className, panelState, setPanelState }: Props) => {
                                 )
                             }
                         </div>
-                        <div className="flex w-full justify-center align-center">
+                        <div className="flex w-full justify-center align-center dark:text-ukraine-yellow">
                             <Button
                                 variant="outlined"
-                                className="rounded-full normal-case opacity-80 hover:opacity-100"
+                                className="rounded-full normal-case opacity-80 hover:opacity-100 dark:border-ukraine-yellow"
                                 onClick={ () => setInfoEditPanelState(PanelState.Open) }
                             >
-                                <IconEdit />
+                                <IconEdit className="dark:text-ukraine-yellow"/>
                                 &nbsp;
-                                <text className="font-bold">{ strings.businesses.infoPage.addSuggestEdit }</text>
+                                <text className="font-bold dark:text-ukraine-yellow">{ strings.businesses.infoPage.addSuggestEdit }</text>
                             </Button>
                         </div>
                     </div>
                     <hr />
-                    <div className="max-w-sm">
-                        <h3 className="prose text-xl mb-1 font-semibold">{ strings.businesses.infoPage.sectionTitle.description }</h3>
-                        <span className="prose break-words opacity-80">{ business.description }</span>
+                    <div className="flex flex-col gap-2 max-w-sm">
+                        <h3 className="prose text-xl font-semibold dark:text-slate-100">{ strings.businesses.infoPage.sectionTitle.description }</h3>
+                        <span className="prose break-words opacity-80 dark:text-slate-100">{ business.description }</span>
                     </div>
                     <hr />
-                    <div className="max-w-sm">
-                        <h3 className="prose text-xl mb-1 font-semibold">{ strings.businesses.infoPage.sectionTitle.contributions }</h3>
-                        <span className="prose break-words opacity-80">{ business.contributions }</span>
+                    <div className="flex flex-col gap-2 max-w-sm">
+                        <h3 className="prose text-xl font-semibold dark:text-slate-100">{ strings.businesses.infoPage.sectionTitle.contributions }</h3>
+                        <span className="prose break-words opacity-80 dark:text-slate-100">{ business.contributions }</span>
                     </div>
 
                     {/* GIVE FEEDBACK SECTION */}
                     <hr />
-                    <span className="flex italic cursor-pointer underline text-slate-400 text-base hover:text-ukraine-blue" onClick={ () => setFeedbackPanelState(PanelState.Open) }>
+                    <span className="flex italic cursor-pointer underline text-slate-400 text-base hover:text-ukraine-blue dark:hover:text-ukraine-yellow" onClick={ () => setFeedbackPanelState(PanelState.Open) }>
                         { strings.all.giveFeedback.full }
                     </span>
                 </div>
@@ -232,7 +232,7 @@ export const InfoPanel = ({ className, panelState, setPanelState }: Props) => {
     // a puller component to render at the top of the Info Panel
     const MobilePuller = ({ className }: {className?: string}) => (
         <div
-            className={twMerge(`flex bg-white w-full h-14 rounded-t-md align-middle drop-shadow-t-md justify-center p-2 visible`, className)}
+            className={twMerge(`flex bg-white dark:bg-oxford-blue w-full h-14 align-middle drop-shadow-t-md justify-center p-2 visible`, className)}
             onClick={ () => {
                 panelState === PanelState.Closed
                 ? setPanelState(PanelState.Open)
@@ -240,7 +240,7 @@ export const InfoPanel = ({ className, panelState, setPanelState }: Props) => {
             }}
         >
             <IconButton>
-                <IconArrowDown className="font-bold w-16 h-16" />
+                <IconArrowDown className="font-bold w-16 h-16 dark:text-white" />
             </IconButton>
         </div>
     )

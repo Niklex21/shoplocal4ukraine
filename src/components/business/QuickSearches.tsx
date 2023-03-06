@@ -61,7 +61,7 @@ export function QuickSearches({ className }: Props) {
             {
                 quickSearches.map(
                     ({ text, action, icon }, index) => (
-                        <span className="flex flex-nowrap whitespace-nowrap px-4 gap-1 py-2 drop-shadow-md my-auto items-center cursor-pointer bg-white hover:brightness-95 text-oxford-blue text-sm rounded-full" onClick={ action } key={ index }>
+                        <span className="flex flex-nowrap whitespace-nowrap px-4 gap-1 py-2 drop-shadow-md dark:drop-shadow-white-md my-auto items-center cursor-pointer bg-white hover:brightness-95 text-oxford-blue dark:bg-slate-700 dark:hover:brightness-110 dark:text-white text-sm rounded-full" onClick={ action } key={ index }>
                             { icon ? createElement(icon, { className: "text-sm"}) : (<></>) }
                             { text }
                         </span>

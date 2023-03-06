@@ -39,7 +39,7 @@ export default function GenericLayout({ children, title }: Props) {
             </Head>
             { children }
             {/* FEEDBACK TIP */}
-            <div className="hidden md:flex -rotate-90 gap-2 fixed right-0 origin-bottom-right top-1/4 flex-row z-40 bg-ukraine-blue cursor-pointer hover:bg-ukraine-yellow hover:text-oxford-blue text-white px-4 py-2 rounded-t-md" onClick={ () => setFeedbackPanelState(PanelState.Open) }>
+            <div className="hidden md:flex -rotate-90 gap-2 fixed right-0 origin-bottom-right top-1/4 flex-row z-40 bg-ukraine-blue dark:bg-ukraine-yellow cursor-pointer hover:bg-ukraine-yellow dark:hover:bg-ukraine-blue hover:text-oxford-blue dark:hover:text-white text-white dark:text-oxford-blue px-4 py-2 rounded-t-md" onClick={ () => setFeedbackPanelState(PanelState.Open) }>
                 <Feedback />
                 { strings.all.giveFeedback.short }
             </div>

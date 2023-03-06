@@ -19,20 +19,20 @@ export default function MobileMenu({ className }: Props) {
 
     return (
         <>
-            <div className={ twMerge("flex transition-all duration-200 fixed bottom-0 left-0 w-full h-20 bg-white gap-8 z-40 drop-shadow-t-md justify-center text-oxford-blue overflow-visible", className) }>
+            <div className={ twMerge("flex transition-all duration-200 fixed bottom-0 left-0 w-full h-20 bg-white dark:bg-oxford-blue gap-8 z-40 drop-shadow-t-md dark:drop-shadow-t-white-md justify-center text-oxford-blue dark:text-white overflow-visible", className) }>
                 <IconButton className="flex flex-col gap-1 my-auto" onClick={ () => setMenuState(PanelState.Open) }>
-                    <IconMenu className="text-slate-600 text-2xl" />
-                    <span className="text-slate-700 text-xs">{ strings.app.mobileMenu.menu }</span>
+                    <IconMenu className="text-slate-600 dark:text-slate-200 text-2xl" />
+                    <span className="text-slate-700 dark:text-slate-300 text-xs">{ strings.app.mobileMenu.menu }</span>
                 </IconButton>
                 <Link href="/join" target="_blank" className="my-auto">
                     <IconButton className="flex flex-col gap-1 my-auto">
-                        <IconAdd className="text-slate-400 text-2xl" />
-                        <span className="text-slate-500 text-xs">{ strings.app.mobileMenu.add }</span>
+                        <IconAdd className="text-slate-400 dark:text-slate-300 text-2xl" />
+                        <span className="text-slate-500 dark:text-slate-400 text-xs">{ strings.app.mobileMenu.add }</span>
                     </IconButton>
                 </Link>
                 <IconButton className="flex flex-col gap-1 my-auto" onClick={ () => setFeedbackPanelState(PanelState.Open) }>
-                    <IconFeedback className="text-slate-400 text-2xl" />
-                    <span className="text-slate-500 text-xs">{ strings.app.mobileMenu.feedback }</span>
+                    <IconFeedback className="text-slate-400 dark:text-slate-300 text-2xl" />
+                    <span className="text-slate-500 dark:text-slate-400 text-xs">{ strings.app.mobileMenu.feedback }</span>
                 </IconButton>
             </div>
             <AppMenu menuState={ menuState } setMenuState={ setMenuState } />

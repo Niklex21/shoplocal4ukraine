@@ -98,8 +98,8 @@ export const BusinessView = ({ infoPanelOpen, className, children }: Props) => {
     )
 
     const menu = (
-        <IconButton className="hidden md:flex fixed top-4 z-30 left-4 w-12 h-12 rounded-md drop-shadow-md bg-white hover:bg-white hover:brightness-95" onClick={ () => setMenuState(PanelState.Open) }>
-            <IconMenu className="text-oxford-blue" />
+        <IconButton className="hidden md:flex fixed top-4 z-30 left-4 w-12 h-12 rounded-md drop-shadow-md dark:drop-shadow-white-md bg-white hover:bg-white dark:bg-oxford-blue dark:hover:bg-oxford-blue dark:hover:brightness-110 hover:brightness-95" onClick={ () => setMenuState(PanelState.Open) }>
+            <IconMenu className="text-oxford-blue dark:text-white" />
         </IconButton>
     )
 
@@ -123,8 +123,8 @@ export const BusinessView = ({ infoPanelOpen, className, children }: Props) => {
                         className={
                             twMerge(
                                 mapStyleState === MapStyle.Streets || view === Views.Gallery
-                                ? "hover:bg-oxford-blue hover:brightness-110 bg-oxford-blue text-white"
-                                : "hover:bg-white hover:brightness-90 bg-white text-oxford-blue",
+                                ? "hover:bg-oxford-blue hover:brightness-110 bg-oxford-blue text-white dark:text-oxford-blue dark:bg-white dark:hover:bg-white dark:hover:brightness-90"
+                                : "hover:bg-white dark:hover:bg-oxford-blue hover:brightness-90 bg-white dark:hover:brightness-110 dark:bg-oxford-blue text-oxford-blue dark:text-white",
                                 "absolute left-1/2 bottom-24 md:bottom-4 -translate-x-1/2 z-40 drop-shadow-md rounded-full normal-case font-bold py-3 px-4"
                             )
                         }
@@ -144,8 +144,8 @@ export const BusinessView = ({ infoPanelOpen, className, children }: Props) => {
                                     className={
                                         twMerge(
                                             mapStyleState === MapStyle.Streets || view === Views.Gallery
-                                            ? "hover:bg-oxford-blue hover:brightness-110 bg-oxford-blue text-white"
-                                            : "hover:bg-white hover:brightness-90 bg-white text-oxford-blue",
+                                            ? "hover:bg-oxford-blue hover:brightness-110 bg-oxford-blue text-white dark:text-oxford-blue dark:bg-white dark:hover:bg-white dark:hover:brightness-90"
+                                            : "hover:bg-white dark:hover:bg-oxford-blue hover:brightness-90 dark:hover:brightness-110 bg-white dark:bg-oxford-blue text-oxford-blue dark:text-white",
                                             "drop-shadow-md p-3 transition-all duration-200"
                                         )
                                     }
