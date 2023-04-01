@@ -78,7 +78,6 @@ export default function Navbar({ current }: { current: Page }) {
               )
             )
           }
-          <DarkModeSwitch />
         </div>
       </div>
       <div className="flex md:hidden relative z-40 h-24 p-6 w-full top-0 left-0 bg-white drop-shadow-sm justify-between">

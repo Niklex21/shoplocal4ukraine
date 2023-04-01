@@ -59,6 +59,7 @@ const strings_en = {
         },
         about: {
             title: "About",
+            advisorsSectionTitle: "Advisors",
             teamSectionTitle: 'The team',
             socials: {
                 email: 'Email',
@@ -70,6 +71,7 @@ const strings_en = {
                 website: 'Website',
                 github: 'GitHub'
             },
+            communityTeamSectionTitle: "With help from",
             whoWeAre: {
                 title: "Who we are",
                 mission: {

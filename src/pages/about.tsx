@@ -7,9 +7,11 @@ import type { Person } from "@appTypes/landing"
 import strings from "@utils/strings"
 import ImageAlex from "@public/images/team/alex.jpg"
 import ImageArtem from "@public/images/team/artem.jpg"
+import ImageAlexSe from "@public/images/team/alex_se.jpg"
 import ImagePolina from "@public/images/team/polina.jpg"
-import ImageRostyk from "@public/images/team/rostyk.jpg"
-import ImageFedor from "@public/images/team/fedor.jpeg"
+import ImageFrank from "@public/images/team/frank.jpg"
+import ImageSofiya from "@public/images/advisors/sofiya.jpg"
+import ImageAnton from "@public/images/advisors/anton.jpg"
 import logoUCCN from "@public/images/supporters/uccn.png"
 import logoUkraineForward from "@public/images/supporters/ukraineforward.png"
 import logoMriya from "@public/images/supporters/mriya.svg"
@@ -28,7 +30,7 @@ const team : Array<Person> = [
     {
         name: "Artem Dinh",
         profilePictureURL: ImageArtem.src,
-        role: "Co-founder/Ops Director",
+        role: "Co-founder",
         description: "Artem plays ping pong, hangs out with his friends, engages in geopolitical discussions, and spams thousands of Russians with anti-propaganda.",
         gifURL: "https://media.tenor.com/fttWAFyvF3gAAAAC/pepe-frog.gif",
         email: "tdinh02@tufts.edu",
@@ -37,7 +39,7 @@ const team : Array<Person> = [
     {
         name: "Alex Nikanov",
         profilePictureURL: ImageAlex.src,
-        role: "Co-founder/Tech Director",
+        role: "Co-founder",
         description: "In his spare time Alex bakes cookies, rides his trusty mountain bike, and reads high fantasy novels.",
         gifURL: "https://thumbs.gfycat.com/DapperRightCommabutterfly-max-1mb.gif",
         email: "alekseynikanov.21@gmail.com",
@@ -45,9 +47,17 @@ const team : Array<Person> = [
         github: "https://github.com/niklex21"
     },
     {
+        name: "Alexander Seljuk",
+        profilePictureURL: ImageAlexSe.src,
+        role: "Director of Operations",
+        description: "Likes to hang out with his friends, play video games and listen to music. Admires meeting new people and helping others.",
+        gifURL: "",
+        instagram: "https://instagram.com/sashaseljuk"
+    },
+    {
         name: "Polina Kuzmenko",
         profilePictureURL: ImagePolina.src,
-        role: "Web Designer",
+        role: "Designer",
         description: "Polina is always hungry for new experiences. Being creative is her lifestyle. She loves surfing and cuddling with her two cats.",
         gifURL: "",
         email: "polya.kuzmenko@gmail.com",
@@ -56,23 +66,20 @@ const team : Array<Person> = [
         behance: "https://www.behance.net/kkuzmenkko"
     },
     {
-        name: "Rostyslav Rozhok",
-        profilePictureURL: ImageRostyk.src,
-        role: "Database Curator",
-        description: "In his free time from studies of engineering, Rostyslav likes to listen to music, drink white wine, and work on a book about time travel.",
-        gifURL: "",
-        email: "rostyslavrozhok1@gmail.com",
-        instagram: "https://www.instagram.com/rostyslav_/"
-    },
-    {
-        name: "Fedor Goryanyy",
-        profilePictureURL: ImageFedor.src,
+        name: "Frank Anderson",
+        profilePictureURL: ImageFrank.src,
         role: "Software Engineer",
-        description: "Apart from going to school, Fedor also enjoys swimming, cooking, reading, and sharing food with his cat.",
-        gifURL: "",
-        email: "fedorgny@gmail.com",
-        linkedin: "https://www.linkedin.com/in/goryanyy/"
-    }
+        description: "Frank studies Computer Science at Northeastern. In his spare time he follows Formula 1, listens to This American Life, goes for long walks, and bakes scones.",
+        gifURL: "https://media.giphy.com/media/QMHoU66sBXqqLqYvGO/giphy.gif",
+        github: "http://github.com/fraander",
+        linkedin: "http://linkedin.com/in/feoa"
+    },
+]
+
+const communityHelp : string[] = [
+    'Fedor Goryanyy',
+    'Rostyslav Rozhok',
+    'Danylo Kozyrytskyi'
 ]
 
 type Supporter = {
@@ -97,6 +104,27 @@ const supportedBy : Array<Supporter> = [
         link: "https://www.ukraineforward.org",
         logoSrc: logoUkraineForward.src
     },
+]
+
+const advisors : Person[] = [
+    {
+        name: "Sofiya Penek Klein",
+        role: "Operations/Relations Advisor",
+        gifURL: "",
+        description: "Sofiya loves the ocean, delicious food, big and small adventures, and spending time with her favorite people. Originally from Berdychiv, Ukraine, she lives in Boston with her husband, daughter, and pup.",
+        profilePictureURL: ImageSofiya.src,
+        instagram: "https://www.instagram.com/sofiya_penek_klein/",
+        linkedin: "https://www.linkedin.com/in/sofiya-klein-465b2810/",
+        facebook: "https://www.facebook.com/spenek/"
+    },
+    {
+        name: "Anton Khlebas",
+        role: "Business Relations Advisor",
+        gifURL: "",
+        description: "Owner of family business, focusing on kitchen renovations solutions including kitchen cabinet supply and 3d layout and design. Also a father of two, US Navy veteran and active local community member.",
+        profilePictureURL: ImageAnton.src,
+        facebook: "https://www.facebook.com/anton.khlebas"
+    }
 ]
 
 const About : NextPageWithLayout = () => {
@@ -277,6 +305,25 @@ const About : NextPageWithLayout = () => {
                 <div className="mx-auto flex flex-col md:grid md:grid-cols-2 lg:grid-cols-3 justify-items-center items-start gap-16">
                     {
                         team.map(
+                            (person: Person, index: number) => (
+                                <PersonCard
+                                    key={ index }
+                                    { ...person }
+                                />
+                            )
+                        )
+                    }
+                </div>
+            </div>
+
+            {/* ADVISORS SECTION */}
+            <div className="flex flex-col w-full p-8 md:p-16 justify-center justify-items-center gap-16 bg-white">
+                <text className="text-3xl md:text-5xl font-bold mx-auto text-center px-4 py-2 before:block before:absolute before:-skew-x-12 before:-inset-1 before:bg-ukraine-yellow relative inline-block">
+                    <span className="text-black relative">{ strings.landing.about.advisorsSectionTitle }</span>
+                </text>
+                <div className="mx-auto flex flex-col md:grid md:grid-cols-2 lg:grid-cols-2 justify-items-center items-start gap-16">
+                    {
+                        advisors.map(
                             (person: Person, index: number) => (
                                 <PersonCard
                                     key={ index }
