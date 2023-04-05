@@ -389,7 +389,7 @@ const strings_en = {
         },
         tagShort: {
             [Tag.LeadSupporter]: 'supporter',
-            [Tag.OnRequest]: 'on-request',
+            [Tag.OnRequest]: 'on request',
             [Tag.Online]: 'online',
             [Tag.SellUkrainianProducts]: 'Ukrainian product',
             [Tag.UkrainianOwned]: 'owned'
