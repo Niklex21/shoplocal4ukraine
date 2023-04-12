@@ -69,7 +69,7 @@ const team : Array<Person> = [
         name: "Frank Anderson",
         profilePictureURL: ImageFrank.src,
         role: "Software Engineer",
-        description: "Frank studies Computer Science at Northeastern. In his spare time he follows Formula 1, listens to This American Life, goes for long walks, and bakes scones.",
+        description: "Frank studies Computer Science at Northeastern. In his spare time he follows Formula 1, listens to This American Life, goes for walks around Boston, and bakes scones.",
         gifURL: "https://media.giphy.com/media/QMHoU66sBXqqLqYvGO/giphy.gif",
         github: "http://github.com/fraander",
         linkedin: "http://linkedin.com/in/feoa"
