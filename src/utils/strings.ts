@@ -385,7 +385,7 @@ const strings_en = {
             [Tag.OnRequest]: 'All services and products are offered in person but not through a physical location.',
             [Tag.Online]: 'All services and products are offered online only and with deliveries if applicable.',
             [Tag.SellUkrainianProducts]: 'Offers Ukrainian services and products made by Ukrainians or imported from Ukraine.',
-            [Tag.UkrainianOwned]: 'Ukraine owned: Ukrainian immigrants, Ukrainian family, Ukrainian Americans with strong Ukrainian ties.'
+            [Tag.UkrainianOwned]: 'Ukrainian-owned: Ukrainian immigrants, Ukrainian family, Ukrainian Americans with strong Ukrainian ties.'
         },
         tagShort: {
             [Tag.LeadSupporter]: 'supporter',
