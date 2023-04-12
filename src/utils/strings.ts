@@ -381,7 +381,7 @@ const strings_en = {
             toastSuccessCopy: 'Copied link',
         },
         tag: {
-            [Tag.LeadSupporter]: 'Businesses that did significant contributions to Ukrainian community, fundraising, and in other ways.',
+            [Tag.LeadSupporter]: 'Businesses that made significant contributions to the Ukrainian community: fundraising, event support, donation, and in other ways.',
             [Tag.OnRequest]: 'All services and products are offered in person but not through a physical location.',
             [Tag.Online]: 'All services and products are offered online only and with deliveries if applicable.',
             [Tag.SellUkrainianProducts]: 'Offers Ukrainian services and products made by Ukrainians or imported from Ukraine.',
