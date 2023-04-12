@@ -381,11 +381,11 @@ const strings_en = {
             toastSuccessCopy: 'Copied link',
         },
         tag: {
-            [Tag.LeadSupporter]: 'Lead Supporter',
-            [Tag.OnRequest]: 'On Request',
-            [Tag.Online]: 'Online',
-            [Tag.SellUkrainianProducts]: 'Sell Ukrainian Products',
-            [Tag.UkrainianOwned]: 'Ukrainian-Owned'
+            [Tag.LeadSupporter]: 'Businesses that did significant contributions to Ukrainian community, fundraising, and in other ways.',
+            [Tag.OnRequest]: 'All services and products are offered in person but not through a physical location.',
+            [Tag.Online]: 'All services and products are offered online only and with deliveries if applicable.',
+            [Tag.SellUkrainianProducts]: 'Offers Ukrainian services and products made by Ukrainians or imported from Ukraine.',
+            [Tag.UkrainianOwned]: 'Ukraine owned: Ukrainian immigrants, Ukrainian family, Ukrainian Americans with strong Ukrainian ties.'
         },
         tagShort: {
             [Tag.LeadSupporter]: 'supporter',
