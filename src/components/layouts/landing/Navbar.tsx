@@ -10,7 +10,6 @@ import { AppMenu } from '@components/common/AppMenu'
 import { PanelState } from '@appTypes/businesses'
 import { useState } from 'react'
 import ImageWithFallback from '@components/common/ImageWithFallback'
-import DarkModeSwitch from '@components/common/DarkModeSwitch'
 
 const links: Array<LinkType> = [
   {

@@ -11,7 +11,6 @@ import FeedbackPanel from "@components/business/FeedbackPanel"
 import strings from "@utils/strings"
 import ImageWithFallback from "./ImageWithFallback"
 import { isMobile } from "react-device-detect"
-import DarkModeSwitch from "./DarkModeSwitch"
 
 type Props = {
     className?: string,
@@ -100,13 +99,13 @@ type Props = {
                 </div>
                 {/* GIVE FEEDBACK SECTION */}
                 <hr />
-                <div className="flex flex-col gap-4">
+                {/* <div className="flex flex-col gap-4"> */}
                     {/* DARK MODE */}
-                    <span className="flex md:mb-0 mx-auto md:ml-0 font-bold text-lg md:text-xl">
+                    {/* <span className="flex md:mb-0 mx-auto md:ml-0 font-bold text-lg md:text-xl">
                         { strings.app.darkMode.scheme }
                     </span>
-                    <DarkModeSwitch className="mx-auto md:ml-0" />
-                </div>
+                    <DarkModeSwitch className="mx-auto md:ml-0" /> */}
+                {/* </div> */}
                 <span className="flex md:mb-0 italic mx-auto md:ml-0 cursor-pointer underline text-slate-400 text-base hover:text-ukraine-blue dark:hover:text-ukraine-yellow" onClick={ () => setFeedbackPanelState(PanelState.Open) }>
                     { strings.all.giveFeedback.full }
                 </span>
