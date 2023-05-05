@@ -8,7 +8,7 @@ import { DarkModeOptions } from '@appTypes/common';
 
 const strings_en = {
     all: {
-        title: 'Shop Local 4 Ukraine',
+        title: 'Shop 4 UA',
         genericError: "Sorry, something went wrong.",
         reportError: "Report a problem with the website",
         pages: {

@@ -1,5 +1,5 @@
 import Logo from '@public/images/logo.png'
-import logoMinimized from '@public/images/logo_minimized.svg'
+import logoMinimized from '@public/images/logoNoText.png'
 import Link from 'next/link'
 import strings from '@utils/strings'
 import { Page, Link as LinkType } from '@appTypes/landing'
