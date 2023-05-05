@@ -75,12 +75,16 @@ const links: Array<Section> = [
                 link: '/businesses',
             },
             {
-                text: strings.landing.footer.sections.pages.howToSupportUkraine,
-                link: 'https://www.notion.so/shop4ua/Guide-for-Local-Businesses-on-Supporting-Ukraine-60bceb5aa5f2455fa4debe82d0aaf15e?pvs=4',
-            },
-            {
                 text: strings.landing.footer.sections.pages.about,
                 link: '/about',
+            },
+            {
+                text: strings.landing.footer.sections.pages.blog,
+                link: 'https://blog-shop4ua.super.site'
+            },
+            {
+                text: strings.landing.footer.sections.pages.howToSupportUkraine,
+                link: 'https://www.notion.so/shop4ua/Guide-for-Local-Businesses-on-Supporting-Ukraine-60bceb5aa5f2455fa4debe82d0aaf15e?pvs=4',
             },
             {
                 text: strings.landing.footer.sections.pages.join,
@@ -153,6 +157,7 @@ const LOCAL_STORAGE_KEYS = {
     atomCategories: 'categories',
     atomTags: 'tags',
     atomSearchHistory: 'search_history',
+    atomDarkMode: "dark_mode"
 };
 
 export default defaults;

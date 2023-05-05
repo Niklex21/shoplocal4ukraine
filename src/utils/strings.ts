@@ -3,11 +3,12 @@ import solodko from '@public/images/featured/solodko.png'
 import galaxyKitchen from '@public/images/featured/galaxy_kitchen.jpg'
 import estheticBean from '@public/images/featured/esthetic_bean.jpg'
 import { BusinessCategory, Tag } from '@api/business/types';
+import { DarkModeOptions } from '@appTypes/common';
 
 
 const strings_en = {
     all: {
-        title: 'Shop Local 4 Ukraine',
+        title: 'Shop 4 UA',
         genericError: "Sorry, something went wrong.",
         reportError: "Report a problem with the website",
         pages: {
@@ -39,6 +40,14 @@ const strings_en = {
             menu: "Menu",
             add: "Add a business",
             feedback: "Feedback"
+        },
+        darkMode: {
+            scheme: "Color scheme",
+            tooltips: {
+                [DarkModeOptions.Light]: "Light mode",
+                [DarkModeOptions.System]: "Same as system",
+                [DarkModeOptions.Dark]: "Dark mode",
+            }
         }
     },
     landing: {
@@ -50,6 +59,7 @@ const strings_en = {
         },
         about: {
             title: "About",
+            advisorsSectionTitle: "Advisors",
             teamSectionTitle: 'The team',
             socials: {
                 email: 'Email',
@@ -61,6 +71,7 @@ const strings_en = {
                 website: 'Website',
                 github: 'GitHub'
             },
+            communityTeamSectionTitle: "With help from",
             whoWeAre: {
                 title: "Who we are",
                 mission: {
@@ -203,7 +214,7 @@ const strings_en = {
         },
         navbar: {
             businesses: 'Discover Businesses',
-            howToSupportUkraine: "How To Support Ukraine",
+            howToSupportUkraine: "Business Resources",
             about: 'About Us',
             privacyStatement: 'Privacy Statement',
             join: 'Add A Business',
@@ -222,7 +233,7 @@ const strings_en = {
                     privacyStatement: 'Privacy Statement',
                     join: 'Add A Business',
                     blog: "Blog",
-                    howToSupportUkraine: "How to Support Ukraine"
+                    howToSupportUkraine: "Business Resources"
                 },
                 socials: {
                     name: 'Contact us',
@@ -370,15 +381,22 @@ const strings_en = {
             toastSuccessCopy: 'Copied link',
         },
         tag: {
-            [Tag.LeadSupporter]: 'Lead Supporter',
-            [Tag.OnRequest]: 'On Request',
-            [Tag.Online]: 'Online',
-            [Tag.SellUkrainianProducts]: 'Sell Ukrainian Products',
-            [Tag.UkrainianOwned]: 'Ukrainian-Owned'
+            [Tag.LeadSupporter]: 'Lead supporter',
+            [Tag.OnRequest]: 'On request',
+            [Tag.Online]: 'Online-only',
+            [Tag.SellUkrainianProducts]: 'Sell Ukrainian products',
+            [Tag.UkrainianOwned]: 'Ukrainian-owned'
+        },
+        tagExtended: {
+            [Tag.LeadSupporter]: 'Businesses that made significant contributions to the Ukrainian community: fundraising, event support, donation, and in other ways.',
+            [Tag.OnRequest]: 'All services and products are offered in person but not through a physical location.',
+            [Tag.Online]: 'All services and products are offered online only and with deliveries if applicable.',
+            [Tag.SellUkrainianProducts]: 'Offers Ukrainian services and products made by Ukrainians or imported from Ukraine.',
+            [Tag.UkrainianOwned]: 'Ukrainian-owned: Ukrainian immigrants, Ukrainian family, Ukrainian Americans with strong Ukrainian ties.'
         },
         tagShort: {
             [Tag.LeadSupporter]: 'supporter',
-            [Tag.OnRequest]: 'on-request',
+            [Tag.OnRequest]: 'on request',
             [Tag.Online]: 'online',
             [Tag.SellUkrainianProducts]: 'Ukrainian product',
             [Tag.UkrainianOwned]: 'owned'

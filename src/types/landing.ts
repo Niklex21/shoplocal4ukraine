@@ -25,7 +25,8 @@ type Person = {
   linkedin?: string,
   instagram?: string,
   behance?: string,
-  github?: string
+  github?: string,
+  facebook?: string
 }
 
 export type { Link, Person }

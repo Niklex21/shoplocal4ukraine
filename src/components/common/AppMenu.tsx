@@ -50,7 +50,7 @@ type Props = {
                 className={
                     // flex overrides "hidden", instead hiding it by movement, thus enabling transitions
                     twMerge(
-                        "transition-all flex md:max-w-xs w-full h-full gap-8 p-8 justify-center md:justify-start md:rounded-none text-center md:text-start",
+                        "transition-all flex md:max-w-xs gap-8 p-8 justify-center md:justify-start md:rounded-none text-center md:text-start",
                         menuState === PanelState.Closed ? "hidden md:flex md:-left-full" : "",
                         className
                     )
@@ -67,7 +67,7 @@ type Props = {
                                         {
                                             links.map(
                                                 ({ text, link }) => (
-                                                    <text key={ link } className="text-base cursor-pointer text-gray-700 hover:text-ukraine-blue">
+                                                    <text key={ link } className="text-base cursor-pointer text-gray-700 dark:text-slate-200 hover:text-ukraine-blue dark:hover:text-ukraine-yellow">
                                                         <Link href={ link } onClick={ () => setMenuState(PanelState.Closed)}>
                                                             { text }
                                                         </Link>
@@ -88,7 +88,7 @@ type Props = {
                         socials.map(
                             ({ iconSVG, link, text, }, index: number) => (
                                 <Link href={ link ?? "" } target="_blank" key={ index } onClick={ () => setMenuState(PanelState.Closed)}>
-                                    <span className="flex flex-row justify-center md:justify-start gap-2 text-base cursor-pointer text-gray-700 hover:text-ukraine-blue">
+                                    <span className="flex flex-row justify-center md:justify-start gap-2 text-base cursor-pointer text-gray-700 dark:text-slate-200 hover:text-ukraine-blue dark:hover:text-ukraine-yellow">
                                         { createElement(iconSVG!, { className: "text-xl md:text-2xl my-auto" }) }
                                         { text }
                                     </span>
@@ -99,7 +99,14 @@ type Props = {
                 </div>
                 {/* GIVE FEEDBACK SECTION */}
                 <hr />
-                <span className="flex md:mb-0 italic mx-auto md:ml-0 cursor-pointer underline text-slate-400 text-base hover:text-ukraine-blue" onClick={ () => setFeedbackPanelState(PanelState.Open) }>
+                {/* <div className="flex flex-col gap-4"> */}
+                    {/* DARK MODE */}
+                    {/* <span className="flex md:mb-0 mx-auto md:ml-0 font-bold text-lg md:text-xl">
+                        { strings.app.darkMode.scheme }
+                    </span>
+                    <DarkModeSwitch className="mx-auto md:ml-0" /> */}
+                {/* </div> */}
+                <span className="flex md:mb-0 italic mx-auto md:ml-0 cursor-pointer underline text-slate-400 text-base hover:text-ukraine-blue dark:hover:text-ukraine-yellow" onClick={ () => setFeedbackPanelState(PanelState.Open) }>
                     { strings.all.giveFeedback.full }
                 </span>
             </FullScreenPanel>

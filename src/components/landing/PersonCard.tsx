@@ -1,7 +1,7 @@
 import { Person } from "@appTypes/landing";
 import Image from 'next/image'
 
-import { Email as IconEmail, Language as IconWebsite, LinkedIn as IconLinkedin, Instagram as IconInstagram, GitHub as IconGitHub } from "@mui/icons-material"
+import { Email as IconEmail, Language as IconWebsite, LinkedIn as IconLinkedin, Instagram as IconInstagram, GitHub as IconGitHub, Facebook as IconFacebook } from "@mui/icons-material"
 import Link from "next/link";
 import { useState } from "react";
 import { AiFillBehanceCircle as IconBehance } from "react-icons/ai"
@@ -10,7 +10,7 @@ import { IconButton, Tooltip } from "@mui/material";
 import strings from "@utils/strings"
 import ImageWithFallback from "@components/common/ImageWithFallback";
 
-export function PersonCard({ name, profilePictureURL, role, description, gifURL, website, email, linkedin, instagram, behance, github } : Person) {
+export function PersonCard({ name, profilePictureURL, role, description, gifURL, website, email, linkedin, instagram, behance, github, facebook } : Person) {
 
     let socials : Array<IconLinkText> = []
 
@@ -60,6 +60,14 @@ export function PersonCard({ name, profilePictureURL, role, description, gifURL,
         ),
         link: github,
         text: strings.landing.about.socials.github
+    })
+
+    if (facebook) socials.push({
+        icon: (
+            <IconFacebook />
+        ),
+        link: facebook,
+        text: strings.landing.about.socials.facebook
     })
 
     const [ currentImageURL, setCurrentImageURL ] = useState<string>(profilePictureURL)

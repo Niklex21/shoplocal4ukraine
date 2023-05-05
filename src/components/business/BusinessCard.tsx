@@ -22,7 +22,7 @@ export default function BusinessCard({ data, active } : { data: BusinessModel, a
     const imageSrc = getBusinessProfileImageSrc(data)
 
     return (
-        <div className={ `transition-all duration-200 relative p-1 pb-3 bg-white group flex flex-col w-full md:min-w-[12rem] md:max-w-[20rem] gap-3 shrink rounded-lg hover:drop-shadow-xl ${ active ? "drop-shadow-xl" : "" }` }>
+        <div className={ `transition-all duration-200 relative p-1 pb-3 bg-white dark:bg-oxford-blue text-oxford-blue dark:text-white group flex flex-col w-full md:min-w-[12rem] md:max-w-[20rem] gap-3 shrink rounded-lg hover:drop-shadow-xl dark:hover:drop-shadow-white-xl ${ active ? "drop-shadow-xl dark:drop-shadow-white-xl" : "" }` }>
             <div className="flex relative w-full h-64 md:aspect-[5/3] md:h-auto">
                 <ImageWithFallback
                     fallbackImageSrc={ defaults.businesses.gallery.defaultImage }
@@ -45,7 +45,7 @@ export default function BusinessCard({ data, active } : { data: BusinessModel, a
                     </div>
                 </div>
                 <div className="flex flex-row w-full justify-between text-sm font-semibold uppercase">
-                    <text className="text-ukraine-blue">
+                    <text className="text-ukraine-blue dark:text-blue-400">
                         { businessCategoryConverter(data.businessCategory) }
                     </text>
                 </div>

@@ -1,5 +1,5 @@
 import Logo from '@public/images/logo.png'
-import logoMinimized from '@public/images/logo_minimized.svg'
+import logoMinimized from '@public/images/logoNoText.png'
 import Link from 'next/link'
 import strings from '@utils/strings'
 import { Page, Link as LinkType } from '@appTypes/landing'
@@ -17,14 +17,19 @@ const links: Array<LinkType> = [
     link: '/businesses',
   },
   {
-    text: strings.landing.navbar.howToSupportUkraine,
-    link: 'https://www.notion.so/shop4ua/Guide-for-Local-Businesses-on-Supporting-Ukraine-60bceb5aa5f2455fa4debe82d0aaf15e?pvs=4',
-    targetBlank: true
-  },
-  {
     text: strings.landing.navbar.about,
     link: '/about',
     page: Page.About
+  },
+  {
+    text: strings.landing.navbar.blog,
+    link: 'https://blog-shop4ua.super.site',
+    targetBlank: true
+  },
+  {
+    text: strings.landing.navbar.howToSupportUkraine,
+    link: 'https://www.notion.so/shop4ua/Guide-for-Local-Businesses-on-Supporting-Ukraine-60bceb5aa5f2455fa4debe82d0aaf15e?pvs=4',
+    targetBlank: true
   },
   {
     text: strings.landing.navbar.join,

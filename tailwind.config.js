@@ -7,6 +7,7 @@ module.exports = {
     "./src/pages/**/*.{js,ts,jsx,tsx}",
     "./src/components/**/*.{js,ts,jsx,tsx}",
   ],
+  darkMode: 'class',
   theme: {
     extend: {
       fontFamily: { "e-ukraine": ["e-Ukraine", "sans-serif"] },
@@ -44,7 +45,23 @@ module.exports = {
           `0 -20px 13px rgb(0 0 0 / 0.03)`,
           `0 -8px 5px rgb(0 0 0 / 0.08)`
         ],
-        "t-2xl": `0 -25px 25px rgb(0 0 0 / 0.15)`
+        "t-2xl": `0 -25px 25px rgb(0 0 0 / 0.15)`,
+        "t-white-md": [
+          `0 -4px 3px rgb(255 255 255 / 0.07)`,
+          `0 -2px 2px rgb(255 255 255 / 0.06)`
+        ],
+        "white-md": [
+          `0 4px 3px rgb(255 255 255 / 0.07)`,
+          `0 2px 2px rgb(255 255 255 / 0.06)`
+        ],
+        "white-lg": [
+          `0 10px 8px rgb(255 255 255 / 0.04)`,
+          `0 4px 3px rgb(255 255 255 / 0.1)`
+        ],
+        "white-xl": [
+          `0 20px 13px rgb(255 255 255 / 0.03)`,
+          `0 8px 5px rgb(255 255 255 / 0.08)`
+        ]
       }),
       transitionProperty: { filter: "filter" },
       backgroundImage: {

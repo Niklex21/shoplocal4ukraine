@@ -5,4 +5,11 @@ type Section = {
     links: Array<LinkType>
 }
 
+enum DarkModeOptions {
+    Dark,
+    Light,
+    System
+}
+
 export type { Section }
+export { DarkModeOptions }

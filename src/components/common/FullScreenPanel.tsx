@@ -31,9 +31,9 @@ export default function FullScreenPanel({ className, panelState, closePanel, chi
     const positionStyles = (() => {
         switch (position) {
             case FullScreenPanelPosition.Left:
-                return "left-0 top-0 h-full md:w-auto"
+                return "left-0 top-0 md:h-full md:w-auto"
             case FullScreenPanelPosition.Right:
-                return "right-0 top-0 md:w-auto h-full"
+                return "right-0 top-0 md:w-auto md:h-full"
             case FullScreenPanelPosition.Top:
                 return "left-0 top-0 md:h-auto w-full"
             case FullScreenPanelPosition.Bottom:
@@ -69,7 +69,7 @@ export default function FullScreenPanel({ className, panelState, closePanel, chi
             <div
                 className={
                     twMerge(
-                        "rounded-none md:rounded-lg z-50 absolute flex flex-col gap-4 bg-white p-6 justify-center overflow-auto max-w-full md:max-h-full w-full h-full",
+                        "rounded-none md:rounded-lg z-50 fixed flex flex-col gap-4 bg-white dark:bg-oxford-blue text-oxford-blue dark:text-white p-6 justify-center overflow-auto max-w-full md:max-h-full w-full",
                         positionStyles,
                         panelState === PanelState.Closed ? "hidden" : "",
                         className
@@ -85,15 +85,15 @@ export default function FullScreenPanel({ className, panelState, closePanel, chi
                 <input
                     autoFocus
                     ref={ hiddenInputRef }
-                    className="w-0 h-0 hidden md:flex"
+                    className="w-0 h-0 hidden md:flex -mt-4"
                 />
-                <div className="flex flex-row justify-between gap-8 text-lg items-center relative md:p-0 w-full mt-16 md:mt-0">
-                    <span className="font-bold">{ title }</span>
+                <div className="flex flex-row justify-between gap-8 text-lg items-center relative md:p-0 w-full">
+                    <span className="font-bold dark:text-white">{ title }</span>
                     <IconButton
                         aria-label="open sharing panel"
                         onClick={ closePanel }
                     >
-                        <IconClose className="text-4xl md:text-3xl" />
+                        <IconClose className="text-4xl md:text-3xl dark:text-white" />
                     </IconButton>
                 </div>
                 { children }
