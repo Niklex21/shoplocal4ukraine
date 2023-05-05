@@ -214,7 +214,7 @@ const strings_en = {
         },
         navbar: {
             businesses: 'Discover Businesses',
-            howToSupportUkraine: "How To Support Ukraine",
+            howToSupportUkraine: "Business Resources",
             about: 'About Us',
             privacyStatement: 'Privacy Statement',
             join: 'Add A Business',
@@ -233,7 +233,7 @@ const strings_en = {
                     privacyStatement: 'Privacy Statement',
                     join: 'Add A Business',
                     blog: "Blog",
-                    howToSupportUkraine: "How to Support Ukraine"
+                    howToSupportUkraine: "Business Resources"
                 },
                 socials: {
                     name: 'Contact us',
