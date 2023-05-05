@@ -43,7 +43,7 @@ export function BadgesRow(tags: Array<Tag>) {
     }
 
     let badges : Array<Badge> = tags.map(t => {
-        return { ...map[t], tooltip: strings.businesses.tag[t], shortText: strings.businesses.tagShort[t] }
+        return { ...map[t], tooltip: strings.businesses.tagExtended[t], shortText: strings.businesses.tagShort[t] }
     });
 
     return (

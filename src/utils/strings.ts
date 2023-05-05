@@ -381,6 +381,13 @@ const strings_en = {
             toastSuccessCopy: 'Copied link',
         },
         tag: {
+            [Tag.LeadSupporter]: 'Lead supporter',
+            [Tag.OnRequest]: 'On request',
+            [Tag.Online]: 'Online-only',
+            [Tag.SellUkrainianProducts]: 'Sell Ukrainian products',
+            [Tag.UkrainianOwned]: 'Ukrainian-owned'
+        },
+        tagExtended: {
             [Tag.LeadSupporter]: 'Businesses that made significant contributions to the Ukrainian community: fundraising, event support, donation, and in other ways.',
             [Tag.OnRequest]: 'All services and products are offered in person but not through a physical location.',
             [Tag.Online]: 'All services and products are offered online only and with deliveries if applicable.',
