@@ -58,8 +58,8 @@ const defaults = {
 };
 
 const INFO = {
-    email: 'shoplocal4ukraine@gmail.com',
-    emailLink: 'mailto:shoplocal4ukraine@gmail.com',
+    email: 'team@shop4ua.com',
+    emailLink: 'mailto:team@shop4ua.com',
 };
 
 const links: Array<Section> = [
@@ -102,7 +102,7 @@ const socials: Array<IconLinkText> = [
     },
     {
         iconSVG: Email,
-        link: 'mailto:shoplocal4ukraine@gmail.com',
+        link: 'mailto:team@shop4ua.com',
         text: 'Email',
     },
     {

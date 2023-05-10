@@ -355,7 +355,7 @@ const strings_en = {
             contactFieldLabel: "Your contact info (optional)",
             timedOut: 'Your request timed out :( Try again in a few seconds.',
             tryAgain: 'Try Again',
-            error: 'An unknown error occurred :( Try again in a few seconds. If this error persists, please email us at shoplocal4ukraine@gmail.com.',
+            error: 'An unknown error occurred :( Try again in a few seconds. If this error persists, please email us at team@shop4ua.com.',
             categoryFieldLabel: "Feedback category"
         },
         infoEditPanel: {
