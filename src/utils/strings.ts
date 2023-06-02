@@ -25,6 +25,9 @@ const strings_en = {
             description: "Shop local to support Ukraine."
         }
     },
+    redirect: {
+        loading: "Redirecting you to the business page..."
+    },
     app: {
         tooltipMenuButton: 'Menu',
         tooltipClearSearch: "Clear search",
@@ -376,8 +379,7 @@ const strings_en = {
         sharePanel: {
             title: 'Share',
             tooltipCopy: 'Copy link',
-            labelIncludeFilters: 'Include search query and filters',
-            labelIncludeView: 'Include view settings',
+            labelShortenURL: "Shorten URL",
             toastSuccessCopy: 'Copied link',
         },
         tag: {
