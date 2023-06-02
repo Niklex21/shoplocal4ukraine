@@ -145,6 +145,9 @@ const strings_en = {
             supportedByTitle: "Supported by"
         },
         home: {
+            taglineBlue: "Shop Local",
+            taglineYellow: "Support Ukraine",
+            extendedTagline: "Discover Ukrainian-supporting businesses around you and do some good with every purchase.",
             callPrimary: 'Shop Local, Support Ukraine',
             callSecondary:
                 'Discover local businesses around you and support Ukraine by supporting them.',
@@ -156,7 +159,7 @@ const strings_en = {
             benefits: {
                 free: {
                     title: "Free",
-                    description: "Shop4UA is born to support local business and community. Businesses do not have to pay anything to be featured and promoted on our platform, and customers browse our site with no ads and fees."
+                    description: "Businesses do not have to pay anything to be featured and promoted on our platform, and customers browse our site with no ads and fees."
                 },
                 verified: {
                     title: "Verified",

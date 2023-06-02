@@ -13,10 +13,6 @@ import ImageWithFallback from '@components/common/ImageWithFallback'
 
 const links: Array<LinkType> = [
   {
-    text: strings.landing.navbar.businesses,
-    link: '/businesses',
-  },
-  {
     text: strings.landing.navbar.about,
     link: '/about',
     page: Page.About
@@ -35,7 +31,11 @@ const links: Array<LinkType> = [
     text: strings.landing.navbar.join,
     link: '/join',
     page: Page.Join
-  }
+  },
+  {
+    text: strings.landing.navbar.businesses,
+    link: '/businesses',
+  },
 ]
 
 /**
@@ -49,7 +49,7 @@ export default function Navbar({ current }: { current: Page }) {
 
   return (
     <>
-      <div className="hidden md:flex sticky flex-row justify-between w-full h-24 left-0 top-0 py-6 px-16 bg-white drop-shadow-sm z-10">
+      <div className="hidden md:flex sticky flex-row justify-between w-full h-24 left-0 top-0 py-6 px-16 bg-white z-10">
         <div className="flex h-full w-full relative">
           <Link href="/">
             <ImageWithFallback

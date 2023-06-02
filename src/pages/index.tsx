@@ -45,6 +45,20 @@ const Home: NextPageWithLayout = () => {
 
   return (
     <div className="flex flex-col w-full gap-8">
+
+      <div className="flex w-full md:grid grid-cols-3 p-8 md:p-32">
+        <div className="col-span-2 flex align-middle flex-col gap-16">
+          <div className="text-4xl md:text-7xl font-bold flex flex-col gap-4">
+            <text className="text-ukraine-blue">{ strings.landing.home.taglineBlue }</text>
+            <text className="text-logo-yellow">{ strings.landing.home.taglineYellow }</text>
+          </div>
+          <text className="text-lg md:text-xl max-w-lg">{ strings.landing.home.extendedTagline }</text>
+        </div>
+        <div>
+
+        </div>
+      </div>
+
       {/* HERO SECTION */}
       <div className="flex flex-col w-full items-center bg-fixed bg-center bg-no-repeat bg-cover" style={{ backgroundImage: `url(${ heroImage.src }`}}>
         <div className="flex flex-col backdrop-blur-sm backdrop-brightness-50 p-8 md:p-32 w-full justify-center">

@@ -15,15 +15,16 @@ module.exports = {
         card: "30rem",
       },
       colors: {
-        text: { DEFAULT: "#232327", inverted: "#FFFDF5" },
+        text: { DEFAULT: "#1a1a1a", inverted: "#FFFDF5" },
         background: { DEFAULT: "#FFEBAF", inverted: "#232335" },
         accent: "#D7E6F5",
         "ukraine-yellow": "#FFD700",
-        "ukraine-blue": "#0057B8",
+        "ukraine-blue": "#008bff",
         "oxford-blue": "#00162E",
         "blond-yellow": "#FFF5C0",
         "iceberg-blue": "#80ABDC",
         "alice-blue": "#F0F5FB",
+        "logo-yellow": "#ffae00"
       },
       dropShadow: ({ theme }) => ({
         button: `4px 4px 0px ${theme("colors")["ukraine-blue"]}`,
