@@ -92,3 +92,19 @@ export function serializeBusinessModel(b : BusinessModel) : SerializedBusinessMo
 export function getBusinessProfileImageSrc(b: BusinessModel) : string {
     return b.images && b.images.length > 0 ? b.images[0] : defaults.businesses.gallery.defaultImage.src
 }
+
+/**
+ * Returns the profile images for a business or a default image if no images exist.
+ * @param b the business
+ * @returns the list of images or a list with only the default image if the image is not available
+ */
+export function getBusinessImagesWithDefault(b: BusinessModel) : Array<string> {
+    const defaultImageArray = [defaults.businesses.gallery.defaultImage.src]
+    console.log(b.images)
+    
+    if ((b.images ?? []).length > 0) {
+        return b.images ?? defaultImageArray
+    } else {
+        return defaultImageArray
+    }
+}

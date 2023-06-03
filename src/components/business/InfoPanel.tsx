@@ -11,6 +11,7 @@ import {
 } from "@mui/material";
 import strings from "@utils/strings";
 import {
+  getBusinessImagesWithDefault,
   getBusinessProfileImageSrc,
   isEmpty,
   urlShortener,
@@ -80,25 +81,6 @@ export const InfoPanel = ({ className, panelState, setPanelState }: Props) => {
     PanelState.Closed
   );
 
-  const imageIndices = [0, 1, 2, 3, 4];
-  const [imageCarouselState, setImageCarouselState] = useState<number>(0);
-
-  const incrementCarouselState = () => {
-    setImageCarouselState(
-        imageCarouselState !== imageIndices.length - 1
-          ? imageCarouselState + 1
-          : 0
-      );
-  };
-
-  const decrementCarouselState = () => {
-    setImageCarouselState(
-      imageCarouselState !== 0
-        ? imageCarouselState - 1
-        : imageIndices.length - 1
-    );
-  };
-
   // add a component to the logger object
   logger = logger.with({ component: "Info" });
 
@@ -110,7 +92,28 @@ export const InfoPanel = ({ className, panelState, setPanelState }: Props) => {
   logger.debug(`Loading Info for selected business: ${business.id}`);
 
   let contacts: Array<IconLinkText & { tooltipText?: string }> = [];
-  let imageSrc: string = getBusinessProfileImageSrc(business);
+  let imagesSrc: Array<string> = getBusinessImagesWithDefault(business);
+
+  // IMAGE CAROUSEL
+  const imageIndices = Array.from({ length: imagesSrc.length }, (v, k) => k);
+  const [imageCarouselState, setImageCarouselState] = useState<number>(0);
+
+  const incrementCarouselState = () => {
+    setImageCarouselState(
+      imageCarouselState !== imageIndices.length - 1
+        ? imageCarouselState + 1
+        : 0
+    );
+  };
+
+  const decrementCarouselState = () => {
+    setImageCarouselState(
+      imageCarouselState !== 0
+        ? imageCarouselState - 1
+        : imageIndices.length - 1
+    );
+  };
+  // --------
 
   contacts = [
     ...(business.location.address
@@ -157,33 +160,35 @@ export const InfoPanel = ({ className, panelState, setPanelState }: Props) => {
   const Info = (
     <Card className="relative md:h-full w-full max-w-full rounded-none overflow-y-scroll bg-white dark:bg-oxford-blue text-oxford-blue dark:text-white">
       <div className="relative text-white flex flex-row items-center justify-center">
-        <div className="absolute flex flex-row items-center inset-y-0 left-0 z-10 pl-2 cursor-pointer w-1/12">
-          <button onClick={decrementCarouselState}>
-            <ChevronLeft />
-          </button>
-        </div>
-        <div className="absolute flex flex-row items-center justify-end inset-y-0 right-0 z-10 pr-2 cursor-pointer w-1/12 ">
-          <button onClick={incrementCarouselState}>
-            <ChevronRight />
-          </button>
-        </div>
-        <div className="absolute flex flex-row items-end justify-center bottom-0 h-1/12 z-10 py-2 w-10/12">
-          {imageIndices.map((i, index) => {
-            return (
-              <button onClick={() => setImageCarouselState(index)}>
-                {index === imageCarouselState ? (
-                  <RadioButtonChecked fontSize="small" />
-                ) : (
-                  <RadioButtonUnchecked fontSize="small" />
-                )}
-              </button>
-            );
-          })}
+        <div className={imagesSrc.length <= 1 ? "hidden" : ""}>
+          <div className="absolute flex flex-row items-center inset-y-0 left-0 z-10 pl-2 cursor-pointer w-1/12">
+            <button onClick={decrementCarouselState}>
+              <ChevronLeft />
+            </button>
+          </div>
+          <div className="absolute flex flex-row items-center justify-end inset-y-0 right-0 z-10 pr-2 cursor-pointer w-1/12 ">
+            <button onClick={incrementCarouselState}>
+              <ChevronRight />
+            </button>
+          </div>
+          <div className="absolute flex flex-row items-end justify-center bottom-0 h-1/12 z-10 py-2 w-10/12">
+            {imageIndices.map((i, index) => {
+              return (
+                <button onClick={() => setImageCarouselState(index)}>
+                  {index === imageCarouselState ? (
+                    <RadioButtonChecked fontSize="small" />
+                  ) : (
+                    <RadioButtonUnchecked fontSize="small" />
+                  )}
+                </button>
+              );
+            })}
+          </div>
         </div>
         <CardMedia
           component="img"
           className="h-64"
-          image={imageSrc}
+          image={imagesSrc[imageCarouselState]}
           alt={business.name}
         />
       </div>
