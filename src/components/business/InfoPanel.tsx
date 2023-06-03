@@ -12,12 +12,11 @@ import {
 import strings from "@utils/strings";
 import {
   getBusinessImagesWithDefault,
-  getBusinessProfileImageSrc,
   isEmpty,
   urlShortener,
 } from "@utils/utils";
 import Link from "next/link";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { BusinessViewContext } from "src/pages/businesses";
 import { IconLinkText, PanelState } from "@appTypes/businesses";
 import { twMerge } from "tailwind-merge";
@@ -34,9 +33,6 @@ import {
   ArrowForward as IconArrow,
   ChevronRight,
   ChevronLeft,
-  CircleOutlined,
-  RadioButtonChecked,
-  RadioButtonUnchecked,
   Circle,
 } from "@mui/icons-material";
 import {
@@ -100,6 +96,8 @@ export const InfoPanel = ({ className, panelState, setPanelState }: Props) => {
   const showingControls = " " + (imagesSrc.length > 1 ? "" : "hidden");
   const [imageCarouselState, setImageCarouselState] = useState<number>(0);
 
+  const resetImageCarouselState = () => {setImageCarouselState(0)}
+
   const incrementCarouselState = () => {
     setImageCarouselState(
       imageCarouselState !== imageIndices.length - 1
@@ -115,6 +113,8 @@ export const InfoPanel = ({ className, panelState, setPanelState }: Props) => {
         : imageIndices.length - 1
     );
   };
+
+  useEffect(() => resetImageCarouselState, [business])
   // --------
 
   contacts = [
@@ -161,8 +161,13 @@ export const InfoPanel = ({ className, panelState, setPanelState }: Props) => {
 
   const Info = (
     <Card className="relative md:h-full w-full max-w-full rounded-none overflow-y-scroll bg-white dark:bg-oxford-blue text-oxford-blue dark:text-white">
+      {/* 
+      TODO:
+      - hide arrows unless hovering
+      - move this to its own component
+      - use ReactTransitionGroup to add a fade between images changing
+      */}
       <div className="relative text-white flex flex-row items-center justify-center">
-        {/* <div className={(imagesSrc.length <= 1 ? "hidden" : "") + " "}> */}
         <div
           className={
             "absolute flex flex-row items-center inset-y-0 left-0 z-10 pl-2 cursor-pointer w-1/4" +
@@ -195,7 +200,7 @@ export const InfoPanel = ({ className, panelState, setPanelState }: Props) => {
             showingControls
           }
         >
-          <div className="bg-ukraine-yellow text-ukraine-blue rounded-full p-1 flex items-center justify-center scale-75">
+          <div className="bg-ukraine-yellow text-ukraine-blue rounded-full p-1 flex items-center justify-center scale-[0.7]">
             {imageIndices.map((i, index) => {
               return (
                 <button
@@ -203,9 +208,11 @@ export const InfoPanel = ({ className, panelState, setPanelState }: Props) => {
                   onClick={() => setImageCarouselState(index)}
                 >
                   {index === imageCarouselState ? (
+                    <div className="flex items-center justify-center scale-[0.8]">
                     <Circle fontSize="small" />
+                  </div>
                   ) : (
-                    <div className="flex items-center justify-center scale-75">
+                    <div className="flex items-center justify-center scale-[0.6]">
                       <Circle fontSize="small" />
                     </div>
                   )}
@@ -214,7 +221,6 @@ export const InfoPanel = ({ className, panelState, setPanelState }: Props) => {
             })}
           </div>
         </div>
-        {/* </div> */}
         <CardMedia
           component="img"
           className="h-64"
