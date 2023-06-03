@@ -37,6 +37,7 @@ import {
   CircleOutlined,
   RadioButtonChecked,
   RadioButtonUnchecked,
+  Circle,
 } from "@mui/icons-material";
 import {
   atomCurrentBusiness,
@@ -96,6 +97,7 @@ export const InfoPanel = ({ className, panelState, setPanelState }: Props) => {
 
   // IMAGE CAROUSEL
   const imageIndices = Array.from({ length: imagesSrc.length }, (v, k) => k);
+  const showingControls = " " + (imagesSrc.length > 1 ? "" : "hidden");
   const [imageCarouselState, setImageCarouselState] = useState<number>(0);
 
   const incrementCarouselState = () => {
@@ -160,31 +162,59 @@ export const InfoPanel = ({ className, panelState, setPanelState }: Props) => {
   const Info = (
     <Card className="relative md:h-full w-full max-w-full rounded-none overflow-y-scroll bg-white dark:bg-oxford-blue text-oxford-blue dark:text-white">
       <div className="relative text-white flex flex-row items-center justify-center">
-        <div className={imagesSrc.length <= 1 ? "hidden" : ""}>
-          <div className="absolute flex flex-row items-center inset-y-0 left-0 z-10 pl-2 cursor-pointer w-1/12">
-            <button onClick={decrementCarouselState}>
-              <ChevronLeft />
-            </button>
-          </div>
-          <div className="absolute flex flex-row items-center justify-end inset-y-0 right-0 z-10 pr-2 cursor-pointer w-1/12 ">
-            <button onClick={incrementCarouselState}>
-              <ChevronRight />
-            </button>
-          </div>
-          <div className="absolute flex flex-row items-end justify-center bottom-0 h-1/12 z-10 py-2 w-10/12">
+        {/* <div className={(imagesSrc.length <= 1 ? "hidden" : "") + " "}> */}
+        <div
+          className={
+            "absolute flex flex-row items-center inset-y-0 left-0 z-10 pl-2 cursor-pointer w-1/4" +
+            showingControls
+          }
+        >
+          <button
+            className="bg-ukraine-yellow text-ukraine-blue rounded-full w-6 h-6 flex items-center justify-center"
+            onClick={decrementCarouselState}
+          >
+            <ChevronLeft />
+          </button>
+        </div>
+        <div
+          className={
+            "absolute flex flex-row items-center justify-end inset-y-0 right-0 z-10 pr-2 cursor-pointer w-1/4" +
+            showingControls
+          }
+        >
+          <button
+            className="bg-ukraine-yellow text-ukraine-blue rounded-full w-6 h-6 flex items-center justify-center"
+            onClick={incrementCarouselState}
+          >
+            <ChevronRight />
+          </button>
+        </div>
+        <div
+          className={
+            "absolute flex flex-row items-center justify-center bottom-0 h-1/12 z-10 py-2 w-1/4" +
+            showingControls
+          }
+        >
+          <div className="bg-ukraine-yellow text-ukraine-blue rounded-full p-1 flex items-center justify-center scale-75">
             {imageIndices.map((i, index) => {
               return (
-                <button onClick={() => setImageCarouselState(index)}>
+                <button
+                  className="flex items-center justify-center"
+                  onClick={() => setImageCarouselState(index)}
+                >
                   {index === imageCarouselState ? (
-                    <RadioButtonChecked fontSize="small" />
+                    <Circle fontSize="small" />
                   ) : (
-                    <RadioButtonUnchecked fontSize="small" />
+                    <div className="flex items-center justify-center scale-75">
+                      <Circle fontSize="small" />
+                    </div>
                   )}
                 </button>
               );
             })}
           </div>
         </div>
+        {/* </div> */}
         <CardMedia
           component="img"
           className="h-64"
