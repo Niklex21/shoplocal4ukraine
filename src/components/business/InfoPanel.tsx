@@ -50,6 +50,7 @@ import { isMobile } from "react-device-detect";
 import { paperClasses } from "@mui/material/Paper";
 import { Tag } from "@api/business/types";
 import FeedbackPanel from "./FeedbackPanel";
+import ImageCarousel from "@components/common/ImageCarousel";
 
 type Props = {
   className?: string;
@@ -91,30 +92,7 @@ export const InfoPanel = ({ className, panelState, setPanelState }: Props) => {
   let contacts: Array<IconLinkText & { tooltipText?: string }> = [];
   let imagesSrc: Array<string> = getBusinessImagesWithDefault(business);
 
-  // IMAGE CAROUSEL
-  const imageIndices = Array.from({ length: imagesSrc.length }, (v, k) => k);
-  const showingControls = " " + (imagesSrc.length > 1 ? "" : "hidden");
-  const [imageCarouselState, setImageCarouselState] = useState<number>(0);
-
-  const resetImageCarouselState = () => {setImageCarouselState(0)}
-
-  const incrementCarouselState = () => {
-    setImageCarouselState(
-      imageCarouselState !== imageIndices.length - 1
-        ? imageCarouselState + 1
-        : 0
-    );
-  };
-
-  const decrementCarouselState = () => {
-    setImageCarouselState(
-      imageCarouselState !== 0
-        ? imageCarouselState - 1
-        : imageIndices.length - 1
-    );
-  };
-
-  useEffect(() => resetImageCarouselState, [business])
+  
   // --------
 
   contacts = [
@@ -161,73 +139,7 @@ export const InfoPanel = ({ className, panelState, setPanelState }: Props) => {
 
   const Info = (
     <Card className="relative md:h-full w-full max-w-full rounded-none overflow-y-scroll bg-white dark:bg-oxford-blue text-oxford-blue dark:text-white">
-      {/* 
-      TODO:
-      - hide arrows unless hovering
-      - move this to its own component
-      - use ReactTransitionGroup to add a fade between images changing
-      */}
-      <div className="relative text-white flex flex-row items-center justify-center">
-        <div
-          className={
-            "absolute flex flex-row items-center inset-y-0 left-0 z-10 pl-2 cursor-pointer w-1/4" +
-            showingControls
-          }
-        >
-          <button
-            className="bg-ukraine-yellow text-ukraine-blue rounded-full w-6 h-6 flex items-center justify-center"
-            onClick={decrementCarouselState}
-          >
-            <ChevronLeft />
-          </button>
-        </div>
-        <div
-          className={
-            "absolute flex flex-row items-center justify-end inset-y-0 right-0 z-10 pr-2 cursor-pointer w-1/4" +
-            showingControls
-          }
-        >
-          <button
-            className="bg-ukraine-yellow text-ukraine-blue rounded-full w-6 h-6 flex items-center justify-center"
-            onClick={incrementCarouselState}
-          >
-            <ChevronRight />
-          </button>
-        </div>
-        <div
-          className={
-            "absolute flex flex-row items-center justify-center bottom-0 h-1/12 z-10 py-2 w-1/4" +
-            showingControls
-          }
-        >
-          <div className="bg-ukraine-yellow text-ukraine-blue rounded-full p-1 flex items-center justify-center scale-[0.7]">
-            {imageIndices.map((i, index) => {
-              return (
-                <button
-                  className="flex items-center justify-center"
-                  onClick={() => setImageCarouselState(index)}
-                >
-                  {index === imageCarouselState ? (
-                    <div className="flex items-center justify-center scale-[0.8]">
-                    <Circle fontSize="small" />
-                  </div>
-                  ) : (
-                    <div className="flex items-center justify-center scale-[0.6]">
-                      <Circle fontSize="small" />
-                    </div>
-                  )}
-                </button>
-              );
-            })}
-          </div>
-        </div>
-        <CardMedia
-          component="img"
-          className="h-64"
-          image={imagesSrc[imageCarouselState]}
-          alt={business.name}
-        />
-      </div>
+      <ImageCarousel imagesSrc={imagesSrc} businessName={business.name} />
       <CardContent>
         <div className="flex flex-col gap-4">
           <div className="flex flex-row justify-between">
