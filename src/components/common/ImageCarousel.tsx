@@ -108,16 +108,15 @@ export default function ImageCarousel({ imagesSrc, businessName }: Props) {
         }
       >
         <div className="bg-ukraine-blue text-white rounded-full p-1 flex items-center justify-center scale-[0.7] shadow-lg">
-          {imageIndices.map((i, index) => (
+          {imageIndices.map((_, index) => (
             <button
               className="flex items-center justify-center"
               onClick={() => setImageCarouselState(index)}
             >
               <div
                 className={
-                  "transition-all duration-300 flex items-center justify-center scale-[" +
-                  (index === imageCarouselState ? "0.75" : "0.5") +
-                  "]"
+                  "transition-all duration-300 flex items-center justify-center " +
+                  (index === imageCarouselState ? "scale-75" : "scale-50")
                 }
               >
                 <Circle fontSize="small" />
