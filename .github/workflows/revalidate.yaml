@@ -8,4 +8,4 @@ jobs:
     steps:
       - name: Call the revalidate api route
         run: |
-          curl 'https://shop4ua.com/api/businesses/revalidate?secret=${{ secrets.REVALIDATION_KEY }}'
+          curl https://www.shop4ua.com/api/businesses/revalidate\?secret\=${{ secrets.REVALIDATION_KEY }}
