@@ -1,19 +1,10 @@
-import { BusinessModel } from "@api/business/types";
 import {
-  ArrowLeft,
-  ArrowLeftRounded,
-  ChevronLeft,
-  ChevronLeftRounded,
-  ChevronRight,
   Circle,
   KeyboardArrowLeftRounded,
   KeyboardArrowRightRounded,
-  SwipeLeftAltRounded,
-  SwitchLeftRounded,
 } from "@mui/icons-material";
 import { CardMedia } from "@mui/material";
 import { useEffect, useState } from "react";
-import { Transition } from "react-transition-group";
 
 type Props = {
   imagesSrc: Array<string>;
@@ -46,28 +37,42 @@ export default function ImageCarousel({ imagesSrc, businessName }: Props) {
     );
   };
 
-  const nextImageIndex = () => {
-    return imageCarouselState === imageIndices.length - 1
-      ? 0
-      : imageCarouselState + 1;
-  };
-
   useEffect(() => {
     resetImageCarouselState();
     console.log("useEffect called");
   }, [businessName]);
 
-  {
-    /* 
-      TODO:
-      - always show arrows on mobile
-      - swipe-able on mobile
-      - use ReactTransitionGroup to add a fade between images changing
-      */
-  }
+  const [touchStart, setTouchStart] = useState(null);
+  const [touchEnd, setTouchEnd] = useState(null);
+
+  // the required distance between touchStart and touchEnd to be detected as a swipe
+  const minSwipeDistance = 50;
+
+  const onTouchStart = (e: any) => {
+    setTouchEnd(null); // otherwise the swipe is fired even with usual touch events
+    setTouchStart(e.targetTouches[0].clientX);
+  };
+
+  const onTouchMove = (e: any) => setTouchEnd(e.targetTouches[0].clientX);
+
+  const onTouchEnd = () => {
+    if (!touchStart || !touchEnd) return;
+    const distance = touchStart - touchEnd;
+    const isLeftSwipe = distance > minSwipeDistance;
+    const isRightSwipe = distance < -minSwipeDistance;
+    if (isLeftSwipe)
+      incrementCarouselState();
+   if (isRightSwipe)
+      decrementCarouselState();
+  };
 
   return (
-    <div className="group relative text-white flex flex-row items-center justify-center">
+    <div
+      className="group relative text-white flex flex-row items-center justify-center"
+      onTouchStart={(e) => onTouchStart(e)}
+      onTouchMove={onTouchMove}
+      onTouchEnd={onTouchEnd}
+    >
       <div
         className={
           "absolute flex flex-row items-center inset-y-0 left-0 z-10 pl-2 w-1/4" +
@@ -135,7 +140,10 @@ export default function ImageCarousel({ imagesSrc, businessName }: Props) {
             <div className="absolute top-0 bottom-0 left-0 right-0">
               <CardMedia
                 component="img"
-                className={"transition-all duration-300 h-64 opacity-" + (key === imageCarouselState ? "100" : "0")}
+                className={
+                  "transition-all duration-300 h-64 opacity-" +
+                  (key === imageCarouselState ? "100" : "0")
+                }
                 image={imagesSrc[key]}
                 alt={businessName}
               />
