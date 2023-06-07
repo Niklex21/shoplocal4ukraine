@@ -100,7 +100,6 @@ export function getBusinessProfileImageSrc(b: BusinessModel) : string {
  */
 export function getBusinessImagesWithDefault(b: BusinessModel) : Array<string> {
     const defaultImageArray = [defaults.businesses.gallery.defaultImage.src]
-    console.log(b.images)
     
     if ((b.images ?? []).length > 0) {
         return b.images ?? defaultImageArray

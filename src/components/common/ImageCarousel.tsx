@@ -18,7 +18,6 @@ export default function ImageCarousel({ imagesSrc, businessName }: Props) {
 
   const resetImageCarouselState = () => {
     setImageCarouselState(0);
-    console.log("carousel reset");
   };
 
   const incrementCarouselState = () => {
@@ -39,7 +38,6 @@ export default function ImageCarousel({ imagesSrc, businessName }: Props) {
 
   useEffect(() => {
     resetImageCarouselState();
-    console.log("useEffect called");
   }, [businessName]);
 
   const [touchStart, setTouchStart] = useState(null);
@@ -60,10 +58,8 @@ export default function ImageCarousel({ imagesSrc, businessName }: Props) {
     const distance = touchStart - touchEnd;
     const isLeftSwipe = distance > minSwipeDistance;
     const isRightSwipe = distance < -minSwipeDistance;
-    if (isLeftSwipe)
-      incrementCarouselState();
-   if (isRightSwipe)
-      decrementCarouselState();
+    if (isLeftSwipe) incrementCarouselState();
+    if (isRightSwipe) decrementCarouselState();
   };
 
   return (
@@ -110,6 +106,7 @@ export default function ImageCarousel({ imagesSrc, businessName }: Props) {
         <div className="bg-ukraine-blue text-white rounded-full p-1 flex items-center justify-center scale-[0.7] shadow-lg">
           {imageIndices.map((_, index) => (
             <button
+              key={index}
               className="flex items-center justify-center"
               onClick={() => setImageCarouselState(index)}
             >
@@ -136,7 +133,7 @@ export default function ImageCarousel({ imagesSrc, businessName }: Props) {
 
         {imagesSrc.map((img, key) => {
           return (
-            <div className="absolute top-0 bottom-0 left-0 right-0">
+            <div className="absolute top-0 bottom-0 left-0 right-0" key={key}>
               <CardMedia
                 component="img"
                 className={
