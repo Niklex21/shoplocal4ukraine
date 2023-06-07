@@ -99,7 +99,7 @@ export default function ImageCarousel({ imagesSrc, businessName }: Props) {
       </div>
       <div
         className={
-          "ease-in-out opacity-0 scale-0 group-hover:scale-100 group-hover:opacity-100 transition-all duration-300 absolute flex flex-row items-center justify-center bottom-0 h-1/12 z-10 py-2 w-1/4" +
+          "ease-in-out sm:opacity-0 sm:scale-0 opacity-100 scale-100 group-hover:scale-100 group-hover:opacity-100 transition-all duration-300 absolute flex flex-row items-center justify-center bottom-0 h-1/12 z-10 py-2 w-1/4" +
           showingControls
         }
       >
