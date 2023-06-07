@@ -92,7 +92,7 @@ export const InfoPanel = ({ className, panelState, setPanelState }: Props) => {
   let contacts: Array<IconLinkText & { tooltipText?: string }> = [];
   let imagesSrc: Array<string> = getBusinessImagesWithDefault(business);
 
-  
+
   // --------
 
   contacts = [
