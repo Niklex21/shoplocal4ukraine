@@ -8,7 +8,7 @@ const BusinessURLShortener: NextPageWithLayout = () => {
     const router = useRouter();
 
     useEffect(() => {
-        if (router.isReady) router.push(`/businesses#business_id="${ router.query.id ?? "" }"`);     
+        if (router.isReady) router.push(`/businesses#business_id="${ router.query.id ?? "" }"`);
     }, [ router.isReady, router ])
 
     return (
