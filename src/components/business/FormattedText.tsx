@@ -11,7 +11,6 @@ export default function FormattedText({ input }: Props) {
 
   return (
     <ReactMarkdown
-      children={input}
       remarkPlugins={[remarkGfm]}
       components={{
         h1: ({ node, ...props }) => (
@@ -59,6 +58,8 @@ export default function FormattedText({ input }: Props) {
           />
         ),
       }}
-    ></ReactMarkdown>
+    >
+      { input }
+    </ReactMarkdown>
   );
 }
