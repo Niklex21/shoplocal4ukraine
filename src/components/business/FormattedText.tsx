@@ -3,12 +3,13 @@ import remarkGfm from "remark-gfm";
 import { twMerge } from "tailwind-merge";
 
 type Props = {
-  input: string;
+  input: string,
+  className?: string
 };
 
-export default function FormattedText({ input }: Props) {
+export default function FormattedText({ input, className }: Props) {
 
-  const defaultTextClass = "text-slate-600 dark:text-slate-100  "
+  const defaultTextClass = twMerge("text-slate-600 dark:text-slate-100", className)
 
   return (
     <ReactMarkdown
@@ -53,7 +54,7 @@ export default function FormattedText({ input }: Props) {
         a: ({ node, ...props }) => (
           <a
             className={
-              "text-ukraine-blue border-b-2 border-opacity-25 hover:border-opacity-100 border-b-ukraine-blue transition-all duration-200"
+              "text-ukraine-blue border-b-2 border-opacity-25 hover:border-opacity-100 border-b-ukraine-blue transition-all duration-200 no-underline"
             }
             target="_blank"
             {...props}

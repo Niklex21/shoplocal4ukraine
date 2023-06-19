@@ -271,23 +271,14 @@ export const InfoPanel = ({ className, panelState, setPanelState }: Props) => {
             </div>
           </div>
           <hr />
-          <div className="flex flex-col gap-2 max-w-sm">
-            <h3 className="prose text-xl font-semibold dark:text-slate-100">
-              {strings.businesses.infoPage.sectionTitle.description}
-            </h3>
-            <span className="prose break-words opacity-80 dark:text-slate-100">
-              {business.description}
-            </span>
-          </div>
-          <hr />
           <div className="flex flex-col gap-2">
               <h3 className="prose text-xl font-semibold dark:text-slate-100">{ strings.businesses.infoPage.sectionTitle.description }</h3>
-              <FormattedText input={business.description} />
+              <FormattedText input={business.description} className="prose break-words opacity-80"/>
           </div>
           <hr />
           <div className="flex flex-col gap-2 md:mb-0 mb-32">
               <h3 className="prose text-xl font-semibold dark:text-slate-100">{ strings.businesses.infoPage.sectionTitle.contributions }</h3>
-              <FormattedText input={business.contributions} />
+              <FormattedText input={business.contributions} className="prose break-words opacity-80"  />
           </div>
 
           {/* GIVE FEEDBACK SECTION */}
