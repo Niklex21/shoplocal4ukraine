@@ -1,5 +1,6 @@
 import { ReactMarkdown } from "react-markdown/lib/react-markdown";
 import remarkGfm from "remark-gfm";
+import { twMerge } from "tailwind-merge";
 
 type Props = {
   input: string;
@@ -7,7 +8,7 @@ type Props = {
 
 export default function FormattedText({ input }: Props) {
 
-  const defaultTextClass = " text-slate-600 dark:text-slate-100 "
+  const defaultTextClass = "text-slate-600 dark:text-slate-100  "
 
   return (
     <ReactMarkdown
@@ -32,10 +33,10 @@ export default function FormattedText({ input }: Props) {
           <h6 className="font-bold" {...props} />
         ),
         ul: ({ node, ...props }) => (
-          <ul className={"list-disc ml-4" + defaultTextClass} {...props} />
+          <ul className={ twMerge("list-disc ml-4", defaultTextClass) } {...props} />
         ),
         ol: ({node, ...props}) => (
-          <ol className={"list-decimal ml-4" + defaultTextClass} {...props} />
+          <ol className={ twMerge("list-decimal ml-4" + defaultTextClass) } {...props} />
         ),
         p: ({ node, ...props }) => (
           <p className={defaultTextClass} {...props} />
@@ -44,7 +45,7 @@ export default function FormattedText({ input }: Props) {
           <span {...props} />
         ),
         blockquote: ({ node, ...props }) => (
-          <blockquote className={"pl-3 ml-2 border-l-2 border-slate-400" + defaultTextClass} {...props} />
+          <blockquote className={ twMerge("pl-3 ml-2 border-l-2 border-slate-400", defaultTextClass) } {...props} />
         ),
         code: ({ node, ...props }) => (
           <span className={"font-mono whitespace-pre-wrap text-ukraine-blue bg-slate-200 text-sm p-1 rounded-md break-all"} {...props} />
