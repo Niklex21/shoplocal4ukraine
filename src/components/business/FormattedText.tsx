@@ -55,6 +55,7 @@ export default function FormattedText({ input }: Props) {
             className={
               "text-ukraine-blue border-b-2 border-opacity-25 hover:border-opacity-100 border-b-ukraine-blue transition-all duration-200"
             }
+            target="_blank"
             {...props}
           />
         ),
