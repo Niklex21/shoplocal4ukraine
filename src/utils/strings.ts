@@ -25,6 +25,9 @@ const strings_en = {
             description: "Shop local to support Ukraine."
         }
     },
+    redirect: {
+        loading: "Redirecting you to the business page..."
+    },
     app: {
         tooltipMenuButton: 'Menu',
         tooltipClearSearch: "Clear search",
@@ -355,7 +358,7 @@ const strings_en = {
             contactFieldLabel: "Your contact info (optional)",
             timedOut: 'Your request timed out :( Try again in a few seconds.',
             tryAgain: 'Try Again',
-            error: 'An unknown error occurred :( Try again in a few seconds. If this error persists, please email us at shoplocal4ukraine@gmail.com.',
+            error: 'An unknown error occurred :( Try again in a few seconds. If this error persists, please email us at team@shop4ua.com.',
             categoryFieldLabel: "Feedback category"
         },
         infoEditPanel: {
@@ -376,8 +379,7 @@ const strings_en = {
         sharePanel: {
             title: 'Share',
             tooltipCopy: 'Copy link',
-            labelIncludeFilters: 'Include search query and filters',
-            labelIncludeView: 'Include view settings',
+            labelShortenURL: "Shorten URL",
             toastSuccessCopy: 'Copied link',
         },
         tag: {

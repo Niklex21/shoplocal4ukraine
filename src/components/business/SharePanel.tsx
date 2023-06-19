@@ -12,7 +12,6 @@ import { atomWithStorage } from "jotai/utils"
 import { getBusinessProfileImageSrc } from "@utils/utils"
 import { useEffect } from "react"
 import { toast } from "react-toastify"
-import Link from "next/link"
 import ImageWithFallback from "@components/common/ImageWithFallback"
 
 type Props = {
@@ -21,8 +20,7 @@ type Props = {
     closePanel: () => void,
 }
 
-const atomIncludeView = atomWithStorage<boolean>("checkboxIncludeView", true)
-const atomIncludeFilters = atomWithStorage<boolean>("checkboxIncludeFilters", true)
+const atomShortenBusinessURL = atomWithStorage<boolean>("checkboxShortenBusinessURL", true)
 // need this to re-render atomURLToCopy on panel close/open
 const atomWindowUrl = atom<string>("")
 
@@ -30,24 +28,11 @@ const atomWindowUrl = atom<string>("")
 const atomURLToCopy = atom<string>(
     (get) => {
         // cut off all the parameters
-        let url = get(atomWindowUrl).replaceAll(new RegExp("#.*", 'g'), "")
+        let url = get(atomWindowUrl)
 
-        if (get(atomSelectedBusinessID) !== "") {
-            let addString = "#"
-
-            addString += LOCAL_STORAGE_KEYS.atomBusinessId + '="' + get(atomSelectedBusinessID) + '"'
-
-            if (get(atomIncludeView)) {
-                addString += "&" + LOCAL_STORAGE_KEYS.atomView + '=' + get(atomView)
-            }
-
-            if (get(atomIncludeFilters)) {
-                addString += "&" + LOCAL_STORAGE_KEYS.atomSearch + '="' + get(atomSearchQuery) + '"'
-                addString += "&" + LOCAL_STORAGE_KEYS.atomCategories + '=[' + get(atomSelectedCategories) + ']'
-                addString += "&" + LOCAL_STORAGE_KEYS.atomTags + '=[' + get(atomSelectedTags) + ']'
-            }
-
-            return url + addString
+        if (get(atomSelectedBusinessID) !== "" && get(atomShortenBusinessURL)) {
+            url = url.replaceAll(new RegExp("#.*", 'g'), "").replaceAll('businesses', '')
+            url += "b/" + get(atomSelectedBusinessID)
         }
 
         return url
@@ -100,8 +85,7 @@ export default function SharePanel({ className, panelState, closePanel }: Props)
 
     const [ currentBusiness ] = useAtom(atomCurrentBusiness)
     const [ urlToCopy ] = useAtom(atomURLToCopy)
-    const [ includeViewChecked, setIncludeView ] = useAtom(atomIncludeView)
-    const [ includeFiltersChecked, setIncludeFilters ] = useAtom(atomIncludeFilters)
+    const [ shortenURL, setShortenURL ] = useAtom(atomShortenBusinessURL)
     const [ , setWindowUrl ] = useAtom(atomWindowUrl)
 
     // we update the atom with url manually every time panel is re-rendered,
@@ -143,20 +127,11 @@ export default function SharePanel({ className, panelState, closePanel }: Props)
                     <FormControlLabel
                         control={
                             <Checkbox
-                                checked={ includeFiltersChecked }
-                                onChange={ e => setIncludeFilters(e.target.checked) }
+                                checked={ shortenURL }
+                                onChange={ e => setShortenURL(e.target.checked) }
                              />
                         }
-                        label={ strings.businesses.sharePanel.labelIncludeFilters }
-                    />
-                    <FormControlLabel
-                        control={
-                            <Checkbox
-                                checked={ includeViewChecked }
-                                onChange={ e => setIncludeView(e.target.checked)}
-                            />
-                        }
-                        label={ strings.businesses.sharePanel.labelIncludeView }
+                        label={ strings.businesses.sharePanel.labelShortenURL }
                     />
                 </FormGroup>
             </div>
