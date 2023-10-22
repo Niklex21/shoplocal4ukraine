@@ -9,6 +9,7 @@ import ImageAlex from "@public/images/team/alex.jpg"
 import ImageArtem from "@public/images/team/artem.jpg"
 import ImageAlexSe from "@public/images/team/alex_se.jpg"
 import ImagePolina from "@public/images/team/polina.jpg"
+import ImageFedor from "@public/images/team/fedor.jpg"
 import ImageFrank from "@public/images/team/frank.jpg"
 import ImageSofiya from "@public/images/advisors/sofiya.jpg"
 import ImageAnton from "@public/images/advisors/anton.jpg"
@@ -73,6 +74,14 @@ const team : Array<Person> = [
         gifURL: "https://media.giphy.com/media/QMHoU66sBXqqLqYvGO/giphy.gif",
         github: "http://github.com/fraander",
         linkedin: "http://linkedin.com/in/feoa"
+    },
+    {
+        name: "Fedor Goryanyy",
+        profilePictureURL: ImageFedor.src,
+        role: "Software Engineer",
+        description: "Fedor is a high-school student who enjoys swimming, reading, and cooking for his family and cat.",
+        gifURL: "",
+        linkedin: "https://www.linkedin.com/in/goryanyy/"
     },
 ]
 
