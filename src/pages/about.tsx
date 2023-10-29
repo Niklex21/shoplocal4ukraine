@@ -9,7 +9,9 @@ import ImageAlex from "@public/images/team/alex.jpg"
 import ImageArtem from "@public/images/team/artem.jpg"
 import ImageAlexSe from "@public/images/team/alex_se.jpg"
 import ImagePolina from "@public/images/team/polina.jpg"
+import ImageFedor from "@public/images/team/fedor.jpeg"
 import ImageFrank from "@public/images/team/frank.jpg"
+import ImageRostyk from "@public/images/team/rostyk.jpg"
 import ImageSofiya from "@public/images/advisors/sofiya.jpg"
 import ImageAnton from "@public/images/advisors/anton.jpg"
 import logoUCCN from "@public/images/supporters/uccn.png"
@@ -66,13 +68,28 @@ const team : Array<Person> = [
         behance: "https://www.behance.net/kkuzmenkko"
     },
     {
-        name: "Frank Anderson",
-        profilePictureURL: ImageFrank.src,
-        role: "Software Engineer",
-        description: "Frank studies Computer Science at Northeastern. In his spare time he follows Formula 1, listens to This American Life, goes for walks around Boston, and bakes scones.",
-        gifURL: "https://media.giphy.com/media/QMHoU66sBXqqLqYvGO/giphy.gif",
-        github: "http://github.com/fraander",
-        linkedin: "http://linkedin.com/in/feoa"
+        name: "Fedor Goryanyy",
+        profilePictureURL: ImageFedor.src,
+        role: "Software Engineer/Social Media Manager",
+        description: "Fedor is a high-school student who enjoys swimming, reading, and cooking for his family and cat.",
+        gifURL: "https://media.tenor.com/CyiTsko8kHoAAAAC/cat-meme.gif",
+        linkedin: "https://www.linkedin.com/in/goryanyy/"
+    },
+    {
+    name: "Frank Anderson",
+    profilePictureURL: ImageFrank.src,
+    role: "Software Engineer",
+    description: "Frank studies Computer Science at Northeastern. In his spare time he follows Formula 1, listens to This American Life, goes for walks around Boston, and bakes scones.",
+    gifURL: "https://media.giphy.com/media/QMHoU66sBXqqLqYvGO/giphy.gif",
+    github: "http://github.com/fraander",
+    linkedin: "http://linkedin.com/in/feoa"
+    },
+    {
+    name: "Rostyslav Rozhok",
+    profilePictureURL: ImageRostyk.src,
+    role: "Database Curator",
+    description: "",
+    gifURL: "",
     },
 ]
 
