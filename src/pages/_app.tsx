@@ -15,7 +15,7 @@ import Head from 'next/head'
 import { DarkModeOptions } from '@appTypes/common'
 import { useAtom } from 'jotai'
 import { atomDarkMode } from 'src/atoms/global'
-import localFont from 'next/font/local'
+import localFont from '@next/font/local'
 
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: ReactElement) => ReactNode,
