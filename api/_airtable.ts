@@ -5,7 +5,7 @@ import { log } from 'next-axiom'
 // Airtable database REST API set-up
 
 Airtable.configure({
-    apiKey: process.env.AIRTABLE_API_KEY,
+    apiKey: process.env.AIRTABLE_API_TOKEN,
     requestTimeout: defaults.airtableRequestTimeout
 })
 
