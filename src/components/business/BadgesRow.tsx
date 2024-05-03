@@ -40,6 +40,10 @@ export function BadgesRow(tags: Array<Tag>) {
             color: "bg-pink-100",
             emoji: "🛒"
         },
+        [Tag.HiresUkrainians]: {
+            color: "bg-purple-100",
+            emoji: "💼"
+        }
     }
 
     let badges : Array<Badge> = tags.map(t => {

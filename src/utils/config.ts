@@ -146,7 +146,8 @@ const BUSINESS_TAGS: Array<Tag> = [
     Tag.OnRequest,
     Tag.Online,
     Tag.SellUkrainianProducts,
-    Tag.UkrainianOwned
+    Tag.UkrainianOwned,
+    Tag.HiresUkrainians
 ];
 
 // stores the corresponding local storage keys so that they are configurable in one place
