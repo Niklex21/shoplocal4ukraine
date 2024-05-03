@@ -387,21 +387,24 @@ const strings_en = {
             [Tag.OnRequest]: 'On request',
             [Tag.Online]: 'Online-only',
             [Tag.SellUkrainianProducts]: 'Sell Ukrainian products',
-            [Tag.UkrainianOwned]: 'Ukrainian-owned'
+            [Tag.UkrainianOwned]: 'Ukrainian-owned',
+            [Tag.HiresUkrainians]: 'Hires Ukrainians'
         },
         tagExtended: {
             [Tag.LeadSupporter]: 'Businesses that made significant contributions to the Ukrainian community: fundraising, event support, donation, and in other ways.',
             [Tag.OnRequest]: 'All services and products are offered in person but not through a physical location.',
             [Tag.Online]: 'All services and products are offered online only and with deliveries if applicable.',
             [Tag.SellUkrainianProducts]: 'Offers Ukrainian services and products made by Ukrainians or imported from Ukraine.',
-            [Tag.UkrainianOwned]: 'Ukrainian-owned: Ukrainian immigrants, Ukrainian family, Ukrainian Americans with strong Ukrainian ties.'
+            [Tag.UkrainianOwned]: 'Ukrainian-owned: Ukrainian immigrants, Ukrainian family, Ukrainian Americans with strong Ukrainian ties.',
+            [Tag.HiresUkrainians]: 'Hires Ukrainians: actively hires Ukrainians or has a significant number of Ukrainian employees.'
         },
         tagShort: {
             [Tag.LeadSupporter]: 'supporter',
             [Tag.OnRequest]: 'on request',
             [Tag.Online]: 'online',
             [Tag.SellUkrainianProducts]: 'Ukrainian product',
-            [Tag.UkrainianOwned]: 'owned'
+            [Tag.UkrainianOwned]: 'owned',
+            [Tag.HiresUkrainians]: 'hires Ukrainians'
         }
     },
     countries: {

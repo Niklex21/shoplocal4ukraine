@@ -10,12 +10,12 @@ import { Analytics } from '@vercel/analytics/react';
 import {ErrorBoundary} from 'react-error-boundary'
 import { processError } from '@api/_error'
 import ErrorFallback from '@components/common/ErrorFallback'
-import localFont from '@next/font/local'
 import strings from '@utils/strings'
 import Head from 'next/head'
 import { DarkModeOptions } from '@appTypes/common'
 import { useAtom } from 'jotai'
 import { atomDarkMode } from 'src/atoms/global'
+import localFont from '@next/font/local'
 
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: ReactElement) => ReactNode,

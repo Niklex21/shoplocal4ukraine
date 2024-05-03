@@ -24,7 +24,7 @@ async function handler(req: AxiomAPIRequest, res: NextApiResponse) {
         options["filterByFormula"] = formula
 
         Airtable.configure({
-            apiKey: process.env.AIRTABLE_API_KEY
+            apiKey: process.env.AIRTABLE_API_TOKEN
         })
 
         const base : Airtable.Base = Airtable.base(process.env.AIRTABLE_BASE_ID || "appo268wXvedC1FSM")

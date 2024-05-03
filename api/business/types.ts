@@ -24,7 +24,8 @@ export enum Tag {
     Online,
     OnRequest,
     SellUkrainianProducts,
-    LeadSupporter
+    LeadSupporter,
+    HiresUkrainians
 }
 
 /**

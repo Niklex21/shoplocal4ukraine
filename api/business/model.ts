@@ -42,7 +42,8 @@ function tagsConverter(values: Array<string>) : Array<Tag> {
         'Online': Tag.Online,
         'On Request': Tag.OnRequest,
         'Ukrainian Product': Tag.SellUkrainianProducts,
-        'Lead Supporter': Tag.LeadSupporter
+        'Lead Supporter': Tag.LeadSupporter,
+        'Hires Ukrainians': Tag.HiresUkrainians,
     }
 
     let tags : Array<Tag> = [];
