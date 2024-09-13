@@ -36,7 +36,10 @@ export default function GenericLayout({ children, title }: Props) {
                     property="og:image"
                     content={ metaImage.src }
                 />
+                <script type="text/javascript"> function googleTranslateElementInit() {new google.translate.TranslateElement({pageLanguage: 'en'},'google_translate_element');}</script>
+                <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
             </Head>
+            <div id="google_translate_element"></div>
             { children }
             {/* FEEDBACK TIP */}
             <div className="hidden md:flex -rotate-90 gap-2 fixed right-0 origin-bottom-right top-1/4 flex-row z-40 bg-ukraine-blue dark:bg-ukraine-yellow cursor-pointer hover:bg-ukraine-yellow dark:hover:bg-ukraine-blue hover:text-oxford-blue dark:hover:text-white text-white dark:text-oxford-blue px-4 py-2 rounded-t-md" onClick={ () => setFeedbackPanelState(PanelState.Open) }>
